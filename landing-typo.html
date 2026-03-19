@@ -401,8 +401,9 @@
         color: #555;
         margin-bottom: 32px;
       }
-      .card-body.circ { font-family: 'CircularXX', sans-serif; }
-      .card-body.tt   { font-family: 'TTCommons', sans-serif; }
+      .card-body.circ   { font-family: 'CircularXX', sans-serif; }
+      .card-body.tt     { font-family: 'TTCommons', sans-serif; }
+      .card-body.sailec { font-family: 'Sailec', sans-serif; }
       .card-btns {
         display: flex;
         gap: 10px;
@@ -412,8 +413,9 @@
         font-size: 13px;
         color: #999;
       }
-      .card-proof.circ { font-family: 'CircularXX', sans-serif; }
-      .card-proof.tt   { font-family: 'TTCommons', sans-serif; }
+      .card-proof.circ   { font-family: 'CircularXX', sans-serif; }
+      .card-proof.tt     { font-family: 'TTCommons', sans-serif; }
+      .card-proof.sailec { font-family: 'Sailec', sans-serif; }
       .card-label {
         font-family: 'CircularXX', sans-serif;
         font-size: 10px;
@@ -474,8 +476,8 @@
 
   <script>
     function setCopyFont(f) {
-      ['copy-body-a','copy-body-b'].forEach(id => { document.getElementById(id).className = 'card-body ' + f; });
-      ['copy-proof-a','copy-proof-b'].forEach(id => { document.getElementById(id).className = 'card-proof ' + f; });
+      ['copy-body-a','copy-body-b'].forEach(id => { const el = document.getElementById(id); if(el) el.className = 'card-body ' + f; });
+      ['copy-proof-a','copy-proof-b'].forEach(id => { const el = document.getElementById(id); if(el) el.className = 'card-proof ' + f; });
       document.getElementById('copy-btn-circ').classList.toggle('active', f === 'circ');
       document.getElementById('copy-btn-tt').classList.toggle('active', f === 'tt');
     }
@@ -487,11 +489,14 @@
       if (f === 'tt') {
         body.classList.add('tt-mode');
         document.getElementById('btn-tt').classList.add('active');
+        setCopyFont('tt');
       } else if (f === 'sailec') {
         body.classList.add('sailec-mode');
         document.getElementById('btn-sailec').classList.add('active');
+        setCopyFont('circ');
       } else {
         document.getElementById('btn-circular').classList.add('active');
+        setCopyFont('circ');
       }
     }
   </script>
