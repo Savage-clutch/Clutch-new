@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clutch Color Tester</title>
+<link rel="preload" as="image" href="./03-Truck-Side_Shot-Right-No_Car.png">
+<link rel="preload" as="image" href="./03-Clutch_Truck_Hero_02_F.png">
+<link rel="preload" as="image" href="./logo/Red/Clutch Logo CTA Red.png">
+<link rel="preload" as="image" href="./logo/White/Cltuch Logo CTA White.png">
+<style>
+  @font-face {
+    font-family: 'CircularXX';
+    src: url('./fonts/CircularXX-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'CircularXX';
+    src: url('./fonts/CircularXX-Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'CircularXX';
+    src: url('./fonts/CircularXX-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --red: #FF464C;
+    --plum: #550E30;
+    --lavender: #F1EDF8;
+    --white: #FFFFFF;
+    --soft-black: #191919;
+    --dark-cherry: #800040;
+  }
+  body { font-family: 'CircularXX', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f0f; color: #fff; }
+
+  /* NAV */
+  nav { background: var(--soft-black); border-bottom: 1px solid #2a2a2a; padding: 0 32px; display: flex; align-items: center; gap: 32px; height: 56px; position: sticky; top: 0; z-index: 100; }
+  .logo { font-weight: 700; font-size: 18px; color: var(--red); letter-spacing: -0.5px; }
+  .logo span { color: #fff; }
+  nav a { color: #999; text-decoration: none; font-size: 13px; font-weight: 500; padding: 4px 0; border-bottom: 2px solid transparent; transition: all .15s; cursor: pointer; }
+  nav a.active, nav a:hover { color: #fff; border-bottom-color: var(--red); }
+
+  /* SECTIONS */
+  section { padding: 48px 32px; border-bottom: 1px solid #1a1a1a; }
+  section:last-child { border-bottom: none; }
+  h2 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .subtitle { color: #666; font-size: 13px; margin-bottom: 28px; }
+
+  /* PALETTE */
+  .palette-featured { display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+  .palette-feat { flex: 1; min-width: 160px; height: 200px; border-radius: 22px; display: flex; align-items: flex-end; padding: 20px; cursor: pointer; transition: transform .15s, box-shadow .15s; }
+  .palette-feat:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,.4); }
+  .palette-feat-name { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.2; }
+  .palette-card { background: #fff; border-radius: 22px; padding: 28px; }
+  .palette-card-grid { display: flex; gap: 12px; align-items: flex-start; }
+  .palette-col { display: flex; flex-direction: column; gap: 12px; flex: 1; }
+  .palette-cell { display: flex; flex-direction: column; gap: 6px; }
+  .palette-sm { width: 100%; height: 72px; border-radius: 14px; cursor: pointer; transition: transform .15s; position: relative; }
+  .palette-sm:hover { transform: translateY(-3px); }
+  .palette-sm.white-swatch { outline: 1px solid #e0e0e0; }
+  .palette-sm-name { font-size: 11px; font-weight: 600; color: #191919; line-height: 1.2; }
+  .palette-sm-hex { font-size: 10px; color: #999; font-family: monospace; }
+
+
+  /* MATRIX */
+  .matrix-pill-toggle { display: flex; background: #1a1a1a; border-radius: 50px; padding: 4px; gap: 2px; width: fit-content; margin-bottom: 12px; }
+  .matrix-pill-btn { background: transparent; border: none; color: #666; padding: 8px 24px; border-radius: 46px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all .2s; font-family: inherit; white-space: nowrap; }
+  .matrix-pill-btn.active { background: #fff; color: #191919; }
+  .matrix-pill-btn:hover:not(.active) { color: #ccc; }
+  .matrix-mode-desc { font-size: 12px; color: #555; margin-bottom: 20px; }
+  .matrix-bg-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+  .matrix-bg-label { font-size: 11px; color: #555; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
+  .matrix-bg-dot { width: 38px; height: 38px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: all .15s; flex-shrink: 0; }
+  .matrix-bg-dot:hover { transform: scale(1.1); }
+  .matrix-bg-dot.active { border-color: #fff; box-shadow: 0 0 0 2px #fff4; }
+  .matrix-card { background: #141414; border-radius: 20px; padding: 28px; }
+  .matrix-swatches { display: flex; flex-wrap: wrap; gap: 10px; }
+  .matrix-swatch { width: 72px; height: 72px; border-radius: 14px; cursor: pointer; transition: all .18s; position: relative; flex-shrink: 0; }
+  .matrix-swatch.passing:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(0,0,0,.5); z-index: 2; }
+  .matrix-swatch.failing { opacity: 0.07; cursor: default; pointer-events: none; }
+  .matrix-swatch-ratio { position: absolute; bottom: 6px; right: 7px; font-size: 9px; font-weight: 800; line-height: 1; }
+  .matrix-swatch-label { position: absolute; top: 7px; left: 8px; font-size: 8px; font-weight: 700; line-height: 1; opacity: .8; }
+
+  /* ASSET PREVIEWS */
+  .asset-tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+  .tab-btn { background: #1a1a1a; border: 1px solid #2a2a2a; color: #666; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all .15s; }
+  .tab-btn.active, .tab-btn:hover { background: var(--red); border-color: var(--red); color: #fff; }
+
+  /* marketing grid: 2 cols for portrait cards */
+  .asset-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .asset-grid.grid-2col { grid-template-columns: repeat(4, 1fr); }
+  .asset-grid.grid-brand { grid-template-columns: repeat(2, 1fr); }
+
+  .asset-wrap { display: flex; flex-direction: column; gap: 8px; }
+  .asset-card-label { font-size: 11px; color: #555; text-align: center; }
+  .contrast-pill { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 10px; font-weight: 700; }
+  .contrast-pill.pass    { background: #0d2e1a; color: #4ade80; }
+  .contrast-pill.pass-lg { background: #1a2a10; color: #a3e635; }
+  .contrast-pill.fail    { background: #2e0d0d; color: #f87171; }
+
+  /* — MARKETING portrait card — */
+  .mkt-card { border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; aspect-ratio: 4/5; position: relative; }
+  .mkt-copy { padding: 18px 18px 0; flex-shrink: 0; }
+  .mkt-line { font-size: 24px; font-weight: 800; line-height: 1.25; }
+  .mkt-truck { flex: 1; background-size: 130%; background-repeat: no-repeat; background-position: center 65%; margin: 4px 0; }
+  .mkt-footer { padding: 8px 18px 20px; text-align: center; flex-shrink: 0; }
+  .mkt-footer img { height: 20px; object-fit: contain; }
+
+  /* — BRAND banner card — */
+  .brand-card { border-radius: 14px; overflow: hidden; padding: 32px 36px; display: flex; flex-direction: column; justify-content: space-between; aspect-ratio: 16/9; position: relative; }
+  .brand-display { font-size: 36px; font-weight: 800; line-height: 1.1; margin-bottom: 4px; letter-spacing: -0.8px; }
+  .brand-sub { font-size: 36px; font-weight: 800; letter-spacing: -0.8px; }
+  .brand-footer { text-align: right; }
+  .brand-footer img { height: 18px; object-fit: contain; }
+  .brand-badge { position: absolute; top: 14px; right: 14px; padding: 3px 8px; border-radius: 8px; font-size: 10px; font-weight: 700; }
+
+  /* — PRODUCT card — */
+  .prod-card { border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; position: relative; }
+  .prod-img-wrap { position: relative; flex-shrink: 0; }
+  .prod-car-img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+  .prod-views { position: absolute; top: 10px; left: 10px; background: #fff; border: 1.5px solid #e0e0e0; border-radius: 8px; padding: 5px 10px; font-size: 12px; font-weight: 700; color: #191919; display: flex; align-items: center; gap: 5px; }
+  .prod-like { position: absolute; top: 12px; right: 12px; font-size: 22px; cursor: pointer; line-height: 1; user-select: none; transition: transform .15s; }
+  .prod-like:hover { transform: scale(1.2); }
+  .prod-body { padding: 16px 16px 20px; display: flex; flex-direction: column; flex: 1; }
+  .prod-title { font-size: 16px; font-weight: 700; line-height: 1.2; margin-bottom: 2px; }
+  .prod-trim { font-size: 13px; opacity: .6; margin-bottom: 16px; }
+  .prod-price { font-size: 22px; font-weight: 800; margin-bottom: 2px; }
+  .prod-biweekly { font-size: 13px; opacity: .7; margin-bottom: 16px; }
+  .prod-fine { font-size: 11px; opacity: .4; margin-top: auto; padding-top: 12px; border-top: 1px solid currentColor; opacity: .25; }
+  .prod-btn { padding: 14px; border-radius: 8px; font-size: 13px; font-weight: 700; text-align: center; margin-top: 14px; cursor: pointer; transition: opacity .15s, transform .15s; }
+  .prod-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+  .prod-btn:active { opacity: 0.7; transform: translateY(1px); }
+
+  /* COLOR PAIRING TOOL */
+  /* how-to rules */
+  .how-to { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 40px; }
+  .how-to-card { background: #1a1a1a; border-radius: 14px; padding: 22px; }
+  .how-to-num { font-size: 11px; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .how-to-rule { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 8px; line-height: 1.3; }
+  .how-to-desc { font-size: 13px; color: #666; line-height: 1.5; }
+
+  /* bg selector */
+  .bg-selector { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 32px; }
+  .bg-choice { border-radius: 12px; cursor: pointer; border: 3px solid transparent; transition: all .15s; overflow: hidden; width: 100px; }
+  .bg-choice:hover { transform: translateY(-2px); }
+  .bg-choice.active { border-color: #fff; }
+  .bg-choice-swatch { height: 64px; }
+  .bg-choice-label { background: #1a1a1a; padding: 7px 10px; font-size: 11px; font-weight: 700; color: #ccc; }
+
+  /* approved pairs */
+  .pairing-layout { display: grid; grid-template-columns: 1fr 380px; gap: 40px; align-items: start; }
+  .pairs-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+  .pair-row { display: flex; align-items: center; gap: 14px; background: #1a1a1a; border-radius: 12px; padding: 14px 16px; }
+  .pair-dot { width: 40px; height: 40px; border-radius: 8px; flex-shrink: 0; border: 1px solid #ffffff10; }
+  .pair-row-info { flex: 1; }
+  .pair-row-name { font-size: 14px; font-weight: 700; color: #fff; }
+  .pair-row-use { font-size: 12px; color: #666; margin-top: 2px; }
+  .pair-row-tag { margin-left: auto; font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
+  .tag-primary   { background: #1a3a24; color: #4ade80; }
+  .tag-secondary { background: #1a2a3a; color: #7dd3fc; }
+  .tag-accent    { background: #2a1a1a; color: #fca5a5; }
+  .pair-note { background: #111; border-left: 3px solid var(--red); padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: 13px; color: #888; line-height: 1.5; margin-top: 4px; }
+
+  /* pairing preview */
+  .pairing-preview { border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; aspect-ratio: 9/16; position: sticky; top: 72px; }
+  .pp-copy { padding: 24px 24px 0; }
+  .pp-headline { font-size: 38px; font-weight: 800; line-height: 1.1; margin-bottom: 4px; letter-spacing: -0.8px; }
+  .pp-accent { font-size: 38px; font-weight: 800; line-height: 1.1; letter-spacing: -0.8px; }
+  .pp-sub { font-size: 18px; font-weight: 500; line-height: 1.4; margin-top: 10px; }
+  .pp-truck { flex: 1; background-size: 170%; background-repeat: no-repeat; background-position: 90% 65%; min-height: 180px; }
+  .pp-footer { padding: 8px 24px 22px; }
+  .pp-footer img { height: 18px; object-fit: contain; }
+
+  /* CONCEPTS */
+  .concepts-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .concept-card { border-radius: 16px; overflow: hidden; position: relative; }
+
+  .concept-typo { background: #FF464C; padding: 28px; aspect-ratio: 3/4; display: flex; flex-direction: column; justify-content: center; }
+  .concept-typo-label { font-size: 11px; font-weight: 700; color: rgba(255,255,255,.5); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+  .concept-typo-name { font-size: 28px; font-weight: 800; color: #fff; letter-spacing: -1px; margin-bottom: 12px; }
+  .concept-typo-chars { font-size: 16px; font-weight: 800; color: #fff; line-height: 1.5; letter-spacing: -0.3px; opacity: .85; }
+
+  .concept-pattern { aspect-ratio: 3/4; background-color: #460B28; background-repeat: repeat; background-size: 180px; opacity: 1; }
+
+  .concept-strike { padding: 28px; display: flex; align-items: center; justify-content: center; aspect-ratio: 3/4; }
+  .concept-strike-text { font-size: 26px; font-weight: 800; line-height: 1.3; text-align: center; }
+  .concept-strike s { text-decoration-color: currentColor; opacity: .4; }
+
+  .concept-ticker { background: #460B28; overflow: hidden; aspect-ratio: 4/2; display: flex; flex-direction: column; grid-column: span 2; }
+  .ticker-track { display: flex; white-space: nowrap; flex: 1; align-items: center; }
+  .ticker-track.fwd { animation: ticker-fwd 18s linear infinite; }
+  .ticker-track.rev { animation: ticker-rev 22s linear infinite; }
+  .ticker-track.fwd2 { animation: ticker-fwd 26s linear infinite; }
+  .ticker-item { font-size: 22px; font-weight: 800; color: #fff; padding: 0 8px; white-space: nowrap; }
+  .ticker-dot { color: #FF464C; margin: 0 4px; }
+  @keyframes ticker-fwd { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes ticker-rev { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+  .concept-icon { background: #460B28; padding: 28px; aspect-ratio: 3/4; display: flex; flex-direction: column; justify-content: space-between; }
+  .concept-icon-logo { height: 80px; object-fit: contain; object-position: left; }
+  .concept-icon-copy { }
+  .concept-icon-headline { font-size: 20px; font-weight: 800; color: #FF464C; line-height: 1.2; margin-bottom: 8px; }
+  .concept-icon-body { font-size: 13px; color: #fff; opacity: .8; line-height: 1.5; }
+
+  .concept-palette-blocks { display: flex; aspect-ratio: 4/1; border-radius: 16px; overflow: hidden; grid-column: span 2; }
+  .concept-palette-block { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding: 16px; }
+  .concept-palette-block-name { font-size: 12px; font-weight: 700; }
+  .concept-palette-block-hex { font-size: 10px; font-family: monospace; opacity: .6; margin-top: 2px; }
+
+  .concept-stat { padding: 32px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; aspect-ratio: 3/4; }
+  .concept-stat-num { font-size: 72px; font-weight: 800; letter-spacing: -3px; line-height: 1; }
+  .concept-stat-label { font-size: 16px; font-weight: 700; margin-top: 8px; opacity: .7; }
+  .concept-stat-sub { font-size: 12px; font-weight: 500; margin-top: 6px; opacity: .5; }
+
+  .concept-quote { padding: 32px; display: flex; flex-direction: column; justify-content: center; aspect-ratio: 3/4; }
+  .concept-quote-text { font-size: 22px; font-weight: 800; line-height: 1.25; letter-spacing: -0.5px; }
+  .concept-quote-attr { font-size: 12px; font-weight: 600; margin-top: 16px; opacity: .5; text-transform: uppercase; letter-spacing: 1px; }
+
+  .concept-split { aspect-ratio: 3/4; display: flex; flex-direction: column; overflow: hidden; }
+  .concept-split-top { flex: 1; display: flex; align-items: flex-end; padding: 20px; }
+  .concept-split-bottom { flex: 1; display: flex; align-items: flex-start; padding: 20px; }
+  .concept-split-word { font-size: 32px; font-weight: 800; letter-spacing: -1px; line-height: 1; }
+
+  .concept-tag-card { padding: 28px; display: flex; flex-direction: column; gap: 12px; justify-content: center; aspect-ratio: 3/4; }
+  .concept-tag { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; width: fit-content; }
+
+  .concept-price-card { padding: 28px; display: flex; flex-direction: column; justify-content: center; aspect-ratio: 3/4; gap: 6px; }
+  .concept-price-big { font-size: 48px; font-weight: 800; letter-spacing: -2px; line-height: 1; }
+  .concept-price-sub { font-size: 14px; font-weight: 600; opacity: .6; }
+  .concept-price-detail { font-size: 12px; font-weight: 500; opacity: .4; margin-top: 8px; }
+
+  .concept-fullwidth { grid-column: span 4; border-radius: 16px; overflow: hidden; display: flex; }
+  .concept-fullwidth-block { flex: 1; padding: 28px 24px; display: flex; flex-direction: column; justify-content: flex-end; }
+  .concept-fullwidth-name { font-size: 13px; font-weight: 700; }
+  .concept-fullwidth-hex { font-size: 11px; font-family: monospace; opacity: .55; margin-top: 3px; }
+
+  /* GRADIENT BUTTONS */
+  .gradient-btn-section { display: flex; flex-direction: row; gap: 12px; }
+  .gradient-btn { width: auto; padding: 28px 72px; border-radius: 9999px; font-size: 16px; font-weight: 800; color: #fff; letter-spacing: -0.3px; cursor: pointer; border: none; font-family: inherit; transition: transform .12s ease, box-shadow .12s ease, filter .12s ease; text-align: left; display: flex; justify-content: space-between; align-items: center; }
+  .gradient-btn:hover { transform: translateY(-3px) scale(1.02); filter: brightness(110%); }
+  .gradient-btn:active { transform: translateY(2px) scale(0.96); filter: brightness(85%); }
+  .gradient-btn.lavender:hover { filter: brightness(105%); }
+  .gradient-btn-label { font-size: 11px; font-family: monospace; opacity: .6; font-weight: 400; letter-spacing: 0; }
+
+  /* TOOLTIP */
+  .tooltip { position: fixed; background: #000; color: #fff; padding: 8px 12px; border-radius: 8px; font-size: 12px; pointer-events: none; z-index: 999; display: none; border: 1px solid #333; }
+  .copy-toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(12px); background: #191919; color: #fff; padding: 10px 20px; border-radius: 99px; font-size: 13px; font-weight: 700; font-family: inherit; pointer-events: none; z-index: 9999; opacity: 0; transition: opacity .18s, transform .18s; white-space: nowrap; }
+  .copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+
+  /* BUTTON LAB */
+  .btn-lab-layout { display: grid; grid-template-columns: 1fr 340px; gap: 40px; align-items: start; }
+  .btn-lab-stage { background: #f0f0f0; border-radius: 20px; display: flex; align-items: center; justify-content: center; min-height: 320px; padding: 48px; }
+  .btn-lab-stage.dark { background: #460B28; }
+  .btn-lab-stage.red  { background: #FF464C; }
+  .btn-lab-stage.light { background: #F1EDF8; }
+  .btn-lab-preview { padding: 28px 72px; border-radius: 9999px; font-size: 24px; font-weight: 800; font-family: inherit; border: none; cursor: default; transition: none; white-space: nowrap; }
+  .btn-lab-controls { display: flex; flex-direction: column; gap: 0; }
+  .ctrl-group { padding: 20px 0; border-bottom: 1px solid #2a2a2a; }
+  .ctrl-group:last-child { border-bottom: none; }
+  .ctrl-group-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #666; margin-bottom: 14px; }
+  .ctrl-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .ctrl-row:last-child { margin-bottom: 0; }
+  .ctrl-label { font-size: 12px; color: #aaa; width: 110px; flex-shrink: 0; }
+  .ctrl-val { font-size: 12px; color: #fff; font-family: monospace; width: 48px; text-align: right; flex-shrink: 0; }
+  .ctrl-row input[type=range] { flex: 1; margin: 0 10px; accent-color: #FF464C; height: 3px; }
+  .ctrl-row input[type=color] { width: 36px; height: 24px; border: none; border-radius: 6px; cursor: pointer; padding: 0; background: none; }
+  .ctrl-row input[type=checkbox] { width: 16px; height: 16px; accent-color: #FF464C; cursor: pointer; }
+  .stage-toggle { display: flex; gap: 8px; margin-bottom: 20px; }
+  .stage-btn { padding: 6px 14px; border-radius: 99px; font-size: 11px; font-weight: 700; border: 1px solid #333; background: transparent; color: #666; cursor: pointer; font-family: inherit; }
+  .stage-btn.active { background: #FF464C; color: #fff; border-color: #FF464C; }
+  .btn-css-output { background: #1a1a1a; border-radius: 10px; padding: 14px 16px; font-size: 11px; font-family: monospace; color: #aaa; line-height: 1.8; word-break: break-all; }
+  .btn-css-output .css-key { color: #888; }
+  .btn-css-output .css-val { color: #FF464C; }
+  .btn-states-row { display: flex; gap: 24px; margin-bottom: 32px; }
+  .btn-state-cell { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .btn-state-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #555; }
+  .btn-state-stage { width: 100%; border-radius: 16px; display: flex; align-items: center; justify-content: center; padding: 32px 16px; }
+  .btn-lab-preview { padding: 22px 56px; border-radius: 9999px; font-size: 22px; font-weight: 800; font-family: inherit; border: none; cursor: pointer; white-space: nowrap; transition: transform .12s ease, box-shadow .12s ease, filter .12s ease; }
+
+  @media (max-width: 768px) {
+    .checker-layout { grid-template-columns: 1fr; }
+    .asset-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<div id="copy-toast" class="copy-toast"></div>
+
+<nav>
+  <div class="logo"><img src="./logo/Red/Clutch_Logo-02.png" style="height:22px;object-fit:contain;vertical-align:middle"></div>
+  <a class="active" onclick="scrollTo('palette')">Palette</a>
+  <a onclick="scrollTo('pairing')">Pairing</a>
+  <a onclick="scrollTo('assets')">Assets</a>
+  <a onclick="scrollTo('concepts')">Concepts</a>
+  <a onclick="scrollTo('gradients')">Gradients</a>
+  <a onclick="scrollTo('btn-lab')">Button Lab</a>
+</nav>
+
+<div class="tooltip" id="tooltip"></div>
+
+<!-- PALETTE -->
+<section id="palette">
+  <h2>Brand Color Palette</h2>
+  <p class="subtitle">Core colours and their approved variations</p>
+  <div class="palette-featured" id="palette-featured"></div>
+  <div class="palette-card">
+    <div class="palette-card-grid" id="palette-grid"></div>
+  </div>
+</section>
+
+
+
+<!-- COLOR PAIRING TOOL -->
+<section id="pairing">
+  <h2>Color Pairing Tool</h2>
+  <p class="subtitle">Pre-approved combinations that always look right and meet brand standards.</p>
+
+  <div class="how-to">
+    <div class="how-to-card">
+      <div class="how-to-num">Rule 01</div>
+      <div class="how-to-rule">Set headlines in one colour only.</div>
+      <div class="how-to-desc">Use White or Clutch Red on dark backgrounds. Use Plum on light backgrounds. Maximum contrast, zero guesswork.</div>
+    </div>
+    <div class="how-to-card">
+      <div class="how-to-num">Rule 02</div>
+      <div class="how-to-rule">Highlight with a single accent.</div>
+      <div class="how-to-desc">Change just one key phrase to a second brand colour. Plum on Red, Red on Lavender. Guides the eye without turning the layout into confetti.</div>
+    </div>
+    <div class="how-to-card">
+      <div class="how-to-num">Rule 03</div>
+      <div class="how-to-rule">Lock the logo in its strongest form.</div>
+      <div class="how-to-desc">White logo on dark backgrounds. Red logo on light backgrounds. Never place the logo on a colour that reduces its contrast.</div>
+    </div>
+  </div>
+
+  <p style="font-size:13px;color:#555;margin-bottom:16px;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Choose a background</p>
+  <div class="bg-selector" id="bg-selector"></div>
+
+  <div class="pairing-layout">
+    <div>
+      <div class="pairs-list" id="pairs-list"></div>
+      <div class="pair-note" id="pair-note"></div>
+    </div>
+    <div class="pairing-preview" id="pairing-preview">
+      <div class="pp-copy">
+        <div class="pp-headline" id="pp-headline">We buy your car.</div>
+        <div class="pp-accent" id="pp-accent">We pick it up.</div>
+        <div class="pp-sub" id="pp-sub">Every car owned by Clutch, bought from Canadians like you.</div>
+      </div>
+      <div class="pp-truck" style="background-image:url('./03-Truck-Side_Shot-Right-No_Car.png')"></div>
+      <div class="pp-footer"><img id="pp-logo" src="./logo/White/Clutch_Logo-01.png"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ASSET PREVIEWS -->
+<section id="assets">
+  <h2>Asset Previews</h2>
+  <p class="subtitle">Marketing = portrait truck ads · Brand = horizontal banners · Product = UI cards. Each shows per-element contrast scores.</p>
+  <div class="asset-tabs" id="asset-tabs"></div>
+  <div class="asset-grid" id="asset-grid"></div>
+</section>
+
+<!-- CONCEPTS -->
+<section id="concepts">
+  <h2>Color in Use</h2>
+  <p class="subtitle">How Clutch colours work across touchpoints and creative contexts.</p>
+  <div class="concepts-grid" id="concepts-grid"></div>
+</section>
+
+<!-- BUTTON LAB -->
+<section id="btn-lab">
+  <h2>Button Lab</h2>
+  <p class="subtitle">Tweak the gradient and inner shadows live. Click the CSS to copy.</p>
+
+  <div class="stage-toggle">
+    <button class="stage-btn" onclick="setStage('default',this)">Grey</button>
+    <button class="stage-btn" onclick="setStage('dark',this)">Plum</button>
+    <button class="stage-btn" onclick="setStage('red',this)">Red</button>
+    <button class="stage-btn active" onclick="setStage('light',this)">Lavender</button>
+  </div>
+
+  <!-- 3-state preview -->
+  <div class="btn-states-row" id="btn-states-row">
+    <div class="btn-state-cell">
+      <div class="btn-state-label">Default</div>
+      <div class="btn-state-stage" id="stage-default" style="background:#F1EDF8"><button class="btn-lab-preview" id="btn-default" style="pointer-events:none">Get My Offer</button></div>
+    </div>
+    <div class="btn-state-cell">
+      <div class="btn-state-label">Hover</div>
+      <div class="btn-state-stage" id="stage-hover" style="background:#F1EDF8"><button class="btn-lab-preview" id="btn-hover-preview" style="pointer-events:none">Get My Offer</button></div>
+    </div>
+    <div class="btn-state-cell">
+      <div class="btn-state-label">Pressed</div>
+      <div class="btn-state-stage" id="stage-pressed" style="background:#F1EDF8"><button class="btn-lab-preview" id="btn-pressed-preview" style="pointer-events:none">Get My Offer</button></div>
+    </div>
+  </div>
+
+  <!-- Live interactive button -->
+  <div class="btn-lab-layout">
+    <div>
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#555;margin-bottom:12px">Live — try it</div>
+      <div class="btn-lab-stage light" id="btn-stage">
+        <button class="btn-lab-preview" id="btn-preview">Get My Offer</button>
+      </div>
+    </div>
+
+    <div class="btn-lab-controls">
+
+      <!-- Text -->
+      <div class="ctrl-group">
+        <div class="ctrl-group-title">Text</div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">Color</span>
+          <input type="color" id="t-color" value="#460b28" oninput="updateBtn()">
+          <span class="ctrl-val" id="t-color-val">#460b28</span>
+        </div>
+      </div>
+
+      <!-- Gradient -->
+      <div class="ctrl-group">
+        <div class="ctrl-group-title">Gradient</div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">Color top</span>
+          <input type="color" id="g-top" value="#f1edf8" oninput="updateBtn()">
+          <span class="ctrl-val" id="g-top-val">#f1edf8</span>
+        </div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">Color bottom</span>
+          <input type="color" id="g-bot" value="#e6d6f9" oninput="updateBtn()">
+          <span class="ctrl-val" id="g-bot-val">#e6d6f9</span>
+        </div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">Top stop</span>
+          <input type="range" id="g-top-pos" min="0" max="100" value="0" oninput="updateBtn()">
+          <span class="ctrl-val" id="g-top-pos-val">0%</span>
+        </div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">Bottom stop</span>
+          <input type="range" id="g-bot-pos" min="0" max="100" value="100" oninput="updateBtn()">
+          <span class="ctrl-val" id="g-bot-pos-val">100%</span>
+        </div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">Angle</span>
+          <input type="range" id="g-angle" min="0" max="360" value="180" oninput="updateBtn()">
+          <span class="ctrl-val" id="g-angle-val">180°</span>
+        </div>
+      </div>
+
+      <!-- Shadow Top -->
+      <div class="ctrl-group">
+        <div class="ctrl-group-title">Inner Shadow — Top</div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">On</span>
+          <input type="checkbox" id="s1-on" checked oninput="updateBtn()">
+          <span class="ctrl-val"></span>
+        </div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">Color</span>
+          <input type="color" id="s1-color" value="#ca9eff" oninput="updateBtn()">
+          <span class="ctrl-val" id="s1-color-val">#ca9eff</span>
+        </div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">Opacity</span>
+          <input type="range" id="s1-alpha" min="0" max="100" value="23" oninput="updateBtn()">
+          <span class="ctrl-val" id="s1-alpha-val">23%</span>
+        </div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">Y offset</span>
+          <input type="range" id="s1-y" min="-40" max="40" value="4" oninput="updateBtn()">
+          <span class="ctrl-val" id="s1-y-val">4px</span>
+        </div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">Blur</span>
+          <input type="range" id="s1-blur" min="0" max="60" value="6" oninput="updateBtn()">
+          <span class="ctrl-val" id="s1-blur-val">6px</span>
+        </div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">Spread</span>
+          <input type="range" id="s1-spread" min="-20" max="20" value="0" oninput="updateBtn()">
+          <span class="ctrl-val" id="s1-spread-val">0px</span>
+        </div>
+      </div>
+
+      <!-- Shadow Bottom -->
+      <div class="ctrl-group">
+        <div class="ctrl-group-title">Inner Shadow — Bottom</div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">On</span>
+          <input type="checkbox" id="s2-on" checked oninput="updateBtn()">
+          <span class="ctrl-val"></span>
+        </div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">Color</span>
+          <input type="color" id="s2-color" value="#ca9eff" oninput="updateBtn()">
+          <span class="ctrl-val" id="s2-color-val">#ca9eff</span>
+        </div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">Opacity</span>
+          <input type="range" id="s2-alpha" min="0" max="100" value="30" oninput="updateBtn()">
+          <span class="ctrl-val" id="s2-alpha-val">30%</span>
+        </div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">Y offset</span>
+          <input type="range" id="s2-y" min="-40" max="40" value="-4" oninput="updateBtn()">
+          <span class="ctrl-val" id="s2-y-val">-4px</span>
+        </div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">Blur</span>
+          <input type="range" id="s2-blur" min="0" max="60" value="7" oninput="updateBtn()">
+          <span class="ctrl-val" id="s2-blur-val">7px</span>
+        </div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">Spread</span>
+          <input type="range" id="s2-spread" min="-20" max="20" value="0" oninput="updateBtn()">
+          <span class="ctrl-val" id="s2-spread-val">0px</span>
+        </div>
+      </div>
+
+      <!-- Hover State -->
+      <div class="ctrl-group">
+        <div class="ctrl-group-title">Hover State</div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">Lift (Y)</span>
+          <input type="range" id="h-y" min="-12" max="0" value="-3" oninput="updateBtn()">
+          <span class="ctrl-val" id="h-y-val">-3px</span>
+        </div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">Scale</span>
+          <input type="range" id="h-scale" min="95" max="110" value="102" oninput="updateBtn()">
+          <span class="ctrl-val" id="h-scale-val">1.02</span>
+        </div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">Brightness</span>
+          <input type="range" id="h-bright" min="80" max="130" value="105" oninput="updateBtn()">
+          <span class="ctrl-val" id="h-bright-val">105%</span>
+        </div>
+      </div>
+
+      <!-- Pressed State -->
+      <div class="ctrl-group">
+        <div class="ctrl-group-title">Pressed State</div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">Push (Y)</span>
+          <input type="range" id="p-y" min="0" max="12" value="2" oninput="updateBtn()">
+          <span class="ctrl-val" id="p-y-val">2px</span>
+        </div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">Scale</span>
+          <input type="range" id="p-scale" min="85" max="100" value="96" oninput="updateBtn()">
+          <span class="ctrl-val" id="p-scale-val">0.96</span>
+        </div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">Brightness</span>
+          <input type="range" id="p-bright" min="60" max="100" value="85" oninput="updateBtn()">
+          <span class="ctrl-val" id="p-bright-val">85%</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="position:relative;margin-top:20px">
+    <div class="btn-css-output" id="btn-css-out"></div>
+    <button onclick="copyBtnCSS()" style="position:absolute;top:10px;right:10px;background:#FF464C;color:#fff;border:none;border-radius:99px;padding:6px 14px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .15s" onmouseenter="this.style.opacity='.8'" onmouseleave="this.style.opacity='1'">Copy CSS</button>
+  </div>
+</section>
+
+<!-- GRADIENTS -->
+<section id="gradients">
+  <h2>Gradients</h2>
+  <p class="subtitle">For buttons only. Never use gradients as marketing backgrounds.</p>
+  <div class="gradient-btn-section" id="gradient-grid"></div>
+</section>
+
+<script>
+// ─── BRAND COLORS ────────────────────────────────────────────────────────────
+const COLORS = [
+  // Primary
+  { name: 'Clutch Red',       hex: '#FF464C', group: 'Primary',         cmyk: 'C:0 M:87 Y:67 K:0',    pms: '032 C' },
+  { name: 'Plum',             hex: '#550E30', group: 'Primary',         cmyk: 'C:47 M:96 Y:54 K:54',  pms: '690 C' },
+  { name: 'Plum (Background)',hex: '#460B28', group: 'Primary',         cmyk: 'C:52 M:97 Y:58 K:63',  pms: 'N/A' },
+  { name: 'Lavender',         hex: '#F1EDF8', group: 'Primary',         cmyk: 'C:4 M:5 Y:0 K:0',      pms: '7443 C' },
+  { name: 'White',            hex: '#FFFFFF', group: 'Primary',         cmyk: 'C:0 M:0 Y:0 K:0',      pms: 'N/A' },
+  // Extended
+  { name: 'Dark Cherry',      hex: '#800040', group: 'Extended',        cmyk: 'C:36 M:100 Y:53 K:31', pms: '221 C' },
+  { name: 'Soft Black',       hex: '#191919', group: 'Extended',        cmyk: 'C:73 M:67 Y:65 K:79',  pms: 'Black 3 C' },
+  // Red shades
+  { name: 'Red Shade 1',      hex: '#F56B6E', group: 'Red Shades',      cmyk: 'C:0 M:57 Y:42 K:0',    pms: 'N/A' },
+  { name: 'Red Shade 2',      hex: '#F43536', group: 'Red Shades',      cmyk: 'C:0 M:79 Y:73 K:0',    pms: 'N/A' },
+  { name: 'Red Shade 3',      hex: '#DF0C00', group: 'Red Shades',      cmyk: 'C:0 M:95 Y:100 K:13',  pms: 'N/A' },
+  { name: 'Red Shade 4',      hex: '#B00700', group: 'Red Shades',      cmyk: 'C:0 M:96 Y:100 K:31',  pms: 'N/A' },
+  // Lavender shades
+  { name: 'Lavender Mid',     hex: '#EBE1F8', group: 'Lavender Shades', cmyk: 'C:7 M:11 Y:0 K:0',    pms: 'N/A' },
+  { name: 'Lavender Deep',    hex: '#E6D6F9', group: 'Lavender Shades', cmyk: 'C:9 M:16 Y:0 K:0',    pms: 'N/A' },
+  // Greys
+  { name: 'Light Grey 1',     hex: '#F3F3F3', group: 'Neutrals',        cmyk: 'C:0 M:0 Y:0 K:5',      pms: 'N/A' },
+  { name: 'Light Grey 2',     hex: '#DCDCDC', group: 'Neutrals',        cmyk: 'C:0 M:0 Y:0 K:14',     pms: 'N/A' },
+  { name: 'Light Grey 3',     hex: '#BABABA', group: 'Neutrals',        cmyk: 'C:0 M:0 Y:0 K:27',     pms: 'N/A' },
+];
+
+// ─── COPY HEX ────────────────────────────────────────────────────────────────
+let toastTimer;
+function copyHex(hex) {
+  navigator.clipboard.writeText(hex).then(() => {
+    const toast = document.getElementById('copy-toast');
+    toast.textContent = `Copied ${hex}`;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+  });
+}
+
+// ─── UTILS ───────────────────────────────────────────────────────────────────
+function hexToRgb(hex) {
+  hex = hex.replace('#','');
+  if (hex.length === 3) hex = hex.split('').map(c=>c+c).join('');
+  const n = parseInt(hex, 16);
+  return { r: (n>>16)&255, g: (n>>8)&255, b: n&255 };
+}
+
+function luminance(hex) {
+  const { r, g, b } = hexToRgb(hex);
+  const sRGB = [r, g, b].map(v => {
+    v /= 255;
+    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * sRGB[0] + 0.7152 * sRGB[1] + 0.0722 * sRGB[2];
+}
+
+function contrastRatio(hex1, hex2) {
+  const l1 = luminance(hex1), l2 = luminance(hex2);
+  const lighter = Math.max(l1, l2), darker = Math.min(l1, l2);
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
+function ratingColor(ratio) {
+  if (ratio >= 7) return '#4ade80';
+  if (ratio >= 4.5) return '#86efac';
+  if (ratio >= 3) return '#fbbf24';
+  return '#f87171';
+}
+
+function bestTextColor(bg) {
+  const wContrast = contrastRatio(bg, '#FFFFFF');
+  const bContrast = contrastRatio(bg, '#191919');
+  return wContrast >= bContrast ? '#FFFFFF' : '#191919';
+}
+
+
+// ─── PALETTE ─────────────────────────────────────────────────────────────────
+const FEATURED_COLORS = ['#FF464C', '#460B28', '#F1EDF8', '#191919'];
+
+function buildPalette() {
+  // Featured large tiles
+  const featured = document.getElementById('palette-featured');
+  FEATURED_COLORS.forEach(hex => {
+    const c = COLORS.find(c => c.hex === hex);
+    if (!c) return;
+    const tc = bestTextColor(hex);
+    const tile = document.createElement('div');
+    tile.className = 'palette-feat';
+    tile.style.background = hex;
+    tile.innerHTML = `<span class="palette-feat-name" style="color:${tc}">${c.name}</span>`;
+    tile.title = hex;
+    tile.onclick = () => copyHex(hex);
+    featured.appendChild(tile);
+  });
+
+  // Small grid — columns ordered light to dark
+  const PALETTE_COLUMNS = [
+    { name: 'Red',      hexes: ['#F56B6E', '#FF464C', '#F43536', '#DF0C00', '#B00700'] },
+    { name: 'Plum',     hexes: ['#800040', '#550E30', '#460B28'] },
+    { name: 'Lavender', hexes: ['#F1EDF8', '#EBE1F8', '#E6D6F9'] },
+    { name: 'Neutrals', hexes: ['#FFFFFF', '#F3F3F3', '#DCDCDC', '#BABABA', '#191919'] },
+  ];
+
+  const grid = document.getElementById('palette-grid');
+  PALETTE_COLUMNS.forEach(col => {
+    const colEl = document.createElement('div');
+    colEl.className = 'palette-col';
+    col.hexes.forEach(hex => {
+      const c = COLORS.find(c => c.hex === hex) || { name: hex, hex };
+      const cell = document.createElement('div');
+      cell.className = 'palette-cell';
+      const sm = document.createElement('div');
+      sm.className = `palette-sm${hex === '#FFFFFF' ? ' white-swatch' : ''}`;
+      sm.style.background = hex;
+      sm.title = hex;
+      sm.onclick = () => copyHex(hex);
+      cell.innerHTML += `<div class="palette-sm-name">${c.name}</div><div class="palette-sm-hex">${hex}</div>`;
+      cell.prepend(sm);
+      colEl.appendChild(cell);
+    });
+    grid.appendChild(colEl);
+  });
+}
+
+
+
+// ─── COLOR PAIRING TOOL ──────────────────────────────────────────────────────
+const APPROVED_PAIRS = {
+  '#FF464C': {
+    name: 'Clutch Red',
+    note: 'The brand at full volume. White leads all text. Plum as a single accent phrase creates hierarchy without adding a third color.',
+    pairs: [
+      { hex: '#FFFFFF', name: 'White',  use: 'Headlines · Body · Logo', role: 'primary' },
+      { hex: '#550E30', name: 'Plum',   use: 'Accent phrase — one line max', role: 'accent' },
+    ],
+    previewHeadline: '#FFFFFF',
+    previewAccent:   '#550E30',
+    previewSub:      '#FFFFFF',
+  },
+  '#460B28': {
+    name: 'Plum',
+    note: 'Bold and premium. White leads, Red draws the eye. Two primaries, maximum contrast.',
+    pairs: [
+      { hex: '#FFFFFF', name: 'White',      use: 'Headlines · Body', role: 'primary' },
+      { hex: '#FF464C', name: 'Clutch Red', use: 'Accent phrase · Logo', role: 'accent' },
+    ],
+    previewHeadline: '#FFFFFF',
+    previewAccent:   '#FF464C',
+    previewSub:      '#FFFFFF',
+  },
+  '#F1EDF8': {
+    name: 'Lavender',
+    note: 'The calm pairing. Plum carries all text. Red is reserved for a single accent or CTA — never body copy.',
+    pairs: [
+      { hex: '#550E30', name: 'Plum',       use: 'Headlines · Body', role: 'primary' },
+      { hex: '#FF464C', name: 'Clutch Red', use: 'Display accent · CTA', role: 'accent' },
+    ],
+    previewHeadline: '#550E30',
+    previewAccent:   '#FF464C',
+    previewSub:      '#550E30',
+  },
+  '#FFFFFF': {
+    name: 'White',
+    note: 'The product default. Plum for headlines and body. Red for CTAs and display accents only.',
+    pairs: [
+      { hex: '#550E30', name: 'Plum',       use: 'Headlines · Body', role: 'primary' },
+      { hex: '#FF464C', name: 'Clutch Red', use: 'Display accent · CTA · Logo', role: 'accent' },
+    ],
+    previewHeadline: '#550E30',
+    previewAccent:   '#FF464C',
+    previewSub:      '#550E30',
+  },
+};
+
+const ROLE_TAG = {
+  primary:   { label: 'Primary text',   cls: 'tag-primary'   },
+  secondary: { label: 'Supporting text', cls: 'tag-secondary' },
+  accent:    { label: 'Accent only',    cls: 'tag-accent'    },
+};
+
+let activePairingBg = '#460B28';
+
+function selectPairingBg(hex) {
+  activePairingBg = hex;
+  document.querySelectorAll('.bg-choice').forEach(el => {
+    el.classList.toggle('active', el.dataset.hex === hex);
+  });
+  renderPairs();
+}
+
+function renderPairs() {
+  const data = APPROVED_PAIRS[activePairingBg];
+  if (!data) return;
+
+  // Pairs list
+  const list = document.getElementById('pairs-list');
+  list.innerHTML = '';
+  data.pairs.forEach(p => {
+    const tag = ROLE_TAG[p.role];
+    const row = document.createElement('div');
+    row.className = 'pair-row';
+    row.innerHTML = `
+      <div class="pair-dot" style="background:${p.hex}"></div>
+      <div class="pair-row-info">
+        <div class="pair-row-name">${p.name} <span style="color:#444;font-weight:400;font-size:12px">${p.hex}</span></div>
+        <div class="pair-row-use">${p.use}</div>
+      </div>
+      <div class="pair-row-tag ${tag.cls}">${tag.label}</div>`;
+    list.appendChild(row);
+  });
+
+  // Note
+  document.getElementById('pair-note').textContent = data.note;
+
+  // Preview
+  const preview = document.getElementById('pairing-preview');
+  preview.style.background = activePairingBg;
+  document.getElementById('pp-headline').style.color = data.previewHeadline;
+  document.getElementById('pp-accent').style.color   = data.previewAccent;
+  document.getElementById('pp-sub').style.color      = data.previewSub;
+  document.getElementById('pp-logo').src = logoForBg(activePairingBg);
+}
+
+function buildPairingGrid() {
+  const sel = document.getElementById('bg-selector');
+  Object.entries(APPROVED_PAIRS).forEach(([hex, data]) => {
+    const el = document.createElement('div');
+    el.className = 'bg-choice';
+    el.dataset.hex = hex;
+    el.innerHTML = `<div class="bg-choice-swatch" style="background:${hex}"></div>
+      <div class="bg-choice-label">${data.name}</div>`;
+    el.onclick = () => selectPairingBg(hex);
+    sel.appendChild(el);
+  });
+  selectPairingBg(activePairingBg);
+}
+
+// ─── ASSET PREVIEWS ───────────────────────────────────────────────────────────
+const TRUCK_IMG = './03-Clutch_Truck_Hero_02_F.png';
+const LOGO_RED   = './logo/Red/Clutch Logo CTA Red.png';
+const LOGO_WHITE = './logo/White/Cltuch Logo CTA White.png';
+
+// Pick whichever logo has better contrast against the background
+function logoForBg(bgHex) {
+  const wContrast = contrastRatio(bgHex, '#FFFFFF');
+  const rContrast = contrastRatio(bgHex, '#FF464C');
+  return wContrast >= rContrast ? LOGO_WHITE : LOGO_RED;
+}
+
+// Marketing: portrait truck ad variants
+const MARKETING_VARIANTS = [
+  {
+    bg: '#FF464C',
+    line1: { text: 'We buy your car.', color: '#FFFFFF' },
+    line2: { text: 'We pick it up.', color: '#FFFFFF' },
+    line3: { text: 'You get paid.', color: '#550E30' },
+    logo: '#FFFFFF',
+    label: 'Clutch Red',
+  },
+  {
+    bg: '#F1EDF8',
+    line1: { text: 'No haggle.', color: '#550E30' },
+    line2: { text: 'No hassle.', color: '#550E30' },
+    line3: { text: 'No sketchy meetups.', color: '#FF464C' },
+    logo: '#FF464C',
+    label: 'Lavender',
+  },
+  {
+    bg: '#460B28',
+    line1: { text: 'Selling your car?', color: '#FFFFFF' },
+    line2: { text: 'Get paid in about', color: '#FFFFFF' },
+    line3: { text: '300 seconds.', color: '#FF464C' },
+    logo: '#FFFFFF',
+    label: 'Plum',
+  },
+  {
+    bg: '#F1EDF8',
+    line1: { text: 'We buy your car.', color: '#550E30' },
+    line2: { text: 'We pick it up.', color: '#550E30' },
+    line3: { text: 'You get paid.', color: '#FF464C' },
+    logo: '#FF464C',
+    label: 'Lavender',
+  },
+];
+
+// Brand: horizontal banner variants
+const BRAND_VARIANTS = [
+  {
+    bg: '#460B28',
+    headline: '#FFFFFF',
+    headlineText: 'Sell your car naked.\nOr in clothes.',
+    sub: '#FF464C',
+    subText: "We're easy.",
+    logo: '#FFFFFF',
+    label: 'Plum bg · White headline · Red accent',
+  },
+  {
+    bg: '#FF464C',
+    headline: '#FFFFFF',
+    headlineText: 'Skip the lot,\nkeep your weekend.',
+    sub: '#550E30',
+    subText: 'Buy your next car online.',
+    logo: '#FFFFFF',
+    label: 'Red bg · White headline · Plum accent',
+  },
+  {
+    bg: '#F1EDF8',
+    headline: '#550E30',
+    headlineText: 'Sell your car naked.\nOr in clothes.',
+    sub: '#FF464C',
+    subText: "We're easy.",
+    logo: '#FF464C',
+    label: 'Lavender bg · Plum headline · Red accent',
+  },
+  {
+    bg: '#F1EDF8',
+    headline: '#550E30',
+    headlineText: 'Selling your car?\nGet paid in about',
+    sub: '#FF464C',
+    subText: '300 seconds.',
+    logo: '#FF464C',
+    label: 'Lavender bg · Plum headline · Red accent',
+  },
+];
+
+// Product: UI card variants
+const CAR_FRONT = './cc_2025HOC071942630_01_2100_NH731P.png.png';
+const CAR_SIDE  = './cc_2025HOC071942636_03_2100_NH731P.png.png';
+const CAR_REAR  = './cc_2025HOC071942642_02_2100_NH731P.png.png';
+
+const PRODUCT_VARIANTS = [
+  {
+    bg: '#FFFFFF',    carImg: CAR_SIDE,  carBg: '#F3F3F3',
+    title: '#191919',  price: '#191919',  sub: '#191919',
+    btnBg: '#FF464C',  btnText: '#FFFFFF',
+    titleText: '2022 Hyundai Tucson', trim: 'N Line · 99,602 km',
+    priceText: '$25,190', biweekly: '$176 /biweekly  ·  $0 down',
+    label: 'White · Red CTA',
+  },
+  {
+    bg: '#460B28',    carImg: CAR_REAR,  carBg: '#FFFFFF',
+    title: '#FFFFFF',  price: '#F1EDF8',  sub: '#F1EDF8',
+    btnBg: '#FF464C',  btnText: '#FFFFFF',
+    titleText: '2021 Toyota RAV4', trim: 'LE · 41,529 km',
+    priceText: '$29,290', biweekly: '$203 /biweekly  ·  $0 down',
+    label: 'Plum · Lavender text · Red CTA',
+  },
+];
+
+let activeAssetType = 'Marketing';
+
+function pillHTML(ratio) {
+  const r = parseFloat(ratio);
+  if (r >= 4.5) return `<span class="contrast-pill pass">AA ✓ ${r.toFixed(1)}:1</span>`;
+  if (r >= 3.0) return `<span class="contrast-pill pass-lg">Display ✓ ${r.toFixed(1)}:1</span>`;
+  return `<span class="contrast-pill fail">✗ ${r.toFixed(1)}:1</span>`;
+}
+
+function buildAssetTabs() {
+  const tabs = document.getElementById('asset-tabs');
+  tabs.innerHTML = ''; // fix: clear before rebuilding
+  ['Marketing','Brand','Product'].forEach(type => {
+    const btn = document.createElement('button');
+    btn.className = `tab-btn ${type === activeAssetType ? 'active' : ''}`;
+    btn.textContent = type;
+    btn.onclick = () => { activeAssetType = type; buildAssetTabs(); buildAssets(); };
+    tabs.appendChild(btn);
+  });
+}
+
+function buildAssets() {
+  const grid = document.getElementById('asset-grid');
+  grid.innerHTML = '';
+  grid.className = 'asset-grid';
+
+  if (activeAssetType === 'Marketing') {
+    grid.classList.add('grid-2col');
+    MARKETING_VARIANTS.forEach(v => {
+      const bgStyle = v.isGradient ? `background-image:${v.bg}` : `background:${v.bg}`;
+      const contrastBg = v.isGradient ? '#F1EDF8' : v.bg;
+      const r1 = contrastRatio(contrastBg, v.line1.color);
+      const r3 = contrastRatio(contrastBg, v.line3.color);
+      const rLogo = contrastRatio(contrastBg, v.logo);
+      const wrap = document.createElement('div');
+      wrap.className = 'asset-wrap';
+      wrap.innerHTML = `
+        <div class="mkt-card" style="${bgStyle}">
+          <div class="mkt-copy">
+            <div class="mkt-line" style="color:${v.line1.color}">${v.line1.text}</div>
+            <div class="mkt-line" style="color:${v.line2.color}">${v.line2.text}</div>
+            <div class="mkt-line" style="color:${v.line3.color}">${v.line3.text}</div>
+          </div>
+          <div class="mkt-truck" style="background-image:url('${TRUCK_IMG}')"></div>
+          <div class="mkt-footer"><img src="${logoForBg(contrastBg)}"></div>
+        </div>
+        <div class="asset-card-label">
+          ${v.label}<br>
+          Headline ${pillHTML(r1)} &nbsp; Accent ${pillHTML(r3)} &nbsp; Logo ${pillHTML(rLogo)}
+        </div>`;
+      grid.appendChild(wrap);
+    });
+
+  } else if (activeAssetType === 'Brand') {
+    grid.classList.add('grid-brand');
+    BRAND_VARIANTS.forEach(v => {
+      const bgStyle = v.isGradient ? `background-image:${v.bg}` : `background:${v.bg}`;
+      const contrastBg = v.isGradient ? '#F1EDF8' : v.bg;
+      const rHead = contrastRatio(contrastBg, v.headline);
+      const rSub = contrastRatio(contrastBg, v.sub);
+      const lines = v.headlineText.split('\n');
+      const wrap = document.createElement('div');
+      wrap.className = 'asset-wrap';
+      wrap.innerHTML = `
+        <div class="brand-card" style="${bgStyle}">
+          <div>
+            <div class="brand-display" style="color:${v.headline}">${lines.join('<br>')}</div>
+            <div class="brand-sub" style="color:${v.sub}">${v.subText}</div>
+          </div>
+          <div class="brand-footer"><img src="${logoForBg(contrastBg)}"></div>
+          <div class="brand-badge" style="background:#000a;color:${ratingColor(rHead)}">${rHead.toFixed(1)}:1</div>
+        </div>
+        <div class="asset-card-label">
+          ${v.label}<br>
+          Headline ${pillHTML(rHead)} &nbsp; Body ${pillHTML(rSub)}
+        </div>`;
+      grid.appendChild(wrap);
+    });
+
+  } else if (activeAssetType === 'Product') {
+    PRODUCT_VARIANTS.forEach(v => {
+      const rTitle = contrastRatio(v.bg, v.title);
+      const rPrice = contrastRatio(v.bg, v.price);
+      const rBtn = contrastRatio(v.btnBg, v.btnText);
+      const wrap = document.createElement('div');
+      wrap.className = 'asset-wrap';
+      wrap.innerHTML = `
+        <div class="prod-card" style="background:${v.bg}">
+          <div class="prod-img-wrap">
+            <img class="prod-car-img" src="${v.carImg}" style="background:${v.carBg}">
+            <div class="prod-views"><svg width="12" height="14" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 0C6 0 9.5 4.5 9.5 8.5C9.5 10.433 7.933 12 6 12C4.067 12 2.5 10.433 2.5 8.5C2.5 7.2 3.1 6 3.6 5.2C3.6 5.2 3.8 6.5 4.8 7C4.8 4.5 5.5 1.5 6 0Z" fill="#FF464C"/><path d="M6 8C6 8 7.5 9.2 7.5 10.3C7.5 11.2 6.83 12 6 12C5.17 12 4.5 11.2 4.5 10.3C4.5 9.5 5.2 8.8 5.5 8.4C5.5 8.4 5.6 9 6 9.3C6 8.8 6 8.3 6 8Z" fill="#550E30"/></svg> 100+ views today</div>
+            <div class="prod-like" style="color:${luminance(v.bg)>0.3?'#FF464C':'#fff'}" onclick="this.dataset.liked=this.dataset.liked==='1'?'0':'1';this.textContent=this.dataset.liked==='1'?'♥':'♡';this.style.color=this.dataset.liked==='1'?'#FF464C':'${luminance(v.bg)>0.3?'#FF464C':'#fff'}'" data-liked="0">♡</div>
+          </div>
+          <div class="prod-body">
+            <div class="prod-title" style="color:${v.title}">${v.titleText}</div>
+            <div class="prod-trim" style="color:${v.sub}">${v.trim}</div>
+            <div class="prod-price" style="color:${v.price}">${v.priceText}</div>
+            <div class="prod-biweekly" style="color:${v.sub}">${v.biweekly}</div>
+            <div class="prod-btn" style="background:${v.btnBg};color:${v.btnText}">View Details</div>
+            <div class="prod-fine" style="color:${v.sub}">Excl. HST &amp; Licensing · Incl. OMVIC Fee</div>
+          </div>
+        </div>
+        <div class="asset-card-label">
+          ${v.label}<br>
+          Title ${pillHTML(rTitle)} &nbsp; Price ${pillHTML(rPrice)} &nbsp; CTA ${pillHTML(rBtn)}
+        </div>`;
+      grid.appendChild(wrap);
+    });
+  }
+}
+
+// ─── CONCEPTS ────────────────────────────────────────────────────────────────
+function buildConcepts() {
+  const grid = document.getElementById('concepts-grid');
+
+  // Row 1
+  // 1. Typography specimen
+  grid.innerHTML += `
+    <div class="concept-card concept-typo">
+      <div class="concept-typo-label">CircularXX</div>
+      <div class="concept-typo-name">Aa Bb Cc</div>
+      <div class="concept-typo-chars">ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>0 1 2 3 4 5 6 7 8 9</div>
+    </div>`;
+
+  // 2. Truck pattern
+  grid.innerHTML += `
+    <div class="concept-card concept-pattern" style="background-image:url('${TRUCK_IMG}')"></div>`;
+
+  // 3. Strikethrough — White
+  grid.innerHTML += `
+    <div class="concept-card concept-strike" style="background:#fff">
+      <div class="concept-strike-text" style="color:#191919">That's <s>complicated.</s><br><span style="color:#FF464C">That's Clutch.</span></div>
+    </div>`;
+
+  // 4. Strikethrough — Lavender
+  grid.innerHTML += `
+    <div class="concept-card concept-strike" style="background:#F1EDF8">
+      <div class="concept-strike-text" style="color:#550E30">That's <s>complicated.</s><br><span style="color:#FF464C">That's Clutch.</span></div>
+    </div>`;
+
+  // Row 2
+  // 5. Ticker — spans 2 cols, 3 rows
+  const brands = ['Tesla','Hyundai','Volvo','Audi','Subaru','Ford','Nissan','Honda','Toyota','BMW','Kia','Mazda'];
+  const makeRow = (list) => [...list,...list].map(b=>`<span class="ticker-item">${b}</span><span class="ticker-dot">·</span>`).join('');
+  const row1 = makeRow(brands);
+  const row2 = makeRow([...brands].reverse());
+  const row3 = makeRow([...brands.slice(4), ...brands.slice(0,4)]);
+  grid.innerHTML += `
+    <div class="concept-card concept-ticker">
+      <div class="ticker-track fwd">${row1}${row1}</div>
+      <div class="ticker-track rev">${row2}${row2}</div>
+      <div class="ticker-track fwd2">${row3}${row3}</div>
+    </div>`;
+
+  // 6. Stat — "300 seconds"
+  grid.innerHTML += `
+    <div class="concept-card concept-stat" style="background:#460B28">
+      <div class="concept-stat-sub" style="color:#fff;opacity:.7;font-size:14px;font-weight:700;margin-bottom:4px">Selling your car?</div>
+      <div class="concept-stat-num" style="color:#fff">300</div>
+      <div class="concept-stat-label" style="color:#FF464C">seconds.</div>
+    </div>`;
+
+  // 7. Quote card — Plum
+  grid.innerHTML += `
+    <div class="concept-card concept-quote" style="background:#460B28">
+      <div class="concept-quote-text" style="color:#fff">You might be sitting on a <span style="color:#FF464C">small fortune.</span></div>
+      <img src="${LOGO_WHITE}" style="height:16px;object-fit:contain;object-position:left;margin-top:16px;opacity:.5">
+    </div>`;
+
+  // Row 3
+  // 8. Logo/headline card — Plum
+  grid.innerHTML += `
+    <div class="concept-card concept-icon">
+      <img class="concept-icon-logo" src="${LOGO_WHITE}">
+      <div class="concept-icon-copy">
+        <div class="concept-icon-headline">Every car you see<br>is owned by Clutch.</div>
+        <div class="concept-icon-body">We bought each one from<br>Canadians like you.</div>
+      </div>
+    </div>`;
+
+  // 9. Price/value card — Red
+  grid.innerHTML += `
+    <div class="concept-card concept-price-card" style="background:#FF464C">
+      <div class="concept-price-sub" style="color:#fff;font-size:20px;font-weight:800;line-height:1.2">We buy your car.</div>
+      <div class="concept-price-sub" style="color:#fff;font-size:20px;font-weight:800;line-height:1.2">We pick it up.</div>
+      <div class="concept-price-sub" style="color:#fff;font-size:24px;font-weight:800;line-height:1.2;margin-top:2px">You get paid.</div>
+    </div>`;
+
+  // 10. Split colour card
+  grid.innerHTML += `
+    <div class="concept-card concept-split">
+      <div class="concept-split-top" style="background:#460B28">
+        <div class="concept-split-word" style="color:#fff">Sell<br><span style="color:#FF464C">fast.</span></div>
+      </div>
+      <div class="concept-split-bottom" style="background:#F1EDF8">
+        <div class="concept-split-word" style="color:#550E30">Buy<br><span style="color:#FF464C">easy.</span></div>
+      </div>
+    </div>`;
+
+  // 11. Tag/badge system card
+  grid.innerHTML += `
+    <div class="concept-card concept-tag-card" style="background:#460B28">
+      <div style="font-size:11px;color:#ffffff;opacity:0.4;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">UI Labels</div>
+      <div class="concept-tag" style="background:#FF464C;color:#fff">Clutch Certified</div>
+      <div class="concept-tag" style="background:#F1EDF8;color:#550E30">New Price Drop</div>
+      <div class="concept-tag" style="background:#550E30;color:#F1EDF8">Top Pick</div>
+      <div class="concept-tag" style="background:#FFFFFF;color:#FF464C;border:1.5px solid #FF464C">Sale</div>
+    </div>`;
+
+  // 12. Lavender Mid use case — brand card
+  grid.innerHTML += `
+    <div class="concept-card concept-quote" style="background:#EBE1F8;aspect-ratio:4/2;grid-column:span 2;justify-content:flex-end;gap:0;padding:36px">
+      <div style="font-size:13px;font-weight:700;color:#550E30;opacity:.6;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px">Lavender Mid</div>
+      <div style="font-size:36px;font-weight:800;color:#550E30;line-height:1.15;letter-spacing:-1px">Sell your car naked.<br>Or in clothes.</div>
+      <div style="font-size:36px;font-weight:800;color:#FF464C;line-height:1.15;letter-spacing:-1px;margin-bottom:auto">We're easy.</div>
+      <img src="${LOGO_RED}" style="height:14px;object-fit:contain;object-position:left;margin-top:24px;opacity:.7">
+    </div>`;
+
+  // 13. Lavender use case — brand card
+  grid.innerHTML += `
+    <div class="concept-card concept-quote" style="background:#F1EDF8;aspect-ratio:4/2;grid-column:span 2;justify-content:flex-end;gap:0;padding:36px">
+      <div style="font-size:13px;font-weight:700;color:#550E30;opacity:.6;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px">Lavender</div>
+      <div style="font-size:36px;font-weight:800;color:#550E30;line-height:1.15;letter-spacing:-1px">Sell your car naked.<br>Or in clothes.</div>
+      <div style="font-size:36px;font-weight:800;color:#FF464C;line-height:1.15;letter-spacing:-1px;margin-bottom:auto">We're easy.</div>
+      <img src="${LOGO_RED}" style="height:14px;object-fit:contain;object-position:left;margin-top:24px;opacity:.7">
+    </div>`;
+
+  // Row 4 — Full width palette strip
+  const blocks = [
+    { hex: '#460B28', name: 'Plum', sub: 'Background' },
+    { hex: '#550E30', name: 'Plum', sub: 'Text' },
+    { hex: '#FF464C', name: 'Clutch Red', sub: 'Primary' },
+    { hex: '#F43536', name: 'Red Shade 2', sub: 'Hover' },
+    { hex: '#F1EDF8', name: 'Lavender', sub: 'Light BG' },
+    { hex: '#EBE1F8', name: 'Lavender Mid', sub: 'Mid BG' },
+    { hex: '#E6D6F9', name: 'Lavender Deep', sub: 'Accent BG' },
+    { hex: '#191919', name: 'Soft Black', sub: 'Dark BG' },
+    { hex: '#FFFFFF', name: 'White', sub: 'Base' },
+  ];
+  const blocksHtml = blocks.map(b => {
+    const tc = bestTextColor(b.hex);
+    const outline = b.hex==='#FFFFFF' ? 'outline:1px solid #e0e0e0;' : '';
+    return `<div class="concept-fullwidth-block" style="background:${b.hex};${outline}">
+      <div class="concept-fullwidth-name" style="color:${tc}">${b.name}</div>
+      <div class="concept-fullwidth-hex" style="color:${tc}">${b.hex}</div>
+    </div>`;
+  }).join('');
+  grid.innerHTML += `<div class="concept-fullwidth">${blocksHtml}</div>`;
+}
+
+// ─── GRADIENTS ───────────────────────────────────────────────────────────────
+function buildGradients() {
+  const grid = document.getElementById('gradient-grid');
+  const buttons = [
+    {
+      css: 'linear-gradient(360deg, #ff464c 0%, #b00700 100%)',
+      textColor: '#ffffff',
+      shadow: 'inset 0 -3px 2px 0px rgba(0,0,0,0.17), inset 0 1px 2px 0px rgba(0,0,0,0.18)',
+      text: 'Get My Offer',
+      label: 'Red',
+    },
+    {
+      css: 'linear-gradient(360deg, #460b28 9%, #84024a 100%)',
+      textColor: '#ffffff',
+      shadow: 'inset 0 6px 6px -2px rgba(255,255,255,0.47), inset 0 -4px 7px -2px rgba(255,255,255,0.46)',
+      text: 'Learn More',
+      label: 'Plum',
+    },
+    {
+      css: 'linear-gradient(180deg, #f1edf8 0%, #e6d6f9 100%)',
+      textColor: '#460b28',
+      shadow: 'inset 0 4px 6px 0px rgba(202,158,255,0.23), inset 0 -4px 7px 0px rgba(202,158,255,0.30)',
+      text: 'Get Started',
+      label: 'Lavender',
+      cls: 'lavender',
+    },
+  ];
+  buttons.forEach(b => {
+    const btn = document.createElement('button');
+    btn.className = 'gradient-btn' + (b.cls ? ' ' + b.cls : '');
+    btn.style.background = b.css;
+    btn.style.color = b.textColor;
+    btn.style.boxShadow = b.shadow;
+    btn.innerHTML = `<span>${b.text}</span>`;
+    grid.appendChild(btn);
+  });
+}
+
+// ─── BUTTON LAB ──────────────────────────────────────────────────────────────
+function hexToRgbParts(hex) {
+  hex = hex.replace('#','');
+  return [parseInt(hex.slice(0,2),16), parseInt(hex.slice(2,4),16), parseInt(hex.slice(4,6),16)];
+}
+
+function updateBtn() {
+  const tColor  = document.getElementById('t-color').value;
+  const gTop    = document.getElementById('g-top').value;
+  const gBot    = document.getElementById('g-bot').value;
+  const gTopPos = document.getElementById('g-top-pos').value;
+  const gBotPos = document.getElementById('g-bot-pos').value;
+  const gAngle  = document.getElementById('g-angle').value;
+
+  const s1On     = document.getElementById('s1-on').checked;
+  const s1Color  = document.getElementById('s1-color').value;
+  const s1Alpha  = document.getElementById('s1-alpha').value / 100;
+  const s1Y      = document.getElementById('s1-y').value;
+  const s1Blur   = document.getElementById('s1-blur').value;
+  const s1Spread = document.getElementById('s1-spread').value;
+
+  const s2On     = document.getElementById('s2-on').checked;
+  const s2Color  = document.getElementById('s2-color').value;
+  const s2Alpha  = document.getElementById('s2-alpha').value / 100;
+  const s2Y      = document.getElementById('s2-y').value;
+  const s2Blur   = document.getElementById('s2-blur').value;
+  const s2Spread = document.getElementById('s2-spread').value;
+
+  // Update val labels
+  document.getElementById('t-color-val').textContent   = tColor;
+  document.getElementById('g-top-val').textContent     = gTop;
+  document.getElementById('g-bot-val').textContent     = gBot;
+  document.getElementById('g-top-pos-val').textContent = gTopPos + '%';
+  document.getElementById('g-bot-pos-val').textContent = gBotPos + '%';
+  document.getElementById('g-angle-val').textContent   = gAngle + '°';
+  document.getElementById('s1-color-val').textContent  = s1Color;
+  document.getElementById('s1-alpha-val').textContent  = Math.round(s1Alpha*100) + '%';
+  document.getElementById('s1-y-val').textContent      = s1Y + 'px';
+  document.getElementById('s1-blur-val').textContent   = s1Blur + 'px';
+  document.getElementById('s1-spread-val').textContent = s1Spread + 'px';
+  document.getElementById('s2-color-val').textContent  = s2Color;
+  document.getElementById('s2-alpha-val').textContent  = Math.round(s2Alpha*100) + '%';
+  document.getElementById('s2-y-val').textContent      = s2Y + 'px';
+  document.getElementById('s2-blur-val').textContent   = s2Blur + 'px';
+  document.getElementById('s2-spread-val').textContent = s2Spread + 'px';
+
+  const gradient = `linear-gradient(${gAngle}deg, ${gTop} ${gTopPos}%, ${gBot} ${gBotPos}%)`;
+
+  const s1rgb = hexToRgbParts(s1Color);
+  const s2rgb = hexToRgbParts(s2Color);
+  const shadows = [];
+  if (s1On) shadows.push(`inset 0 ${s1Y}px ${s1Blur}px ${s1Spread}px rgba(${s1rgb},${s1Alpha.toFixed(2)})`);
+  if (s2On) shadows.push(`inset 0 ${s2Y}px ${s2Blur}px ${s2Spread}px rgba(${s2rgb},${s2Alpha.toFixed(2)})`);
+
+  const hY      = document.getElementById('h-y').value;
+  const hScale  = (document.getElementById('h-scale').value / 100).toFixed(2);
+  const hBright = document.getElementById('h-bright').value;
+  const pY      = document.getElementById('p-y').value;
+  const pScale  = (document.getElementById('p-scale').value / 100).toFixed(2);
+  const pBright = document.getElementById('p-bright').value;
+
+  document.getElementById('h-y-val').textContent     = hY + 'px';
+  document.getElementById('h-scale-val').textContent = hScale;
+  document.getElementById('h-bright-val').textContent= hBright + '%';
+  document.getElementById('p-y-val').textContent     = pY + 'px';
+  document.getElementById('p-scale-val').textContent = pScale;
+  document.getElementById('p-bright-val').textContent= pBright + '%';
+
+  const shadowStr = shadows.join(', ') || 'none';
+
+  // Apply to all static previews + live button
+  ['btn-preview','btn-default','btn-hover-preview','btn-pressed-preview'].forEach(id => {
+    const el = document.getElementById(id);
+    el.style.background = gradient;
+    el.style.color      = tColor;
+    el.style.boxShadow  = shadowStr;
+  });
+
+  // Manually set hover/pressed state visuals on static previews
+  const hoverBtn = document.getElementById('btn-hover-preview');
+  hoverBtn.style.transform = `translateY(${hY}px) scale(${hScale})`;
+  hoverBtn.style.filter    = `brightness(${hBright}%)`;
+
+  const pressedBtn = document.getElementById('btn-pressed-preview');
+  pressedBtn.style.transform = `translateY(${pY}px) scale(${pScale})`;
+  pressedBtn.style.filter    = `brightness(${pBright}%)`;
+
+  // Inject live :hover/:active CSS for interactive button
+  let styleTag = document.getElementById('btn-lab-states');
+  if (!styleTag) { styleTag = document.createElement('style'); styleTag.id = 'btn-lab-states'; document.head.appendChild(styleTag); }
+  styleTag.textContent = `
+    #btn-preview:hover  { transform: translateY(${hY}px) scale(${hScale}); filter: brightness(${hBright}%); }
+    #btn-preview:active { transform: translateY(${pY}px) scale(${pScale}); filter: brightness(${pBright}%); }
+  `;
+
+  // Stage bg for state previews
+  const stageBg = document.getElementById('btn-stage').style.background || '';
+  ['stage-default','stage-hover','stage-pressed'].forEach(id => {
+    document.getElementById(id).style.background = document.getElementById('btn-stage').style.background || (document.getElementById('btn-stage').className.includes('dark') ? '#460B28' : document.getElementById('btn-stage').className.includes('red') ? '#FF464C' : document.getElementById('btn-stage').className.includes('light') ? '#F1EDF8' : '#f0f0f0');
+  });
+
+  // CSS output
+  const shadowVal = shadows.length ? shadows.join(',\n         ') : 'none';
+  document.getElementById('btn-css-out').innerHTML =
+    `<span class="css-key">background:</span> <span class="css-val">${gradient}</span>;\n` +
+    `<span class="css-key">color:</span> <span class="css-val">${tColor}</span>;\n` +
+    `<span class="css-key">box-shadow:</span> <span class="css-val">${shadowVal}</span>;\n` +
+    `\n<span class="css-key">/* hover */</span>\n` +
+    `<span class="css-key">transform:</span> <span class="css-val">translateY(${hY}px) scale(${hScale})</span>;\n` +
+    `<span class="css-key">filter:</span> <span class="css-val">brightness(${hBright}%)</span>;\n` +
+    `\n<span class="css-key">/* pressed */</span>\n` +
+    `<span class="css-key">transform:</span> <span class="css-val">translateY(${pY}px) scale(${pScale})</span>;\n` +
+    `<span class="css-key">filter:</span> <span class="css-val">brightness(${pBright}%)</span>;`;
+}
+
+function setStage(type, el) {
+  document.querySelectorAll('.stage-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  const cls = 'btn-lab-stage' + (type !== 'default' ? ' ' + type : '');
+  document.getElementById('btn-stage').className = cls;
+  const bgMap = { default: '#f0f0f0', dark: '#460B28', red: '#FF464C', light: '#F1EDF8' };
+  const bg = bgMap[type];
+  ['stage-default','stage-hover','stage-pressed'].forEach(id => {
+    document.getElementById(id).style.background = bg;
+  });
+}
+
+function copyBtnCSS() {
+  const text = document.getElementById('btn-css-out').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const toast = document.getElementById('copy-toast');
+    toast.textContent = 'CSS copied';
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+  });
+}
+
+// init button lab
+updateBtn();
+
+// ─── SCROLL NAV ──────────────────────────────────────────────────────────────
+function scrollTo(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+buildPalette();
+buildPairingGrid();
+buildAssetTabs();
+buildAssets();
+buildConcepts();
+buildGradients();
+</script>
+</body>
+</html>

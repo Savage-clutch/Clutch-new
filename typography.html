@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clutch — Typography Exploration</title>
+  <style>
+    @font-face { font-family: 'CircularXX'; src: url('./fonts/CircularXX-Regular.otf') format('opentype'); font-weight: 400; }
+    @font-face { font-family: 'CircularXX'; src: url('./fonts/CircularXX-Medium.otf') format('opentype'); font-weight: 500; }
+    @font-face { font-family: 'CircularXX'; src: url('./fonts/CircularXX-Bold.otf') format('opentype'); font-weight: 700; }
+    @font-face { font-family: 'TTCommons'; src: url('./fonts/tt-commons-cufonfonts-1/TT Commons Regular.otf') format('opentype'); font-weight: 400; }
+    @font-face { font-family: 'TTCommons'; src: url('./fonts/tt-commons-cufonfonts-1/TT Commons Medium.otf') format('opentype'); font-weight: 500; }
+    @font-face { font-family: 'TTCommons'; src: url('./fonts/tt-commons-cufonfonts-1/TT Commons DemiBold.otf') format('opentype'); font-weight: 600; }
+    @font-face { font-family: 'TTCommons'; src: url('./fonts/tt-commons-cufonfonts-1/TT Commons Bold.otf') format('opentype'); font-weight: 700; }
+
+    :root {
+      --circular: 'CircularXX', 'Helvetica Neue', sans-serif;
+      --tt: 'TTCommons', 'Helvetica Neue', sans-serif;
+      --black: #0d0d0d;
+      --off-white: #f7f5f2;
+      --mid: #767571;
+      --red: #b00700;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--off-white); color: var(--black); }
+
+    /* ── NAV ── */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 48px; border-bottom: 1px solid rgba(0,0,0,0.08);
+      background: var(--off-white);
+      position: sticky; top: 0; z-index: 10;
+    }
+    .nav-logo { font-family: var(--circular); font-weight: 700; font-size: 15px; letter-spacing: -0.02em; }
+    .nav-pills { display: flex; gap: 6px; }
+    .nav-pill {
+      font-family: var(--tt); font-size: 12px; font-weight: 500;
+      padding: 5px 14px; border-radius: 100px; cursor: pointer; border: none;
+      background: rgba(0,0,0,0.06); color: var(--black); transition: background 0.15s;
+    }
+    .nav-pill:hover, .nav-pill.active { background: var(--black); color: #fff; }
+
+    section { padding: 80px 48px; border-bottom: 1px solid rgba(0,0,0,0.08); }
+
+    /* ── SCALE TABLE ── */
+    .scale-row {
+      display: grid; grid-template-columns: 180px 1fr 120px 120px;
+      align-items: baseline; padding: 28px 0; border-bottom: 1px solid rgba(0,0,0,0.07);
+      gap: 24px;
+    }
+    .scale-row:last-child { border-bottom: none; }
+    .scale-label { font-family: var(--tt); font-size: 11px; font-weight: 500; color: var(--mid); text-transform: uppercase; letter-spacing: 0.08em; }
+    .scale-meta { font-family: var(--tt); font-size: 12px; color: var(--mid); }
+
+    .t-display    { font-family: var(--circular); font-weight: 700; font-size: 72px; line-height: 0.95; letter-spacing: -0.03em; }
+    .t-h1         { font-family: var(--circular); font-weight: 700; font-size: 48px; line-height: 1.05; letter-spacing: -0.025em; }
+    .t-h2         { font-family: var(--circular); font-weight: 700; font-size: 32px; line-height: 1.1; letter-spacing: -0.02em; }
+    .t-subheader  { font-family: var(--circular); font-weight: 500; font-size: 22px; line-height: 1.3; letter-spacing: -0.01em; }
+    .t-body-lg    { font-family: var(--tt); font-weight: 400; font-size: 18px; line-height: 1.6; }
+    .t-body       { font-family: var(--tt); font-weight: 400; font-size: 16px; line-height: 1.65; }
+    .t-caption    { font-family: var(--tt); font-weight: 400; font-size: 13px; line-height: 1.55; color: var(--mid); }
+    .t-label      { font-family: var(--tt); font-weight: 500; font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--mid); }
+
+    /* ── DARK SECTION ── */
+    .dark { background: var(--black); color: #fff; }
+    .dark .scale-row { border-color: rgba(255,255,255,0.08); }
+    .dark .scale-label, .dark .scale-meta, .dark .t-caption, .dark .t-label { color: rgba(255,255,255,0.4); }
+    .dark nav { background: var(--black); border-color: rgba(255,255,255,0.08); }
+
+    /* ── PAIRING DEMO ── */
+    .pairing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 48px; }
+    .pairing-card {
+      border-radius: 20px; padding: 40px;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: #fff;
+    }
+    .pairing-card.dark-card { background: var(--black); border-color: rgba(255,255,255,0.08); color: #fff; }
+    .pairing-eyebrow { font-family: var(--tt); font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mid); margin-bottom: 12px; }
+    .pairing-card.dark-card .pairing-eyebrow { color: rgba(255,255,255,0.4); }
+    .pairing-headline { font-family: var(--circular); font-weight: 700; font-size: 36px; line-height: 1.05; letter-spacing: -0.025em; margin-bottom: 14px; }
+    .pairing-body { font-family: var(--tt); font-size: 16px; line-height: 1.65; color: #555; margin-bottom: 28px; }
+    .pairing-card.dark-card .pairing-body { color: rgba(255,255,255,0.55); }
+
+    /* Buttons */
+    .btn-primary {
+      font-family: var(--circular); font-weight: 500; font-size: 15px;
+      padding: 14px 28px; border-radius: 100px; border: none; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(360deg, #ff464c 0%, #b00700 100%);
+      box-shadow: inset 0 -3px 2px 0px rgba(0,0,0,0.17), inset 0 1px 2px 0px rgba(0,0,0,0.18);
+      color: #fff; transition: transform 0.12s ease, filter 0.12s ease;
+    }
+    .btn-primary:hover  { transform: translateY(-3px) scale(1.02); filter: brightness(110%); }
+    .btn-primary:active { transform: translateY(2px) scale(0.96);  filter: brightness(85%); }
+    .btn-ghost {
+      font-family: var(--circular); font-weight: 500; font-size: 15px;
+      padding: 13px 27px; border-radius: 100px; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; border: 1.5px solid rgba(0,0,0,0.15); color: var(--black);
+      transition: transform 0.12s ease, filter 0.12s ease, border-color 0.12s;
+    }
+    .btn-ghost:hover  { transform: translateY(-3px) scale(1.02); border-color: var(--black); filter: brightness(105%); }
+    .btn-ghost:active { transform: translateY(2px) scale(0.96);  filter: brightness(90%); }
+    .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    /* ── HERO MOCKUP ── */
+    .hero-mock {
+      max-width: 700px; margin: 48px auto 0;
+      background: #fff; border-radius: 24px; padding: 64px 56px;
+      border: 1px solid rgba(0,0,0,0.07);
+      box-shadow: 0 4px 40px rgba(0,0,0,0.06);
+    }
+    .hero-mock .eyebrow { font-family: var(--tt); font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--mid); margin-bottom: 16px; }
+    .hero-mock h1 { font-family: var(--circular); font-weight: 700; font-size: 52px; line-height: 1.0; letter-spacing: -0.03em; margin-bottom: 20px; }
+    .hero-mock p { font-family: var(--tt); font-size: 18px; line-height: 1.6; color: #555; margin-bottom: 32px; max-width: 480px; }
+    .hero-mock .footnote { font-family: var(--tt); font-size: 12px; color: var(--mid); margin-top: 14px; }
+
+    /* ── WEIGHTS ── */
+    .weights-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
+    .weight-card { padding: 32px; background: #fff; border-radius: 16px; border: 1px solid rgba(0,0,0,0.07); }
+    .weight-card .wc-label { font-family: var(--tt); font-size: 11px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--mid); margin-bottom: 12px; }
+    .weight-sample { font-size: 28px; line-height: 1.15; letter-spacing: -0.015em; margin-bottom: 8px; }
+    .weight-card .wc-meta { font-family: var(--tt); font-size: 12px; color: var(--mid); }
+
+    /* section headers */
+    .section-eyebrow { font-family: var(--tt); font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mid); margin-bottom: 40px; }
+    .dark .section-eyebrow { color: rgba(255,255,255,0.35); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Clutch · Type Exploration</div>
+    <div class="nav-pills">
+      <button class="nav-pill active" onclick="scrollTo(0,0)">Scale</button>
+      <button class="nav-pill" onclick="document.getElementById('pairing').scrollIntoView({behavior:'smooth'})">Pairing</button>
+      <button class="nav-pill" onclick="document.getElementById('hero').scrollIntoView({behavior:'smooth'})">Hero</button>
+      <button class="nav-pill" onclick="document.getElementById('weights').scrollIntoView({behavior:'smooth'})">Weights</button>
+      <button class="nav-pill" onclick="document.getElementById('dark').scrollIntoView({behavior:'smooth'})">Dark</button>
+      <button class="nav-pill" onclick="document.getElementById('ramp').scrollIntoView({behavior:'smooth'})">Ramp</button>
+      <button class="nav-pill" onclick="document.getElementById('compare').scrollIntoView({behavior:'smooth'})">Compare</button>
+      <button class="nav-pill" onclick="document.getElementById('marketing').scrollIntoView({behavior:'smooth'})">Marketing</button>
+      <button class="nav-pill" onclick="document.getElementById('adcreatives').scrollIntoView({behavior:'smooth'})">Ad Creatives</button>
+    </div>
+  </nav>
+
+  <!-- TYPE SCALE -->
+  <section>
+    <div class="section-eyebrow">Type Scale — CircularXX + TT Commons Pro</div>
+
+    <div class="scale-row">
+      <div class="scale-label">Display</div>
+      <div class="t-display">We buy your car.</div>
+      <div class="scale-meta">CircularXX Bold</div>
+      <div class="scale-meta">72px / −3%</div>
+    </div>
+
+    <div class="scale-row">
+      <div class="scale-label">Headline H1</div>
+      <div class="t-h1">Get paid fast.</div>
+      <div class="scale-meta">CircularXX Bold</div>
+      <div class="scale-meta">48px / −2.5%</div>
+    </div>
+
+    <div class="scale-row">
+      <div class="scale-label">Headline H2</div>
+      <div class="t-h2">Sell in 3 easy steps.</div>
+      <div class="scale-meta">CircularXX Bold</div>
+      <div class="scale-meta">32px / −2%</div>
+    </div>
+
+    <div class="scale-row">
+      <div class="scale-label">Subheader</div>
+      <div class="t-subheader">Get a real offer in minutes, not days.</div>
+      <div class="scale-meta">TT Commons Medium</div>
+      <div class="scale-meta">22px / −1%</div>
+    </div>
+
+    <div class="scale-row">
+      <div class="scale-label">Body Large</div>
+      <div class="t-body-lg">Tell us about your car and we'll give you a real, no-pressure offer. No haggling, no surprises.</div>
+      <div class="scale-meta">TT Commons Regular</div>
+      <div class="scale-meta">18px / 1.6</div>
+    </div>
+
+    <div class="scale-row">
+      <div class="scale-label">Body</div>
+      <div class="t-body">We inspect your car, finalize the offer, and you get paid by e-transfer. Most transactions complete the same day.</div>
+      <div class="scale-meta">TT Commons Regular</div>
+      <div class="scale-meta">16px / 1.65</div>
+    </div>
+
+    <div class="scale-row">
+      <div class="scale-label">Caption</div>
+      <div class="t-caption">*Offer valid for 7 days. Final price may vary based on in-person inspection. Available in select markets.</div>
+      <div class="scale-meta">TT Commons Regular</div>
+      <div class="scale-meta">13px / 1.55</div>
+    </div>
+
+    <div class="scale-row">
+      <div class="scale-label">Label / Eyebrow</div>
+      <div class="t-label">How it works</div>
+      <div class="scale-meta">TT Commons Medium</div>
+      <div class="scale-meta">11px / +7% tracking</div>
+    </div>
+  </section>
+
+  <!-- PAIRING IN CONTEXT -->
+  <section id="pairing">
+    <div class="section-eyebrow">Font Pairing in Context</div>
+
+    <div class="pairing-grid">
+
+      <div class="pairing-card">
+        <div class="pairing-eyebrow">How it works</div>
+        <div class="pairing-headline">Get an offer<br>in minutes.</div>
+        <div class="pairing-body">Enter your plate or VIN and answer a few quick questions. We'll give you a real offer — no obligation, no games.</div>
+        <div class="btn-row">
+          <button class="btn-primary">Get instant offer</button>
+          <button class="btn-ghost">Learn more</button>
+        </div>
+      </div>
+
+      <div class="pairing-card">
+        <div class="pairing-eyebrow">Trusted by thousands</div>
+        <div class="pairing-headline">75,000+ cars<br>sold to Clutch.</div>
+        <div class="pairing-body">Real people, real offers, real fast. Join tens of thousands of Canadians who've already sold their car the easier way.</div>
+        <div class="btn-row">
+          <button class="btn-primary">Sell my car</button>
+          <button class="btn-ghost">Browse inventory</button>
+        </div>
+      </div>
+
+      <div class="pairing-card" style="grid-column: 1 / -1; display: flex; gap: 48px; align-items: center;">
+        <div style="flex:1">
+          <div class="pairing-eyebrow">Our promise</div>
+          <div class="pairing-headline" style="font-size:40px;">No dealers.<br>No low-balls.<br>Just cash.</div>
+        </div>
+        <div style="flex:1.2">
+          <p class="t-body-lg" style="margin-bottom:16px;">We price your car using real market data — not what a dealer wants to pay. Our offers are fair, transparent, and good for a week.</p>
+          <p class="t-body" style="color:var(--mid)">Rated 4.8 stars across 10,000+ reviews. Canada's most trusted online car buyer.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- HERO MOCKUP -->
+  <section id="hero" style="background:#f0eee9">
+    <div class="section-eyebrow">Hero Mockup</div>
+    <div class="hero-mock">
+      <div class="eyebrow">Sell your car online</div>
+      <h1>We buy your car.<br>Get paid fast.</h1>
+      <p>Enter your plate or VIN for a real offer in minutes. No dealership, no hassle — just a fair price and same-day payment.</p>
+      <div class="btn-row">
+        <button class="btn-primary">Get instant offer →</button>
+        <button class="btn-ghost">How it works</button>
+      </div>
+      <div class="footnote">⭐ 4.8 · 10,000+ reviews &nbsp;·&nbsp; 75,000+ cars sold</div>
+    </div>
+  </section>
+
+  <!-- WEIGHTS -->
+  <section id="weights">
+    <div class="section-eyebrow">Weights</div>
+
+    <div class="weights-grid">
+      <div class="weight-card">
+        <div class="wc-label">CircularXX Bold — Headlines & Buttons</div>
+        <div class="weight-sample" style="font-family: var(--circular); font-weight: 700; letter-spacing:-0.025em">
+          ABCDEFGHIJKLM<br>abcdefghijklm<br>0123456789
+        </div>
+        <div class="wc-meta">700 · Used for H1, H2, Display, CTAs</div>
+      </div>
+
+      <div class="weight-card">
+        <div class="wc-label">TT Commons Medium — Subheaders & UI</div>
+        <div class="weight-sample" style="font-family: var(--tt); font-weight: 500;">
+          ABCDEFGHIJKLM<br>abcdefghijklm<br>0123456789
+        </div>
+        <div class="wc-meta">500 · Used for subheaders, labels, nav</div>
+      </div>
+
+      <div class="weight-card">
+        <div class="wc-label">TT Commons Regular — Body & Captions</div>
+        <div class="weight-sample" style="font-family: var(--tt); font-weight: 400;">
+          ABCDEFGHIJKLM<br>abcdefghijklm<br>0123456789
+        </div>
+        <div class="wc-meta">400 · Used for body copy, captions, fine print</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DARK VERSION -->
+  <section id="dark" class="dark">
+    <div class="section-eyebrow">Dark Background</div>
+
+    <div class="scale-row">
+      <div class="scale-label">Display</div>
+      <div class="t-display">We buy your car.</div>
+      <div class="scale-meta">CircularXX Bold</div>
+      <div class="scale-meta">72px</div>
+    </div>
+
+    <div class="scale-row">
+      <div class="scale-label">Headline H1</div>
+      <div class="t-h1">Get paid fast.</div>
+      <div class="scale-meta">CircularXX Bold</div>
+      <div class="scale-meta">48px</div>
+    </div>
+
+    <div class="scale-row">
+      <div class="scale-label">Subheader</div>
+      <div class="t-subheader">Get a real offer in minutes, not days.</div>
+      <div class="scale-meta">TT Commons Medium</div>
+      <div class="scale-meta">22px</div>
+    </div>
+
+    <div class="scale-row">
+      <div class="scale-label">Body</div>
+      <div class="t-body" style="color:rgba(255,255,255,0.65)">We inspect your car, finalize the offer, and you get paid by e-transfer. Most transactions complete the same day.</div>
+      <div class="scale-meta">TT Commons Regular</div>
+      <div class="scale-meta">16px</div>
+    </div>
+
+    <div class="scale-row">
+      <div class="scale-label">Caption</div>
+      <div class="t-caption">*Offer valid for 7 days. Final price may vary based on in-person inspection.</div>
+      <div class="scale-meta">TT Commons Regular</div>
+      <div class="scale-meta">13px</div>
+    </div>
+
+    <div style="margin-top: 48px;">
+      <div class="btn-row">
+        <button class="btn-primary">Get instant offer</button>
+        <button class="btn-ghost">Browse inventory</button>
+        <button class="btn-ghost" style="border-color:rgba(255,255,255,0.2);color:#fff">Learn more</button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- TYPE RAMP TABLE -->
+  <section id="ramp" style="padding: 0; background: #111;">
+    <div style="padding: 24px 48px; border-bottom: 1px solid rgba(255,255,255,0.08);">
+      <p style="font-family: var(--tt); font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.5; max-width: 600px;">Our type ramp is made up of named styles. Each style is a combination of pre-defined size, weight, line height, and letter spacing values. CircularXX anchors display, titles, and subtitles. TT Commons takes over at body, caption, and signal — where readability matters most.</p>
+    </div>
+
+    <div style="margin: 16px; background: #fff; border-radius: 20px; overflow: hidden;">
+      <!-- Table header -->
+      <div style="display: grid; grid-template-columns: 280px 80px 100px 120px 1fr; padding: 14px 28px; border-bottom: 1px solid rgba(0,0,0,0.07);">
+        <span style="font-family:var(--tt);font-size:12px;color:#999;font-weight:500;">Name</span>
+        <span style="font-family:var(--tt);font-size:12px;color:#999;font-weight:500;">Size</span>
+        <span style="font-family:var(--tt);font-size:12px;color:#999;font-weight:500;">Line height</span>
+        <span style="font-family:var(--tt);font-size:12px;color:#999;font-weight:500;">Letter spacing</span>
+        <span style="font-family:var(--tt);font-size:12px;color:#999;font-weight:500;">Font</span>
+      </div>
+
+      <!-- Rows -->
+      <style>
+        .ramp-row { display: grid; grid-template-columns: 280px 80px 100px 120px 1fr; padding: 20px 28px; border-bottom: 1px solid rgba(0,0,0,0.06); align-items: center; }
+        .ramp-row:last-child { border-bottom: none; }
+        .ramp-meta { font-family: var(--tt); font-size: 13px; color: #999; }
+        .ramp-font-tag { font-family: var(--tt); font-size: 11px; color: #bbb; background: #f4f2ef; padding: 2px 8px; border-radius: 100px; display: inline-block; }
+      </style>
+
+      <div class="ramp-row">
+        <span style="font-family:var(--circular);font-weight:700;font-size:60px;line-height:1;letter-spacing:-0.04em;">Display+</span>
+        <span class="ramp-meta">60+</span><span class="ramp-meta">100%</span><span class="ramp-meta">−4%</span>
+        <span class="ramp-font-tag">CircularXX Bold</span>
+      </div>
+      <div class="ramp-row">
+        <span style="font-family:var(--circular);font-weight:700;font-size:48px;line-height:1.05;letter-spacing:-0.025em;">Display 1</span>
+        <span class="ramp-meta">48</span><span class="ramp-meta">105%</span><span class="ramp-meta">−2.5%</span>
+        <span class="ramp-font-tag">CircularXX Bold</span>
+      </div>
+      <div class="ramp-row">
+        <span style="font-family:var(--circular);font-weight:700;font-size:36px;line-height:1.1;letter-spacing:-0.02em;">Display 2</span>
+        <span class="ramp-meta">36</span><span class="ramp-meta">110%</span><span class="ramp-meta">−2%</span>
+        <span class="ramp-font-tag">CircularXX Bold</span>
+      </div>
+      <div class="ramp-row">
+        <span style="font-family:var(--circular);font-weight:700;font-size:28px;line-height:1.15;letter-spacing:-0.015em;">Display 3</span>
+        <span class="ramp-meta">28</span><span class="ramp-meta">115%</span><span class="ramp-meta">−1.5%</span>
+        <span class="ramp-font-tag">CircularXX Bold</span>
+      </div>
+      <div class="ramp-row">
+        <span style="font-family:var(--circular);font-weight:700;font-size:22px;line-height:1.2;letter-spacing:-0.01em;">Title 1</span>
+        <span class="ramp-meta">22</span><span class="ramp-meta">120%</span><span class="ramp-meta">−1%</span>
+        <span class="ramp-font-tag">CircularXX Bold</span>
+      </div>
+      <div class="ramp-row">
+        <span style="font-family:var(--circular);font-weight:700;font-size:18px;line-height:1.25;">Title 2</span>
+        <span class="ramp-meta">18</span><span class="ramp-meta">125%</span><span class="ramp-meta">0%</span>
+        <span class="ramp-font-tag">CircularXX Bold</span>
+      </div>
+      <div class="ramp-row">
+        <span style="font-family:var(--circular);font-weight:500;font-size:15px;line-height:1.3;">Title 3</span>
+        <span class="ramp-meta">15</span><span class="ramp-meta">130%</span><span class="ramp-meta">0%</span>
+        <span class="ramp-font-tag">CircularXX Medium</span>
+      </div>
+      <div class="ramp-row" style="background:#fafaf9;">
+        <span style="font-family:var(--circular);font-weight:500;font-size:20px;line-height:1.3;letter-spacing:-0.005em;">Subtitle 1</span>
+        <span class="ramp-meta">20</span><span class="ramp-meta">130%</span><span class="ramp-meta">−0.5%</span>
+        <span class="ramp-font-tag">CircularXX Medium</span>
+      </div>
+      <div class="ramp-row" style="background:#fafaf9;">
+        <span style="font-family:var(--circular);font-weight:500;font-size:16px;line-height:1.4;">Subtitle 2</span>
+        <span class="ramp-meta">16</span><span class="ramp-meta">140%</span><span class="ramp-meta">0%</span>
+        <span class="ramp-font-tag">CircularXX Medium</span>
+      </div>
+      <div class="ramp-row" style="background:#fafaf9;">
+        <span style="font-family:var(--tt);font-weight:400;font-size:16px;line-height:1.6;">Body</span>
+        <span class="ramp-meta">16</span><span class="ramp-meta">160%</span><span class="ramp-meta">0%</span>
+        <span class="ramp-font-tag">TT Commons Regular</span>
+      </div>
+      <div class="ramp-row" style="background:#fafaf9;">
+        <span style="font-family:var(--tt);font-weight:600;font-size:16px;line-height:1.6;">Body bold</span>
+        <span class="ramp-meta">16</span><span class="ramp-meta">160%</span><span class="ramp-meta">0%</span>
+        <span class="ramp-font-tag">TT Commons DemiBold</span>
+      </div>
+      <div class="ramp-row" style="background:#fafaf9;">
+        <span style="font-family:var(--tt);font-weight:400;font-size:13px;line-height:1.5;color:#767571;">Caption</span>
+        <span class="ramp-meta">13</span><span class="ramp-meta">150%</span><span class="ramp-meta">0%</span>
+        <span class="ramp-font-tag">TT Commons Regular</span>
+      </div>
+      <div class="ramp-row" style="background:#fafaf9;">
+        <span style="font-family:var(--tt);font-weight:600;font-size:13px;line-height:1.5;color:#767571;">Caption bold</span>
+        <span class="ramp-meta">13</span><span class="ramp-meta">150%</span><span class="ramp-meta">0%</span>
+        <span class="ramp-font-tag">TT Commons DemiBold</span>
+      </div>
+      <div class="ramp-row" style="background:#fafaf9;">
+        <span style="font-family:var(--tt);font-weight:500;font-size:11px;letter-spacing:0.07em;text-transform:uppercase;color:#767571;">Signal 1</span>
+        <span class="ramp-meta">11</span><span class="ramp-meta">—</span><span class="ramp-meta">+7%</span>
+        <span class="ramp-font-tag">TT Commons Medium</span>
+      </div>
+      <div class="ramp-row" style="background:#fafaf9;">
+        <span style="font-family:var(--tt);font-weight:500;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:#767571;">Signal 2</span>
+        <span class="ramp-meta">10</span><span class="ramp-meta">—</span><span class="ramp-meta">+6%</span>
+        <span class="ramp-font-tag">TT Commons Medium</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- BODY FONT COMPARISON -->
+  <section style="background: #fff; padding: 80px 48px; border-bottom: 1px solid rgba(0,0,0,0.08);">
+    <div class="section-eyebrow">CircularXX small vs. TT Commons — body text</div>
+    <p style="font-family:var(--tt);font-size:15px;color:var(--mid);margin-bottom:48px;max-width:560px;">Same size, same weight, same copy. The difference is purely the typeface.</p>
+
+    <style>
+      .body-compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; border-radius: 20px; overflow: hidden; border: 1px solid rgba(0,0,0,0.08); }
+      .body-compare-col { padding: 48px; background: #fff; }
+      .body-compare-col:first-child { border-right: 1px solid rgba(0,0,0,0.08); }
+      .body-compare-tag { font-family: var(--tt); font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mid); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+      .body-compare-tag span { background: rgba(0,0,0,0.06); padding: 2px 8px; border-radius: 4px; }
+      .body-compare-head { font-family: var(--circular); font-weight: 700; font-size: 24px; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 16px; color: var(--black); }
+      .sizes-row { display: flex; flex-direction: column; gap: 28px; }
+      .size-block { display: flex; flex-direction: column; gap: 6px; }
+      .size-label { font-family: var(--tt); font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #bbb; }
+    </style>
+
+    <div class="body-compare-grid">
+      <!-- LEFT: CircularXX -->
+      <div class="body-compare-col">
+        <div class="body-compare-tag">CircularXX <span>body</span></div>
+        <div class="sizes-row">
+          <div class="size-block">
+            <div class="size-label">18px · Regular</div>
+            <p style="font-family:var(--circular);font-weight:400;font-size:18px;line-height:1.65;color:#444;">We buy, recondition, and sell cars. Certified for quality, no middlemen. Enter your plate or VIN for a real offer in minutes — no dealership, no hassle.</p>
+          </div>
+          <div class="size-block">
+            <div class="size-label">16px · Regular</div>
+            <p style="font-family:var(--circular);font-weight:400;font-size:16px;line-height:1.65;color:#444;">We buy, recondition, and sell cars. Certified for quality, no middlemen. Enter your plate or VIN for a real offer in minutes — no dealership, no hassle.</p>
+          </div>
+          <div class="size-block">
+            <div class="size-label">14px · Regular</div>
+            <p style="font-family:var(--circular);font-weight:400;font-size:14px;line-height:1.65;color:#444;">We buy, recondition, and sell cars. Certified for quality, no middlemen. Enter your plate or VIN for a real offer in minutes — no dealership, no hassle.</p>
+          </div>
+          <div class="size-block">
+            <div class="size-label">13px · Regular</div>
+            <p style="font-family:var(--circular);font-weight:400;font-size:13px;line-height:1.6;color:#444;">We buy, recondition, and sell cars. Certified for quality, no middlemen. Enter your plate or VIN for a real offer in minutes — no dealership, no hassle.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: TT Commons -->
+      <div class="body-compare-col">
+        <div class="body-compare-tag">TT Commons <span>body</span></div>
+        <div class="sizes-row">
+          <div class="size-block">
+            <div class="size-label">18px · Regular</div>
+            <p style="font-family:var(--tt);font-weight:400;font-size:18px;line-height:1.65;color:#444;">We buy, recondition, and sell cars. Certified for quality, no middlemen. Enter your plate or VIN for a real offer in minutes — no dealership, no hassle.</p>
+          </div>
+          <div class="size-block">
+            <div class="size-label">16px · Regular</div>
+            <p style="font-family:var(--tt);font-weight:400;font-size:16px;line-height:1.65;color:#444;">We buy, recondition, and sell cars. Certified for quality, no middlemen. Enter your plate or VIN for a real offer in minutes — no dealership, no hassle.</p>
+          </div>
+          <div class="size-block">
+            <div class="size-label">14px · Regular</div>
+            <p style="font-family:var(--tt);font-weight:400;font-size:14px;line-height:1.65;color:#444;">We buy, recondition, and sell cars. Certified for quality, no middlemen. Enter your plate or VIN for a real offer in minutes — no dealership, no hassle.</p>
+          </div>
+          <div class="size-block">
+            <div class="size-label">13px · Regular</div>
+            <p style="font-family:var(--tt);font-weight:400;font-size:13px;line-height:1.6;color:#444;">We buy, recondition, and sell cars. Certified for quality, no middlemen. Enter your plate or VIN for a real offer in minutes — no dealership, no hassle.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIDE-BY-SIDE COMPARISON -->
+  <section id="compare" style="background: #f0eee9;">
+    <div class="section-eyebrow">Use Case Comparison — TT Commons Supporting vs. Circular Only</div>
+    <p style="font-family:var(--tt);font-size:15px;color:var(--mid);margin-bottom:48px;max-width:560px;">Same UI components, same content. Left uses CircularXX for everything. Right uses CircularXX for headlines, subtitles &amp; buttons — TT Commons for body, captions, and labels only.</p>
+
+    <style>
+      .compare-col-head {
+        font-family: var(--tt); font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+        text-transform: uppercase; color: var(--mid); margin-bottom: 20px; display: block;
+      }
+      .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 48px; }
+      .compare-card { background: #fff; border-radius: 20px; padding: 36px; border: 1px solid rgba(0,0,0,0.07); }
+    </style>
+
+    <!-- USE CASE 1: Hero copy — WITH eyebrow -->
+    <div style="margin-bottom: 8px; display:grid; grid-template-columns:1fr 1fr; gap:32px;">
+      <span class="compare-col-head">Circular only</span>
+      <span class="compare-col-head">Circular + TT Commons</span>
+    </div>
+    <p style="font-family:var(--tt);font-size:12px;color:var(--mid);margin-bottom:16px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;">Use case 1 — Hero copy · with eyebrow</p>
+    <div class="compare-grid">
+      <div class="compare-card">
+        <p style="font-family:var(--circular);font-size:11px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--mid);margin-bottom:10px;">Sell your car online</p>
+        <h2 style="font-family:var(--circular);font-weight:700;font-size:38px;line-height:1.05;letter-spacing:-0.025em;margin-bottom:14px;">We buy your car.<br>Get paid fast.</h2>
+        <p style="font-family:var(--circular);font-size:16px;line-height:1.6;color:#555;margin-bottom:24px;">Enter your plate or VIN for a real offer in minutes. No dealership, no hassle — just a fair price and same-day payment.</p>
+        <div class="btn-row"><button class="btn-primary">Get instant offer →</button><button class="btn-ghost">How it works</button></div>
+        <p style="font-family:var(--circular);font-size:12px;color:var(--mid);margin-top:14px;">⭐ 4.8 · 10,000+ reviews</p>
+      </div>
+      <div class="compare-card winner">
+        <p style="font-family:var(--tt);font-size:11px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--mid);margin-bottom:10px;">Sell your car online</p>
+        <h2 style="font-family:var(--circular);font-weight:700;font-size:38px;line-height:1.05;letter-spacing:-0.025em;margin-bottom:14px;">We buy your car.<br>Get paid fast.</h2>
+        <p style="font-family:var(--tt);font-size:16px;line-height:1.6;color:#555;margin-bottom:24px;">Enter your plate or VIN for a real offer in minutes. No dealership, no hassle — just a fair price and same-day payment.</p>
+        <div class="btn-row"><button class="btn-primary">Get instant offer →</button><button class="btn-ghost">How it works</button></div>
+        <p style="font-family:var(--tt);font-size:12px;color:var(--mid);margin-top:14px;">⭐ 4.8 · 10,000+ reviews</p>
+      </div>
+    </div>
+
+    <!-- USE CASE 1b: Hero copy — WITHOUT eyebrow -->
+    <p style="font-family:var(--tt);font-size:12px;color:var(--mid);margin-bottom:16px;margin-top:32px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;">Use case 1b — Hero copy · no eyebrow</p>
+    <div class="compare-grid">
+      <div class="compare-card">
+        <h2 style="font-family:var(--circular);font-weight:700;font-size:38px;line-height:1.05;letter-spacing:-0.025em;margin-bottom:14px;">We buy your car.<br>Get paid fast.</h2>
+        <p style="font-family:var(--circular);font-size:16px;line-height:1.6;color:#555;margin-bottom:24px;">Enter your plate or VIN for a real offer in minutes. No dealership, no hassle — just a fair price and same-day payment.</p>
+        <div class="btn-row"><button class="btn-primary">Get instant offer →</button><button class="btn-ghost">How it works</button></div>
+        <p style="font-family:var(--circular);font-size:12px;color:var(--mid);margin-top:14px;">⭐ 4.8 · 10,000+ reviews</p>
+      </div>
+      <div class="compare-card winner">
+        <h2 style="font-family:var(--circular);font-weight:700;font-size:38px;line-height:1.05;letter-spacing:-0.025em;margin-bottom:14px;">We buy your car.<br>Get paid fast.</h2>
+        <p style="font-family:var(--tt);font-size:16px;line-height:1.6;color:#555;margin-bottom:24px;">Enter your plate or VIN for a real offer in minutes. No dealership, no hassle — just a fair price and same-day payment.</p>
+        <div class="btn-row"><button class="btn-primary">Get instant offer →</button><button class="btn-ghost">How it works</button></div>
+        <p style="font-family:var(--tt);font-size:12px;color:var(--mid);margin-top:14px;">⭐ 4.8 · 10,000+ reviews</p>
+      </div>
+    </div>
+
+    <!-- USE CASE 2: Car listing card -->
+    <p style="font-family:var(--tt);font-size:12px;color:var(--mid);margin-bottom:16px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;">Use case 2 — Car listing card</p>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:66.666%;">
+
+      <!-- Variant 1: White card -->
+      <div class="prod-wrap">
+        <div class="prod-card">
+          <div class="prod-img-wrap">
+            <img class="prod-car-img" style="background:#F3F3F3" src="./car-show.webp">
+            <div class="prod-like"><svg width="16" height="15" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 20.5C12 20.5 2 14 2 7.5C2 4.46 4.46 2 7.5 2C9.24 2 10.79 2.83 12 4.09C13.21 2.83 14.76 2 16.5 2C19.54 2 22 4.46 22 7.5C22 14 12 20.5 12 20.5Z" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/></svg></div>
+          </div>
+          <div class="prod-body">
+            <div class="prod-cert-wrap"><img src="./cert.png" alt="Clutch Certified"></div>
+            <div class="prod-title">2022 Hyundai Tucson</div>
+            <div class="prod-trim"><span class="prod-pill">N Line</span><span class="prod-pill">99,602 km</span></div>
+            <div class="prod-divider"></div>
+            <div class="prod-price-row">
+              <span class="prod-price">$25,190</span>
+              <span class="prod-was">(was <s>$27,990</s>)</span>
+            </div>
+            <div class="prod-biweekly">$176 /biweekly &nbsp; $0 down</div>
+            <div class="prod-divider"></div>
+            <div class="prod-fine">Excl. HST &amp; Licensing; Incl. OMVIC Fee</div>
+          </div>
+        </div>
+        <div style="font-family:var(--tt);font-size:11px;color:var(--mid);margin-top:8px;"><span class="font-tag circ" style="background:rgba(255,70,76,0.1);color:#d94040;">CircularXX</span> title, price &nbsp;<span class="font-tag tt" style="background:rgba(60,120,255,0.1);color:#3a70cc;">TT Commons</span> trim, fine print</div>
+      </div>
+
+      <!-- Variant 2: Plum card -->
+      <div class="prod-wrap">
+        <div class="prod-card" style="background:#460B28">
+          <div class="prod-img-wrap">
+            <img class="prod-car-img" style="background:#F3F3F3" src="./car-show.webp">
+            <div class="prod-badges">
+              <div class="prod-badge-sale">Sale</div>
+              <div class="prod-badge-views"><svg width="12" height="16" viewBox="0 0 5 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.36729 6.31277C3.67469 6.31277 4.73458 5.25288 4.73458 3.94548C4.73458 3.62984 4.73458 2.99856 4.1033 2.20947C4.1033 2.20947 4.07186 3.11017 3.44873 2.97988C2.44086 2.76916 3.74192 0.79003 1.89383 0C1.89383 1.57819 0 2.05165 0 3.94548C0 5.25288 1.05987 6.31277 2.36729 6.31277Z" fill="#460B28"/><path d="M2.36743 5.36603C2.97756 5.36603 3.47216 4.73011 3.47216 3.94566C2.46212 4.32442 2.10441 3.45225 2.05179 2.84058C1.59546 3.01519 1.2627 3.73244 1.2627 4.10313C1.2627 4.88759 1.7573 5.36603 2.36743 5.36603Z" fill="#FF464C"/></svg> 100+ views today</div>
+            </div>
+            <div class="prod-like"><svg width="16" height="15" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 20.5C12 20.5 2 14 2 7.5C2 4.46 4.46 2 7.5 2C9.24 2 10.79 2.83 12 4.09C13.21 2.83 14.76 2 16.5 2C19.54 2 22 4.46 22 7.5C22 14 12 20.5 12 20.5Z" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/></svg></div>
+          </div>
+          <div class="prod-body" style="background:#460B28">
+            <div class="prod-cert-wrap"><img src="./cert.png" alt="Clutch Certified"></div>
+            <div class="prod-title" style="color:#FFFFFF">2021 Toyota RAV4</div>
+            <div class="prod-trim"><span class="prod-pill" style="background:rgba(241,237,248,0.15);color:#F1EDF8">LE</span><span class="prod-pill" style="background:rgba(241,237,248,0.15);color:#F1EDF8">41,529 km</span></div>
+            <div class="prod-divider" style="background:#ffffff18"></div>
+            <div class="prod-price-row">
+              <span class="prod-price" style="color:#F1EDF8">$29,290</span>
+              <span class="prod-was">(was <s>$31,990</s>)</span>
+            </div>
+            <div class="prod-biweekly" style="color:#F1EDF8;opacity:.8">$203 /biweekly &nbsp; $0 down</div>
+            <div class="prod-divider" style="background:#ffffff18"></div>
+            <div class="prod-fine" style="color:#F1EDF8;opacity:.5">Excl. HST &amp; Licensing; Incl. OMVIC Fee</div>
+          </div>
+        </div>
+        <div style="font-family:var(--tt);font-size:11px;color:var(--mid);margin-top:8px;">Plum card · Lavender text &nbsp;<span class="font-tag circ" style="background:rgba(255,70,76,0.1);color:#d94040;">CircularXX</span> title, price &nbsp;<span class="font-tag tt" style="background:rgba(60,120,255,0.1);color:#3a70cc;">TT Commons</span> trim</div>
+      </div>
+
+    </div>
+
+    <!-- USE CASE 3: FAQ / long-form -->
+    <p style="font-family:var(--tt);font-size:12px;color:var(--mid);margin-bottom:16px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;">Use case 3 — FAQ / long-form content</p>
+    <div class="compare-grid">
+      <div class="compare-card">
+        <p style="font-family:var(--circular);font-size:11px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--mid);margin-bottom:16px;">Common questions</p>
+        <h3 style="font-family:var(--circular);font-weight:700;font-size:22px;letter-spacing:-0.015em;margin-bottom:10px;">How does Clutch set its offer price?</h3>
+        <p style="font-family:var(--circular);font-size:15px;line-height:1.65;color:#444;margin-bottom:20px;">We use live market data from thousands of comparable sales across Canada. Your offer reflects what the car is actually worth today — not a lowball number padded for dealer margin.</p>
+        <h3 style="font-family:var(--circular);font-weight:700;font-size:22px;letter-spacing:-0.015em;margin-bottom:10px;">Is the offer guaranteed?</h3>
+        <p style="font-family:var(--circular);font-size:15px;line-height:1.65;color:#444;">Your offer is locked in for 7 days. The only thing that can change it is the in-person inspection if the car's condition doesn't match what was described online.</p>
+      </div>
+      <div class="compare-card winner">
+        <p style="font-family:var(--tt);font-size:11px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--mid);margin-bottom:16px;">Common questions</p>
+        <h3 style="font-family:var(--circular);font-weight:700;font-size:22px;letter-spacing:-0.015em;margin-bottom:10px;">How does Clutch set its offer price?</h3>
+        <p style="font-family:var(--tt);font-size:15px;line-height:1.7;color:#444;margin-bottom:20px;">We use live market data from thousands of comparable sales across Canada. Your offer reflects what the car is actually worth today — not a lowball number padded for dealer margin.</p>
+        <h3 style="font-family:var(--circular);font-weight:700;font-size:22px;letter-spacing:-0.015em;margin-bottom:10px;">Is the offer guaranteed?</h3>
+        <p style="font-family:var(--tt);font-size:15px;line-height:1.7;color:#444;">Your offer is locked in for 7 days. The only thing that can change it is the in-person inspection if the car's condition doesn't match what was described online.</p>
+      </div>
+    </div>
+
+
+  </section>
+
+  <!-- MARKETING MATERIALS SHOWCASE -->
+  <section id="marketing" style="background:#0d0d0d; padding: 80px 48px;">
+    <style>
+      .mat-eyebrow { font-family:var(--tt); font-size:11px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:12px; }
+      .mat-group-head { font-family:var(--circular); font-weight:700; font-size:18px; color:#fff; margin-bottom:20px; letter-spacing:-0.01em; }
+      .mat-group { margin-bottom:56px; }
+      .mat-group:last-child { margin-bottom:0; }
+
+      /* card label under each card */
+      .asset-card-label { font-family:var(--tt); font-size:11px; color:rgba(255,255,255,0.3); text-align:center; margin-top:8px; line-height:1.5; }
+      .font-tag { display:inline-block; padding:2px 7px; border-radius:4px; font-size:9px; font-weight:600; letter-spacing:0.04em; margin:0 2px; }
+      .font-tag.circ { background:rgba(255,70,76,0.18); color:#ff7b80; }
+      .font-tag.tt   { background:rgba(100,160,255,0.15); color:#88b8ff; }
+
+      /* — marketing portrait card — */
+      .mkt-card { border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; aspect-ratio: 4/5; position: relative; }
+      .mkt-copy { padding: 18px 18px 0; flex-shrink: 0; }
+      .mkt-line { font-family:var(--circular); font-size: 24px; font-weight: 800; line-height: 1.25; }
+      .mkt-truck { flex: 1; background-size: 130%; background-repeat: no-repeat; background-position: center 65%; margin: 4px 0; }
+      .mkt-footer { padding: 8px 18px 20px; text-align: center; flex-shrink: 0; }
+      .mkt-footer img { height: 20px; object-fit: contain; }
+      .mkt-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+      /* — brand banner card — */
+      .brand-card { border-radius: 14px; overflow: hidden; padding: 32px 36px; display: flex; flex-direction: column; justify-content: space-between; aspect-ratio: 16/9; position: relative; }
+      .brand-display { font-family:var(--circular); font-size: 46px; font-weight: 800; line-height: 1.05; margin-bottom: 4px; letter-spacing: -1px; }
+      .brand-sub { font-family:var(--circular); font-size: 46px; font-weight: 800; letter-spacing: -1px; }
+      .brand-footer { text-align: right; }
+      .brand-footer img { height: 24px; object-fit: contain; }
+      .brand-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+      /* — product card — */
+      .prod-wrap { display: flex; flex-direction: column; gap: 8px; }
+      .prod-card { border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+      .prod-img-wrap { position: relative; flex-shrink: 0; }
+      .prod-car-img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+      .prod-badges { position: absolute; top: 12px; left: 12px; display: flex; gap: 6px; align-items: center; }
+      .prod-badge-sale { background: #fff; border: 1.5px solid #FF464C; color: #FF464C; border-radius: 8px; padding: 5px 10px; font-size: 12px; font-weight: 700; line-height: 1; }
+      .prod-badge-views { background: #fff; border: 1.5px solid #e0e0e0; border-radius: 8px; padding: 5px 10px; font-size: 12px; font-weight: 700; color: #191919; display: flex; align-items: center; gap: 5px; line-height: 1; }
+      .prod-like { position: absolute; top: 12px; right: 12px; cursor: pointer; user-select: none; display: flex; align-items: center; justify-content: center; transition: transform .15s; }
+      .prod-like:hover { transform: scale(1.15); }
+      .prod-card * { font-family: var(--circular); }
+      .prod-body { padding: 18px 18px 20px; display: flex; flex-direction: column; background: #fff; position: relative; }
+      .prod-cert-wrap { position: absolute; top: -28px; right: 14px; width: 56px; height: 56px; border-radius: 50%; overflow: hidden; cursor: pointer; transition: transform .15s; }
+      .prod-cert-wrap:hover { transform: scale(1.08); }
+      .prod-cert-wrap img { width: 100%; height: 100%; object-fit: contain; display: block; }
+      .prod-title { font-size: 18px; font-weight: 800; line-height: 1.2; color: #191919; margin-bottom: 4px; }
+      .prod-trim { font-size: 13px; color: #888; margin-bottom: 0; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+      .prod-pill { display: inline-block; padding: 3px 10px; border-radius: 99px; font-size: 12px; font-weight: 600; background: #F0EFED; color: #555; }
+      .prod-divider { height: 1px; background: #EBEBEB; margin: 14px 0; }
+      .prod-price-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
+      .prod-price { font-size: 26px; font-weight: 800; color: #191919; line-height: 1; }
+      .prod-was { font-size: 13px; color: #FF464C; font-weight: 500; }
+      .prod-was s { text-decoration-color: #FF464C; }
+      .prod-biweekly { font-size: 13px; color: #555; }
+      .prod-fine { font-size: 11px; color: #aaa; }
+      .prod-btn { padding: 12px 16px; border-radius: 10px; font-size: 14px; font-weight: 600; text-align: center; margin-top: 14px; cursor: pointer; font-family: inherit; transition: background .15s; background: transparent; border: 1.5px solid #E0E0E0; color: #191919; }
+      .prod-btn:hover { background: #F5F4F2; }
+      .prod-btn.dark { border-color: rgba(255,255,255,0.2); color: #F1EDF8; }
+      .prod-btn.dark:hover { background: rgba(255,255,255,0.08); }
+      .prod-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    </style>
+
+    <div class="mat-eyebrow">Marketing Materials — CircularXX × TT Commons</div>
+
+    <!-- ── GROUP 1: MARKETING (portrait ads) ── -->
+    <div class="mat-group">
+      <div class="mat-group-head">Marketing · Portrait Ads</div>
+      <div class="mkt-grid-4">
+
+        <!-- Variant 1: Clutch Red -->
+        <div>
+          <div class="mkt-card" style="background:#FF464C">
+            <div class="mkt-copy">
+              <div class="mkt-line" style="color:#FFFFFF">We buy your car.</div>
+              <div class="mkt-line" style="color:#FFFFFF">We pick it up.</div>
+              <div class="mkt-line" style="color:#550E30">You get paid.</div>
+            </div>
+            <div class="mkt-truck" style="background-image:url('./03-Clutch_Truck_Hero_02_F.png')"></div>
+            <div class="mkt-footer"><img src="./logo/White/Cltuch Logo CTA White.png"></div>
+          </div>
+          <div class="asset-card-label">Clutch Red<br><span class="font-tag circ">CircularXX</span> headline</div>
+        </div>
+
+        <!-- Variant 2: White -->
+        <div>
+          <div class="mkt-card" style="background:#FFFFFF">
+            <div class="mkt-copy">
+              <div class="mkt-line" style="color:#550E30">No haggle.</div>
+              <div class="mkt-line" style="color:#550E30">No hassle.</div>
+              <div class="mkt-line" style="color:#FF464C">No sketchy meetups.</div>
+            </div>
+            <div class="mkt-truck" style="background-image:url('./03-Clutch_Truck_Hero_02_F.png')"></div>
+            <div class="mkt-footer"><img src="./logo/Red/Clutch Logo CTA Red.png"></div>
+          </div>
+          <div class="asset-card-label">Lavender<br><span class="font-tag circ">CircularXX</span> headline</div>
+        </div>
+
+        <!-- Variant 3: Plum -->
+        <div>
+          <div class="mkt-card" style="background:#460B28">
+            <div class="mkt-copy">
+              <div class="mkt-line" style="color:#FFFFFF">Selling your car?</div>
+              <div class="mkt-line" style="color:#FFFFFF">Get paid in about</div>
+              <div class="mkt-line" style="color:#FF464C">300 seconds.</div>
+            </div>
+            <div class="mkt-truck" style="background-image:url('./03-Clutch_Truck_Hero_02_F.png')"></div>
+            <div class="mkt-footer"><img src="./logo/White/Cltuch Logo CTA White.png"></div>
+          </div>
+          <div class="asset-card-label">Plum<br><span class="font-tag circ">CircularXX</span> headline</div>
+        </div>
+
+        <!-- Variant 4: White alt -->
+        <div>
+          <div class="mkt-card" style="background:#FFFFFF">
+            <div class="mkt-copy">
+              <div class="mkt-line" style="color:#550E30">We buy your car.</div>
+              <div class="mkt-line" style="color:#550E30">We pick it up.</div>
+              <div class="mkt-line" style="color:#FF464C">You get paid.</div>
+            </div>
+            <div class="mkt-truck" style="background-image:url('./03-Clutch_Truck_Hero_02_F.png')"></div>
+            <div class="mkt-footer"><img src="./logo/Red/Clutch Logo CTA Red.png"></div>
+          </div>
+          <div class="asset-card-label">White alt<br><span class="font-tag circ">CircularXX</span> headline</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── GROUP 2: BRAND (horizontal banners) ── -->
+    <div class="mat-group">
+      <div class="mat-group-head">Brand · Horizontal Banners</div>
+      <p style="font-family:var(--tt);font-size:15px;line-height:1.65;color:rgba(255,255,255,0.45);max-width:600px;margin-bottom:8px;">Headline and callout are the same font size and weight — color alone creates the hierarchy. The primary line uses white or plum, the accent line uses red. No size jump needed.</p>
+      <p style="font-family:var(--tt);font-size:15px;line-height:1.65;color:rgba(255,255,255,0.45);max-width:600px;margin-bottom:24px;">Color rule: max 2 primary colors per composition, the rest neutral. e.g. Red + White on Plum — not Red + White + Lavender.</p>
+      <div class="brand-grid-2">
+
+        <!-- Variant 1: Plum bg -->
+        <div>
+          <div class="brand-card" style="background:#460B28">
+            <div>
+              <div class="brand-display" style="color:#FFFFFF">Sell your car naked.<br>Or in clothes.</div>
+              <div class="brand-sub" style="color:#FF464C">We're easy.</div>
+            </div>
+            <div class="brand-footer"><img src="./logo/White/Cltuch Logo CTA White.png"></div>
+          </div>
+          <div class="asset-card-label">Plum bg · White headline · Red accent<br><span class="font-tag circ">CircularXX</span> display + sub</div>
+        </div>
+
+        <!-- Variant 2: Red bg -->
+        <div>
+          <div class="brand-card" style="background:#FF464C">
+            <div>
+              <div class="brand-display" style="color:#FFFFFF">Skip the lot,<br>keep your weekend.</div>
+              <div class="brand-sub" style="color:#550E30">Buy your next car online.</div>
+            </div>
+            <div class="brand-footer"><img src="./logo/White/Cltuch Logo CTA White.png"></div>
+          </div>
+          <div class="asset-card-label">Red bg · White headline · Plum accent<br><span class="font-tag circ">CircularXX</span> display + sub</div>
+        </div>
+
+        <!-- Variant 3: White bg -->
+        <div>
+          <div class="brand-card" style="background:#F1EDF8">
+            <div>
+              <div class="brand-display" style="color:#550E30">Sell your car naked.<br>Or in clothes.</div>
+              <div class="brand-sub" style="color:#FF464C">We're easy.</div>
+            </div>
+            <div class="brand-footer"><img src="./logo/Red/Clutch Logo CTA Red.png"></div>
+          </div>
+          <div class="asset-card-label">Lavender bg · Plum headline · Red accent<br><span class="font-tag circ">CircularXX</span> display + sub</div>
+        </div>
+
+        <!-- Variant 4: White bg alt -->
+        <div>
+          <div class="brand-card" style="background:#FFFFFF">
+            <div>
+              <div class="brand-display" style="color:#550E30">Selling your car?<br>Get paid in about</div>
+              <div class="brand-sub" style="color:#FF464C">300 seconds.</div>
+            </div>
+            <div class="brand-footer"><img src="./logo/Red/Clutch Logo CTA Red.png"></div>
+          </div>
+          <div class="asset-card-label">White bg · Plum headline · Red accent<br><span class="font-tag circ">CircularXX</span> display + sub</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── GROUP 3: PRODUCT (car listing cards) ── -->
+    <div class="mat-group">
+      <div class="mat-group-head">Product · Listing Cards</div>
+      <div class="prod-grid-3">
+
+        <!-- Variant 1: White card -->
+        <div class="prod-wrap">
+          <div class="prod-card">
+            <div class="prod-img-wrap">
+              <img class="prod-car-img" style="background:#F3F3F3" src="./car-show.webp">
+              <div class="prod-like"><svg width="16" height="15" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 20.5C12 20.5 2 14 2 7.5C2 4.46 4.46 2 7.5 2C9.24 2 10.79 2.83 12 4.09C13.21 2.83 14.76 2 16.5 2C19.54 2 22 4.46 22 7.5C22 14 12 20.5 12 20.5Z" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/></svg></div>
+            </div>
+            <div class="prod-body">
+              <div class="prod-cert-wrap"><img src="./cert.png" alt="Clutch Certified"></div>
+              <div class="prod-title">2022 Hyundai Tucson</div>
+              <div class="prod-trim"><span class="prod-pill">N Line</span><span class="prod-pill">99,602 km</span></div>
+              <div class="prod-divider"></div>
+              <div class="prod-price-row">
+                <span class="prod-price">$25,190</span>
+                <span class="prod-was">(was <s>$27,990</s>)</span>
+              </div>
+              <div class="prod-biweekly">$176 /biweekly &nbsp; $0 down</div>
+              <div class="prod-divider"></div>
+              <div class="prod-fine">Excl. HST &amp; Licensing; Incl. OMVIC Fee</div>
+            </div>
+          </div>
+          <div class="asset-card-label">White card · Red CTA<br><span class="font-tag circ">CircularXX</span> title, price &nbsp;<span class="font-tag tt">TT Commons</span> trim, fine print</div>
+        </div>
+
+        <!-- Variant 2: Plum card -->
+        <div class="prod-wrap">
+          <div class="prod-card" style="background:#460B28">
+            <div class="prod-img-wrap">
+              <img class="prod-car-img" style="background:#F3F3F3" src="./car-show.webp">
+              <div class="prod-badges">
+                <div class="prod-badge-sale">Sale</div>
+                <div class="prod-badge-views"><svg width="12" height="16" viewBox="0 0 5 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.36729 6.31277C3.67469 6.31277 4.73458 5.25288 4.73458 3.94548C4.73458 3.62984 4.73458 2.99856 4.1033 2.20947C4.1033 2.20947 4.07186 3.11017 3.44873 2.97988C2.44086 2.76916 3.74192 0.79003 1.89383 0C1.89383 1.57819 0 2.05165 0 3.94548C0 5.25288 1.05987 6.31277 2.36729 6.31277Z" fill="#460B28"/><path d="M2.36743 5.36603C2.97756 5.36603 3.47216 4.73011 3.47216 3.94566C2.46212 4.32442 2.10441 3.45225 2.05179 2.84058C1.59546 3.01519 1.2627 3.73244 1.2627 4.10313C1.2627 4.88759 1.7573 5.36603 2.36743 5.36603Z" fill="#FF464C"/></svg> 100+ views today</div>
+              </div>
+              <div class="prod-like"><svg width="16" height="15" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 20.5C12 20.5 2 14 2 7.5C2 4.46 4.46 2 7.5 2C9.24 2 10.79 2.83 12 4.09C13.21 2.83 14.76 2 16.5 2C19.54 2 22 4.46 22 7.5C22 14 12 20.5 12 20.5Z" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/></svg></div>
+            </div>
+            <div class="prod-body" style="background:#460B28">
+              <div class="prod-cert-wrap"><img src="./cert.png" alt="Clutch Certified"></div>
+              <div class="prod-title" style="color:#FFFFFF">2021 Toyota RAV4</div>
+              <div class="prod-trim"><span class="prod-pill" style="background:rgba(241,237,248,0.15);color:#F1EDF8">LE</span><span class="prod-pill" style="background:rgba(241,237,248,0.15);color:#F1EDF8">41,529 km</span></div>
+              <div class="prod-divider" style="background:#ffffff18"></div>
+              <div class="prod-price-row">
+                <span class="prod-price" style="color:#F1EDF8">$29,290</span>
+                <span class="prod-was">(was <s>$31,990</s>)</span>
+              </div>
+              <div class="prod-biweekly" style="color:#F1EDF8;opacity:.8">$203 /biweekly &nbsp; $0 down</div>
+              <div class="prod-divider" style="background:#ffffff18"></div>
+              <div class="prod-fine" style="color:#F1EDF8;opacity:.5">Excl. HST &amp; Licensing; Incl. OMVIC Fee</div>
+            </div>
+          </div>
+          <div class="asset-card-label">Plum card · Lavender text · Red CTA<br><span class="font-tag circ">CircularXX</span> title, price &nbsp;<span class="font-tag tt">TT Commons</span> trim, fine print</div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- AD CREATIVES — FONT COMPARISON -->
+  <section id="adcreatives" style="background:#0d0d0d; padding:80px 48px;">
+    <style>
+      .ac-toggle-wrap { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+      .ac-toggle { display:flex; background:rgba(255,255,255,0.08); border-radius:100px; padding:3px; gap:2px; }
+      .ac-toggle-btn {
+        font-family:var(--tt); font-size:13px; font-weight:500;
+        padding:7px 20px; border-radius:100px; border:none; cursor:pointer;
+        background:transparent; color:rgba(255,255,255,0.45);
+        transition:background 0.15s, color 0.15s;
+      }
+      .ac-toggle-btn.active { background:#FF464C; color:#fff; }
+
+      .ads-creative-grid {
+        display:grid;
+        grid-template-columns:repeat(3, 1fr);
+        grid-template-rows:400px 400px;
+        gap:10px;
+        margin-top:32px;
+        --ad-font: var(--circular);
+      }
+      .ads-creative-grid.use-tt { --ad-font: var(--tt); }
+
+      .ac-headline { font-family:var(--circular); font-weight:800; line-height:1.15; }
+      .ac-body     { font-family:var(--ad-font); font-weight:500; line-height:1.3; transition:font-family 0.1s; }
+      .ac-url      { font-family:var(--ad-font); font-weight:600; transition:font-family 0.1s; }
+      .ads-creative-grid.use-tt .ac-1 .ac-body { font-size:17px !important; }
+      .ads-creative-grid.use-tt .ac-2 .ac-body { font-size:19px !important; }
+      .ads-creative-grid.use-tt .ac-3 .ac-body { font-size:17px !important; }
+      .ads-creative-grid.use-tt .ac-4 .ac-body { font-size:15px !important; }
+      .ads-creative-grid.use-tt .ac-5 .ac-body { font-size:17px !important; }
+
+      .ac-card { border-radius:12px; overflow:hidden; position:relative; display:flex; flex-direction:column; }
+
+      /* Ad 1 — lavender */
+      .ac-1 { background:#F1EBF7; padding:24px 40px 0; }
+      .ac-1 .ac-photo { flex:1; min-height:0; margin:36px -40px 0; background:url('./lifestyle.png') center 40%/cover no-repeat; }
+
+      /* Ad 2 — sky blue portrait (center, spans both rows) */
+      .ac-2 { background:#F1EBF7; padding:52px 28px 0; grid-column:2; grid-row:1/3; }
+      .ac-2 .ac-photo { flex:1; min-height:0; margin:20px -28px 0; background:url('./03-Clutch_Truck_Hero_02_F.png') center 55%/cover no-repeat; }
+
+      /* Ad 3 — maroon */
+      .ac-3 { background:#460B28; padding:24px 24px 0; }
+      .ac-3 .ac-stroller-wrap { flex:1; display:flex; align-items:flex-end; justify-content:flex-end; padding-bottom:16px; }
+
+      /* Ad 4 — full-bleed drone photo */
+      .ac-4 { background:url('./drone.jpg') 71% 83% / 193% no-repeat; }
+      .ac-4 .ac-text-block {
+        padding:24px 22px 16px; flex-shrink:0;
+      }
+      .ac-4 .ac-logo-foot { position:absolute; bottom:18px; left:20px; }
+      .ac-4 .ac-logo-foot img { height:20px; object-fit:contain; filter:drop-shadow(0 2px 6px rgba(0,0,0,0.4)); }
+
+      /* Ad 5 — lavender */
+      .ac-5 { background:#F1EDF8; padding:22px 22px 0; }
+      .ac-5 .ac-car-wrap { flex:1; display:flex; align-items:flex-end; justify-content:flex-end; overflow:hidden; }
+      .ac-5 .ac-car-wrap img { width:72%; object-fit:contain; display:block; }
+    </style>
+
+    <div class="ac-toggle-wrap">
+      <div>
+        <div class="mat-eyebrow">Ad Creatives — Font Comparison</div>
+        <div class="mat-group-head" style="margin-bottom:4px;">clutch.ca — Body Font: Circular XX vs TT Commons</div>
+        <p style="font-family:var(--tt);font-size:14px;color:rgba(255,255,255,0.35);max-width:520px;">Headlines stay CircularXX. Toggle switches body copy and URL callouts only.</p>
+      </div>
+      <div class="ac-toggle" id="acFontToggle">
+        <button class="ac-toggle-btn active" onclick="setAcFont('circular')">Circular XX</button>
+        <button class="ac-toggle-btn" onclick="setAcFont('tt')">TT Commons</button>
+      </div>
+    </div>
+
+    <div class="ads-creative-grid" id="adsGrid">
+
+      <!-- Ad 1: Lavender landscape — top left -->
+      <div class="ac-card ac-1">
+        <div class="ac-headline" style="font-size:34px;color:#3B0922;margin-bottom:9px;">Rain or shine,<br>we'll buy your car</div>
+        <div class="ac-body" style="font-size:15px;color:#3B0922;">
+          Get an instant offer on your car in minutes<br>at <img src="./logo/Red/Clutch Logo CTA Red.svg" alt="clutch.ca" style="height:13px;vertical-align:middle;margin-left:2px;position:relative;top:-1px;">
+        </div>
+        <div class="ac-photo"></div>
+      </div>
+
+      <!-- Ad 2: Sky-blue tall portrait — center, spans both rows -->
+      <div class="ac-card ac-2">
+        <img src="./logo/Red/Clutch Logo CTA Red.svg" alt="clutch.ca" style="height:24px;object-fit:contain;object-position:left;margin-bottom:16px;">
+        <div class="ac-headline" style="font-size:40px;color:#1C1C1C;margin-bottom:16px;">Rain or shine,<br>we'll buy your car</div>
+        <div class="ac-body" style="font-size:17px;color:#2C2C2C;">Get an instant offer on your<br>car in minutes.</div>
+        <div class="ac-photo"></div>
+      </div>
+
+      <!-- Ad 3: Maroon — top right -->
+      <div class="ac-card ac-3">
+        <div class="ac-headline" style="font-size:26px;color:#FFFFFF;">
+          When life changes and you<br>need to sell your car—fast,<br>try <img src="./logo/Red/Clutch Logo CTA Red.svg" alt="clutch.ca" style="height:22px;vertical-align:middle;position:relative;top:-2px;">
+        </div>
+        <div class="ac-body" style="font-size:15px;color:#FFFFFF;margin-top:16px;">Go from car to cash in under 24 hours.</div>
+        <div class="ac-stroller-wrap">
+          <img src="./stroller.png" alt="stroller" style="width:65%;object-fit:contain;">
+        </div>
+      </div>
+
+      <!-- Ad 4: Drone shot full-bleed — bottom left -->
+      <div class="ac-card ac-4">
+        <div class="ac-text-block">
+          <div class="ac-headline" style="font-size:26px;color:#460B28;margin-bottom:8px;text-shadow:0 1px 8px rgba(255,255,255,0.6);">Rain or shine,<br>we'll buy your car</div>
+          <div class="ac-body" style="font-size:13px;color:#460B28;text-shadow:0 1px 6px rgba(255,255,255,0.6);">Get an instant offer on your<br>car in minutes.</div>
+        </div>
+        <div class="ac-logo-foot">
+          <img src="./logo/White/Cltuch Logo CTA White.png" alt="clutch.ca">
+        </div>
+      </div>
+
+      <!-- Ad 5: Lavender — bottom right -->
+      <div class="ac-card ac-5">
+        <img src="./logo/Red/Clutch_Logo-02.png" alt="clutch" style="height:58px;object-fit:contain;object-position:left;margin-bottom:10px;">
+        <div class="ac-headline" style="font-size:34px;color:#1C1C1C;margin-bottom:14px;margin-top:-18px;">You might be<br>sitting on a fortune.</div>
+        <div class="ac-body" style="font-size:15px;color:#1C1C1C;">
+          Get an instant cash offer in minutes at <img src="./logo/Red/Clutch Logo CTA Red.svg" alt="clutch.ca" style="height:14px;vertical-align:middle;position:relative;top:-2px;">
+        </div>
+        <div class="ac-car-wrap">
+          <img src="./car-show.webp" alt="car">
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Ad 4 image controls -->
+    <div style="display:none;margin-top:16px;align-items:center;gap:32px;padding:16px 20px;background:rgba(255,255,255,0.05);border-radius:10px;width:fit-content;">
+      <span style="font-family:var(--tt);font-size:11px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:rgba(255,255,255,0.3);white-space:nowrap;">Ad 4 · Image</span>
+      <label style="display:flex;align-items:center;gap:10px;">
+        <span style="font-family:var(--tt);font-size:12px;color:rgba(255,255,255,0.4);width:14px;">↕</span>
+        <input type="range" id="ad4Y" min="-100" max="200" value="83" style="width:140px;accent-color:#FF464C;">
+        <span style="font-family:var(--tt);font-size:11px;color:rgba(255,255,255,0.3);width:30px;" id="ad4YVal">83%</span>
+      </label>
+      <label style="display:flex;align-items:center;gap:10px;">
+        <span style="font-family:var(--tt);font-size:12px;color:rgba(255,255,255,0.4);width:14px;">↔</span>
+        <input type="range" id="ad4X" min="0" max="100" value="71" style="width:140px;accent-color:#FF464C;">
+        <span style="font-family:var(--tt);font-size:11px;color:rgba(255,255,255,0.3);width:30px;" id="ad4XVal">71%</span>
+      </label>
+      <label style="display:flex;align-items:center;gap:10px;">
+        <span style="font-family:var(--tt);font-size:12px;color:rgba(255,255,255,0.4);width:14px;">⊞</span>
+        <input type="range" id="ad4Scale" min="100" max="300" value="193" style="width:140px;accent-color:#FF464C;">
+        <span style="font-family:var(--tt);font-size:11px;color:rgba(255,255,255,0.3);width:36px;" id="ad4ScaleVal">193%</span>
+      </label>
+    </div>
+
+    <script>
+      function setAcFont(f) {
+        document.getElementById('adsGrid').classList.toggle('use-tt', f === 'tt');
+        document.querySelectorAll('#acFontToggle .ac-toggle-btn').forEach(function(b, i) {
+          b.classList.toggle('active', (f === 'circular' && i === 0) || (f === 'tt' && i === 1));
+        });
+      }
+
+      function updateAd4() {
+        var x     = document.getElementById('ad4X').value;
+        var y     = document.getElementById('ad4Y').value;
+        var scale = document.getElementById('ad4Scale').value;
+        document.getElementById('ad4XVal').textContent     = x + '%';
+        document.getElementById('ad4YVal').textContent     = y + '%';
+        document.getElementById('ad4ScaleVal').textContent = scale + '%';
+        var card = document.querySelector('.ac-4');
+        card.style.backgroundPosition = x + '% ' + y + '%';
+        card.style.backgroundSize     = scale + '%';
+      }
+
+      ['ad4X','ad4Y','ad4Scale'].forEach(function(id) {
+        document.getElementById(id).addEventListener('input', updateAd4);
+      });
+    </script>
+  </section>
+
+  <!-- ABOUT SECTION REMOVED -->
+  <section id="about" style="display:none;">
+
+    <style>
+      .about-block {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-height: 480px;
+        align-items: center;
+      }
+      .about-text {
+        padding: 80px 72px;
+      }
+      .about-eyebrow {
+        font-family: var(--tt);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #999;
+        margin-bottom: 18px;
+      }
+      .about-headline {
+        font-family: var(--circular);
+        font-weight: 700;
+        font-size: 26px;
+        line-height: 1.2;
+        letter-spacing: -0.015em;
+        color: #1a1a1a;
+        margin-bottom: 20px;
+      }
+      .about-body {
+        font-family: var(--tt);
+        font-size: 16px;
+        line-height: 1.7;
+        color: #555;
+        max-width: 400px;
+      }
+      .about-media {
+        position: relative;
+        height: 100%;
+        min-height: 420px;
+        overflow: visible;
+      }
+      .about-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      /* dot grid decoration */
+      .dot-grid {
+        position: absolute;
+        display: grid;
+        gap: 6px;
+      }
+      .dot-grid span {
+        display: block;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: #f5b8b8;
+        opacity: 0.7;
+      }
+      /* Checkout UI mockup */
+      .checkout-mock {
+        position: absolute;
+        top: 50px;
+        left: -40px;
+        width: 220px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 8px 40px rgba(0,0,0,0.14);
+        padding: 18px;
+        z-index: 2;
+      }
+      .checkout-mock-title {
+        font-family: var(--circular);
+        font-weight: 700;
+        font-size: 13px;
+        margin-bottom: 14px;
+        color: #1a1a1a;
+      }
+      .mock-line {
+        height: 7px;
+        border-radius: 4px;
+        background: #eee;
+        margin-bottom: 8px;
+      }
+      .mock-line.short { width: 55%; }
+      .mock-line.med { width: 75%; }
+      .mock-line.full { width: 100%; }
+      .mock-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 16px;
+        padding-top: 12px;
+        border-top: 1px solid #eee;
+      }
+      .mock-total-label { font-family: var(--circular); font-size: 11px; color: #555; }
+      .mock-total-price { font-family: var(--circular); font-weight: 700; font-size: 13px; color: #1a1a1a; }
+      .mock-btn {
+        margin-top: 12px;
+        width: 100%;
+        height: 28px;
+        border-radius: 6px;
+        background: linear-gradient(360deg, #ff464c 0%, #b00700 100%);
+        border: none;
+      }
+    </style>
+
+    <!-- Block 1: text left, image right -->
+    <div class="about-block">
+      <div class="about-text">
+        <div class="about-headline">Driving towards<br>the future</div>
+        <p class="about-body">When Stephen, our founder, had a frustrating experience trying to buy a car from a dealership he realized the car industry was broken for Canadians. Since its founding in 2016, Clutch has been a key player in modernizing the used car market.</p>
+      </div>
+      <div class="about-media" style="background:#e8e4de;">
+        <img src="./bg.jpg" alt="Car in forest" class="about-img" />
+        <div class="dot-grid" style="bottom: 40px; left: -30px; grid-template-columns: repeat(8,1fr);">
+          <script>
+            document.currentScript.insertAdjacentHTML('afterend',
+              Array.from({length:48}).map(()=>'<span></span>').join('')
+            )
+          </script>
+        </div>
+      </div>
+    </div>
+
+    <!-- Block 2: image left, text right -->
+    <div class="about-block" style="border-top: 1px solid rgba(0,0,0,0.06);">
+      <div class="about-media" style="background:#d4cfc9; position:relative;">
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#c8c0b5 0%,#a89d93 100%);display:flex;align-items:center;justify-content:center;">
+          <span style="font-family:var(--tt);font-size:13px;color:rgba(255,255,255,0.5);">[lifestyle image]</span>
+        </div>
+        <div class="checkout-mock">
+          <div class="checkout-mock-title">Checkout</div>
+          <div style="display:flex;gap:10px;margin-bottom:8px;">
+            <div style="flex:1">
+              <div class="mock-line med"></div>
+              <div class="mock-line short"></div>
+              <div class="mock-line full"></div>
+              <div class="mock-line med"></div>
+              <div class="mock-line short"></div>
+              <div class="mock-line full"></div>
+            </div>
+            <div style="width:60px;">
+              <div class="mock-line full"></div>
+              <div class="mock-line full"></div>
+              <div class="mock-line full"></div>
+              <div class="mock-line full"></div>
+              <div class="mock-line full"></div>
+              <div class="mock-line full"></div>
+            </div>
+          </div>
+          <div class="mock-row">
+            <span class="mock-total-label">Total</span>
+            <span class="mock-total-price">$23,200</span>
+          </div>
+          <button class="mock-btn"></button>
+        </div>
+        <div class="dot-grid" style="bottom:30px;right:-24px;grid-template-columns:repeat(6,1fr);">
+          <script>
+            document.currentScript.insertAdjacentHTML('afterend',
+              Array.from({length:36}).map(()=>'<span style="background:#a8c4e0;"></span>').join('')
+            )
+          </script>
+        </div>
+      </div>
+      <div class="about-text">
+        <div class="about-headline">A new standard<br>for car buying</div>
+        <p class="about-body">We're tired of traditional dealerships that take advantage of customers. Clutch aims to offer our customers high quality vehicles and a stress-free online car buying experience.</p>
+      </div>
+    </div>
+
+  </section>
+
+</body>
+</html>

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clutch — Landing Page Typography</title>
+<style>
+  @font-face { font-family: 'CircularXX'; src: url('./fonts/CircularXX-Regular.otf') format('opentype'); font-weight: 400; }
+  @font-face { font-family: 'CircularXX'; src: url('./fonts/CircularXX-Medium.otf') format('opentype'); font-weight: 500; }
+  @font-face { font-family: 'CircularXX'; src: url('./fonts/CircularXX-Bold.otf') format('opentype'); font-weight: 700; }
+  @font-face { font-family: 'TTCommons'; src: url('./fonts/tt-commons-cufonfonts-1/TT Commons Regular.otf') format('opentype'); font-weight: 400; }
+  @font-face { font-family: 'TTCommons'; src: url('./fonts/tt-commons-cufonfonts-1/TT Commons Medium.otf') format('opentype'); font-weight: 500; }
+  @font-face { font-family: 'TTCommons'; src: url('./fonts/tt-commons-cufonfonts-1/TT Commons DemiBold.otf') format('opentype'); font-weight: 600; }
+  @font-face { font-family: 'TTCommons'; src: url('./fonts/tt-commons-cufonfonts-1/TT Commons Bold.otf') format('opentype'); font-weight: 700; }
+  @font-face { font-family: 'Sailec'; src: url('./fonts/Sailec-Font/Sailec-Regular.otf') format('opentype'); font-weight: 400; }
+  @font-face { font-family: 'Sailec'; src: url('./fonts/Sailec-Font/Sailec-Medium.otf') format('opentype'); font-weight: 500; }
+  @font-face { font-family: 'Sailec'; src: url('./fonts/Sailec-Font/Sailec-Bold.otf') format('opentype'); font-weight: 700; }
+
+  :root {
+    --red: #FF464C;
+    --soft-black: #191919;
+    --mid: #6b6b6b;
+    --f-head: 'CircularXX', 'Helvetica Neue', sans-serif;
+    --f-body: 'CircularXX', 'Helvetica Neue', sans-serif;
+  }
+
+  /* TT Commons mode overrides */
+  body.tt-mode {
+    --f-body: 'TTCommons', 'Helvetica Neue', sans-serif;
+  }
+  /* Sailec mode overrides */
+  body.sailec-mode {
+    --f-body: 'Sailec', 'Helvetica Neue', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--f-body);
+    background: #fff;
+    color: var(--soft-black);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── ANNOUNCEMENT BAR ── */
+  .announce {
+    background: #111;
+    color: #fff;
+    text-align: center;
+    padding: 10px 16px;
+    font-family: var(--f-body);
+    font-size: 13px;
+    font-weight: 400;
+  }
+  .announce a {
+    color: #fff;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: #fff;
+    border-bottom: 1px solid #e8e8e8;
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+    height: 64px;
+    gap: 0;
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    margin-right: 40px;
+    flex-shrink: 0;
+  }
+  .nav-logo img {
+    height: 26px;
+    object-fit: contain;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+  }
+  .nav-link {
+    font-family: var(--f-body);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--soft-black);
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.12s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    border: none;
+    background: transparent;
+  }
+  .nav-link:hover { background: #f4f4f4; }
+  .nav-link svg { opacity: 0.55; flex-shrink: 0; }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+  }
+  .nav-signin {
+    font-family: var(--f-body);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--soft-black);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px 14px;
+    border-radius: 8px;
+    transition: background 0.12s;
+  }
+  .nav-signin:hover { background: #f4f4f4; }
+
+  /* ── HERO ── */
+  .hero {
+    background: #f2f2f0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 420px;
+    overflow: hidden;
+  }
+  .hero-left {
+    padding: 72px 56px 72px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+  }
+  .hero-headline {
+    font-family: var(--f-head);
+    font-size: 62px;
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    color: var(--soft-black);
+  }
+  .hero-body {
+    font-family: var(--f-body);
+    font-size: 17px;
+    line-height: 1.6;
+    color: #444;
+    max-width: 420px;
+  }
+  .hero-body strong {
+    font-family: var(--f-head);
+    font-weight: 700;
+    color: var(--soft-black);
+  }
+  .hero-rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .google-g {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+  .stars {
+    display: flex;
+    gap: 2px;
+  }
+  .star { color: #FBBC05; font-size: 18px; line-height: 1; }
+  .rating-num {
+    font-family: var(--f-head);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--soft-black);
+  }
+  .hero-right {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    overflow: hidden;
+    padding-right: 0;
+  }
+  .hero-right img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: left center;
+    display: block;
+  }
+
+  /* ── FONT TOGGLE ── */
+  .font-toggle {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 1000;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 100px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    padding: 6px;
+    display: flex;
+    gap: 4px;
+  }
+  .toggle-btn {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 6px 16px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.18s;
+    color: #888;
+    background: transparent;
+  }
+  .toggle-btn.active {
+    background: var(--soft-black);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .toggle-label {
+    font-family: 'CircularXX', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #bbb;
+    display: flex;
+    align-items: center;
+    padding: 0 8px 0 4px;
+  }
+</style>
+</head>
+<body>
+
+  <!-- ANNOUNCEMENT BAR -->
+  <div class="announce">
+    New deals every week.&nbsp; <a href="#">Shop deals.</a>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">
+      <img src="./logo/Red/Clutch Logo CTA Red.png" alt="Clutch">
+    </div>
+    <div class="nav-links">
+      <button class="nav-link">Shop Cars</button>
+      <button class="nav-link">Sell or Trade</button>
+      <button class="nav-link">
+        Financing
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="#191919" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="nav-link">
+        More
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="#191919" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <div class="nav-right">
+      <button class="nav-signin">Sign In</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <h1 class="hero-headline">Buy or sell your<br>car online</h1>
+      <p class="hero-body">
+        We buy, recondition, and sell cars. Certified for quality, no middlemen. <strong>That's Clutch.</strong>
+      </p>
+      <div class="hero-rating">
+        <!-- Google G logo -->
+        <svg class="google-g" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        </svg>
+        <div class="stars">
+          <span class="star">★</span>
+          <span class="star">★</span>
+          <span class="star">★</span>
+          <span class="star">★</span>
+          <span class="star">★</span>
+        </div>
+        <span class="rating-num">4.8</span>
+      </div>
+    </div>
+    <div class="hero-right">
+      <img src="./landing.png" alt="Clutch truck delivering a car">
+    </div>
+  </section>
+
+  <!-- BODY COPY SECTION -->
+  <section style="background:#f2f2f0; padding: 72px 80px; border-bottom: 1px solid #e2e2e0;">
+    <style>
+      /* ── Button system ── */
+      .btn-primary {
+        font-family: 'CircularXX', sans-serif;
+        font-size: 15px;
+        font-weight: 600;
+        padding: 14px 28px;
+        border-radius: 100px;
+        border: none;
+        cursor: pointer;
+        background: #c0392b;
+        color: #fff;
+        transition: opacity 0.15s, transform 0.15s;
+        white-space: nowrap;
+      }
+      .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+      .btn-secondary {
+        font-family: 'CircularXX', sans-serif;
+        font-size: 15px;
+        font-weight: 600;
+        padding: 13px 28px;
+        border-radius: 100px;
+        border: 1.5px solid #191919;
+        cursor: pointer;
+        background: transparent;
+        color: #191919;
+        transition: background 0.15s, transform 0.15s;
+        white-space: nowrap;
+      }
+      .btn-secondary:hover { background: rgba(0,0,0,0.05); transform: translateY(-1px); }
+
+      /* ── Copy toggle (pill, matches button style) ── */
+      .copy-toggle {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 40px;
+      }
+      .copy-toggle-btn {
+        font-family: 'CircularXX', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 9px 22px;
+        border-radius: 100px;
+        cursor: pointer;
+        transition: all 0.15s;
+        white-space: nowrap;
+      }
+      .copy-toggle-btn.active {
+        background: #191919;
+        color: #fff;
+        border: 1.5px solid #191919;
+      }
+      .copy-toggle-btn:not(.active) {
+        background: transparent;
+        color: #888;
+        border: 1.5px solid #d0d0ce;
+      }
+      .copy-toggle-btn:not(.active):hover { border-color: #999; color: #444; }
+
+      /* ── Two-up comparison cards ── */
+      .compare-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      .hero-card {
+        background: #fff;
+        border-radius: 20px;
+        padding: 52px 52px 48px;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+      .card-eyebrow {
+        font-family: 'CircularXX', sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #999;
+        margin-bottom: 18px;
+      }
+      .card-headline {
+        font-family: 'CircularXX', sans-serif;
+        font-size: 44px;
+        font-weight: 700;
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+        color: #191919;
+        margin-bottom: 20px;
+      }
+      .card-body {
+        font-size: 16px;
+        line-height: 1.65;
+        color: #555;
+        margin-bottom: 32px;
+      }
+      .card-body.circ { font-family: 'CircularXX', sans-serif; }
+      .card-body.tt   { font-family: 'TTCommons', sans-serif; }
+      .card-btns {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 24px;
+      }
+      .card-proof {
+        font-size: 13px;
+        color: #999;
+      }
+      .card-proof.circ { font-family: 'CircularXX', sans-serif; }
+      .card-proof.tt   { font-family: 'TTCommons', sans-serif; }
+      .card-label {
+        font-family: 'CircularXX', sans-serif;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #bbb;
+        margin-bottom: 12px;
+      }
+    </style>
+
+    <div class="copy-toggle">
+      <button class="copy-toggle-btn active" id="copy-btn-circ" onclick="setCopyFont('circ')">CircularXX</button>
+      <button class="copy-toggle-btn" id="copy-btn-tt" onclick="setCopyFont('tt')">TT Commons</button>
+    </div>
+
+    <div class="compare-row">
+
+      <!-- WITH eyebrow -->
+      <div>
+        <div class="card-label">With eyebrow</div>
+        <div class="hero-card">
+          <div class="card-eyebrow">Sell your car online</div>
+          <h2 class="card-headline">We buy your car.<br>Get paid fast.</h2>
+          <p id="copy-body-a" class="card-body circ">Enter your plate or VIN for a real offer in minutes. No dealership, no hassle — just a fair price and same-day payment.</p>
+          <div class="card-btns">
+            <button class="btn-primary">Get instant offer →</button>
+            <button class="btn-secondary">How it works</button>
+          </div>
+          <div id="copy-proof-a" class="card-proof circ">⭐ 4.8 · 10,000+ reviews &nbsp;·&nbsp; 75,000+ cars sold</div>
+        </div>
+      </div>
+
+      <!-- WITHOUT eyebrow -->
+      <div>
+        <div class="card-label">Without eyebrow</div>
+        <div class="hero-card">
+          <h2 class="card-headline">We buy your car.<br>Get paid fast.</h2>
+          <p id="copy-body-b" class="card-body circ">Enter your plate or VIN for a real offer in minutes. No dealership, no hassle — just a fair price and same-day payment.</p>
+          <div class="card-btns">
+            <button class="btn-primary">Get instant offer →</button>
+            <button class="btn-secondary">How it works</button>
+          </div>
+          <div id="copy-proof-b" class="card-proof circ">⭐ 4.8 · 10,000+ reviews &nbsp;·&nbsp; 75,000+ cars sold</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FONT TOGGLE -->
+  <div class="font-toggle">
+    <span class="toggle-label">Font</span>
+    <button class="toggle-btn active" id="btn-circular" onclick="setFont('circular')">CircularXX</button>
+    <button class="toggle-btn" id="btn-tt" onclick="setFont('tt')">TT Commons</button>
+    <button class="toggle-btn" id="btn-sailec" onclick="setFont('sailec')">Sailec</button>
+  </div>
+
+  <script>
+    function setCopyFont(f) {
+      ['copy-body-a','copy-body-b'].forEach(id => { document.getElementById(id).className = 'card-body ' + f; });
+      ['copy-proof-a','copy-proof-b'].forEach(id => { document.getElementById(id).className = 'card-proof ' + f; });
+      document.getElementById('copy-btn-circ').classList.toggle('active', f === 'circ');
+      document.getElementById('copy-btn-tt').classList.toggle('active', f === 'tt');
+    }
+
+    function setFont(f) {
+      const body = document.body;
+      body.classList.remove('tt-mode', 'sailec-mode');
+      ['btn-circular', 'btn-tt', 'btn-sailec'].forEach(id => document.getElementById(id).classList.remove('active'));
+      if (f === 'tt') {
+        body.classList.add('tt-mode');
+        document.getElementById('btn-tt').classList.add('active');
+      } else if (f === 'sailec') {
+        body.classList.add('sailec-mode');
+        document.getElementById('btn-sailec').classList.add('active');
+      } else {
+        document.getElementById('btn-circular').classList.add('active');
+      }
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clutch · Design</title>
+  <style>
+    @font-face {
+      font-family: 'CircularXX';
+      src: url('./fonts/CircularXX-Regular.otf') format('opentype');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'CircularXX';
+      src: url('./fonts/CircularXX-Medium.otf') format('opentype');
+      font-weight: 500;
+    }
+    @font-face {
+      font-family: 'CircularXX';
+      src: url('./fonts/CircularXX-Bold.otf') format('opentype');
+      font-weight: 700;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'CircularXX', sans-serif;
+      background: #0d0d0d;
+      color: #fff;
+      min-height: 100vh;
+      padding: 64px 48px;
+    }
+
+    .logo { height: 20px; object-fit: contain; margin-bottom: 56px; display: block; }
+
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 32px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      max-width: 960px;
+    }
+
+    .card {
+      display: block;
+      text-decoration: none;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 28px 28px 24px;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .card:hover {
+      background: rgba(255,255,255,0.09);
+      border-color: rgba(255,255,255,0.15);
+    }
+
+    .card-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: #FF464C;
+      margin-bottom: 10px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.5;
+    }
+
+    .card-arrow {
+      margin-top: 20px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.25);
+    }
+  </style>
+</head>
+<body>
+
+  <img src="./logo/White/Clutch_Logo-01.png" alt="Clutch" class="logo">
+
+  <p class="eyebrow">Design · Pages</p>
+
+  <div class="grid">
+
+    <a class="card" href="./showcase.html">
+      <div class="card-label">Showcase</div>
+      <div class="card-title">Design Showcase</div>
+      <div class="card-desc">Typography pairings, marketing cards, product listing cards, and brand banners.</div>
+      <div class="card-arrow">View →</div>
+    </a>
+
+    <a class="card" href="./listing.html">
+      <div class="card-label">Product</div>
+      <div class="card-title">Car Listing Grid</div>
+      <div class="card-desc">Full car listing card grid with variants, badges, and pricing.</div>
+      <div class="card-arrow">View →</div>
+    </a>
+
+    <a class="card" href="./sell-hero.html">
+      <div class="card-label">Marketing</div>
+      <div class="card-title">Sell Hero</div>
+      <div class="card-desc">Hero section for the sell flow landing page.</div>
+      <div class="card-arrow">View →</div>
+    </a>
+
+    <a class="card" href="./typography.html">
+      <div class="card-label">Typography</div>
+      <div class="card-title">Font Comparison</div>
+      <div class="card-desc">Circular XX vs TT Commons across UI components and ad creatives.</div>
+      <div class="card-arrow">View →</div>
+    </a>
+
+    <a class="card" href="./landing-typo.html">
+      <div class="card-label">Landing</div>
+      <div class="card-title">Landing Typography</div>
+      <div class="card-desc">Typography exploration for the landing page.</div>
+      <div class="card-arrow">View →</div>
+    </a>
+
+  </div>
+
+</body>
+</html>
