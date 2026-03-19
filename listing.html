@@ -107,8 +107,9 @@
   }
   .modal-cert-wrap.shimmer-play::after { animation: cert-shimmer-sweep 2s ease .2s forwards; }
   .c-title { font-size:15px; font-weight:700; color:#191919; line-height:1.2; margin-bottom:3px; }
-  .c-trim { font-size:12px; color:#888; margin-bottom:14px; display:flex; align-items:center; gap:4px; }
-  .c-trim-dot { width:3px; height:3px; border-radius:50%; background:#ccc; display:inline-block; flex-shrink:0; }
+  .c-trim { font-size:12px; color:#888; margin-bottom:14px; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+  .c-pill { display:inline-block; padding:3px 10px; border-radius:99px; font-size:12px; font-weight:600; background:#F5F4F2; color:#777; }
+  .c-card.plum .c-pill { background:rgba(241,237,248,0.15); color:#F1EDF8; }
   .c-divider { height:1px; background:#EBEBEB; margin-bottom:12px; }
   .c-price-row { display:flex; align-items:baseline; gap:7px; margin-bottom:5px; }
   .c-price { font-size:22px; font-weight:800; color:#191919; line-height:1; }
@@ -287,7 +288,7 @@ function buildCard(c) {
     <div class="c-body">
       <div class="cert-shimmer" onclick="openCertModal()"><img src="./cert.png" alt="Clutch Certified"></div>
       <div class="c-title">${c.title}</div>
-      <div class="c-trim">${c.trim} <span class="c-trim-dot"></span> ${c.km}</div>
+      <div class="c-trim"><span class="c-pill">${c.trim}</span><span class="c-pill">${c.km}</span></div>
       <div class="c-divider"></div>
       <div class="c-price-row">
         <span class="c-price">${c.price}</span>
