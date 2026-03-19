@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clutch — We buy your car</title>
+<style>
+  @font-face {
+    font-family: 'CircularXX';
+    src: url('./fonts/CircularXX-Regular.otf') format('opentype');
+    font-weight: 400; font-style: normal;
+  }
+  @font-face {
+    font-family: 'CircularXX';
+    src: url('./fonts/CircularXX-Medium.otf') format('opentype');
+    font-weight: 500; font-style: normal;
+  }
+  @font-face {
+    font-family: 'CircularXX';
+    src: url('./fonts/CircularXX-Bold.otf') format('opentype');
+    font-weight: 700; font-style: normal;
+  }
+  @font-face {
+    font-family: 'CircularXX';
+    src: url('./fonts/CircularXX-Black.otf') format('opentype');
+    font-weight: 800; font-style: normal;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'CircularXX', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #F5F4F2;
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 64px 24px;
+  }
+
+  .hero-wrap {
+    max-width: 1200px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .hero-headline {
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 800;
+    color: #191919;
+    letter-spacing: -2.5px;
+    line-height: 1.05;
+    margin: 0 0 20px;
+  }
+
+  .hero-sub {
+    font-size: 17px;
+    color: #191919;
+    margin: 0 0 36px;
+    display: flex; align-items: center; justify-content: center;
+    gap: 14px; flex-wrap: wrap;
+  }
+  .hero-sub strong { font-weight: 700; }
+
+  .google-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 15px; color: #191919;
+  }
+  .google-badge .g-logo { width: 18px; height: 18px; flex-shrink: 0; }
+  .google-badge .g-star { color: #FBBC04; font-size: 16px; line-height: 1; }
+  .google-badge .g-score { font-weight: 800; font-size: 16px; }
+  .google-badge .g-reviews { text-decoration: underline; color: #555; font-size: 14px; cursor: pointer; }
+
+  /* ── Card ── */
+  .hero-card {
+    background: #fff;
+    border-radius: 22px;
+    border: 1.5px solid #E4E2DF;
+    box-shadow: 0 2px 24px rgba(0,0,0,0.08);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .hero-img-wrap { position: relative; line-height: 0; }
+  .hero-img-wrap img { width: 100%; height: 420px; object-fit: cover; object-position: center; display: block; }
+  .hero-img-badge {
+    position: absolute; top: 18px; right: 18px;
+    background: #fff; border-radius: 99px;
+    padding: 12px 22px; font-size: 15px; font-weight: 400; color: #191919;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+    white-space: nowrap;
+  }
+  .hero-img-badge strong { font-weight: 800; }
+
+  /* ── Form row ── */
+  .hero-form {
+    display: flex; align-items: center; gap: 10px;
+    padding: 18px 18px 20px;
+  }
+
+  .hero-toggle {
+    position: relative;
+    display: flex; align-items: center;
+    background: #F0EFED; border-radius: 99px; padding: 4px; flex-shrink: 0;
+  }
+  /* sliding pill */
+  .hero-toggle-pill {
+    position: absolute; top: 4px; left: 4px;
+    height: calc(100% - 8px);
+    background: #fff;
+    border-radius: 99px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+    transition: transform .22s cubic-bezier(.4,0,.2,1), width .22s cubic-bezier(.4,0,.2,1);
+    pointer-events: none;
+  }
+  .hero-toggle button {
+    position: relative; z-index: 1;
+    padding: 8px 16px; border-radius: 99px; border: none; background: transparent;
+    font-size: 14px; font-weight: 600; color: #888; cursor: pointer;
+    font-family: inherit; transition: color .2s;
+    white-space: nowrap;
+  }
+  .hero-toggle button.active { color: #191919; }
+
+  .hero-inputs {
+    display: flex; flex: 1; align-items: center;
+    border: 1.5px solid #E8E8E8; border-radius: 99px; overflow: hidden;
+  }
+  .hero-inputs input {
+    flex: 1; border: none; outline: none; padding: 12px 18px;
+    font-size: 15px; color: #191919; font-family: inherit; background: transparent;
+    min-width: 0;
+  }
+  .hero-inputs input::placeholder { color: #B0B0B0; }
+  .hero-input-divider { width: 1px; height: 24px; background: #E8E8E8; flex-shrink: 0; }
+
+  .hero-cta {
+    padding: 13px 26px; border-radius: 99px; border: none; cursor: pointer;
+    font-size: 15px; font-weight: 700; color: #fff; font-family: inherit;
+    background: linear-gradient(360deg, #ff464c 0%, #b00700 100%);
+    box-shadow: inset 0 -3px 2px 0px rgba(0,0,0,0.17),
+                inset 0 1px 2px 0px rgba(0,0,0,0.18);
+    transition: transform .15s, filter .15s;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .hero-cta:hover  { transform: translateY(-3px) scale(1.02); filter: brightness(105%); }
+  .hero-cta:active { transform: translateY(2px)  scale(0.96); filter: brightness(85%); }
+
+  .hero-fine {
+    font-size: 13px; color: #888; line-height: 1.5;
+  }
+  .hero-fine strong { color: #555; }
+
+  @media (max-width: 680px) {
+    .hero-form { flex-wrap: wrap; }
+    .hero-inputs { min-width: 100%; order: 2; }
+    .hero-toggle { order: 1; }
+    .hero-cta { order: 3; width: 100%; justify-content: center; padding: 15px; }
+    .hero-sub { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero-wrap">
+
+  <h1 class="hero-headline">We buy your car. Get paid fast.</h1>
+
+  <div class="hero-sub">
+    Firm pricing. Zero stress. <strong>That's Clutch.</strong>
+    <span class="google-badge">
+      <svg class="g-logo" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 01-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
+        <path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z" fill="#34A853"/>
+        <path d="M3.964 10.706A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.706V4.962H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.038l3.007-2.332z" fill="#FBBC05"/>
+        <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.962L3.964 7.294C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/>
+      </svg>
+      <span class="g-star">★</span>
+      <span class="g-score">4.8</span>
+      <span class="g-reviews">10,000+ reviews</span>
+    </span>
+  </div>
+
+  <div class="hero-card">
+    <div class="hero-img-wrap">
+      <img src="./bg.jpg" alt="Clutch truck picking up a car">
+      <div class="hero-img-badge"><strong>75,000+</strong> cars sold to Clutch!</div>
+    </div>
+    <div class="hero-form">
+      <div class="hero-toggle" id="hero-toggle">
+        <div class="hero-toggle-pill" id="toggle-pill"></div>
+        <button class="active">Licence plate</button>
+        <button>VIN</button>
+      </div>
+      <div class="hero-inputs">
+        <input type="text" placeholder="Licence plate number" id="plate-input">
+        <div class="hero-input-divider"></div>
+        <input type="text" placeholder="Postal code">
+      </div>
+      <button class="hero-cta">Get instant offer</button>
+    </div>
+  </div>
+
+  <p class="hero-fine"><strong>No Personal Data Pulled:</strong> We only use your licence plate or VIN to identify your vehicle's details, never your name or personal info.</p>
+
+</div>
+
+<script>
+const toggle = document.getElementById('hero-toggle');
+const pill   = document.getElementById('toggle-pill');
+const btns   = toggle.querySelectorAll('button');
+
+function movePill(activeBtn) {
+  pill.style.width     = activeBtn.offsetWidth + 'px';
+  pill.style.transform = 'translateX(' + activeBtn.offsetLeft + 'px)';
+}
+
+// init pill on load
+movePill(toggle.querySelector('button.active'));
+
+btns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    btns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    movePill(btn);
+    document.getElementById('plate-input').placeholder =
+      btn.textContent.trim() === 'VIN' ? 'VIN number' : 'Licence plate number';
+  });
+});
+</script>
+</body>
+</html>

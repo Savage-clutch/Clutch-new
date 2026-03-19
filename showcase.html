@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clutch Color System — Showcase</title>
+<style>
+  @font-face {
+    font-family: 'CircularXX';
+    src: url('./fonts/CircularXX-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'CircularXX';
+    src: url('./fonts/CircularXX-Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'CircularXX';
+    src: url('./fonts/CircularXX-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'CircularXX';
+    src: url('./fonts/CircularXX-Black.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red:       #FF464C;
+    --plum-bg:   #460B28;
+    --plum:      #550E30;
+    --lavender:  #F1EDF8;
+    --lav-mid:   #EBE1F8;
+    --lav-deep:  #E6D6F9;
+    --white:     #FFFFFF;
+    --ink:       #191919;
+    --page-bg:   #F5F4F2;
+    --divider:   #E4E2DF;
+    --label:     #999;
+  }
+
+  body {
+    font-family: 'CircularXX', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--page-bg);
+    color: var(--ink);
+    line-height: 1.4;
+  }
+
+  /* ─── HEADER ─────────────────────────────────────────────────────── */
+  .site-header {
+    padding: 48px 64px 40px;
+    border-bottom: 1px solid var(--divider);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+  .site-header-logo { height: 40px; object-fit: contain; }
+  .site-header-meta { font-size: 12px; color: var(--label); font-weight: 500; text-align: right; line-height: 1.6; }
+  .site-header-title { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+
+  /* ─── SECTION ────────────────────────────────────────────────────── */
+  .sc-section {
+    padding: 72px 64px;
+    border-bottom: 1px solid var(--divider);
+  }
+  .sc-section:last-child { border-bottom: none; }
+  .sc-section-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--label);
+    margin-bottom: 8px;
+  }
+  .sc-section-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--ink);
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+  .sc-section-desc {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 48px;
+    max-width: 560px;
+  }
+
+  /* ─── DETAILS DISCLOSURE ─────────────────────────────────────────── */
+  .tech-details {
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--divider);
+    background: #fff;
+  }
+  .tech-details summary {
+    padding: 12px 18px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--label);
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color .15s;
+  }
+  .tech-details summary:hover { color: var(--ink); }
+  .tech-details summary::before {
+    content: '▶';
+    font-size: 8px;
+    transition: transform .15s;
+  }
+  .tech-details[open] summary::before { transform: rotate(90deg); }
+  .tech-details[open] summary { border-bottom: 1px solid var(--divider); }
+  .tech-body {
+    padding: 20px 18px;
+    font-size: 12px;
+    line-height: 1.7;
+    color: #555;
+  }
+  .tech-body code {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 11px;
+    background: #f5f4f2;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--red);
+  }
+  .tech-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .tech-row:last-child { margin-bottom: 0; }
+  .tech-key {
+    color: #aaa;
+    min-width: 120px;
+    flex-shrink: 0;
+  }
+  .tech-val { color: var(--ink); font-family: 'SF Mono', 'Fira Code', monospace; font-size: 11px; }
+
+  /* ─── PALETTE ────────────────────────────────────────────────────── */
+  .palette-hero {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .palette-hero-swatch {
+    aspect-ratio: 3/2;
+    border-radius: 16px;
+    display: flex;
+    align-items: flex-end;
+    padding: 18px;
+    cursor: pointer;
+    transition: transform .15s;
+  }
+  .palette-hero-swatch:hover { transform: translateY(-4px); }
+  .palette-hero-name { font-size: 16px; font-weight: 800; letter-spacing: -0.3px; }
+
+  .palette-scale {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  .palette-scale-col { display: flex; flex-direction: column; gap: 6px; }
+  .palette-scale-label { font-size: 11px; font-weight: 700; color: var(--label); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
+  .palette-scale-swatch {
+    height: 52px;
+    border-radius: 10px;
+    display: flex;
+    align-items: flex-end;
+    padding: 8px 10px;
+    cursor: pointer;
+    transition: transform .15s;
+    position: relative;
+  }
+  .palette-scale-swatch:hover { transform: translateY(-2px); }
+  .palette-swatch-hex { font-size: 10px; font-family: 'SF Mono', monospace; font-weight: 600; opacity: .7; }
+  .palette-swatch-name { font-size: 10px; font-weight: 700; opacity: .85; position: absolute; top: 8px; left: 10px; }
+
+  /* ─── PAIRINGS ────────────────────────────────────────────────────── */
+  .pairings-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .pairing-card {
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 9/16;
+    display: flex;
+    flex-direction: column;
+  }
+  .pairing-card-copy { padding: 22px 22px 0; }
+  .pairing-card-headline { font-size: 26px; font-weight: 800; line-height: 1.1; margin-bottom: 2px; letter-spacing: -0.5px; }
+  .pairing-card-accent  { font-size: 26px; font-weight: 800; line-height: 1.1; letter-spacing: -0.5px; }
+  .pairing-card-sub     { font-size: 13px; font-weight: 500; line-height: 1.4; margin-top: 10px; }
+  .pairing-card-truck   { flex: 1; background-size: 170%; background-repeat: no-repeat; background-position: 90% 65%; min-height: 140px; }
+  .pairing-card-footer  { padding: 8px 22px 18px; }
+  .pairing-card-footer img { height: 14px; object-fit: contain; }
+  .pairing-card-bg-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--label);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+
+  /* ─── BUTTONS ────────────────────────────────────────────────────── */
+  .buttons-section { display: flex; flex-direction: column; gap: 48px; }
+  .button-showcase {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+  .button-meta-name { font-size: 18px; font-weight: 800; color: var(--ink); margin-bottom: 4px; }
+  .button-meta-desc { font-size: 13px; color: #888; line-height: 1.5; }
+  .button-states {
+    display: flex;
+    gap: 16px;
+  }
+  .button-state-cell {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .button-state-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--label);
+  }
+  .button-state-stage {
+    width: 100%;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 28px 12px;
+    background: #EDECEA;
+  }
+  .showcase-btn {
+    padding: 20px 48px;
+    border-radius: 9999px;
+    font-size: 16px;
+    font-weight: 800;
+    font-family: inherit;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    display: block;
+    transition: transform .12s ease, filter .12s ease;
+  }
+  .showcase-btn:hover  { transform: translateY(-3px) scale(1.02); filter: brightness(105%); }
+  .showcase-btn:active { transform: translateY(2px) scale(0.96);  filter: brightness(85%); }
+  .showcase-btn.lav:hover { filter: brightness(105%); }
+
+  .btn-hover-state {
+    transform: translateY(-3px) scale(1.02);
+    filter: brightness(105%);
+  }
+  .btn-pressed-state {
+    transform: translateY(2px) scale(0.96);
+    filter: brightness(85%);
+  }
+  .btn-hover-state.lav { filter: brightness(105%); }
+
+  /* ─── MARKETING CARDS ────────────────────────────────────────────── */
+  .mkt-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .mkt-wrap { display: flex; flex-direction: column; gap: 8px; }
+  .mkt-card {
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    aspect-ratio: 4/5;
+    position: relative;
+  }
+  .mkt-copy { padding: 18px 18px 0; flex-shrink: 0; }
+  .mkt-line { font-size: 22px; font-weight: 800; line-height: 1.25; }
+  .mkt-truck { flex: 1; background-size: 130%; background-repeat: no-repeat; background-position: center 65%; margin: 4px 0; }
+  .mkt-footer { padding: 8px 18px 18px; text-align: center; flex-shrink: 0; }
+  .mkt-footer img { height: 18px; object-fit: contain; }
+  .card-label { font-size: 11px; color: var(--label); font-weight: 600; }
+
+  /* ─── BRAND BANNERS ──────────────────────────────────────────────── */
+  .brand-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .brand-wrap { display: flex; flex-direction: column; gap: 8px; }
+  .brand-card {
+    border-radius: 14px;
+    overflow: hidden;
+    padding: 32px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    aspect-ratio: 16/9;
+  }
+  .brand-display { font-size: 32px; font-weight: 800; line-height: 1.1; margin-bottom: 4px; letter-spacing: -0.8px; white-space: pre-line; }
+  .brand-sub     { font-size: 32px; font-weight: 800; letter-spacing: -0.8px; }
+  .brand-footer  { text-align: right; }
+  .brand-footer img { height: 16px; object-fit: contain; }
+
+  /* ─── PRODUCT CARDS ──────────────────────────────────────────────── */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 320px);
+    gap: 20px;
+  }
+  .prod-wrap { display: flex; flex-direction: column; gap: 8px; }
+  .prod-card { border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  .prod-img-wrap { position: relative; flex-shrink: 0; }
+  .prod-car-img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+
+  /* badges row top-left */
+  .prod-badges { position: absolute; top: 12px; left: 12px; display: flex; gap: 6px; align-items: center; }
+  .prod-badge-sale { background: #fff; border: 1.5px solid #FF464C; color: #FF464C; border-radius: 8px; padding: 5px 10px; font-size: 12px; font-weight: 700; line-height: 1; }
+  .prod-badge-views { background: #fff; border: 1.5px solid #e0e0e0; border-radius: 8px; padding: 5px 10px; font-size: 12px; font-weight: 700; color: #191919; display: flex; align-items: center; gap: 5px; line-height: 1; }
+
+  /* heart top-right */
+  .prod-like { position: absolute; top: 12px; right: 12px; cursor: pointer; user-select: none; display: flex; align-items: center; justify-content: center; transition: transform .15s; }
+  .prod-like:hover { transform: scale(1.15); }
+  @keyframes heart-pop { 0% { transform:scale(1); } 40% { transform:scale(1.22); } 70% { transform:scale(0.94); } 100% { transform:scale(1); } }
+  .prod-like.pop { animation: heart-pop .35s ease; }
+
+  /* body */
+  .prod-body { padding: 18px 18px 20px; display: flex; flex-direction: column; background: #fff; position: relative; }
+  .prod-cert { position: absolute; top: -28px; right: 14px; width: 56px; height: 56px; object-fit: contain; /* superseded by .prod-cert-wrap */ }
+  .prod-title { font-size: 18px; font-weight: 800; line-height: 1.2; color: #191919; margin-bottom: 4px; }
+  .prod-trim { font-size: 13px; color: #888; margin-bottom: 0; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .prod-pill { display: inline-block; padding: 3px 10px; border-radius: 99px; font-size: 12px; font-weight: 600; background: #F0EFED; color: #555; }
+  .prod-divider { height: 1px; background: #EBEBEB; margin: 14px 0; }
+  .prod-price-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
+  .prod-price { font-size: 26px; font-weight: 800; color: #191919; line-height: 1; }
+  .prod-was { font-size: 13px; color: #FF464C; font-weight: 500; }
+  .prod-was s { text-decoration-color: #FF464C; }
+  .prod-biweekly { font-size: 13px; color: #555; }
+  .prod-biweekly u { text-underline-offset: 2px; }
+  .prod-fine { font-size: 11px; color: #aaa; }
+  .prod-btn { padding: 12px 16px; border-radius: 10px; font-size: 14px; font-weight: 600; text-align: center; margin-top: 14px; cursor: pointer; font-family: inherit; transition: background .15s; background: transparent; border: 1.5px solid #E0E0E0; color: #191919; }
+  .prod-btn:hover  { background: #F5F4F2; }
+  .prod-btn:active { background: #EBEBEB; }
+  .prod-btn.dark { border-color: rgba(255,255,255,0.2); color: #F1EDF8; }
+  .prod-btn.dark:hover  { background: rgba(255,255,255,0.08); }
+  .prod-btn.dark:active { background: rgba(255,255,255,0.14); }
+
+  /* ─── CONCEPTS ───────────────────────────────────────────────────── */
+  .concepts-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .concept-card { border-radius: 16px; overflow: hidden; position: relative; }
+
+  .concept-typo { padding: 28px; aspect-ratio: 3/4; display: flex; flex-direction: column; justify-content: center; }
+  .concept-typo-label { font-size: 11px; font-weight: 700; color: rgba(255,255,255,.5); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+  .concept-typo-name { font-size: 28px; font-weight: 800; color: #fff; letter-spacing: -1px; margin-bottom: 12px; }
+  .concept-typo-chars { font-size: 16px; font-weight: 800; color: #fff; line-height: 1.5; letter-spacing: -0.3px; opacity: .85; }
+
+  .concept-pattern { aspect-ratio: 3/4; background-color: #460B28; background-repeat: repeat; background-size: 180px; }
+
+  .concept-strike { padding: 28px; display: flex; align-items: center; justify-content: center; aspect-ratio: 3/4; }
+  .concept-strike-text { font-size: 26px; font-weight: 800; line-height: 1.3; text-align: center; }
+  .concept-strike s { text-decoration-color: currentColor; opacity: .4; }
+
+  .concept-ticker { background: #460B28; overflow: hidden; aspect-ratio: 4/2; display: flex; flex-direction: column; grid-column: span 2; }
+  .ticker-track { display: flex; white-space: nowrap; flex: 1; align-items: center; }
+  .ticker-track.fwd  { animation: ticker-fwd 18s linear infinite; }
+  .ticker-track.rev  { animation: ticker-rev 22s linear infinite; }
+  .ticker-track.fwd2 { animation: ticker-fwd 26s linear infinite; }
+  .ticker-item { font-size: 22px; font-weight: 800; color: #fff; padding: 0 8px; white-space: nowrap; }
+  .ticker-dot { color: #FF464C; margin: 0 4px; }
+  @keyframes ticker-fwd { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes ticker-rev { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+  .concept-icon { background: #460B28; padding: 28px; aspect-ratio: 3/4; display: flex; flex-direction: column; justify-content: space-between; }
+  .concept-icon-logo { height: 80px; object-fit: contain; object-position: left; }
+  .concept-icon-headline { font-size: 20px; font-weight: 800; color: #FF464C; line-height: 1.2; margin-bottom: 8px; }
+  .concept-icon-body { font-size: 13px; color: #fff; opacity: .8; line-height: 1.5; }
+
+  .concept-stat { padding: 32px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; aspect-ratio: 3/4; }
+  .concept-stat-num { font-size: 72px; font-weight: 800; letter-spacing: -3px; line-height: 1; }
+  .concept-stat-label { font-size: 16px; font-weight: 700; margin-top: 8px; opacity: .7; }
+  .concept-stat-sub { font-size: 12px; font-weight: 500; margin-top: 6px; opacity: .5; }
+
+  .concept-quote { padding: 32px; display: flex; flex-direction: column; justify-content: center; aspect-ratio: 3/4; }
+  .concept-quote-text { font-size: 22px; font-weight: 800; line-height: 1.25; letter-spacing: -0.5px; }
+  .concept-quote-attr { font-size: 12px; font-weight: 600; margin-top: 16px; opacity: .5; text-transform: uppercase; letter-spacing: 1px; }
+
+  .concept-split { aspect-ratio: 3/4; display: flex; flex-direction: column; overflow: hidden; }
+  .concept-split-top    { flex: 1; display: flex; align-items: flex-end; padding: 20px; }
+  .concept-split-bottom { flex: 1; display: flex; align-items: flex-start; padding: 20px; }
+  .concept-split-word { font-size: 32px; font-weight: 800; letter-spacing: -1px; line-height: 1; }
+
+  .concept-tag-card { padding: 28px; display: flex; flex-direction: column; gap: 12px; justify-content: center; aspect-ratio: 3/4; }
+  .concept-tag { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; width: fit-content; }
+
+  .concept-price-card { padding: 28px; display: flex; flex-direction: column; justify-content: center; aspect-ratio: 3/4; gap: 6px; }
+  .concept-price-big { font-size: 48px; font-weight: 800; letter-spacing: -2px; line-height: 1; }
+  .concept-price-sub { font-size: 14px; font-weight: 600; opacity: .6; }
+  .concept-price-detail { font-size: 12px; font-weight: 500; opacity: .4; margin-top: 8px; }
+
+  .concept-fullwidth { grid-column: span 4; border-radius: 16px; overflow: hidden; display: flex; }
+  .concept-fullwidth-block { flex: 1; padding: 28px 24px; display: flex; flex-direction: column; justify-content: flex-end; }
+  .concept-fullwidth-name { font-size: 13px; font-weight: 700; }
+  .concept-fullwidth-hex { font-size: 11px; font-family: monospace; opacity: .55; margin-top: 3px; }
+
+  /* ─── CERT MODAL ────────────────────────────────────────────────── */
+  .cert-modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+    z-index: 1000; display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity .2s;
+    backdrop-filter: blur(4px);
+  }
+  .cert-modal-overlay.open { opacity: 1; pointer-events: all; }
+  .cert-modal {
+    background: #fff; border-radius: 24px; padding: 48px 40px 40px;
+    max-width: 460px; width: 90%; position: relative;
+    transform: translateY(16px); transition: transform .25s ease;
+    text-align: center;
+  }
+  .cert-modal-overlay.open .cert-modal { transform: translateY(0); }
+  .cert-modal-close {
+    position: absolute; top: 16px; right: 18px;
+    background: none; border: none; font-size: 20px; color: #aaa;
+    cursor: pointer; line-height: 1; font-family: inherit;
+    transition: color .15s;
+  }
+  .cert-modal-close:hover { color: #191919; }
+  .cert-modal-badge { width: 100px; height: 100px; object-fit: contain; margin: 0 auto 24px; display: block; }
+  .cert-modal-title { font-size: 24px; font-weight: 800; color: #191919; letter-spacing: -0.4px; margin-bottom: 8px; }
+  .cert-modal-sub { font-size: 14px; color: #888; margin-bottom: 32px; line-height: 1.5; }
+  .cert-modal-points { display: flex; flex-direction: column; gap: 14px; text-align: left; }
+  .cert-modal-point { display: flex; gap: 14px; align-items: flex-start; }
+  .cert-modal-point-icon { width: 32px; height: 32px; border-radius: 10px; background: #F1EDF8; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 15px; }
+  .cert-modal-point-text { flex: 1; }
+  .cert-modal-point-label { font-size: 14px; font-weight: 700; color: #191919; margin-bottom: 2px; }
+  .cert-modal-point-desc { font-size: 13px; color: #888; line-height: 1.5; }
+  .cert-modal-footer { margin-top: 32px; padding-top: 24px; border-top: 1px solid #EBEBEB; font-size: 12px; color: #bbb; }
+
+  /* cert shimmer wrapper */
+  .prod-cert-wrap { position: absolute; top: -28px; right: 14px; width: 56px; height: 56px; border-radius: 50%; overflow: hidden; cursor: pointer; transition: transform .15s; }
+  .prod-cert-wrap:hover { transform: scale(1.08); }
+  .prod-cert-wrap::after { content: ''; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.55) 50%, transparent 70%); transform: translateX(-100%); pointer-events: none; }
+  .prod-cert-wrap:hover::after { animation: cert-shimmer-sweep .9s ease forwards; }
+  .prod-cert-wrap.shimmer-play::after { animation: cert-shimmer-sweep 1s ease forwards; }
+  .cert-modal-badge-wrap { width: 100px; height: 100px; margin: 0 auto 24px; border-radius: 50%; overflow: hidden; position: relative; cursor: default; }
+  .cert-modal-badge-wrap::after { content: ''; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.55) 50%, transparent 70%); transform: translateX(-100%); pointer-events: none; }
+  .cert-modal-badge-wrap.shimmer-play::after { animation: cert-shimmer-sweep 2s ease .2s forwards; }
+  @keyframes cert-shimmer-sweep { from { transform: translateX(-120%); } to { transform: translateX(120%); } }
+  .prod-cert-wrap img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .cert-modal-badge-wrap img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+  /* badge cursor */
+  .prod-cert { cursor: pointer; transition: transform .15s; }
+  .prod-cert:hover { transform: scale(1.08); }
+
+  /* ─── COPY TOAST ─────────────────────────────────────────────────── */
+  .copy-toast {
+    position: fixed; bottom: 28px; left: 50%;
+    transform: translateX(-50%) translateY(12px);
+    background: #191919; color: #fff;
+    padding: 10px 20px; border-radius: 99px;
+    font-size: 13px; font-weight: 700; font-family: inherit;
+    pointer-events: none; z-index: 9999;
+    opacity: 0; transition: opacity .18s, transform .18s;
+    white-space: nowrap;
+  }
+  .copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+
+  /* ─── DIVIDER ────────────────────────────────────────────────────── */
+  .sc-divider { height: 1px; background: var(--divider); margin: 40px 0; }
+</style>
+</head>
+<body>
+
+<div id="copy-toast" class="copy-toast"></div>
+
+<!-- CERT MODAL -->
+<div class="cert-modal-overlay" id="cert-modal-overlay" onclick="if(event.target===this)closeCertModal()">
+  <div class="cert-modal">
+    <button class="cert-modal-close" onclick="closeCertModal()">✕</button>
+    <div class="cert-modal-badge-wrap" id="modal-cert-wrap"><img src="./cert.png" alt="Clutch Certified"></div>
+    <div class="cert-modal-title">Clutch Certified</div>
+    <div class="cert-modal-sub">Every car on Clutch goes through a rigorous certification process before it reaches you. No surprises, no guesswork.</div>
+    <div class="cert-modal-points">
+      <div class="cert-modal-point">
+        <div class="cert-modal-point-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#550E30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+        <div class="cert-modal-point-text">
+          <div class="cert-modal-point-label">210-point inspection</div>
+          <div class="cert-modal-point-desc">Every mechanical, electrical, and safety system checked by a certified technician before listing.</div>
+        </div>
+      </div>
+      <div class="cert-modal-point">
+        <div class="cert-modal-point-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#550E30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
+        <div class="cert-modal-point-text">
+          <div class="cert-modal-point-label">Full history report</div>
+          <div class="cert-modal-point-desc">Accident history, previous ownership, and service records — disclosed upfront, every time.</div>
+        </div>
+      </div>
+      <div class="cert-modal-point">
+        <div class="cert-modal-point-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#550E30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="cert-modal-point-text">
+          <div class="cert-modal-point-label">10-day money-back guarantee</div>
+          <div class="cert-modal-point-desc">Not the right fit? Return it within 10 days for a full refund. No questions asked.</div>
+        </div>
+      </div>
+      <div class="cert-modal-point">
+        <div class="cert-modal-point-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#550E30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+        <div class="cert-modal-point-text">
+          <div class="cert-modal-point-label">Reconditioned to standard</div>
+          <div class="cert-modal-point-desc">Any issues found during inspection are fixed before the car is listed. What you see is what you get.</div>
+        </div>
+      </div>
+    </div>
+    <div class="cert-modal-footer">Clutch Certified applies to all vehicles sold directly by Clutch.</div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="site-header">
+  <img class="site-header-logo" src="./logo/Red/Clutch_Logo-02.png" alt="Clutch">
+  <div class="site-header-meta">
+    <div class="site-header-title">Color System Showcase</div>
+    <div>March 2026 · Internal</div>
+  </div>
+</header>
+
+
+<!-- ══════════════════════════════════════════════════════════════════
+     1. COLOR PALETTE
+═══════════════════════════════════════════════════════════════════ -->
+<section class="sc-section" id="palette">
+  <div class="sc-section-label">01</div>
+  <div class="sc-section-title">Brand Colors</div>
+  <div class="sc-section-desc">Four primary backgrounds. Each has one approved text color and one approved accent — never more than two brand primaries on a single surface.</div>
+
+  <div class="palette-hero" id="palette-hero"></div>
+  <div class="palette-scale" id="palette-scale"></div>
+
+  <details class="tech-details" style="margin-top:24px">
+    <summary>Token reference</summary>
+    <div class="tech-body">
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px">
+        <div>
+          <div style="font-weight:700;color:var(--ink);margin-bottom:10px;font-size:12px">Primary</div>
+          <div class="tech-row"><span class="tech-key">Clutch Red</span><span class="tech-val">#FF464C · PMS 032 C · C:0 M:87 Y:67 K:0</span></div>
+          <div class="tech-row"><span class="tech-key">Plum (text)</span><span class="tech-val">#550E30 · PMS 690 C · C:47 M:96 Y:54 K:54</span></div>
+          <div class="tech-row"><span class="tech-key">Plum (bg)</span><span class="tech-val">#460B28 · C:52 M:97 Y:58 K:63</span></div>
+          <div class="tech-row"><span class="tech-key">Lavender</span><span class="tech-val">#F1EDF8 · PMS 7443 C · C:4 M:5 Y:0 K:0</span></div>
+          <div class="tech-row"><span class="tech-key">Lavender Mid</span><span class="tech-val">#EBE1F8 · C:7 M:11 Y:0 K:0</span></div>
+          <div class="tech-row"><span class="tech-key">Lavender Deep</span><span class="tech-val">#E6D6F9 · accent swatch only</span></div>
+          <div class="tech-row"><span class="tech-key">White</span><span class="tech-val">#FFFFFF · C:0 M:0 Y:0 K:0</span></div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--ink);margin-bottom:10px;font-size:12px">Extended</div>
+          <div class="tech-row"><span class="tech-key">Dark Cherry</span><span class="tech-val">#800040 · PMS 221 C</span></div>
+          <div class="tech-row"><span class="tech-key">Soft Black</span><span class="tech-val">#191919 · PMS Black 3 C</span></div>
+          <div class="tech-row"><span class="tech-key">Red Shade 1</span><span class="tech-val">#F56B6E (tint)</span></div>
+          <div class="tech-row"><span class="tech-key">Red Shade 2</span><span class="tech-val">#F43536 (hover)</span></div>
+          <div class="tech-row"><span class="tech-key">Red Shade 3</span><span class="tech-val">#DF0C00</span></div>
+          <div class="tech-row"><span class="tech-key">Red Shade 4</span><span class="tech-val">#B00700 (button bottom)</span></div>
+        </div>
+      </div>
+      <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--divider);color:#aaa">
+        Rules: Never use <code>#E6D6F9</code> as a background. Never use <code>#191919</code> as a content bg. Gradients for buttons only — never backgrounds.
+      </div>
+    </div>
+  </details>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════
+     2. COLOR PAIRINGS
+═══════════════════════════════════════════════════════════════════ -->
+<section class="sc-section" id="pairings">
+  <div class="sc-section-label">02</div>
+  <div class="sc-section-title">Approved Color Pairings</div>
+  <div class="sc-section-desc">Each background has one primary text color and one accent. These are the only approved combinations.</div>
+
+  <div class="pairings-grid">
+
+    <!-- Red -->
+    <div>
+      <div class="pairing-card-bg-label">Clutch Red · #FF464C</div>
+      <div class="pairing-card" style="background:#FF464C">
+        <div class="pairing-card-copy">
+          <div class="pairing-card-headline" style="color:#FFFFFF">We buy your car.</div>
+          <div class="pairing-card-accent"   style="color:#550E30">We pick it up.</div>
+          <div class="pairing-card-sub"      style="color:#FFFFFF">Every car owned by Clutch, bought from Canadians like you.</div>
+        </div>
+        <div class="pairing-card-truck" style="background-image:url('./03-Truck-Side_Shot-Right-No_Car.png')"></div>
+        <div class="pairing-card-footer"><img src="./logo/White/Clutch_Logo-01.png"></div>
+      </div>
+      <details class="tech-details">
+        <summary>Technical details</summary>
+        <div class="tech-body">
+          <div class="tech-row"><span class="tech-key">Background</span><span class="tech-val">#FF464C — Clutch Red</span></div>
+          <div class="tech-row"><span class="tech-key">Primary text</span><span class="tech-val">#FFFFFF — 4.6:1 contrast ✓ AA</span></div>
+          <div class="tech-row"><span class="tech-key">Accent</span><span class="tech-val">#550E30 — Plum (one phrase max)</span></div>
+          <div class="tech-row"><span class="tech-key">Logo</span><span class="tech-val">White version</span></div>
+          <div style="margin-top:10px;color:#aaa">White leads all text. Plum as a single accent phrase creates hierarchy without a third color.</div>
+        </div>
+      </details>
+    </div>
+
+    <!-- Plum -->
+    <div>
+      <div class="pairing-card-bg-label">Plum · #460B28</div>
+      <div class="pairing-card" style="background:#460B28">
+        <div class="pairing-card-copy">
+          <div class="pairing-card-headline" style="color:#FFFFFF">We buy your car.</div>
+          <div class="pairing-card-accent"   style="color:#FF464C">We pick it up.</div>
+          <div class="pairing-card-sub"      style="color:#FFFFFF">Every car owned by Clutch, bought from Canadians like you.</div>
+        </div>
+        <div class="pairing-card-truck" style="background-image:url('./03-Truck-Side_Shot-Right-No_Car.png')"></div>
+        <div class="pairing-card-footer"><img src="./logo/White/Clutch_Logo-01.png"></div>
+      </div>
+      <details class="tech-details">
+        <summary>Technical details</summary>
+        <div class="tech-body">
+          <div class="tech-row"><span class="tech-key">Background</span><span class="tech-val">#460B28 — Plum</span></div>
+          <div class="tech-row"><span class="tech-key">Primary text</span><span class="tech-val">#FFFFFF — 14.2:1 contrast ✓ AAA</span></div>
+          <div class="tech-row"><span class="tech-key">Accent</span><span class="tech-val">#FF464C — Clutch Red</span></div>
+          <div class="tech-row"><span class="tech-key">Logo</span><span class="tech-val">White version</span></div>
+          <div style="margin-top:10px;color:#aaa">Bold and premium. White leads, Red draws the eye. Maximum contrast, two primaries only.</div>
+        </div>
+      </details>
+    </div>
+
+    <!-- Lavender -->
+    <div>
+      <div class="pairing-card-bg-label">Lavender · #F1EDF8</div>
+      <div class="pairing-card" style="background:#F1EDF8">
+        <div class="pairing-card-copy">
+          <div class="pairing-card-headline" style="color:#550E30">We buy your car.</div>
+          <div class="pairing-card-accent"   style="color:#FF464C">We pick it up.</div>
+          <div class="pairing-card-sub"      style="color:#550E30">Every car owned by Clutch, bought from Canadians like you.</div>
+        </div>
+        <div class="pairing-card-truck" style="background-image:url('./03-Truck-Side_Shot-Right-No_Car.png')"></div>
+        <div class="pairing-card-footer"><img src="./logo/Red/Clutch Logo CTA Red.png"></div>
+      </div>
+      <details class="tech-details">
+        <summary>Technical details</summary>
+        <div class="tech-body">
+          <div class="tech-row"><span class="tech-key">Background</span><span class="tech-val">#F1EDF8 — Lavender</span></div>
+          <div class="tech-row"><span class="tech-key">Primary text</span><span class="tech-val">#550E30 — Plum, 8.1:1 ✓ AAA</span></div>
+          <div class="tech-row"><span class="tech-key">Accent</span><span class="tech-val">#FF464C — Clutch Red (display / CTA only)</span></div>
+          <div class="tech-row"><span class="tech-key">Logo</span><span class="tech-val">Red version</span></div>
+          <div style="margin-top:10px;color:#aaa">The calm pairing. Plum carries all text. Red reserved for a single accent or CTA — never body copy.</div>
+        </div>
+      </details>
+    </div>
+
+    <!-- White -->
+    <div>
+      <div class="pairing-card-bg-label">White · #FFFFFF</div>
+      <div class="pairing-card" style="background:#FFFFFF">
+        <div class="pairing-card-copy">
+          <div class="pairing-card-headline" style="color:#550E30">We buy your car.</div>
+          <div class="pairing-card-accent"   style="color:#FF464C">We pick it up.</div>
+          <div class="pairing-card-sub"      style="color:#550E30">Every car owned by Clutch, bought from Canadians like you.</div>
+        </div>
+        <div class="pairing-card-truck" style="background-image:url('./03-Truck-Side_Shot-Right-No_Car.png')"></div>
+        <div class="pairing-card-footer"><img src="./logo/Red/Clutch Logo CTA Red.png"></div>
+      </div>
+      <details class="tech-details">
+        <summary>Technical details</summary>
+        <div class="tech-body">
+          <div class="tech-row"><span class="tech-key">Background</span><span class="tech-val">#FFFFFF — White</span></div>
+          <div class="tech-row"><span class="tech-key">Primary text</span><span class="tech-val">#550E30 — Plum, 8.1:1 ✓ AAA</span></div>
+          <div class="tech-row"><span class="tech-key">Accent</span><span class="tech-val">#FF464C — Clutch Red (CTA / display only)</span></div>
+          <div class="tech-row"><span class="tech-key">Logo</span><span class="tech-val">Red version</span></div>
+          <div style="margin-top:10px;color:#aaa">The product default. Plum for headlines and body. Red for CTAs and display accents only.</div>
+        </div>
+      </details>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════
+     3. BUTTONS
+═══════════════════════════════════════════════════════════════════ -->
+<section class="sc-section" id="buttons">
+  <div class="sc-section-label">03</div>
+  <div class="sc-section-title">Button System</div>
+  <div class="sc-section-desc">Three locked variants. Each uses a gradient, dual inner shadows for depth, and a clicky physical press feel on interaction.</div>
+
+  <div class="buttons-section">
+
+    <!-- Red Button -->
+    <div class="button-showcase">
+      <div>
+        <div class="button-meta-name">Primary — Red</div>
+        <div class="button-meta-desc">Main CTA. Used on any background. The highest-priority action on a surface.</div>
+      </div>
+      <div>
+        <div class="button-states">
+          <div class="button-state-cell">
+            <div class="button-state-label">Default</div>
+            <div class="button-state-stage">
+              <button class="showcase-btn" style="background:linear-gradient(360deg,#ff464c 0%,#b00700 100%);color:#fff;box-shadow:inset 0 -3px 2px 0px rgba(0,0,0,0.17),inset 0 1px 2px 0px rgba(0,0,0,0.18);pointer-events:none">Get My Offer</button>
+            </div>
+          </div>
+          <div class="button-state-cell">
+            <div class="button-state-label">Hover</div>
+            <div class="button-state-stage">
+              <button class="showcase-btn btn-hover-state" style="background:linear-gradient(360deg,#ff464c 0%,#b00700 100%);color:#fff;box-shadow:inset 0 -3px 2px 0px rgba(0,0,0,0.17),inset 0 1px 2px 0px rgba(0,0,0,0.18);pointer-events:none">Get My Offer</button>
+            </div>
+          </div>
+          <div class="button-state-cell">
+            <div class="button-state-label">Pressed</div>
+            <div class="button-state-stage">
+              <button class="showcase-btn btn-pressed-state" style="background:linear-gradient(360deg,#ff464c 0%,#b00700 100%);color:#fff;box-shadow:inset 0 -3px 2px 0px rgba(0,0,0,0.17),inset 0 1px 2px 0px rgba(0,0,0,0.18);pointer-events:none">Get My Offer</button>
+            </div>
+          </div>
+          <div class="button-state-cell">
+            <div class="button-state-label">Live</div>
+            <div class="button-state-stage">
+              <button class="showcase-btn" style="background:linear-gradient(360deg,#ff464c 0%,#b00700 100%);color:#fff;box-shadow:inset 0 -3px 2px 0px rgba(0,0,0,0.17),inset 0 1px 2px 0px rgba(0,0,0,0.18)">Get My Offer</button>
+            </div>
+          </div>
+        </div>
+        <details class="tech-details">
+          <summary>Technical details</summary>
+          <div class="tech-body">
+            <div class="tech-row"><span class="tech-key">background</span><span class="tech-val">linear-gradient(360deg, #ff464c 0%, #b00700 100%)</span></div>
+            <div class="tech-row"><span class="tech-key">color</span><span class="tech-val">#ffffff</span></div>
+            <div class="tech-row"><span class="tech-key">box-shadow</span><span class="tech-val">inset 0 6px 6px -2px rgba(255,255,255,0.47),<br>inset 0 -4px 7px -2px rgba(255,255,255,0.46)</span></div>
+            <div class="tech-row" style="margin-top:10px"><span class="tech-key">:hover</span><span class="tech-val">translateY(-3px) scale(1.02) · brightness(105%)</span></div>
+            <div class="tech-row"><span class="tech-key">:active</span><span class="tech-val">translateY(2px) scale(0.96) · brightness(85%)</span></div>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <div class="sc-divider"></div>
+
+    <!-- Plum Button -->
+    <div class="button-showcase">
+      <div>
+        <div class="button-meta-name">Secondary — Plum</div>
+        <div class="button-meta-desc">Premium alternative CTA. Pairs with white or lavender backgrounds. Same physical feel as Red.</div>
+      </div>
+      <div>
+        <div class="button-states">
+          <div class="button-state-cell">
+            <div class="button-state-label">Default</div>
+            <div class="button-state-stage">
+              <button class="showcase-btn" style="background:linear-gradient(360deg,#460b28 9%,#84024a 100%);color:#fff;box-shadow:inset 0 6px 6px -2px rgba(255,255,255,0.47),inset 0 -4px 7px -2px rgba(255,255,255,0.46);pointer-events:none">Learn More</button>
+            </div>
+          </div>
+          <div class="button-state-cell">
+            <div class="button-state-label">Hover</div>
+            <div class="button-state-stage">
+              <button class="showcase-btn btn-hover-state" style="background:linear-gradient(360deg,#460b28 9%,#84024a 100%);color:#fff;box-shadow:inset 0 6px 6px -2px rgba(255,255,255,0.47),inset 0 -4px 7px -2px rgba(255,255,255,0.46);pointer-events:none">Learn More</button>
+            </div>
+          </div>
+          <div class="button-state-cell">
+            <div class="button-state-label">Pressed</div>
+            <div class="button-state-stage">
+              <button class="showcase-btn btn-pressed-state" style="background:linear-gradient(360deg,#460b28 9%,#84024a 100%);color:#fff;box-shadow:inset 0 6px 6px -2px rgba(255,255,255,0.47),inset 0 -4px 7px -2px rgba(255,255,255,0.46);pointer-events:none">Learn More</button>
+            </div>
+          </div>
+          <div class="button-state-cell">
+            <div class="button-state-label">Live</div>
+            <div class="button-state-stage">
+              <button class="showcase-btn" style="background:linear-gradient(360deg,#460b28 9%,#84024a 100%);color:#fff;box-shadow:inset 0 6px 6px -2px rgba(255,255,255,0.47),inset 0 -4px 7px -2px rgba(255,255,255,0.46)">Learn More</button>
+            </div>
+          </div>
+        </div>
+        <details class="tech-details">
+          <summary>Technical details</summary>
+          <div class="tech-body">
+            <div class="tech-row"><span class="tech-key">background</span><span class="tech-val">linear-gradient(360deg, #460b28 9%, #84024a 100%)</span></div>
+            <div class="tech-row"><span class="tech-key">color</span><span class="tech-val">#ffffff</span></div>
+            <div class="tech-row"><span class="tech-key">box-shadow</span><span class="tech-val">inset 0 6px 6px -2px rgba(255,255,255,0.47),<br>inset 0 -4px 7px -2px rgba(255,255,255,0.46)</span></div>
+            <div class="tech-row" style="margin-top:10px"><span class="tech-key">:hover</span><span class="tech-val">translateY(-3px) scale(1.02) · brightness(105%)</span></div>
+            <div class="tech-row"><span class="tech-key">:active</span><span class="tech-val">translateY(2px) scale(0.96) · brightness(85%)</span></div>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <div class="sc-divider"></div>
+
+    <!-- Lavender Button -->
+    <div class="button-showcase">
+      <div>
+        <div class="button-meta-name">Soft — Lavender</div>
+        <div class="button-meta-desc">Low-emphasis action. Used on red or plum backgrounds where a lighter option is needed.</div>
+      </div>
+      <div>
+        <div class="button-states">
+          <div class="button-state-cell">
+            <div class="button-state-label">Default</div>
+            <div class="button-state-stage">
+              <button class="showcase-btn lav" style="background:linear-gradient(180deg,#f1edf8 0%,#e6d6f9 100%);color:#460b28;box-shadow:inset 0 4px 6px 0px rgba(202,158,255,0.23),inset 0 -4px 7px 0px rgba(202,158,255,0.30);pointer-events:none">Get Started</button>
+            </div>
+          </div>
+          <div class="button-state-cell">
+            <div class="button-state-label">Hover</div>
+            <div class="button-state-stage">
+              <button class="showcase-btn btn-hover-state lav" style="background:linear-gradient(180deg,#f1edf8 0%,#e6d6f9 100%);color:#460b28;box-shadow:inset 0 4px 6px 0px rgba(202,158,255,0.23),inset 0 -4px 7px 0px rgba(202,158,255,0.30);pointer-events:none">Get Started</button>
+            </div>
+          </div>
+          <div class="button-state-cell">
+            <div class="button-state-label">Pressed</div>
+            <div class="button-state-stage">
+              <button class="showcase-btn btn-pressed-state lav" style="background:linear-gradient(180deg,#f1edf8 0%,#e6d6f9 100%);color:#460b28;box-shadow:inset 0 4px 6px 0px rgba(202,158,255,0.23),inset 0 -4px 7px 0px rgba(202,158,255,0.30);pointer-events:none">Get Started</button>
+            </div>
+          </div>
+          <div class="button-state-cell">
+            <div class="button-state-label">Live</div>
+            <div class="button-state-stage">
+              <button class="showcase-btn lav" style="background:linear-gradient(180deg,#f1edf8 0%,#e6d6f9 100%);color:#460b28;box-shadow:inset 0 4px 6px 0px rgba(202,158,255,0.23),inset 0 -4px 7px 0px rgba(202,158,255,0.30)">Get Started</button>
+            </div>
+          </div>
+        </div>
+        <details class="tech-details">
+          <summary>Technical details</summary>
+          <div class="tech-body">
+            <div class="tech-row"><span class="tech-key">background</span><span class="tech-val">linear-gradient(180deg, #f1edf8 0%, #e6d6f9 100%)</span></div>
+            <div class="tech-row"><span class="tech-key">color</span><span class="tech-val">#460b28</span></div>
+            <div class="tech-row"><span class="tech-key">box-shadow</span><span class="tech-val">inset 0 4px 6px 0px rgba(202,158,255,0.23),<br>inset 0 -4px 7px 0px rgba(202,158,255,0.30)</span></div>
+            <div class="tech-row" style="margin-top:10px"><span class="tech-key">:hover</span><span class="tech-val">translateY(-3px) scale(1.02) · brightness(105%)</span></div>
+            <div class="tech-row"><span class="tech-key">:active</span><span class="tech-val">translateY(2px) scale(0.96) · brightness(85%)</span></div>
+          </div>
+        </details>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════
+     4. MARKETING ADS
+═══════════════════════════════════════════════════════════════════ -->
+<section class="sc-section" id="marketing">
+  <div class="sc-section-label">04</div>
+  <div class="sc-section-title">Marketing Ads</div>
+  <div class="sc-section-desc">Portrait truck ads across the four approved backgrounds. Three lines max — headline, continuation, accent.</div>
+
+  <div class="mkt-grid" id="mkt-grid"></div>
+
+  <details class="tech-details">
+    <summary>Color tokens used</summary>
+    <div class="tech-body">
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
+        <div>
+          <div style="font-weight:700;color:var(--ink);margin-bottom:8px;font-size:12px">Red bg</div>
+          <div class="tech-row"><span class="tech-key">Background</span><span class="tech-val">#FF464C</span></div>
+          <div class="tech-row"><span class="tech-key">Lines 1–2</span><span class="tech-val">#FFFFFF</span></div>
+          <div class="tech-row"><span class="tech-key">Line 3 accent</span><span class="tech-val">#550E30</span></div>
+          <div class="tech-row"><span class="tech-key">Logo</span><span class="tech-val">White</span></div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--ink);margin-bottom:8px;font-size:12px">Lavender bg</div>
+          <div class="tech-row"><span class="tech-key">Background</span><span class="tech-val">#F1EDF8</span></div>
+          <div class="tech-row"><span class="tech-key">Lines 1–2</span><span class="tech-val">#550E30</span></div>
+          <div class="tech-row"><span class="tech-key">Line 3 accent</span><span class="tech-val">#FF464C</span></div>
+          <div class="tech-row"><span class="tech-key">Logo</span><span class="tech-val">Red</span></div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--ink);margin-bottom:8px;font-size:12px">Plum bg</div>
+          <div class="tech-row"><span class="tech-key">Background</span><span class="tech-val">#460B28</span></div>
+          <div class="tech-row"><span class="tech-key">Lines 1–2</span><span class="tech-val">#FFFFFF</span></div>
+          <div class="tech-row"><span class="tech-key">Line 3 accent</span><span class="tech-val">#FF464C</span></div>
+          <div class="tech-row"><span class="tech-key">Logo</span><span class="tech-val">White</span></div>
+        </div>
+      </div>
+    </div>
+  </details>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════
+     5. BRAND BANNERS
+═══════════════════════════════════════════════════════════════════ -->
+<section class="sc-section" id="brand">
+  <div class="sc-section-label">05</div>
+  <div class="sc-section-title">Brand Banners</div>
+  <div class="sc-section-desc">Horizontal 16:9 banners. Headline + accent phrase. Logo pinned to bottom right.</div>
+
+  <div class="brand-grid" id="brand-grid"></div>
+
+  <details class="tech-details">
+    <summary>Color tokens used</summary>
+    <div class="tech-body">
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
+        <div>
+          <div style="font-weight:700;color:var(--ink);margin-bottom:8px;font-size:12px">Plum bg</div>
+          <div class="tech-row"><span class="tech-key">Headline</span><span class="tech-val">#FFFFFF</span></div>
+          <div class="tech-row"><span class="tech-key">Accent</span><span class="tech-val">#FF464C</span></div>
+          <div class="tech-row"><span class="tech-key">Logo</span><span class="tech-val">White</span></div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--ink);margin-bottom:8px;font-size:12px">Red bg</div>
+          <div class="tech-row"><span class="tech-key">Headline</span><span class="tech-val">#FFFFFF</span></div>
+          <div class="tech-row"><span class="tech-key">Accent</span><span class="tech-val">#550E30</span></div>
+          <div class="tech-row"><span class="tech-key">Logo</span><span class="tech-val">White</span></div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--ink);margin-bottom:8px;font-size:12px">Lavender bg</div>
+          <div class="tech-row"><span class="tech-key">Headline</span><span class="tech-val">#550E30</span></div>
+          <div class="tech-row"><span class="tech-key">Accent</span><span class="tech-val">#FF464C</span></div>
+          <div class="tech-row"><span class="tech-key">Logo</span><span class="tech-val">Red</span></div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--ink);margin-bottom:8px;font-size:12px">White bg</div>
+          <div class="tech-row"><span class="tech-key">Headline</span><span class="tech-val">#550E30</span></div>
+          <div class="tech-row"><span class="tech-key">Accent</span><span class="tech-val">#FF464C</span></div>
+          <div class="tech-row"><span class="tech-key">Logo</span><span class="tech-val">Red</span></div>
+        </div>
+      </div>
+    </div>
+  </details>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════
+     6. PRODUCT CARDS
+═══════════════════════════════════════════════════════════════════ -->
+<section class="sc-section" id="product">
+  <div class="sc-section-label">06</div>
+  <div class="sc-section-title">Product Cards</div>
+  <div class="sc-section-desc" style="display:flex;align-items:center;justify-content:space-between;max-width:none">
+    <span>UI listing cards. White and Plum backgrounds.</span>
+    <a href="./listing.html" style="display:inline-flex;align-items:center;gap:8px;background:#191919;color:#fff;text-decoration:none;padding:10px 20px;border-radius:99px;font-size:13px;font-weight:700;transition:opacity .15s" onmouseenter="this.style.opacity='.8'" onmouseleave="this.style.opacity='1'">View card grid →</a>
+    <a href="./sell-hero.html" style="display:inline-flex;align-items:center;gap:8px;background:#191919;color:#fff;text-decoration:none;padding:10px 20px;border-radius:99px;font-size:13px;font-weight:700;transition:opacity .15s;margin-left:10px" onmouseenter="this.style.opacity='.8'" onmouseleave="this.style.opacity='1'">View sell hero →</a>
+  </div>
+
+  <div class="product-grid">
+
+    <!-- White card -->
+    <div class="prod-wrap">
+      <div class="prod-card">
+        <div class="prod-img-wrap">
+          <img class="prod-car-img" style="background:#F3F3F3" src="./cc_2025HOC071942630_01_2100_NH731P.png.png" onerror="this.style.background='#F3F3F3';this.style.minHeight='200px'">
+          <div class="prod-like"><svg width="16" height="15" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 20.5C12 20.5 2 14 2 7.5C2 4.46 4.46 2 7.5 2C9.24 2 10.79 2.83 12 4.09C13.21 2.83 14.76 2 16.5 2C19.54 2 22 4.46 22 7.5C22 14 12 20.5 12 20.5Z" stroke="#FF464C" stroke-width="2" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-cert-wrap" onclick="openCertModal()"><img src="./cert.png" alt="Clutch Certified"></div>
+          <div class="prod-title">2022 Hyundai Tucson</div>
+          <div class="prod-trim"><span class="prod-pill">N Line</span><span class="prod-pill">99,602 km</span></div>
+          <div class="prod-divider"></div>
+          <div class="prod-price-row">
+            <span class="prod-price">$25,190</span>
+            <span class="prod-was">(was <s>$27,990</s>)</span>
+          </div>
+          <div class="prod-biweekly"><u>$176 /biweekly</u>&nbsp; $0 down</div>
+          <div class="prod-divider"></div>
+          <div class="prod-fine">Excl. HST &amp; Licensing; Incl. OMVIC Fee</div>
+        </div>
+      </div>
+      <div class="card-label">White card · Red CTA</div>
+      <details class="tech-details">
+        <summary>Technical details</summary>
+        <div class="tech-body">
+          <div class="tech-row"><span class="tech-key">Card bg</span><span class="tech-val">#FFFFFF</span></div>
+          <div class="tech-row"><span class="tech-key">Image bg</span><span class="tech-val">#F3F3F3</span></div>
+          <div class="tech-row"><span class="tech-key">Title / price</span><span class="tech-val">#191919</span></div>
+          <div class="tech-row"><span class="tech-key">Was price</span><span class="tech-val">#FF464C — strikethrough</span></div>
+          <div class="tech-row"><span class="tech-key">Sale badge</span><span class="tech-val">border #FF464C · text #FF464C</span></div>
+          <div class="tech-row"><span class="tech-key">CTA button</span><span class="tech-val">Red gradient · white gloss shadows</span></div>
+        </div>
+      </details>
+    </div>
+
+    <!-- Plum card -->
+    <div class="prod-wrap">
+      <div class="prod-card" style="background:#460B28">
+        <div class="prod-img-wrap">
+          <img class="prod-car-img" style="background:#F3F3F3" src="./cc_2025HOC071942630_01_2100_NH731P.png.png" onerror="this.style.background='#F3F3F3';this.style.minHeight='200px'">
+          <div class="prod-badges">
+            <div class="prod-badge-sale">Sale</div>
+            <div class="prod-badge-views"><svg width="12" height="16" viewBox="0 0 5 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.36729 6.31277C3.67469 6.31277 4.73458 5.25288 4.73458 3.94548C4.73458 3.62984 4.73458 2.99856 4.1033 2.20947C4.1033 2.20947 4.07186 3.11017 3.44873 2.97988C2.44086 2.76916 3.74192 0.79003 1.89383 0C1.89383 1.57819 0 2.05165 0 3.94548C0 5.25288 1.05987 6.31277 2.36729 6.31277Z" fill="#460B28"/><path d="M2.36743 5.36603C2.97756 5.36603 3.47216 4.73011 3.47216 3.94566C2.46212 4.32442 2.10441 3.45225 2.05179 2.84058C1.59546 3.01519 1.2627 3.73244 1.2627 4.10313C1.2627 4.88759 1.7573 5.36603 2.36743 5.36603Z" fill="#FF464C"/></svg> 100+ views today</div>
+          </div>
+          <div class="prod-like"><svg width="16" height="15" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 20.5C12 20.5 2 14 2 7.5C2 4.46 4.46 2 7.5 2C9.24 2 10.79 2.83 12 4.09C13.21 2.83 14.76 2 16.5 2C19.54 2 22 4.46 22 7.5C22 14 12 20.5 12 20.5Z" stroke="#FF464C" stroke-width="2" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="prod-body" style="background:#460B28">
+          <div class="prod-cert-wrap" onclick="openCertModal()"><img src="./cert.png" alt="Clutch Certified"></div>
+          <div class="prod-title" style="color:#FFFFFF">2021 Toyota RAV4</div>
+          <div class="prod-trim"><span class="prod-pill" style="background:rgba(241,237,248,0.15);color:#F1EDF8">LE</span><span class="prod-pill" style="background:rgba(241,237,248,0.15);color:#F1EDF8">41,529 km</span></div>
+          <div class="prod-divider" style="background:#ffffff18"></div>
+          <div class="prod-price-row">
+            <span class="prod-price" style="color:#F1EDF8">$29,290</span>
+            <span class="prod-was">(was <s>$31,990</s>)</span>
+          </div>
+          <div class="prod-biweekly" style="color:#F1EDF8;opacity:.8"><u>$203 /biweekly</u>&nbsp; $0 down</div>
+          <div class="prod-divider" style="background:#ffffff18"></div>
+          <div class="prod-fine" style="color:#F1EDF8;opacity:.5">Excl. HST &amp; Licensing; Incl. OMVIC Fee</div>
+        </div>
+      </div>
+      <div class="card-label">Plum card · Lavender text · Red CTA</div>
+      <details class="tech-details">
+        <summary>Technical details</summary>
+        <div class="tech-body">
+          <div class="tech-row"><span class="tech-key">Card bg</span><span class="tech-val">#460B28 — Plum</span></div>
+          <div class="tech-row"><span class="tech-key">Image bg</span><span class="tech-val">#F3F3F3</span></div>
+          <div class="tech-row"><span class="tech-key">Title</span><span class="tech-val">#FFFFFF</span></div>
+          <div class="tech-row"><span class="tech-key">Price / sub</span><span class="tech-val">#F1EDF8 — Lavender</span></div>
+          <div class="tech-row"><span class="tech-key">Was price</span><span class="tech-val">#FF464C — strikethrough</span></div>
+          <div class="tech-row"><span class="tech-key">CTA button</span><span class="tech-val">Red gradient · white gloss shadows</span></div>
+        </div>
+      </details>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════
+     7. COLOR IN USE
+═══════════════════════════════════════════════════════════════════ -->
+<section class="sc-section" id="concepts">
+  <div class="sc-section-label">07</div>
+  <div class="sc-section-title">Color in Use</div>
+  <div class="sc-section-desc">How Clutch colors work across touchpoints — motion, type, data, social, and UI.</div>
+
+  <div class="concepts-grid" id="concepts-grid"></div>
+</section>
+
+
+
+<script>
+// ─── UTILS ───────────────────────────────────────────────────────────────────
+function hexToRgb(hex) {
+  hex = hex.replace('#','');
+  const n = parseInt(hex, 16);
+  return { r: (n>>16)&255, g: (n>>8)&255, b: n&255 };
+}
+function luminance(hex) {
+  const { r, g, b } = hexToRgb(hex);
+  return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+  function lin(v) { v/=255; return v<=0.03928 ? v/12.92 : Math.pow((v+0.055)/1.055, 2.4); }
+}
+function bestTextColor(bg) {
+  const wL = luminance('#FFFFFF'), bL = luminance('#191919'), bgL = luminance(bg);
+  const wC = (Math.max(wL,bgL)+0.05)/(Math.min(wL,bgL)+0.05);
+  const bC = (Math.max(bL,bgL)+0.05)/(Math.min(bL,bgL)+0.05);
+  return wC >= bC ? '#FFFFFF' : '#191919';
+}
+
+// ─── COPY HEX ─────────────────────────────────────────────────────────────────
+let toastTimer;
+function copyHex(hex) {
+  navigator.clipboard.writeText(hex).then(() => {
+    const toast = document.getElementById('copy-toast');
+    toast.textContent = `Copied ${hex}`;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+  });
+}
+
+// ─── ASSETS ──────────────────────────────────────────────────────────────────
+const TRUCK_IMG  = './03-Clutch_Truck_Hero_02_F.png';
+const LOGO_RED   = './logo/Red/Clutch Logo CTA Red.png';
+const LOGO_WHITE = './logo/White/Cltuch Logo CTA White.png';
+const LOGO_RED2  = './logo/Red/Clutch_Logo-02.png';
+
+// ─── PALETTE ─────────────────────────────────────────────────────────────────
+const HERO_SWATCHES = [
+  { hex: '#FF464C', name: 'Clutch Red' },
+  { hex: '#460B28', name: 'Plum' },
+  { hex: '#F1EDF8', name: 'Lavender' },
+  { hex: '#FFFFFF', name: 'White' },
+];
+const SCALE_COLS = [
+  { label: 'Red',      swatches: [{ hex:'#F56B6E', name:'Tint' }, { hex:'#FF464C', name:'Primary' }, { hex:'#F43536', name:'Hover' }, { hex:'#DF0C00', name:'Deep' }, { hex:'#B00700', name:'Button end' }] },
+  { label: 'Plum',     swatches: [{ hex:'#800040', name:'Dark Cherry' }, { hex:'#550E30', name:'Text' }, { hex:'#460B28', name:'Background' }] },
+  { label: 'Lavender', swatches: [{ hex:'#F1EDF8', name:'Base' }, { hex:'#EBE1F8', name:'Mid' }, { hex:'#E6D6F9', name:'Deep (accent only)' }] },
+  { label: 'Neutral',  swatches: [{ hex:'#FFFFFF', name:'White' }, { hex:'#F3F3F3', name:'Light Grey' }, { hex:'#DCDCDC', name:'Grey' }, { hex:'#BABABA', name:'Mid Grey' }, { hex:'#191919', name:'Soft Black' }] },
+];
+
+function buildPalette() {
+  const hero = document.getElementById('palette-hero');
+  HERO_SWATCHES.forEach(({ hex, name }) => {
+    const tc = bestTextColor(hex);
+    const el = document.createElement('div');
+    el.className = 'palette-hero-swatch';
+    el.style.cssText = `background:${hex};${hex==='#FFFFFF'?'outline:1px solid #ddd;':''}`;
+    el.innerHTML = `<span class="palette-hero-name" style="color:${tc}">${name}</span>`;
+    el.onclick = () => copyHex(hex);
+    el.title = `Click to copy ${hex}`;
+    hero.appendChild(el);
+  });
+
+  const scale = document.getElementById('palette-scale');
+  SCALE_COLS.forEach(col => {
+    const colEl = document.createElement('div');
+    colEl.className = 'palette-scale-col';
+    colEl.innerHTML = `<div class="palette-scale-label">${col.label}</div>`;
+    col.swatches.forEach(({ hex, name }) => {
+      const tc = bestTextColor(hex);
+      const sw = document.createElement('div');
+      sw.className = 'palette-scale-swatch';
+      sw.style.cssText = `background:${hex};${hex==='#FFFFFF'?'outline:1px solid #ddd;':''}`;
+      sw.innerHTML = `<span class="palette-swatch-name" style="color:${tc}">${name}</span><span class="palette-swatch-hex" style="color:${tc}">${hex}</span>`;
+      sw.onclick = () => copyHex(hex);
+      sw.title = `Click to copy ${hex}`;
+      colEl.appendChild(sw);
+    });
+    scale.appendChild(colEl);
+  });
+}
+
+// ─── MARKETING ADS ───────────────────────────────────────────────────────────
+const MARKETING_VARIANTS = [
+  { bg:'#FF464C',  lines:[{t:'We buy your car.',c:'#FFFFFF'},{t:'We pick it up.',c:'#FFFFFF'},{t:'You get paid.',c:'#550E30'}], logo:'white', label:'Clutch Red bg' },
+  { bg:'#F1EDF8',  lines:[{t:'No haggle.',c:'#550E30'},{t:'No hassle.',c:'#550E30'},{t:'No sketchy meetups.',c:'#FF464C'}], logo:'red', label:'Lavender bg' },
+  { bg:'#460B28',  lines:[{t:'Selling your car?',c:'#FFFFFF'},{t:'Get paid in about',c:'#FFFFFF'},{t:'300 seconds.',c:'#FF464C'}], logo:'white', label:'Plum bg' },
+  { bg:'#F1EDF8',  lines:[{t:'We buy your car.',c:'#550E30'},{t:'We pick it up.',c:'#550E30'},{t:'You get paid.',c:'#FF464C'}], logo:'red', label:'Lavender bg · alt copy' },
+];
+
+function buildMarketing() {
+  const grid = document.getElementById('mkt-grid');
+  MARKETING_VARIANTS.forEach(v => {
+    const wrap = document.createElement('div');
+    wrap.className = 'mkt-wrap';
+    const logoSrc = v.logo === 'white' ? LOGO_WHITE : LOGO_RED;
+    wrap.innerHTML = `
+      <div class="mkt-card" style="background:${v.bg}">
+        <div class="mkt-copy">
+          ${v.lines.map(l => `<div class="mkt-line" style="color:${l.c}">${l.t}</div>`).join('')}
+        </div>
+        <div class="mkt-truck" style="background-image:url('${TRUCK_IMG}')"></div>
+        <div class="mkt-footer"><img src="${logoSrc}"></div>
+      </div>
+      <div class="card-label">${v.label}</div>`;
+    grid.appendChild(wrap);
+  });
+}
+
+// ─── BRAND BANNERS ────────────────────────────────────────────────────────────
+const BRAND_VARIANTS = [
+  { bg:'#460B28', headline:'#FFFFFF', headlineText:'Sell your car naked.\nOr in clothes.', sub:'#FF464C', subText:"We're easy.", logo:'white', label:'Plum bg' },
+  { bg:'#FF464C', headline:'#FFFFFF', headlineText:'Skip the lot,\nkeep your weekend.', sub:'#550E30', subText:'Buy your next car online.', logo:'white', label:'Red bg' },
+  { bg:'#F1EDF8', headline:'#550E30', headlineText:'Sell your car naked.\nOr in clothes.', sub:'#FF464C', subText:"We're easy.", logo:'red', label:'Lavender bg' },
+  { bg:'#FFFFFF', headline:'#550E30', headlineText:'Skip the lot,\nkeep your weekend.', sub:'#FF464C', subText:'Buy your next car online.', logo:'red', label:'White bg' },
+];
+
+function buildBrand() {
+  const grid = document.getElementById('brand-grid');
+  BRAND_VARIANTS.forEach(v => {
+    const wrap = document.createElement('div');
+    wrap.className = 'brand-wrap';
+    const logoSrc = v.logo === 'white' ? LOGO_WHITE : LOGO_RED;
+    wrap.innerHTML = `
+      <div class="brand-card" style="background:${v.bg}">
+        <div>
+          <div class="brand-display" style="color:${v.headline}">${v.headlineText}</div>
+          <div class="brand-sub" style="color:${v.sub}">${v.subText}</div>
+        </div>
+        <div class="brand-footer"><img src="${logoSrc}"></div>
+      </div>
+      <div class="card-label">${v.label}</div>`;
+    grid.appendChild(wrap);
+  });
+}
+
+// ─── CONCEPTS ─────────────────────────────────────────────────────────────────
+function buildConcepts() {
+  const grid = document.getElementById('concepts-grid');
+
+  // 1. Typography card
+  grid.innerHTML += `
+    <div class="concept-card concept-typo" style="background:#FF464C">
+      <div class="concept-typo-label">CircularXX</div>
+      <div class="concept-typo-name">Aa Bb Cc</div>
+      <div class="concept-typo-chars">Regular · Medium<br>Bold · Black</div>
+    </div>`;
+
+  // 2. Pattern
+  grid.innerHTML += `<div class="concept-card concept-pattern"></div>`;
+
+  // 3. Strike-through card
+  grid.innerHTML += `
+    <div class="concept-card concept-strike" style="background:#F1EDF8">
+      <div class="concept-strike-text" style="color:#550E30">
+        <s>The dealer.</s><br>
+        <s>The haggle.</s><br>
+        <span style="color:#FF464C">The Clutch way.</span>
+      </div>
+    </div>`;
+
+  // 4. Stat
+  grid.innerHTML += `
+    <div class="concept-card concept-stat" style="background:#460B28">
+      <div class="concept-stat-num" style="color:#FF464C">300</div>
+      <div class="concept-stat-label" style="color:#FFFFFF">seconds to an offer</div>
+      <div class="concept-stat-sub" style="color:#F1EDF8">Average sell time</div>
+    </div>`;
+
+  // 5 & 6. Ticker
+  const t1 = ['Sell your car', 'Get paid fast', 'No hassle', 'Skip the lot'];
+  const t2 = ['We pick it up', 'Instant offer', 'We come to you', 'Any condition'];
+  const t3 = ['Clutch · ', 'Buy · Sell · ', 'Drive · ', 'Canada · '];
+  const repeat = arr => [...arr, ...arr].map(t => `<span class="ticker-item">${t}</span><span class="ticker-item ticker-dot">·</span>`).join('');
+  grid.innerHTML += `
+    <div class="concept-card concept-ticker">
+      <div class="ticker-track fwd">${repeat(t1)}</div>
+      <div class="ticker-track rev">${repeat(t2)}</div>
+      <div class="ticker-track fwd2">${repeat(t3)}</div>
+    </div>`;
+
+  // 7. Icon + copy card
+  grid.innerHTML += `
+    <div class="concept-card concept-icon">
+      <img class="concept-icon-logo" src="${LOGO_RED}" onerror="this.style.display='none'">
+      <div class="concept-icon-copy">
+        <div class="concept-icon-headline">We come to you.</div>
+        <div class="concept-icon-body">Free pickup, anywhere in Canada. You don't move a muscle.</div>
+      </div>
+    </div>`;
+
+  // 8. Split color card
+  grid.innerHTML += `
+    <div class="concept-card concept-split">
+      <div class="concept-split-top" style="background:#FF464C">
+        <span class="concept-split-word" style="color:#FFFFFF">Sell</span>
+      </div>
+      <div class="concept-split-bottom" style="background:#460B28">
+        <span class="concept-split-word" style="color:#FF464C">Clutch.</span>
+      </div>
+    </div>`;
+
+  // 9. Tag card
+  grid.innerHTML += `
+    <div class="concept-card concept-tag-card" style="background:#FFFFFF">
+      <div class="concept-tag" style="background:#FF464C;color:#fff">New listing</div>
+      <div class="concept-tag" style="background:#F1EDF8;color:#550E30">Reduced price</div>
+      <div class="concept-tag" style="background:#460B28;color:#fff">Sold by Clutch</div>
+    </div>`;
+
+  // 10. Price card
+  grid.innerHTML += `
+    <div class="concept-card concept-price-card" style="background:#F1EDF8">
+      <div class="concept-price-sub" style="color:#550E30">Your offer</div>
+      <div class="concept-price-big" style="color:#FF464C">$14,200</div>
+      <div class="concept-price-detail" style="color:#550E30">Valid for 7 days · No obligation</div>
+    </div>`;
+
+  // 11. Quote card
+  grid.innerHTML += `
+    <div class="concept-card concept-quote" style="background:#460B28">
+      <div class="concept-quote-text" style="color:#FFFFFF">"Easiest car sale I've ever done. Took 20 minutes."</div>
+      <div class="concept-quote-attr" style="color:#FF464C">Toronto, ON · 2024</div>
+    </div>`;
+
+  // 12. Palette strip
+  const blocks = [
+    { hex:'#460B28', name:'Plum' }, { hex:'#550E30', name:'Plum text' },
+    { hex:'#FF464C', name:'Red' }, { hex:'#F43536', name:'Red hover' },
+    { hex:'#F1EDF8', name:'Lavender' }, { hex:'#EBE1F8', name:'Lav mid' },
+    { hex:'#E6D6F9', name:'Lav deep' }, { hex:'#191919', name:'Ink' }, { hex:'#FFFFFF', name:'White' },
+  ];
+  grid.innerHTML += `
+    <div class="concept-fullwidth" style="grid-column:span 4">
+      ${blocks.map(b => {
+        const tc = bestTextColor(b.hex);
+        const outline = b.hex==='#FFFFFF' ? 'outline:1px solid #e0e0e0;' : '';
+        return `<div class="concept-fullwidth-block" style="background:${b.hex};${outline}">
+          <div class="concept-fullwidth-name" style="color:${tc}">${b.name}</div>
+          <div class="concept-fullwidth-hex" style="color:${tc}">${b.hex}</div>
+        </div>`;
+      }).join('')}
+    </div>`;
+
+  // 13. Lavender brand card
+  grid.innerHTML += `
+    <div class="concept-card concept-quote" style="background:#F1EDF8;aspect-ratio:4/2;grid-column:span 2;justify-content:flex-end;gap:0;padding:36px">
+      <div style="font-size:13px;font-weight:700;color:#550E30;opacity:.6;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px">Lavender</div>
+      <div style="font-size:36px;font-weight:800;color:#550E30;line-height:1.15;letter-spacing:-1px">Sell your car naked.<br>Or in clothes.</div>
+      <div style="font-size:36px;font-weight:800;color:#FF464C;line-height:1.15;letter-spacing:-1px;margin-bottom:auto">We're easy.</div>
+      <img src="${LOGO_RED}" style="height:14px;object-fit:contain;object-position:left;margin-top:24px;opacity:.7">
+    </div>`;
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+buildPalette();
+buildMarketing();
+buildBrand();
+buildConcepts();
+
+// ─── LIKE BUTTONS ────────────────────────────────────────────────────────────
+const HEART_OUTLINE_RED   = `<svg width="16" height="15" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 20.5C12 20.5 2 14 2 7.5C2 4.46 4.46 2 7.5 2C9.24 2 10.79 2.83 12 4.09C13.21 2.83 14.76 2 16.5 2C19.54 2 22 4.46 22 7.5C22 14 12 20.5 12 20.5Z" stroke="#FF464C" stroke-width="2" stroke-linejoin="round"/></svg>`;
+const HEART_FILLED        = `<svg width="16" height="15" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 20.5C12 20.5 2 14 2 7.5C2 4.46 4.46 2 7.5 2C9.24 2 10.79 2.83 12 4.09C13.21 2.83 14.76 2 16.5 2C19.54 2 22 4.46 22 7.5C22 14 12 20.5 12 20.5Z" fill="#FF464C" stroke="#FF464C" stroke-width="2" stroke-linejoin="round"/></svg>`;
+
+document.addEventListener('click', e => {
+  const like = e.target.closest('.prod-like');
+  if (!like) return;
+  const liked = like.dataset.liked === '1';
+  like.dataset.liked = liked ? '0' : '1';
+  like.innerHTML = liked ? HEART_OUTLINE_RED : HEART_FILLED;
+  like.classList.remove('pop');
+  void like.offsetWidth;
+  like.classList.add('pop');
+});
+
+// ─── CERT MODAL ──────────────────────────────────────────────────────────────
+function openCertModal() {
+  document.getElementById('cert-modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  const wrap = document.getElementById('modal-cert-wrap');
+  wrap.classList.remove('shimmer-play');
+  void wrap.offsetWidth;
+  wrap.classList.add('shimmer-play');
+}
+function closeCertModal() {
+  document.getElementById('cert-modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCertModal(); });
+
+</script>
+</body>
+</html>

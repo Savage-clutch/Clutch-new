@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clutch — Browse Cars</title>
+<style>
+  @font-face { font-family:'CircularXX'; src:url('./fonts/CircularXX-Regular.otf') format('opentype'); font-weight:400; }
+  @font-face { font-family:'CircularXX'; src:url('./fonts/CircularXX-Medium.otf') format('opentype'); font-weight:500; }
+  @font-face { font-family:'CircularXX'; src:url('./fonts/CircularXX-Bold.otf') format('opentype'); font-weight:700; }
+  @font-face { font-family:'CircularXX'; src:url('./fonts/CircularXX-Black.otf') format('opentype'); font-weight:800; }
+
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'CircularXX',-apple-system,sans-serif; background:#F5F4F2; color:#191919; }
+
+  /* ─── TOPBAR ─── */
+  .topbar { background:#fff; border-bottom:1px solid #EBEBEB; height:56px; display:flex; align-items:center; padding:0 24px; gap:16px; position:sticky; top:0; z-index:100; }
+  .topbar { height:64px; }
+  .topbar-logo { height:48px; object-fit:contain; }
+  .topbar-back { font-size:13px; font-weight:600; color:#888; text-decoration:none; display:flex; align-items:center; gap:6px; margin-left:auto; transition:color .15s; }
+  .topbar-back:hover { color:#191919; }
+
+  /* ─── LAYOUT ─── */
+  .page { display:flex; min-height:calc(100vh - 56px); }
+
+  /* ─── SIDEBAR ─── */
+  .sidebar { width:220px; flex-shrink:0; background:#fff; border-right:1px solid #EBEBEB; padding:0; overflow-y:auto; }
+  .filter-item { border-bottom:1px solid #EBEBEB; }
+  .filter-head { display:flex; justify-content:space-between; align-items:center; padding:16px 20px; font-size:13px; font-weight:700; letter-spacing:.3px; cursor:pointer; user-select:none; }
+  .filter-head:hover { background:#FAFAFA; }
+  .filter-chevron { font-size:10px; color:#aaa; transition:transform .2s; }
+  .filter-body { padding:4px 20px 16px; display:none; }
+  .filter-body.open { display:block; }
+  .filter-item.active .filter-chevron { transform:rotate(180deg); }
+
+  /* ─── MAIN ─── */
+  .main { flex:1; padding:24px; overflow:auto; }
+
+  /* search bar */
+  .search-bar { background:#fff; border:1px solid #DCDCDC; border-radius:8px; padding:12px 16px; font-size:14px; font-family:inherit; color:#191919; width:100%; margin-bottom:20px; outline:none; }
+  .search-bar:focus { border-color:#191919; }
+
+  /* meta row */
+  .meta-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+  .meta-results { font-size:14px; color:#555; display:flex; align-items:center; gap:6px; }
+  .meta-results strong { color:#191919; font-weight:700; }
+  .meta-pin { color:#FF464C; font-size:14px; }
+  .sort-btn { font-size:13px; font-weight:600; color:#555; background:none; border:none; cursor:pointer; font-family:inherit; display:flex; align-items:center; gap:4px; }
+  .sort-btn:hover { color:#191919; }
+
+  /* ─── GRID ─── */
+  .cards-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+
+  /* ─── CARD ─── */
+  .c-card { background:#fff; border-radius:8px; overflow:hidden; display:flex; flex-direction:column; cursor:pointer; transition:box-shadow .18s, transform .18s; }
+  .c-card:hover { box-shadow:0 6px 24px rgba(0,0,0,0.1); transform:translateY(-2px); }
+
+  .c-img-wrap { position:relative; flex-shrink:0; }
+  .c-img { width:100%; aspect-ratio:4/3; object-fit:cover; display:block; background:#F3F3F3; }
+
+  .c-badges { position:absolute; top:10px; left:10px; display:flex; gap:5px; flex-wrap:wrap; }
+  .c-badge-sale { background:#fff; border:1.5px solid #FF464C; color:#FF464C; border-radius:7px; padding:5px 9px 4px; font-size:11px; font-weight:700; line-height:1; display:flex; align-items:center; }
+  .c-badge-fire { background:#fff; border:1.5px solid #e0e0e0; color:#191919; border-radius:7px; padding:4px 9px; font-size:11px; font-weight:700; line-height:1; display:flex; align-items:center; gap:4px; }
+
+  /* plum card */
+  .c-card.plum { background:#460B28; border-color:#460B28; }
+  .c-card.plum .c-body { background:#460B28; }
+  .c-card.plum .c-title { color:#FFFFFF; }
+  .c-card.plum .c-trim { color:#F1EDF8; opacity:.7; }
+  .c-card.plum .c-trim-dot { background:#F1EDF8; opacity:.4; }
+  .c-card.plum .c-divider { background:rgba(255,255,255,0.12); }
+  .c-card.plum .c-price { color:#F1EDF8; }
+  .c-card.plum .c-biweekly { color:#F1EDF8; opacity:.8; }
+  .c-card.plum .c-fine { color:#F1EDF8; opacity:.4; }
+
+  .c-heart { position:absolute; top:10px; right:10px; cursor:pointer; transition:transform .15s; }
+  .c-heart:hover { transform:scale(1.15); }
+  @keyframes heart-pop { 0% { transform:scale(1); } 40% { transform:scale(1.22); } 70% { transform:scale(0.94); } 100% { transform:scale(1); } }
+  .c-heart.pop { animation: heart-pop .35s ease; }
+
+  .c-body { padding:14px 14px 16px; display:flex; flex-direction:column; flex:1; position:relative; }
+  /* shimmer wrapper */
+  .cert-shimmer { position:absolute; top:-24px; right:10px; width:48px; height:48px; border-radius:50%; overflow:hidden; cursor:pointer; transition:transform .15s; flex-shrink:0; }
+  .cert-shimmer:hover { transform:scale(1.08); }
+  .cert-shimmer img { width:100%; height:100%; object-fit:contain; display:block; }
+  .cert-shimmer::after {
+    content:''; position:absolute; inset:0;
+    background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.55) 50%, transparent 70%);
+    transform: translateX(-100%);
+    pointer-events:none;
+  }
+  .cert-shimmer:hover::after { animation: cert-shimmer-sweep .9s ease forwards; }
+  .cert-shimmer.shimmer-play::after { animation: cert-shimmer-sweep 1s ease forwards; }
+  @keyframes cert-shimmer-sweep {
+    from { transform: translateX(-120%); }
+    to   { transform: translateX(120%); }
+  }
+
+  /* modal badge shimmer */
+  .modal-cert-wrap { width:100px; height:100px; border-radius:50%; overflow:hidden; margin:0 auto 24px; position:relative; display:block; }
+  .modal-cert-wrap img { width:100%; height:100%; object-fit:contain; display:block; }
+  .modal-cert-wrap::after {
+    content:''; position:absolute; inset:0;
+    background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.55) 50%, transparent 70%);
+    transform: translateX(-120%);
+    pointer-events:none;
+  }
+  .modal-cert-wrap.shimmer-play::after { animation: cert-shimmer-sweep 2s ease .2s forwards; }
+  .c-title { font-size:15px; font-weight:700; color:#191919; line-height:1.2; margin-bottom:3px; }
+  .c-trim { font-size:12px; color:#888; margin-bottom:14px; display:flex; align-items:center; gap:4px; }
+  .c-trim-dot { width:3px; height:3px; border-radius:50%; background:#ccc; display:inline-block; flex-shrink:0; }
+  .c-divider { height:1px; background:#EBEBEB; margin-bottom:12px; }
+  .c-price-row { display:flex; align-items:baseline; gap:7px; margin-bottom:5px; }
+  .c-price { font-size:22px; font-weight:800; color:#191919; line-height:1; }
+  .c-was { font-size:12px; color:#FF464C; font-weight:500; }
+  .c-was s { text-decoration-color:#FF464C; }
+  .c-biweekly { font-size:12px; color:#555; margin-bottom:12px; }
+  .c-biweekly u { text-underline-offset:2px; }
+  .c-fine { font-size:11px; color:#bbb; margin-top:auto; }
+
+  /* ─── PROMO CARD ─── */
+  .c-promo { border-radius:14px; overflow:hidden; background:#FF464C; padding:28px 22px; display:flex; flex-direction:column; justify-content:center; cursor:default; border:none; }
+  .c-promo:hover { transform:none; box-shadow:none; }
+  .c-promo-headline { font-size:22px; font-weight:800; color:#fff; line-height:1.2; letter-spacing:-0.3px; margin-bottom:10px; }
+  .c-promo-sub { font-size:13px; color:rgba(255,255,255,0.8); line-height:1.5; font-weight:500; }
+
+  /* FIRE SVG inline */
+  .fire-svg { display:inline-block; vertical-align:middle; }
+</style>
+</head>
+<body>
+
+<!-- CERT MODAL -->
+<div id="cert-modal-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;backdrop-filter:blur(4px)" onclick="if(event.target===this)closeCertModal()">
+  <div id="cert-modal" style="background:#fff;border-radius:24px;padding:48px 40px 40px;max-width:460px;width:90%;position:relative;transform:translateY(16px);transition:transform .25s ease;text-align:center">
+    <button onclick="closeCertModal()" style="position:absolute;top:16px;right:18px;background:none;border:none;font-size:20px;color:#aaa;cursor:pointer;line-height:1;font-family:inherit">✕</button>
+    <div id="modal-cert-wrap" class="modal-cert-wrap"><img src="./cert.png" alt="Clutch Certified"></div>
+    <div style="font-size:24px;font-weight:800;color:#191919;letter-spacing:-0.4px;margin-bottom:8px">Clutch Certified</div>
+    <div style="font-size:14px;color:#888;margin-bottom:32px;line-height:1.5">Every car on Clutch goes through a rigorous certification process before it reaches you. No surprises, no guesswork.</div>
+    <div style="display:flex;flex-direction:column;gap:14px;text-align:left">
+      <div style="display:flex;gap:14px;align-items:flex-start">
+        <div style="width:32px;height:32px;border-radius:10px;background:#F1EDF8;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#550E30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+        <div><div style="font-size:14px;font-weight:700;color:#191919;margin-bottom:2px">210-point inspection</div><div style="font-size:13px;color:#888;line-height:1.5">Every mechanical, electrical, and safety system checked by a certified technician before listing.</div></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start">
+        <div style="width:32px;height:32px;border-radius:10px;background:#F1EDF8;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#550E30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
+        <div><div style="font-size:14px;font-weight:700;color:#191919;margin-bottom:2px">Full history report</div><div style="font-size:13px;color:#888;line-height:1.5">Accident history, previous ownership, and service records — disclosed upfront, every time.</div></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start">
+        <div style="width:32px;height:32px;border-radius:10px;background:#F1EDF8;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#550E30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div><div style="font-size:14px;font-weight:700;color:#191919;margin-bottom:2px">10-day money-back guarantee</div><div style="font-size:13px;color:#888;line-height:1.5">Not the right fit? Return it within 10 days for a full refund. No questions asked.</div></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start">
+        <div style="width:32px;height:32px;border-radius:10px;background:#F1EDF8;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#550E30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+        <div><div style="font-size:14px;font-weight:700;color:#191919;margin-bottom:2px">Reconditioned to standard</div><div style="font-size:13px;color:#888;line-height:1.5">Any issues found during inspection are fixed before the car is listed. What you see is what you get.</div></div>
+      </div>
+    </div>
+    <div style="margin-top:32px;padding-top:24px;border-top:1px solid #EBEBEB;font-size:12px;color:#bbb">Clutch Certified applies to all vehicles sold directly by Clutch.</div>
+  </div>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <img class="topbar-logo" src="./logo/Red/Clutch_Logo-02.png" alt="Clutch">
+  <a class="topbar-back" href="showcase.html">← Back to Showcase</a>
+</div>
+
+<div class="page">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="filter-item active" onclick="this.classList.toggle('active');this.querySelector('.filter-body').classList.toggle('open')">
+      <div class="filter-head">DEALS <span class="filter-chevron">▼</span></div>
+      <div class="filter-body open"></div>
+    </div>
+    <div class="filter-item" onclick="this.classList.toggle('active');this.querySelector('.filter-body').classList.toggle('open')">
+      <div class="filter-head">PRICE &amp; PAYMENT <span class="filter-chevron">▼</span></div>
+      <div class="filter-body"></div>
+    </div>
+    <div class="filter-item" onclick="this.classList.toggle('active');this.querySelector('.filter-body').classList.toggle('open')">
+      <div class="filter-head">MAKE &amp; MODEL <span class="filter-chevron">▼</span></div>
+      <div class="filter-body"></div>
+    </div>
+    <div class="filter-item" onclick="this.classList.toggle('active');this.querySelector('.filter-body').classList.toggle('open')">
+      <div class="filter-head">BODY TYPE <span class="filter-chevron">▼</span></div>
+      <div class="filter-body"></div>
+    </div>
+    <div class="filter-item" onclick="this.classList.toggle('active');this.querySelector('.filter-body').classList.toggle('open')">
+      <div class="filter-head">YEAR <span class="filter-chevron">▼</span></div>
+      <div class="filter-body"></div>
+    </div>
+    <div class="filter-item" onclick="this.classList.toggle('active');this.querySelector('.filter-body').classList.toggle('open')">
+      <div class="filter-head">MILEAGE (KM) <span class="filter-chevron">▼</span></div>
+      <div class="filter-body"></div>
+    </div>
+    <div class="filter-item" onclick="this.classList.toggle('active');this.querySelector('.filter-body').classList.toggle('open')">
+      <div class="filter-head">FUEL TYPE <span class="filter-chevron">▼</span></div>
+      <div class="filter-body"></div>
+    </div>
+    <div class="filter-item" onclick="this.classList.toggle('active');this.querySelector('.filter-body').classList.toggle('open')">
+      <div class="filter-head">FEATURES <span class="filter-chevron">▼</span></div>
+      <div class="filter-body"></div>
+    </div>
+    <div class="filter-item" onclick="this.classList.toggle('active');this.querySelector('.filter-body').classList.toggle('open')">
+      <div class="filter-head">EXTERIOR COLOUR <span class="filter-chevron">▼</span></div>
+      <div class="filter-body"></div>
+    </div>
+    <div class="filter-item" onclick="this.classList.toggle('active');this.querySelector('.filter-body').classList.toggle('open')">
+      <div class="filter-head">SEATS <span class="filter-chevron">▼</span></div>
+      <div class="filter-body"></div>
+    </div>
+    <div class="filter-item" onclick="this.classList.toggle('active');this.querySelector('.filter-body').classList.toggle('open')">
+      <div class="filter-head">DRIVETRAIN <span class="filter-chevron">▼</span></div>
+      <div class="filter-body"></div>
+    </div>
+    <div class="filter-item" onclick="this.classList.toggle('active');this.querySelector('.filter-body').classList.toggle('open')">
+      <div class="filter-head">TRANSMISSIONS <span class="filter-chevron">▼</span></div>
+      <div class="filter-body"></div>
+    </div>
+    <div class="filter-item" onclick="this.classList.toggle('active');this.querySelector('.filter-body').classList.toggle('open')">
+      <div class="filter-head">CYLINDERS <span class="filter-chevron">▼</span></div>
+      <div class="filter-body"></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <input class="search-bar" placeholder="Search cars or keywords" type="text">
+
+    <div class="meta-row">
+      <div class="meta-results">
+        <span class="meta-pin">📍</span>
+        Used Cars for Sale in <u style="margin:0 3px">Concord, Ontario</u> : <strong>2,935 results</strong>
+      </div>
+      <button class="sort-btn">↕ Sort</button>
+    </div>
+
+    <div class="cards-grid" id="cards-grid"></div>
+  </main>
+
+</div>
+
+<script>
+const CAR_IMG = './cc_2025HOC071942630_01_2100_NH731P.png.png';
+const FIRE = `<svg class="fire-svg" width="11" height="15" viewBox="0 0 5 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.36729 6.31277C3.67469 6.31277 4.73458 5.25288 4.73458 3.94548C4.73458 3.62984 4.73458 2.99856 4.1033 2.20947C4.1033 2.20947 4.07186 3.11017 3.44873 2.97988C2.44086 2.76916 3.74192 0.79003 1.89383 0C1.89383 1.57819 0 2.05165 0 3.94548C0 5.25288 1.05987 6.31277 2.36729 6.31277Z" fill="#460B28"/><path d="M2.36743 5.36603C2.97756 5.36603 3.47216 4.73011 3.47216 3.94566C2.46212 4.32442 2.10441 3.45225 2.05179 2.84058C1.59546 3.01519 1.2627 3.73244 1.2627 4.10313C1.2627 4.88759 1.7573 5.36603 2.36743 5.36603Z" fill="#FF464C"/></svg>`;
+function heartSvg(filled) {
+  return filled
+    ? `<svg width="16" height="15" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 20.5C12 20.5 2 14 2 7.5C2 4.46 4.46 2 7.5 2C9.24 2 10.79 2.83 12 4.09C13.21 2.83 14.76 2 16.5 2C19.54 2 22 4.46 22 7.5C22 14 12 20.5 12 20.5Z" fill="#FF464C" stroke="#FF464C" stroke-width="2" stroke-linejoin="round"/></svg>`
+    : `<svg width="16" height="15" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 20.5C12 20.5 2 14 2 7.5C2 4.46 4.46 2 7.5 2C9.24 2 10.79 2.83 12 4.09C13.21 2.83 14.76 2 16.5 2C19.54 2 22 4.46 22 7.5C22 14 12 20.5 12 20.5Z" stroke="#CCC" stroke-width="2" stroke-linejoin="round"/></svg>`;
+}
+
+const CARS = [
+  { title:'2023 Audi A5',          trim:'Progressiv 45 Sportback', km:'65,885 km', price:'$40,290', was:null,      bw:'$274', sale:false, fire:false },
+  { title:'2023 Hyundai Elantra',  trim:'Preferred w/ Tech Pkg',   km:'36,885 km', price:'$22,890', was:null,      bw:'$161', sale:false, fire:false },
+  { title:'2025 Ford Escape',      trim:'Active',                  km:'806 km',    price:'$33,990', was:null,      bw:'$233', sale:false, fire:false },
+  { title:'2025 Honda Accord',     trim:'SE Sedan',                km:'13,068 km', price:'$38,390', was:null,      bw:'$262', sale:false, fire:false },
+  { title:'2025 Hyundai Elantra',  trim:'Essential',               km:'9,586 km',  price:'$23,990', was:'$24,990', bw:'$168', sale:true,  fire:true  },
+  { title:'2019 Honda CR-V',       trim:'Touring',                 km:'96,531 km', price:'$27,490', was:null,      bw:'$210', sale:false, fire:false },
+  { promo: true },
+  { title:'2024 Mazda CX-5',       trim:'GT w/ Turbo',             km:'18,430 km', price:'$41,890', was:null,      bw:'$287', sale:false, fire:false },
+  { title:'2021 BMW 3 Series',     trim:'330i xDrive',             km:'52,770 km', price:'$44,290', was:null,      bw:'$303', sale:false, fire:true  },
+];
+
+function buildCard(c) {
+  if (c.promo) {
+    return `<div class="c-card c-promo">
+      <div class="c-promo-headline">Every car you see is owned by Clutch</div>
+      <div class="c-promo-sub">We bought each one from Canadians like you</div>
+    </div>`;
+  }
+
+  const badges = (c.sale ? `<div class="c-badge-sale">Sale</div>` : '') +
+                 (c.fire ? `<div class="c-badge-fire">${FIRE} 100+ views today</div>` : '');
+
+  const wasHtml = c.was ? `<span class="c-was">(was <s>${c.was}</s>)</span>` : '';
+
+  const heartEmpty = c.sale
+    ? `<svg width="16" height="15" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 20.5C12 20.5 2 14 2 7.5C2 4.46 4.46 2 7.5 2C9.24 2 10.79 2.83 12 4.09C13.21 2.83 14.76 2 16.5 2C19.54 2 22 4.46 22 7.5C22 14 12 20.5 12 20.5Z" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linejoin="round"/></svg>`
+    : heartSvg(false);
+
+  return `<div class="c-card${c.sale ? ' plum' : ''}">
+    <div class="c-img-wrap">
+      <img class="c-img" src="${CAR_IMG}" alt="${c.title}">
+      ${badges ? `<div class="c-badges">${badges}</div>` : ''}
+      <div class="c-heart" data-liked="0">${heartEmpty}</div>
+    </div>
+    <div class="c-body">
+      <div class="cert-shimmer" onclick="openCertModal()"><img src="./cert.png" alt="Clutch Certified"></div>
+      <div class="c-title">${c.title}</div>
+      <div class="c-trim">${c.trim} <span class="c-trim-dot"></span> ${c.km}</div>
+      <div class="c-divider"></div>
+      <div class="c-price-row">
+        <span class="c-price">${c.price}</span>
+        ${wasHtml}
+      </div>
+      <div class="c-biweekly"><u>${c.bw} /biweekly</u> · $0 down</div>
+      <div class="c-divider"></div>
+      <div class="c-fine">Excl. HST &amp; Licensing; Incl. OMVIC Fee</div>
+    </div>
+  </div>`;
+}
+
+document.getElementById('cards-grid').innerHTML = CARS.map(buildCard).join('');
+
+document.getElementById('cards-grid').addEventListener('click', e => {
+  const heart = e.target.closest('.c-heart');
+  if (!heart) return;
+  e.stopPropagation();
+  const liked = heart.dataset.liked === '1';
+  heart.dataset.liked = liked ? '0' : '1';
+  const isPlum = heart.closest('.c-card.plum');
+  heart.innerHTML = liked
+    ? (isPlum ? `<svg width="16" height="15" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 20.5C12 20.5 2 14 2 7.5C2 4.46 4.46 2 7.5 2C9.24 2 10.79 2.83 12 4.09C13.21 2.83 14.76 2 16.5 2C19.54 2 22 4.46 22 7.5C22 14 12 20.5 12 20.5Z" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linejoin="round"/></svg>` : heartSvg(false))
+    : heartSvg(true);
+  heart.classList.remove('pop');
+  void heart.offsetWidth;
+  heart.classList.add('pop');
+});
+
+function openCertModal() {
+  const o = document.getElementById('cert-modal-overlay');
+  o.style.opacity = '1'; o.style.pointerEvents = 'all';
+  document.getElementById('cert-modal').style.transform = 'translateY(0)';
+  document.body.style.overflow = 'hidden';
+  // trigger shimmer on modal badge
+  const wrap = document.getElementById('modal-cert-wrap');
+  wrap.classList.remove('shimmer-play');
+  void wrap.offsetWidth; // reflow to restart
+  wrap.classList.add('shimmer-play');
+}
+function closeCertModal() {
+  const o = document.getElementById('cert-modal-overlay');
+  o.style.opacity = '0'; o.style.pointerEvents = 'none';
+  document.getElementById('cert-modal').style.transform = 'translateY(16px)';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCertModal(); });
+</script>
+</body>
+</html>
