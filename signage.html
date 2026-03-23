@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clutch · Signage & Wayfinding</title>
+<style>
+  @font-face { font-family:'CircularXX'; src:url('./fonts/CircularXX-Regular.otf') format('opentype'); font-weight:400; }
+  @font-face { font-family:'CircularXX'; src:url('./fonts/CircularXX-Medium.otf') format('opentype'); font-weight:500; }
+  @font-face { font-family:'CircularXX'; src:url('./fonts/CircularXX-Bold.otf') format('opentype'); font-weight:700; }
+  @font-face { font-family:'CircularXX'; src:url('./fonts/CircularXX-Black.otf') format('opentype'); font-weight:800; }
+
+  *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+
+  :root {
+    --red:      #FF464C;
+    --ink:      #191919;
+    --page-bg:  #F5F4F2;
+    --divider:  #E4E2DF;
+    --label:    #999;
+  }
+
+  body { font-family:'CircularXX', sans-serif; background:var(--page-bg); color:var(--ink); line-height:1.4; }
+
+  /* ─── HEADER ─── */
+  .site-header { padding:48px 64px 40px; border-bottom:1px solid var(--divider); display:flex; align-items:flex-end; justify-content:space-between; }
+  .site-header-logo { height:60px; object-fit:contain; }
+  .site-header-meta { font-size:12px; color:var(--label); font-weight:500; text-align:right; line-height:1.6; }
+  .site-header-title { font-size:13px; font-weight:700; color:var(--ink); margin-bottom:2px; }
+
+  /* ─── SECTION ─── */
+  .sc-section { padding:72px 64px; }
+  .sc-section-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--label); margin-bottom:8px; }
+  .sc-section-title { font-size:28px; font-weight:800; color:var(--ink); letter-spacing:-0.5px; margin-bottom:6px; }
+  .sc-section-desc { font-size:14px; color:#888; margin-bottom:32px; max-width:560px; }
+
+  /* ─── TOOLBAR ─── */
+  .explore-toolbar { display:flex; align-items:center; gap:12px; margin-bottom:32px; }
+  .toggle-btn {
+    display:inline-flex; align-items:center; gap:8px;
+    padding:8px 16px; border-radius:8px; border:1.5px solid var(--divider);
+    background:#fff; font-family:'CircularXX',sans-serif; font-size:12px; font-weight:600;
+    color:var(--label); cursor:pointer; transition:border-color .12s, color .12s;
+  }
+  .toggle-btn:hover { border-color:#bbb; color:var(--ink); }
+  .toggle-btn.active { border-color:var(--ink); color:var(--ink); }
+  .toggle-btn svg { flex-shrink:0; }
+
+  /* ─── ICON FRAME ─── */
+  .icon-frames { display:flex; gap:40px; flex-wrap:wrap; align-items:flex-start; }
+  .icon-frame-wrap { display:flex; flex-direction:column; align-items:center; gap:12px; }
+  .icon-frame-label { font-size:11px; font-weight:600; color:var(--label); letter-spacing:1px; text-transform:uppercase; }
+
+  /* Grid visibility controlled by class on container */
+  .icon-frames.hide-grid .grid-layer { display:none; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <a href="./index.html"><img class="site-header-logo" src="./logo/Red/Clutch_Logo-02.png" alt="Clutch"></a>
+  <div class="site-header-meta">
+    <div class="site-header-title">Signage & Wayfinding</div>
+    Clutch Design System
+  </div>
+</header>
+
+<!-- EXPLORE -->
+<section class="sc-section">
+  <div class="sc-section-label">Explore</div>
+  <div class="sc-section-title">Icon construction</div>
+  <div class="sc-section-desc">120×120 frame · 24px grid · 5.54px stroke · guide circle overlay.</div>
+
+  <div class="explore-toolbar">
+    <button class="toggle-btn active" id="gridToggle" onclick="toggleGrid(this)">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M1 4.5h12M1 9.5h12M4.5 1v12M9.5 1v12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      Grid
+    </button>
+    <label class="toggle-btn active" style="gap:12px;cursor:default;">
+      Corner
+      <input type="range" min="0" max="20" value="4" oninput="setCornerRadius(this.value)" style="width:100px;accent-color:#FF464C;cursor:pointer;">
+      <span id="crValue" style="min-width:18px;text-align:right;">4</span>
+    </label>
+  </div>
+
+  <div class="icon-frames" id="iconFrames"></div>
+</section>
+
+<script>
+const SW = 5.5; // global stroke width
+let cornerR = 4;
+
+// ─── ICON DATA ────────────────────────────────────────────────
+// paths: [{d, sw?}]  — sw defaults to global SW
+// circles: [{cx, cy, r, sw?}]
+const ICONS = [
+  {
+    id: 'person-wide', label: 'Wide', w: 120, h: 120,
+    paths: [
+      { d: 'M30 84 L36 36 H84 L90 84' },
+      { d: 'M48 120 V72 H72 V120' },
+    ],
+    circles: [{ cx: 60, cy: 12, r: 8 }]
+  },
+  {
+    id: 'person-narrow', label: 'Narrow', w: 120, h: 120,
+    paths: [
+      { d: 'M36 72 V36 H84 V72' },
+      { d: 'M48 120 V72 H72 V120' },
+    ],
+    circles: [{ cx: 60, cy: 12, r: 8 }]
+  },
+  {
+    id: 'arrow-up', label: 'Up', w: 120, h: 120,
+    paths: [
+      { d: 'M12 60 L60 12 L108 60' },
+      { d: 'M60 24 V108' },
+    ]
+  },
+  {
+    id: 'arrow-down', label: 'Down', w: 120, h: 120,
+    paths: [
+      { d: 'M12 60 L60 108 L108 60' },
+      { d: 'M60 12 V96' },
+    ]
+  },
+  {
+    id: 'arrow-right', label: 'Right', w: 120, h: 120,
+    paths: [
+      { d: 'M60 12 L108 60 L60 108' },
+      { d: 'M12 60 H96' },
+    ]
+  },
+  {
+    id: 'arrow-left', label: 'Left', w: 120, h: 120,
+    paths: [
+      { d: 'M60 12 L12 60 L60 108' },
+      { d: 'M108 60 H24' },
+    ]
+  },
+  {
+    id: 'wheelchair', label: 'Accessible', w: 94, h: 117,
+    paths: [
+      { d: 'M3.27271 56.9766V34.408C3.27271 32.3997 4.90076 30.7716 6.90907 30.7716H32.6363C34.6446 30.7716 36.2727 32.3997 36.2727 34.408V47.8732', sw: SW },
+      { d: 'M72.7733 84.2716L91.2727 102.863', sw: SW },
+    ],
+    circles: [
+      { cx: 46.2732, cy: 10.7716, r: 8 },
+      { cx: 40.7262, cy: 80.6808, r: 33.0909 },
+    ]
+  },
+];
+
+// ─── CORNER ROUNDING ─────────────────────────────────────────
+function parsePoly(d) {
+  if (/[CcQqAaSsTt]/.test(d)) return null; // skip curves
+  const pts = [];
+  let x = 0, y = 0;
+  for (const m of d.matchAll(/([MLHVmlhv])\s*([-\d.e+]+(?:[\s,]+[-\d.e+]+)?)?/g)) {
+    const vals = (m[2] || '').trim().split(/[\s,]+/).map(Number);
+    switch (m[1].toUpperCase()) {
+      case 'M': x = vals[0]; y = vals[1]; pts.push([x, y]); break;
+      case 'L': x = vals[0]; y = vals[1]; pts.push([x, y]); break;
+      case 'H': x = vals[0]; pts.push([x, y]); break;
+      case 'V': y = vals[0]; pts.push([x, y]); break;
+    }
+  }
+  return pts;
+}
+
+function roundedD(d, r) {
+  const pts = parsePoly(d);
+  if (!pts || pts.length < 3 || r === 0)
+    return pts ? pts.map((p, i) => `${i ? 'L' : 'M'}${p[0]} ${p[1]}`).join(' ') : d;
+  const hyp = (a, b) => Math.hypot(b[0]-a[0], b[1]-a[1]);
+  const lerp = (a, b, t) => [+(a[0]+(b[0]-a[0])*t).toFixed(3), +(a[1]+(b[1]-a[1])*t).toFixed(3)];
+  let out = '';
+  pts.forEach((curr, i) => {
+    const prev = pts[i - 1], next = pts[i + 1];
+    if (!prev || !next) { out += `${!prev ? 'M' : 'L'}${curr[0]} ${curr[1]} `; return; }
+    const d1 = hyp(prev, curr), d2 = hyp(curr, next);
+    const p1 = lerp(curr, prev, Math.min(r, d1/2) / d1);
+    const p2 = lerp(curr, next, Math.min(r, d2/2) / d2);
+    out += `L${p1[0]} ${p1[1]} Q${curr[0]} ${curr[1]} ${p2[0]} ${p2[1]} `;
+  });
+  return out.trim();
+}
+
+// ─── FRAME TEMPLATE ──────────────────────────────────────────
+const GRID_LINES = `
+  <line x1="24" y1="0" x2="24" y2="120" stroke="#C8C4BE" stroke-width="0.75"/>
+  <line x1="48" y1="0" x2="48" y2="120" stroke="#C8C4BE" stroke-width="0.75"/>
+  <line x1="72" y1="0" x2="72" y2="120" stroke="#C8C4BE" stroke-width="0.75"/>
+  <line x1="96" y1="0" x2="96" y2="120" stroke="#C8C4BE" stroke-width="0.75"/>
+  <line x1="0" y1="24" x2="120" y2="24" stroke="#C8C4BE" stroke-width="0.75"/>
+  <line x1="0" y1="48" x2="120" y2="48" stroke="#C8C4BE" stroke-width="0.75"/>
+  <line x1="0" y1="72" x2="120" y2="72" stroke="#C8C4BE" stroke-width="0.75"/>
+  <line x1="0" y1="96" x2="120" y2="96" stroke="#C8C4BE" stroke-width="0.75"/>
+`;
+
+function renderFrame(icon) {
+  const ox = (120 - icon.w) / 2, oy = (120 - icon.h) / 2;
+  const paths = (icon.paths || []).map(p =>
+    `<path d="${roundedD(p.d, cornerR)}" stroke="#FF464C" stroke-width="${p.sw || SW}" stroke-linejoin="round"/>`
+  ).join('');
+  const circles = (icon.circles || []).map(c =>
+    `<circle cx="${c.cx}" cy="${c.cy}" r="${c.r}" stroke="#FF464C" stroke-width="${c.sw || SW}"/>`
+  ).join('');
+  return `
+    <div class="icon-frame-wrap">
+      <svg width="480" height="480" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="120" height="120" fill="#FAF9F7"/>
+        <svg x="${ox}" y="${oy}" width="${icon.w}" height="${icon.h}" viewBox="0 0 ${icon.w} ${icon.h}" fill="none">
+          ${paths}${circles}
+        </svg>
+        <circle cx="60" cy="60" r="54" stroke="rgba(206,11,11,0.2)" stroke-width="0.5" stroke-dasharray="2 2"/>
+        <circle cx="60" cy="60" r="36" stroke="rgba(206,11,11,0.13)" stroke-width="0.5" stroke-dasharray="2 2"/>
+        <g class="grid-layer">${GRID_LINES}</g>
+        <rect x="0.5" y="0.5" width="119" height="119" stroke="#C8C4BE" stroke-width="1"/>
+      </svg>
+      <span class="icon-frame-label">${icon.label}</span>
+    </div>`;
+}
+
+function render() {
+  document.getElementById('iconFrames').innerHTML = ICONS.map(renderFrame).join('');
+}
+
+function setCornerRadius(val) {
+  cornerR = +val;
+  document.getElementById('crValue').textContent = val;
+  render();
+}
+
+function toggleGrid(btn) {
+  const frames = document.getElementById('iconFrames');
+  btn.classList.toggle('active', !frames.classList.toggle('hide-grid'));
+}
+
+render();
+</script>
+
+</body>
+</html>

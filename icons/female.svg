@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <g fill="currentColor" stroke="none">
+    <!-- Head ring: outer r=12, inner r=4, center (50,14) -->
+    <path fill-rule="evenodd" d="M 38,14 a 12,12 0 1,0 24,0 a 12,12 0 1,0 -24,0 M 46,14 a 4,4 0 1,0 8,0 a 4,4 0 1,0 -8,0"/>
+    <!-- Body arch (dress): outer ellipse rx=32 ry=42, inner rx=24 ry=34, thickness=8 -->
+    <path d="M 18,70 A 32,42 0 0,0 82,70 L 74,70 A 24,34 0 0,1 26,70 Z"/>
+    <!-- Legs: left x=38–46, right x=54–62, y=70–100 -->
+    <rect x="38" y="70" width="8" height="30"/>
+    <rect x="54" y="70" width="8" height="30"/>
+  </g>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <g fill="currentColor" stroke="none">
+    <!-- Head ring: outer r=12, inner r=4, center (50,14) -->
+    <path fill-rule="evenodd" d="M 38,14 a 12,12 0 1,0 24,0 a 12,12 0 1,0 -24,0 M 46,14 a 4,4 0 1,0 8,0 a 4,4 0 1,0 -8,0"/>
+    <!-- Body U: outer x=26–74 y=30–70, inner x=34–66 y=38–70, outer corners R=12, inner corners R=6 -->
+    <path d="M 38,30 L 62,30 A 12,12 0 0,1 74,42 L 74,70 L 66,70 L 66,44 A 6,6 0 0,0 60,38 L 40,38 A 6,6 0 0,0 34,44 L 34,70 L 26,70 L 26,42 A 12,12 0 0,1 38,30 Z"/>
+    <!-- Legs: left x=38–46, right x=54–62, y=70–100 -->
+    <rect x="38" y="70" width="8" height="30"/>
+    <rect x="54" y="70" width="8" height="30"/>
+  </g>
+</svg>

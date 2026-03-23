@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clutch — Icon Builder</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #f0f0f0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    gap: 20px;
+  }
+  header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  header h1 {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .controls {
+    display: flex;
+    gap: 8px;
+  }
+  .btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1.5px solid #ccc;
+    background: white;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.12s;
+    user-select: none;
+  }
+  .btn:hover { border-color: #888; color: #222; }
+  .btn.on { background: #111; color: white; border-color: #111; }
+
+  .stage {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+  }
+
+  .editor-wrap {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    line-height: 0;
+  }
+
+  .previews {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .preview-card {
+    background: white;
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    min-width: 80px;
+  }
+  .preview-card.dark {
+    background: #111;
+  }
+  .preview-label {
+    font-size: 0.65rem;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    line-height: 1;
+  }
+  .preview-card.dark .preview-label { color: #555; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Icon Builder — arrow-right</h1>
+  <div class="controls">
+    <button class="btn on" id="grid-btn" onclick="toggleGrid()">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M4 0v12M8 0v12M0 4h12M0 8h12"/>
+      </svg>
+      Grid
+    </button>
+  </div>
+</header>
+
+<div class="stage">
+
+  <!-- Editor -->
+  <div class="editor-wrap">
+    <svg id="editor" width="500" height="500" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="display:block">
+
+      <!-- ░░ GRID ░░ — pattern-based, 2-unit minor / 10-unit major -->
+      <defs>
+        <pattern id="minor-grid" width="2" height="2" patternUnits="userSpaceOnUse">
+          <path d="M 2 0 L 0 0 0 2" fill="none" stroke="#e8e8e8" stroke-width="0.15"/>
+        </pattern>
+        <pattern id="major-grid" width="10" height="10" patternUnits="userSpaceOnUse">
+          <rect width="10" height="10" fill="url(#minor-grid)"/>
+          <path d="M 10 0 L 0 0 0 10" fill="none" stroke="#f5aaaa" stroke-width="0.35"/>
+        </pattern>
+      </defs>
+      <g id="grid">
+        <rect width="100" height="100" fill="url(#major-grid)"/>
+        <!-- coordinate labels -->
+        <g font-size="2.2" fill="#ccc" font-family="monospace">
+          <text x="9.2"  y="3">10</text><text x="19.2" y="3">20</text>
+          <text x="29.2" y="3">30</text><text x="39.2" y="3">40</text>
+          <text x="49.2" y="3">50</text><text x="59.2" y="3">60</text>
+          <text x="69.2" y="3">70</text><text x="79.2" y="3">80</text>
+          <text x="89.2" y="3">90</text>
+          <text x="0.5" y="10.5">10</text><text x="0.5" y="20.5">20</text>
+          <text x="0.5" y="30.5">30</text><text x="0.5" y="40.5">40</text>
+          <text x="0.5" y="50.5">50</text><text x="0.5" y="60.5">60</text>
+          <text x="0.5" y="70.5">70</text><text x="0.5" y="80.5">80</text>
+          <text x="0.5" y="90.5">90</text>
+        </g>
+      </g>
+
+      <!-- ░░ ICON — arrow-right ░░  all coords multiples of 2
+           Derived from Circular font metrics:
+           · Shaft height 14 = ~17% of 80-unit span (Circular Black stem weight)
+           · Rounded tail cap r=7 = semicircle, echoing Circular's ball terminals
+           · Head spread 14→48 (widens 17 each side), Circular's generous letterform width
+           · Head angle ~39° matches Circular's diagonal geometry (V, A, W forms)
+      -->
+      <g fill="currentColor" stroke="none">
+
+        <!-- Arrow: shaft y=43–57 (14 wide), tail x=10, head tip x=90
+             Outer head corners: (60,26) and (60,74)
+             Tail: flat left edge (10,43)–(10,57) -->
+        <path d="
+          M 10,43
+          L 60,43
+          L 60,26
+          L 90,50
+          L 60,74
+          L 60,57
+          L 10,57
+          Z
+        "/>
+
+      </g>
+
+    </svg>
+  </div>
+
+  <!-- Previews -->
+  <div class="previews">
+
+    <div class="preview-card">
+      <svg width="80" height="80" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <g fill="currentColor" stroke="none">
+          <path d="M 10,43 L 60,43 L 60,26 L 90,50 L 60,74 L 60,57 L 10,57 Z"/>
+        </g>
+      </svg>
+      <span class="preview-label">80px</span>
+    </div>
+
+    <div class="preview-card">
+      <svg width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <g fill="currentColor" stroke="none">
+          <path d="M 10,43 L 60,43 L 60,26 L 90,50 L 60,74 L 60,57 L 10,57 Z"/>
+        </g>
+      </svg>
+      <span class="preview-label">48px</span>
+    </div>
+
+    <div class="preview-card">
+      <svg width="32" height="32" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <g fill="currentColor" stroke="none">
+          <path d="M 10,43 L 60,43 L 60,26 L 90,50 L 60,74 L 60,57 L 10,57 Z"/>
+        </g>
+      </svg>
+      <span class="preview-label">32px</span>
+    </div>
+
+    <div class="preview-card dark" style="color: white;">
+      <svg width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <g fill="currentColor" stroke="none">
+          <path d="M 10,43 L 60,43 L 60,26 L 90,50 L 60,74 L 60,57 L 10,57 Z"/>
+        </g>
+      </svg>
+      <span class="preview-label">dark</span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  let gridOn = true;
+  function toggleGrid() {
+    gridOn = !gridOn;
+    document.getElementById('grid').style.display = gridOn ? '' : 'none';
+    document.getElementById('grid-btn').classList.toggle('on', gridOn);
+  }
+</script>
+
+</body>
+</html>
