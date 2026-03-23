@@ -1447,6 +1447,24 @@
       stroke-dashoffset: 0;
     }
 
+    /* ── Reveal animations ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 650ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 650ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .reveal.is-revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal[data-d="1"] { transition-delay: 80ms; }
+    .reveal[data-d="2"] { transition-delay: 160ms; }
+    .reveal[data-d="3"] { transition-delay: 240ms; }
+    .reveal[data-d="4"] { transition-delay: 320ms; }
+    .reveal[data-d="5"] { transition-delay: 400ms; }
+    .reveal[data-d="6"] { transition-delay: 480ms; }
+
     /* ── Road test callout ── */
     .road-test-callout {
       display: flex;
@@ -2139,6 +2157,67 @@
         if (el) el.scrollIntoView({ behavior: 'smooth' });
       });
     });
+
+
+    // Reveal on scroll
+    (function() {
+      // Elements to reveal individually
+      const solo = [
+        '.eyebrow',
+        '.hero__h1', '.hero__sub',
+        '.step1__body',
+        '.counter-callout',
+        '.verdict__headline', '.verdict__body', '.verdict__cta-head', '.verdict__btn',
+        '.step2__headline', '.step2__body',
+        '.detailing__eyebrow', '.detailing__headline', '.detailing__body', '.detailing__photo',
+        '.step3__headline', '.step3__body',
+        '.promise__headline',
+        '.road-test-callout p',
+        '.step1__body',
+        '.td-stage',
+        '.photo-grid-section',
+        '.final-cta__head', '.final-cta__sub', '.final-cta__btn',
+      ];
+
+      // Elements whose children should stagger
+      const stagger = [
+        '.promise__cards .promise__card',
+        '.summary-cards .summary-card',
+        '.step2__cards .step2__card',
+        '.step3__tags .step3__tag',
+        '.photo-carousel__slides .photo-carousel__slide',
+      ];
+
+      solo.forEach(sel => {
+        document.querySelectorAll(sel).forEach(el => {
+          el.classList.add('reveal');
+        });
+      });
+
+      stagger.forEach(sel => {
+        document.querySelectorAll(sel).forEach((el, i) => {
+          el.classList.add('reveal');
+          if (i > 0) el.dataset.d = Math.min(i, 6);
+        });
+      });
+
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-revealed');
+            obs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      // Hero is already in view — reveal immediately with a short delay
+      document.querySelectorAll('.hero .reveal').forEach((el, i) => {
+        el.dataset.d = i + 1;
+        setTimeout(() => el.classList.add('is-revealed'), 100 + i * 120);
+      });
+
+      document.querySelectorAll('.reveal:not(.is-revealed)').forEach(el => obs.observe(el));
+    })();
 
 
     // Test drive stage
