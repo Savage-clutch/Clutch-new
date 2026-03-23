@@ -1603,7 +1603,6 @@
             <span class="td-num" id="td-num">#1</span>
           </div>
           <div class="td-car-wrap">
-            <video class="td-car" id="td-car-video" src="assets/move.mp4" autoplay loop muted playsinline style="opacity:0;"></video>
             <img class="td-car" id="td-car-a" src="assets/car-side.webp" alt="Car">
             <img class="td-car" id="td-car-b" src="assets/car-side.webp" alt="Car" style="opacity:0;">
             <div class="td-badge" id="td-badge">
@@ -2145,7 +2144,6 @@
     (function() {
       const stage = document.getElementById('td-stage');
       if (!stage) return;
-      const carVideo = document.getElementById('td-car-video');
       const carA = document.getElementById('td-car-a');
       const carB = document.getElementById('td-car-b');
       const numEl = document.getElementById('td-num');
@@ -2185,34 +2183,37 @@
         setTimeout(cb, 260);
       }
 
-      // Drive video car in, crossfade to staticCar at rest, call cb(staticCar)
+      // Drive gifCar in, crossfade to staticCar at rest, call cb(staticCar)
       // onFadeStart fires when crossfade begins (for syncing badge)
-      function driveIn(staticCar, onFadeStart, cb) {
-        // Video car moves in from left
-        resetEl(carVideo);
-        carVideo.style.opacity = '1';
+      function driveIn(gifCar, staticCar, onFadeStart, cb) {
+        // gif car moves in from left
+        resetEl(gifCar);
+        gifCar.src = 'assets/move.gif';
+        gifCar.style.opacity = '1';
 
         // static car sits at final position, invisible, ready to fade in
         staticCar.style.transition = 'none';
+        staticCar.src = 'assets/car-side.webp';
         staticCar.classList.remove('is-moving', 'in-position');
         staticCar.style.transformOrigin = 'right bottom';
         staticCar.style.transform = FINAL_TRANSFORM;
         staticCar.style.opacity = '0';
 
         requestAnimationFrame(() => requestAnimationFrame(() => {
-          carVideo.style.transition = 'transform 1000ms cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-          carVideo.style.transform = FINAL_TRANSFORM;
+          gifCar.style.transition = 'transform 1000ms cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+          gifCar.style.transform = FINAL_TRANSFORM;
         }));
 
-        // Wait for car to fully stop, then crossfade video → static (badge fires in sync)
+        // Wait for car to fully stop, then crossfade gif → static (badge fires in sync)
         setTimeout(() => {
           onFadeStart && onFadeStart();
           staticCar.style.transition = 'opacity 200ms ease';
           staticCar.style.opacity = '1';
-          carVideo.style.transition = 'opacity 200ms ease';
-          carVideo.style.opacity = '0';
+          gifCar.style.transition = 'opacity 200ms ease';
+          gifCar.style.opacity = '0';
           setTimeout(() => {
-            resetEl(carVideo);
+            resetEl(gifCar);
+            gifCar.src = 'assets/car-side.webp';
             cb(staticCar);
           }, 220);
         }, 1050);
@@ -2231,10 +2232,11 @@
       function step(i) {
         currentStep = i;
         animating = true;
-        const staticCar = cars[i % 2];
+        const gifCar = cars[i % 2];
+        const staticCar = cars[(i + 1) % 2];
         setDot(i);
         setNum(i + 1, () => {
-          driveIn(staticCar, showBadge, (live) => {
+          driveIn(gifCar, staticCar, showBadge, (live) => {
             liveCar = live;
             animating = false;
             if (i < 2) {
@@ -2251,7 +2253,7 @@
         if (animating) return;
         clearTimeout(autoTimer);
         badge.classList.remove('is-visible');
-        resetEl(carVideo); resetEl(carA); resetEl(carB);
+        resetEl(carA); resetEl(carB);
         liveCar = null;
         step(i);
       }
@@ -2267,7 +2269,7 @@
       function runStage() {
         if (fired) return;
         fired = true;
-        resetEl(carVideo); resetEl(carA); resetEl(carB);
+        resetEl(carA); resetEl(carB);
         step(0);
       }
 
