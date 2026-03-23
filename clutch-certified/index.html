@@ -1,0 +1,2263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clutch Certified</title>
+  <style>
+    @font-face {
+      font-family: 'CircularXX';
+      src: url('../fonts/CircularXX-Regular.otf') format('opentype');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'CircularXX';
+      src: url('../fonts/CircularXX-Medium.otf') format('opentype');
+      font-weight: 500;
+    }
+    @font-face {
+      font-family: 'CircularXX';
+      src: url('../fonts/CircularXX-Bold.otf') format('opentype');
+      font-weight: 700;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --coral: #FF464C;
+      --coral-dark: #C9262B;
+      --coral-shadow: #7E070B;
+      --black: #000000;
+      --near-black: #1E1E1E;
+      --dark-card: #191919;
+      --dark-module: #3B3B3B;
+      --page-bg: #F7F7F7;
+      --white: #FFFFFF;
+      --body-text: rgba(0,0,0,0.8);
+      --muted-white: rgba(255,255,255,0.6);
+      --gray-label: #787878;
+      --progress-bg: #EFEFEF;
+      --burgundy: #550E30;
+      --nav-pill: rgba(25,25,25,0.51);
+
+      /* ── Type scale ── */
+      /* L1  Hero Headline    */ --t1-size:96px;  --t1-lh:100px; --t1-fw:600; --t1-ls:-1.44px;
+      /* L2  Stat Number      */ --t2-size:80px;  --t2-lh:80px;  --t2-fw:600; --t2-ls:-1.2px;
+      /* L3  Pull Quote       */ --t3-size:72px;  --t3-lh:72px;  --t3-fw:600; --t3-ls:-0.864px;
+      /* L4  Section Title Lg */ --t4-size:64px;  --t4-lh:68px;  --t4-fw:600; --t4-ls:-0.576px;
+      /* L5  Section Title Md */ --t5-size:56px;  --t5-lh:60px;  --t5-fw:600; --t5-ls:-0.28px;
+      /* L6  Stat Callout     */ --t6-size:48px;  --t6-lh:62px;  --t6-fw:600; --t6-ls:-0.144px;
+      /* L7  Subheading       */ --t7-size:32px;  --t7-lh:36px;  --t7-fw:600; --t7-ls:0.128px;
+      /* L8  Large Body       */ --t8-size:28px;  --t8-lh:32px;  --t8-fw:600; --t8-ls:0.196px;
+      /* L9  Body Bold        */ --t9-size:24px;  --t9-lh:32px;  --t9-fw:600; --t9-ls:0.216px;
+      /* L10 Body Regular Lg  */ --t10-size:21px; --t10-lh:24px; --t10-fw:600; --t10-ls:0.231px;
+      /* L11 Eyebrow/Label    */ --t11-size:19px; --t11-lh:23px; --t11-fw:600; --t11-ls:0.228px;
+      /* L12 Body Regular     */ --t12-size:19px; --t12-lh:27px; --t12-fw:400; --t12-ls:0.228px;
+      /* L13 Nav/Body Small   */ --t13-size:17px; --t13-lh:25px; --t13-fw:400; --t13-ls:-0.374px;
+      /* L14 UI Label Bold    */ --t14-size:17px; --t14-lh:21px; --t14-fw:600; --t14-ls:-0.374px;
+      /* L15 Caption          */ --t15-size:14px; --t15-lh:18px; --t15-fw:400; --t15-ls:-0.224px;
+      /* L16 Footer Nav       */ --t16-size:12px; --t16-lh:12px; --t16-fw:400; --t16-ls:-0.12px;
+      /* L17 Footer Nav Bold  */ --t17-size:12px; --t17-lh:16px; --t17-fw:600; --t17-ls:-0.12px;
+      /* L18 Eyebrow Tag      */ --t18-size:12px; --t18-lh:12px; --t18-fw:600; --t18-ls:-0.374px;
+      /* L19 Micro Label      */ --t19-size:10px; --t19-lh:15px; --t19-fw:400; --t19-ls:-0.08px;
+    }
+
+    html { font-family: 'CircularXX', sans-serif; }
+
+    body {
+      background: #fff;
+      color: var(--near-black);
+      overflow-x: hidden;
+      padding-top: 115px;
+    }
+
+    /* ── Progress bar ── */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+    }
+    .progress-bar {
+      width: 100%;
+      height: 5px;
+      background: var(--progress-bg);
+    }
+    .progress-bar__fill {
+      width: 0%;
+      height: 100%;
+      background: var(--coral);
+      transition: width 0.1s linear;
+    }
+
+    /* ── Nav ── */
+    .nav {
+      background: #fff;
+      height: 110px;
+      display: flex;
+      align-items: center;
+      padding: 0 calc(12.5% + 3px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .nav__logo {
+      width: 100px;
+    }
+    .nav__pill {
+      margin: 0 auto;
+      background: var(--nav-pill);
+      border-radius: 100px;
+      width: 264px;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+    }
+    .nav__signin {
+      width: 100px;
+      text-align: right;
+      text-decoration: none;
+      color: var(--near-black);
+      font-size: var(--t13-size);
+      font-weight: var(--t13-fw);
+      line-height: var(--t13-lh);
+      letter-spacing: -0.2px;
+      font-family: 'CircularXX', sans-serif;
+      flex-shrink: 0;
+    }
+    .nav__pill a {
+      color: #fff;
+      text-decoration: none;
+      font-size: var(--t13-size);
+      font-weight: var(--t13-fw);
+      line-height: var(--t13-lh);
+      letter-spacing: -0.2px;
+      font-family: 'CircularXX', sans-serif;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: #fff;
+      padding-top: 80px;
+      padding-bottom: 0;
+      min-height: 700px;
+      position: relative;
+    }
+    .hero__text {
+      width: 997px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 35px;
+      text-align: center;
+    }
+    .eyebrow {
+      font-size: var(--t14-size);
+      font-weight: var(--t14-fw);
+      color: var(--coral);
+      line-height: var(--t14-lh);
+      letter-spacing: var(--t14-ls);
+    }
+    .hero__h1 {
+      font-size: var(--t3-size);
+      font-weight: var(--t3-fw);
+      color: var(--near-black);
+      line-height: var(--t3-lh);
+      letter-spacing: var(--t3-ls);
+      width: 977px;
+      margin: 0 auto;
+    }
+    .hero__sub {
+      font-size: var(--t13-size);
+      font-weight: var(--t13-fw);
+      color: var(--body-text);
+      line-height: var(--t13-lh);
+      letter-spacing: var(--t13-ls);
+      width: 573px;
+      margin: 0 auto;
+    }
+    .hero__image-wrap {
+      position: relative;
+      width: 629px;
+      margin: 100px auto 0;
+      display: block;
+    }
+    .hero__car {
+      width: 629px;
+      height: 391px;
+      object-fit: cover;
+      display: block;
+    }
+    .hero__badge {
+      position: absolute;
+      top: -44px;
+      left: calc(50% + 40px);
+      transform: translateX(-50%);
+      width: 69px;
+      height: 69px;
+    }
+
+    /* ── Summary cards ── */
+    .summary-section {
+      padding: 80px 0 60px;
+    }
+    .summary-grid {
+      width: 902px;
+      margin: 0 auto;
+      display: flex;
+      align-items: stretch;
+      gap: 14px;
+    }
+    .summary-card {
+      width: 215px;
+      height: 136px;
+      perspective: 800px;
+      cursor: pointer;
+    }
+    .summary-card__inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.7s cubic-bezier(0.34, 1.05, 0.64, 1);
+    }
+    .summary-card:hover .summary-card__inner {
+      transform: rotateY(180deg);
+    }
+    .summary-card__front,
+    .summary-card__back {
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      text-align: left;
+      padding: 16px;
+    }
+    .summary-card__front {
+      background: var(--dark-card);
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+    .summary-card__front svg { flex-shrink: 0; width: 30px; height: 30px; }
+    .summary-card__front p {
+      color: #fff;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 21px;
+      letter-spacing: var(--t15-ls);
+    }
+    .summary-card__back {
+      background: var(--coral);
+      transform: rotateY(180deg);
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .summary-card__back p {
+      color: #fff;
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 17px;
+      letter-spacing: -0.1px;
+    }
+    .summary-card--large {
+      width: 215px;
+      height: 136px;
+    }
+
+    /* ── Section wrapper ── */
+    .section-inner {
+      width: 1073px;
+      margin: 0 auto;
+    }
+
+    /* ── Step 1 ── */
+    .step1 {
+      padding: 80px 0 0;
+    }
+    .step1__inner {
+      width: 1073px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 48px;
+    }
+    .callout-card {
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 12px;
+      width: 1007px;
+      min-height: 252px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .callout-card__text {
+      font-size: var(--t1-size);
+      font-weight: var(--t1-fw);
+      color: var(--black);
+      line-height: var(--t1-lh);
+      letter-spacing: var(--t1-ls);
+    }
+    .step1__headline {
+      font-size: var(--t8-size);
+      font-weight: var(--t8-fw);
+      color: var(--near-black);
+      line-height: var(--t8-lh);
+      letter-spacing: var(--t8-ls);
+      width: 1007px;
+      text-align: center;
+    }
+    .step1__body {
+      font-size: var(--t13-size);
+      font-weight: var(--t13-fw);
+      color: var(--body-text);
+      line-height: var(--t13-lh);
+      letter-spacing: var(--t13-ls);
+      width: 719px;
+      text-align: center;
+    }
+    .step1__body a { color: var(--body-text); text-decoration: underline; }
+
+    /* ── 210-point module ── */
+    .module-210 {
+      background: #000;
+      border-radius: 16px;
+      width: 1073px;
+      margin: 60px auto 0;
+      padding: 60px 64px 64px;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 48px;
+      align-items: stretch;
+    }
+    .module-210__car-wrap {
+      position: relative;
+      min-height: 400px;
+    }
+    .module-210__car {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      object-fit: contain;
+      transition: transform 420ms cubic-bezier(0.4, 0, 0.2, 1), opacity 420ms ease;
+      transform: translateY(-50%);
+    }
+    .module-210__car.is-exiting {
+      transform: translateY(-50%) translateX(-50px);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .module-210__car.is-entering {
+      transform: translateY(-50%) translateX(50px);
+      opacity: 0;
+      transition: none;
+    }
+    .module-210__car[data-cat="0"] {
+      transform: translateY(-50%) scale(1.3);
+    }
+    .module-210__categories {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .category-row {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .category-row__bg {
+      position: absolute;
+      inset: 0;
+      border-radius: 10px;
+      background: #1c1c1e;
+      box-shadow: rgba(255,255,255,0.06) 0px 0px 0.5px 0px inset;
+      transition: background-color 250ms linear;
+      z-index: 0;
+    }
+    .category-row.active .category-row__bg { background: #2c2c2e; }
+    .category-row:not(.active):hover .category-row__bg { background: #1c1c1e; }
+    .category-row__header {
+      position: relative;
+      z-index: 1;
+      height: 56px;
+      padding: 0 20px 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      opacity: 1;
+      transition: opacity 400ms ease-in-out 350ms, padding-left 200ms ease;
+    }
+    .category-row.active .category-row__header {
+      opacity: 1;
+    }
+    .category-row.active .category-row__icon-wrap {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
+    .category-row.active .category-row__left {
+      gap: 0;
+    }
+    .category-row.active .category-row__header {
+      padding-left: 20px;
+    }
+    .category-row.active .category-row__body {
+      transition: height 420ms cubic-bezier(0.4, 0, 0.2, 1), opacity 300ms ease-in-out;
+    }
+    .category-row__left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: gap 200ms ease;
+    }
+    .category-row__icon-wrap {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: opacity 200ms ease, width 200ms ease, margin 200ms ease;
+      overflow: hidden;
+    }
+    .category-row__icon-wrap svg { display: block; }
+    .category-row__name {
+      color: #fff;
+      font-size: var(--t14-size);
+      font-weight: var(--t14-fw);
+      line-height: var(--t14-lh);
+      letter-spacing: var(--t14-ls);
+      white-space: nowrap;
+    }
+    .category-row__count {
+      color: rgba(255,255,255,0.45);
+      font-size: var(--t15-size);
+      font-weight: var(--t15-fw);
+    }
+    .category-row__body {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      height: 0;
+      opacity: 0;
+      transition: height 320ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms ease-in-out;
+    }
+    .category-row__body-inner {
+      padding: 0 20px 18px;
+    }
+    .category-row__body p {
+      margin: 0;
+      color: rgba(255,255,255,0.65);
+      font-size: var(--t13-size);
+      font-weight: var(--t13-fw);
+      line-height: var(--t13-lh);
+      letter-spacing: var(--t13-ls);
+    }
+    .icon-morph .morph-line {
+      fill: none;
+      stroke: white;
+      stroke-width: 2;
+      stroke-linecap: round;
+      transition: d 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .category-row.active .icon-morph .morph-line-v {
+      d: path("M9,9 L9,9");
+    }
+
+    /* ── Photo rows ── */
+    /* ── Apple-style horizontal photo carousel ── */
+    .photo-carousel {
+      margin: 80px 0;
+      padding: 0 calc((100vw - 1073px) / 2);
+    }
+    .photo-carousel__track-wrap {
+      overflow: hidden;
+      position: relative;
+    }
+    .photo-carousel__track {
+      display: flex;
+      gap: 20px;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: transform;
+    }
+    .photo-carousel__slide {
+      flex-shrink: 0;
+      width: 340px;
+    }
+    .photo-carousel__img {
+      width: 340px;
+      height: 460px;
+      border-radius: 18px;
+      object-fit: cover;
+      display: block;
+      background: #e0e0e0;
+    }
+    .photo-carousel__caption {
+      margin-top: 20px;
+      padding: 0 4px;
+    }
+    .photo-carousel__caption-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--near-black);
+      display: inline;
+    }
+    .photo-carousel__caption-body {
+      font-size: 15px;
+      font-weight: 400;
+      color: rgba(0,0,0,0.55);
+      line-height: 22px;
+      display: inline;
+      margin-left: 4px;
+    }
+    .photo-carousel__nav {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 32px;
+      width: 1073px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .photo-carousel__btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.08);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .photo-carousel__btn:hover { background: rgba(0,0,0,0.15); }
+    .photo-carousel__btn:disabled { opacity: 0.3; cursor: default; }
+    .photo-carousel__btn svg { display: block; }
+
+    /* ── Verdict ── */
+    .verdict {
+      width: 1073px;
+      margin: 60px auto;
+      background: var(--page-bg);
+      border-radius: 18px;
+      padding: 52px 68px 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 35px;
+    }
+    .verdict__eyebrow {
+      font-size: var(--t14-size);
+      font-weight: var(--t14-fw);
+      color: var(--burgundy);
+      line-height: var(--t14-lh);
+      letter-spacing: var(--t14-ls);
+    }
+    .verdict__headline {
+      font-size: var(--t6-size);
+      font-weight: var(--t6-fw);
+      color: var(--near-black);
+      line-height: var(--t6-lh);
+      letter-spacing: var(--t6-ls);
+      width: 873px;
+      text-align: center;
+    }
+    .verdict__body {
+      font-size: var(--t13-size);
+      font-weight: var(--t13-fw);
+      color: var(--body-text);
+      line-height: var(--t13-lh);
+      letter-spacing: var(--t13-ls);
+      width: 600px;
+      text-align: center;
+    }
+    .verdict__cta-head {
+      font-size: var(--t9-size);
+      font-weight: var(--t9-fw);
+      color: var(--body-text);
+      letter-spacing: var(--t9-ls);
+    }
+    .verdict__btn {
+      display: inline-block;
+      width: 370px;
+      height: 63px;
+      border-radius: 87px;
+      background: linear-gradient(to right, var(--coral), var(--coral-dark));
+      box-shadow: 1px 3px 0px var(--coral-shadow);
+      color: #fff;
+      font-size: var(--t11-size);
+      font-weight: var(--t11-fw);
+      letter-spacing: var(--t11-ls);
+      font-family: 'CircularXX', sans-serif;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      line-height: 63px;
+      text-align: center;
+      transition: transform 200ms ease;
+    }
+    .verdict__btn:hover {
+      transform: scale(1.04);
+    }
+
+    /* ── Step 2 ── */
+    .step2 {
+      padding: 80px 0;
+    }
+    .step2__inner {
+      width: 1007px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 56px;
+    }
+    .step2__headline {
+      font-size: var(--t1-size);
+      font-weight: var(--t1-fw);
+      color: var(--near-black);
+      line-height: var(--t1-lh);
+      letter-spacing: var(--t1-ls);
+      text-align: center;
+    }
+    .step2__body-large {
+      font-size: var(--t7-size);
+      font-weight: var(--t7-fw);
+      color: var(--near-black);
+      line-height: var(--t7-lh);
+      letter-spacing: var(--t7-ls);
+      width: 850px;
+      text-align: center;
+    }
+    .step2__body-large strong { font-weight: var(--t7-fw); }
+    .step2__body {
+      font-size: var(--t13-size);
+      font-weight: var(--t13-fw);
+      color: var(--body-text);
+      line-height: var(--t13-lh);
+      letter-spacing: var(--t13-ls);
+      width: 631px;
+      text-align: center;
+    }
+
+    /* ── Detailing section ── */
+    .detailing {
+      width: 1073px;
+      margin: 60px auto;
+      display: flex;
+      align-items: flex-start;
+      gap: 55px;
+    }
+    .detailing__left {
+      width: 527px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .detailing__eyebrow {
+      font-size: var(--t14-size);
+      font-weight: var(--t14-fw);
+      color: var(--burgundy);
+      line-height: var(--t14-lh);
+      letter-spacing: var(--t14-ls);
+    }
+    .detailing__headline {
+      font-size: var(--t6-size);
+      font-weight: var(--t6-fw);
+      color: var(--near-black);
+      line-height: var(--t6-lh);
+      letter-spacing: var(--t6-ls);
+    }
+    .detailing__body {
+      font-size: var(--t13-size);
+      font-weight: var(--t13-fw);
+      color: var(--body-text);
+      line-height: var(--t13-lh);
+      letter-spacing: var(--t13-ls);
+      width: 466px;
+    }
+    .detailing__photo {
+      width: 491px;
+      height: 327px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+    .detailing__photo--placeholder {
+      background: #d0d0d0;
+      border-radius: 10px;
+    }
+
+    /* ── Photography grid ── */
+    .photo-grid-section {
+      width: 1073px;
+      margin: 0 auto 80px;
+      display: flex;
+      gap: 25px;
+    }
+    .photo-grid__group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .photo-grid__label {
+      font-size: var(--t16-size);
+      font-weight: var(--t16-fw);
+      line-height: var(--t16-lh);
+      letter-spacing: var(--t16-ls);
+      color: var(--gray-label);
+    }
+    .photo-grid__thumbs {
+      display: grid;
+      grid-template-columns: repeat(4, 80px);
+      gap: 10px;
+    }
+    .photo-grid__thumb {
+      width: 80px;
+      height: 45px;
+      border-radius: 4px;
+      object-fit: cover;
+      display: block;
+    }
+    .photo-grid__thumb--placeholder {
+      background: #ccc;
+      border-radius: 4px;
+    }
+
+    /* ── Step 3 ── */
+    .step3 { padding: 80px 0; }
+    .step3__inner {
+      width: 1073px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 16px;
+    }
+    .step3__headline {
+      font-size: var(--t3-size);
+      font-weight: var(--t3-fw);
+      color: var(--near-black);
+      line-height: var(--t3-lh);
+      letter-spacing: var(--t3-ls);
+    }
+    .step3__car-wrap {
+      position: relative;
+      width: 560px;
+    }
+    .step3__badge {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 60px;
+      z-index: 1;
+    }
+    .step3__car {
+      width: 100%;
+      display: block;
+    }
+    .step3__body {
+      font-size: var(--t13-size);
+      font-weight: var(--t13-fw);
+      color: var(--body-text);
+      line-height: var(--t13-lh);
+      letter-spacing: var(--t13-ls);
+    }
+    .step3__grid-wrap {
+      width: 100%;
+      margin-top: 40px;
+    }
+    .step3__tags {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      width: 100%;
+    }
+    .step3__tag {
+      border-radius: 30px;
+      overflow: hidden;
+      aspect-ratio: 354 / 246;
+      position: relative;
+    }
+    /* Gradient stat cards */
+    .step3__tag--stat {
+      background: radial-gradient(ellipse 100% 60% at 50% 110%, #5a0a00 0%, #0a0a0a 65%);
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 0;
+    }
+    .step3__tag-label {
+      font-size: var(--t13-size);
+      font-weight: var(--t13-fw);
+      line-height: var(--t13-lh);
+      letter-spacing: var(--t13-ls);
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 4px;
+    }
+    .step3__tag-stat {
+      font-size: var(--t1-size);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -2px;
+      color: #fff;
+      margin: 8px 0;
+    }
+    .step3__tag-sub {
+      font-size: var(--t13-size);
+      font-weight: var(--t13-fw);
+      line-height: var(--t13-lh);
+      letter-spacing: var(--t13-ls);
+      color: rgba(255,255,255,0.5);
+      margin-top: 4px;
+    }
+    /* Photo cards */
+    .step3__tag--photo {
+      background: #111;
+    }
+    .step3__tag--photo .step3__tag-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .step3__tag--photo .step3__tag-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.15) 55%, rgba(0,0,0,0) 100%);
+    }
+    .step3__tag--photo .step3__tag-text {
+      position: absolute;
+      top: 24px;
+      left: 28px;
+      right: 28px;
+      font-size: var(--t10-size);
+      font-weight: 500;
+      line-height: var(--t10-lh);
+      letter-spacing: var(--t8-ls);
+      color: #fff;
+    }
+    /* Text-top variant: black gradient over top, image fills full card */
+    .step3__tag--top-text {
+      background: #0a0a0a;
+    }
+    .step3__tag--top-text .step3__tag-img {
+      position: absolute;
+      top: 35%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      transform: rotate(90deg) scale(2.1);
+      transform-origin: center center;
+    }
+    .step3__tag--top-text .step3__tag-text {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 44%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 28px;
+      bottom: unset;
+      z-index: 1;
+      font-size: var(--t10-size);
+      font-weight: 500;
+      line-height: var(--t10-lh);
+      letter-spacing: var(--t10-ls);
+    }
+    /* Centered text variant */
+    .step3__tag.step3__tag--centered-text {
+      overflow: hidden;
+    }
+    .step3__tag-cars {
+      position: absolute;
+      inset: 0;
+    }
+    .step3__tag-cars .car {
+      position: absolute;
+      width: 22%;
+      height: auto;
+      object-fit: contain;
+    }
+    /* Top row — 3 cars cropped at top */
+    .step3__tag-cars .c1 { top: -30%; left: -2%; width: 25%; }
+    .step3__tag-cars .c2 { top: -45%; left: 50%; transform: translateX(-50%); width: 25%; }
+    .step3__tag-cars .c3 { top: -46%; right: -2%; width: 25%; }
+    .step3__tag-cars .c7 { bottom: -5%; right: -2%; width: 25%; }
+    /* Bottom row — cropped at bottom */
+    .step3__tag-cars .c5 { bottom: -22%; left: -2%; width: 25%; }
+    .step3__tag-cars .c6 { bottom: -40%; left: 50%; transform: translateX(-50%); width: 25%; }
+    .step3__tag--centered-text .step3__tag-text {
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      font-size: var(--t10-size);
+      font-weight: 500;
+      line-height: var(--t10-lh);
+      letter-spacing: var(--t10-ls);
+    }
+
+    /* Photographed card */
+    .step3__tag--photographed .step3__tag-img {
+      transform: scale(1.9) translate(22%, 20%);
+      transform-origin: center center;
+    }
+
+    /* Wrench / icon card */
+    .step3__tag--icon {
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      padding: 28px 32px;
+      text-align: center;
+    }
+    .step3__tag-icon-wrap {
+      width: 90px;
+      height: 90px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .step3__tag--icon .step3__tag-img {
+      width: 150px;
+      height: 150px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+    .step3__tag--icon .step3__tag-text {
+      font-size: var(--t10-size);
+      font-weight: 500;
+      line-height: var(--t10-lh);
+      letter-spacing: var(--t10-ls);
+      color: #fff;
+    }
+
+    /* ── Promise ── */
+    .promise {
+      padding: 80px 0;
+      background: var(--page-bg);
+    }
+    .promise__inner {
+      width: 1073px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+      gap: 48px;
+    }
+    .promise__headline {
+      font-size: var(--t4-size);
+      font-weight: var(--t4-fw);
+      color: var(--near-black);
+      line-height: var(--t4-lh);
+      letter-spacing: var(--t4-ls);
+    }
+    .promise__cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      width: 100%;
+    }
+    .promise__card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 36px 32px 40px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      min-height: 300px;
+    }
+    .promise__card svg {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+    }
+    .promise__card-title {
+      font-size: var(--t8-size);
+      font-weight: var(--t8-fw);
+      color: var(--near-black);
+      line-height: var(--t8-lh);
+      letter-spacing: var(--t8-ls);
+      min-height: 72px;
+    }
+    .promise__card-body {
+      font-size: var(--t13-size);
+      font-weight: var(--t13-fw);
+      color: rgba(0,0,0,0.55);
+      line-height: var(--t13-lh);
+      letter-spacing: var(--t13-ls);
+      max-width: 260px;
+      min-height: 75px;
+    }
+    .promise__card:nth-child(2) .promise__card-body,
+    .promise__card:nth-child(3) .promise__card-body {
+      max-width: 185px;
+    }
+
+/* ── Final CTA ── */
+    .final-cta {
+      padding: 80px 0 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+    }
+    .final-cta__headline {
+      font-size: var(--t9-size);
+      font-weight: var(--t9-fw);
+      color: var(--near-black);
+      letter-spacing: var(--t9-ls);
+    }
+    .final-cta__btn {
+      display: inline-block;
+      height: 63px;
+      padding: 0 48px;
+      border-radius: 87px;
+      background: linear-gradient(to right, var(--coral), var(--coral-dark));
+      box-shadow: 1px 3px 0px var(--coral-shadow);
+      color: #fff;
+      font-size: var(--t11-size);
+      font-weight: var(--t11-fw);
+      letter-spacing: var(--t11-ls);
+      font-family: 'CircularXX', sans-serif;
+      text-decoration: none;
+      line-height: 63px;
+      text-align: center;
+      transition: transform 200ms ease;
+    }
+    .final-cta__btn:hover {
+      transform: scale(1.04);
+    }
+
+    /* ── Section dot nav ── */
+    .section-nav {
+      position: fixed;
+      right: 32px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+    .section-nav__dots {
+      background: rgba(0,0,0,0.08);
+      border-radius: 100px;
+      padding: 10px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-nav__more {
+      font-size: 12px;
+      color: rgba(0,0,0,0.3);
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .section-nav__dot {
+      position: relative;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      margin: 0 10px;
+    }
+    .section-nav__dot.active {
+      background: var(--coral);
+      transform: scale(1.2);
+    }
+    .section-nav__dot:hover {
+      background: rgba(0,0,0,0.4);
+    }
+    .section-nav__dot.active:hover {
+      background: var(--coral);
+    }
+    .section-nav__dot::before {
+      content: attr(data-label);
+      position: absolute;
+      right: calc(100% + 14px);
+      top: 50%;
+      transform: translateY(-50%) translateX(6px);
+      opacity: 0;
+      transition: opacity 180ms ease, transform 180ms ease;
+      white-space: nowrap;
+      background: rgba(20,20,20,0.82);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 500;
+      font-family: 'CircularXX', sans-serif;
+      letter-spacing: -0.1px;
+      padding: 5px 10px;
+      border-radius: 8px;
+      pointer-events: none;
+    }
+    .section-nav__dot:hover::before {
+      opacity: 1;
+      transform: translateY(-50%) translateX(0);
+    }
+
+    /* ── Counter callout ── */
+    .counter-callout {
+      font-size: var(--t1-size);
+      font-weight: var(--t1-fw);
+      color: var(--near-black);
+      line-height: var(--t1-lh);
+      letter-spacing: var(--t1-ls);
+      text-align: center;
+    }
+    .counter-callout__number,
+    .counter-callout__label {
+      display: inline;
+    }
+
+    /* ── Road test timeline ── */
+    .rt-scene {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      overflow: visible;
+      align-self: flex-start;
+    }
+    .rt-car {
+      position: absolute;
+      width: 280px;
+      bottom: 0;
+      left: -320px;
+      transition: left 1100ms cubic-bezier(0.4, 0, 0.2, 1);
+      transform-origin: right bottom;
+      transform: scale(1.27) translate(0px, 20px);
+    }
+    .rt-car.is-moving {
+      transform-origin: right bottom;
+      transform: scale(1.27) translate(0px, 20px);
+      z-index: 2;
+    }
+    .rt-track {
+      position: absolute;
+      left: 160px;
+      right: 160px;
+      bottom: 28px;
+    }
+    .rt-line-bg {
+      position: absolute;
+      top: calc(100% + 21px);
+      left: 0; right: 0;
+      height: 2px;
+      background: #1d1d1f;
+    }
+    .rt-stops {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .rt-stop {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .rt-stop-top {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 2px;
+    }
+    .rt-stop-sub {
+      font-size: 11px;
+      color: #aaa;
+      font-weight: 400;
+      letter-spacing: 0;
+      font-family: 'CircularXX', sans-serif;
+    }
+    .rt-stop-num {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--near-black);
+      line-height: 1.1;
+      font-family: 'CircularXX', sans-serif;
+    }
+    .rt-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #FF464C;
+      position: relative;
+      z-index: 1;
+    }
+    .rt-check {
+      width: 28px;
+      height: 28px;
+      opacity: 0;
+      transition: opacity 250ms ease;
+    }
+    .rt-check.is-done { opacity: 1; }
+    .rt-mark {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      transition: stroke-dashoffset 400ms ease 100ms;
+    }
+    .rt-check.is-done .rt-mark { stroke-dashoffset: 0; }
+
+    /* ── Test drive stage ── */
+    .td-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+      width: 100%;
+    }
+    .td-card {
+      position: relative;
+      width: 520px;
+      height: 300px;
+      background: #f5f5f7;
+      border-radius: 24px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .td-label {
+      position: relative;
+      z-index: 3;
+      margin-top: 28px;
+      font-size: 17px;
+      font-weight: 400;
+      color: var(--near-black);
+      font-family: 'CircularXX', sans-serif;
+    }
+    .td-num-wrap {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+    }
+    .td-num {
+      font-size: 180px;
+      font-weight: 800;
+      letter-spacing: -8px;
+      line-height: 1;
+      font-family: 'CircularXX', sans-serif;
+      transition: opacity 300ms ease;
+      background: linear-gradient(to bottom, #1c1c1e 0%, #c8c8cc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .td-num.is-changing { opacity: 0; }
+    .td-car-wrap {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 100%;
+      z-index: 2;
+    }
+    .td-car {
+      position: absolute;
+      width: 420px;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-200%);
+      transition: transform 1000ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .td-car.is-moving {
+      transform-origin: right bottom;
+      transform: translateX(-200%) scale(1.27) translate(0px, 20px);
+    }
+    .td-car.in-position {
+      transform: translateX(-50%);
+    }
+    .td-car.in-position.is-moving {
+      transform: translateX(-50%) scale(1.27) translate(0px, 20px);
+    }
+    .td-dots {
+      display: flex;
+      gap: 10px;
+    }
+    .td-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #d1d1d6;
+      transition: background 400ms ease;
+      cursor: pointer;
+    }
+    .td-dot.active { background: var(--coral); }
+
+    .td-badge {
+      position: absolute;
+      bottom: 90px;
+      right: 130px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #460B28;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 6;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: opacity 250ms ease, transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
+      pointer-events: none;
+    }
+    .td-badge.is-visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .td-badge__check {
+      stroke-dasharray: 22;
+      stroke-dashoffset: 22;
+      transition: stroke-dashoffset 320ms ease 180ms;
+    }
+    .td-badge.is-visible .td-badge__check {
+      stroke-dashoffset: 0;
+    }
+
+    /* ── Road test callout ── */
+    .road-test-callout {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: var(--page-bg);
+      border-radius: 14px;
+      padding: 20px 28px;
+      width: fit-content;
+      text-align: left;
+    }
+    .road-test-callout__num {
+      font-size: var(--t6-size);
+      font-weight: var(--t6-fw);
+      color: var(--coral);
+      line-height: var(--t6-lh);
+      letter-spacing: var(--t6-ls);
+    }
+    .road-test-callout__text {
+      font-size: var(--t13-size);
+      font-weight: var(--t13-fw);
+      color: var(--body-text);
+      line-height: var(--t13-lh);
+      letter-spacing: var(--t13-ls);
+      max-width: 260px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky header: progress bar + nav -->
+  <header class="site-header">
+    <div class="progress-bar">
+      <div class="progress-bar__fill" id="progress-fill"></div>
+    </div>
+    <nav class="nav">
+      <img class="nav__logo" src="assets/logo-red.png" alt="Clutch">
+      <div class="nav__pill">
+        <a href="#">Browse Cars</a>
+        <a href="#">Sell Your Car</a>
+      </div>
+      <a href="#" class="nav__signin">Sign in</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero scale-section" id="s-hero">
+    <div class="hero__text">
+      <p class="eyebrow">EVERY CAR WE SELL IS CLUTCH CERTIFIED</p>
+      <h1 class="hero__h1">Every car you see has passed our rigorous inspection.</h1>
+      <p class="hero__sub">Every car listed on Clutch has passed a rigorous 210-point inspection, been reconditioned by licensed mechanics, and photographed in detail so you know exactly what you're getting.</p>
+    </div>
+    <div class="hero__image-wrap">
+      <img class="hero__car" src="assets/hero-car.png" alt="Clutch Certified Vehicle">
+      <img class="hero__badge" src="assets/clutch-c-badge.gif" alt="Clutch Certified">
+    </div>
+  </section>
+
+  <!-- Summary cards -->
+  <section class="summary-section">
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="summary-card__inner">
+          <div class="summary-card__front">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="white" stroke-width="1.5"/><path d="M9 3h6M9 8h6M9 12h4" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path d="M8 16l2 2 4-4" stroke="#FF464C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <p>210-Point Inspection</p>
+          </div>
+          <div class="summary-card__back"><p>Every mechanical and cosmetic system checked by our technicians including three mechanic-led road tests.</p></div>
+        </div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-card__inner">
+          <div class="summary-card__front">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <p>Reconditioned<br>by Clutch Certified Mechanics</p>
+          </div>
+          <div class="summary-card__back"><p>Anything our inspection flags gets repaired or replaced by our own Clutch Certified mechanics before the car is listed.<br><br>No shortcuts.</p></div>
+        </div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-card__inner">
+          <div class="summary-card__front">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="13" r="4" stroke="white" stroke-width="1.5"/></svg>
+            <p>Photographed<br>Inside and Out</p>
+          </div>
+          <div class="summary-card__back"><p>Every car is shot from every angle with 360° photography so you see exactly what you're getting.</p></div>
+        </div>
+      </div>
+      <div class="summary-card summary-card--large">
+        <div class="summary-card__inner">
+          <div class="summary-card__front">
+            <svg width="30" height="30" viewBox="0 0 117 117" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M111.719 58.0938C111.719 65.6489 107.965 72.3342 102.227 76.3739C102.845 79.9058 102.603 83.5347 101.522 86.9533C100.44 90.3718 98.5501 93.4793 96.0126 96.0126C93.4793 98.5501 90.3718 100.44 86.9532 101.522C83.5347 102.603 79.9058 102.845 76.3739 102.227C74.3136 105.161 71.5766 107.556 68.3945 109.208C65.2125 110.861 61.6792 111.722 58.0938 111.719C50.5386 111.719 43.8533 107.965 39.8136 102.227C36.2817 102.845 32.6529 102.603 29.2345 101.521C25.816 100.439 22.7085 98.5497 20.1749 96.0126C17.6374 93.4793 15.7478 90.3718 14.666 86.9533C13.5842 83.5347 13.3422 79.9058 13.9604 76.3739C11.026 74.3136 8.63137 71.5766 6.97916 68.3945C5.32694 65.2125 4.46584 61.6792 4.46876 58.0938C4.46876 50.5386 8.22251 43.8533 13.9604 39.8136C13.3422 36.2817 13.5842 32.6528 14.666 29.2343C15.7478 25.8157 17.6374 22.7082 20.1749 20.1749C22.7085 17.6378 25.816 15.7484 29.2345 14.6667C32.6529 13.585 36.2817 13.3427 39.8136 13.9604C41.8742 11.0264 44.6114 8.632 47.7933 6.97983C50.9753 5.32766 54.5084 4.46633 58.0938 4.46876C65.6489 4.46876 72.3342 8.2225 76.3739 13.9604C79.9058 13.3427 83.5346 13.585 86.953 14.6667C90.3715 15.7484 93.479 17.6378 96.0126 20.1749C98.5497 22.7085 100.439 25.816 101.521 29.2345C102.603 32.6529 102.845 36.2817 102.227 39.8136C105.161 41.8739 107.556 44.6109 109.208 47.793C110.861 50.975 111.722 54.5083 111.719 58.0938Z" stroke="white" stroke-width="8.9375" stroke-linecap="round" stroke-linejoin="round"/><path d="M58.4395 69.4482C59.1512 69.5771 59.8914 69.6475 60.6553 69.6475C61.3715 69.6474 62.067 69.5883 62.7373 69.4785L66.7627 79.5713C64.852 80.1004 62.8304 80.3838 60.7383 80.3838C58.557 80.3837 56.4742 80.101 54.5195 79.5703L58.4395 69.4482ZM60.7383 36.0938C68.9587 36.0938 76.0891 40.4561 79.5283 46.915L79.5215 46.918L79.5137 46.9014L69.7617 51.542C67.9382 48.5836 64.5797 46.7472 60.6553 46.7471C54.1963 46.7471 49.415 51.5287 49.415 58.2393C49.4151 62.5 51.3932 65.9947 54.5215 67.9492L50.5938 78.0918C43.3101 74.5162 38.5938 67.0942 38.5938 58.2393C38.5938 45.7409 47.9884 36.094 60.7383 36.0938ZM79.5928 69.6582C77.5582 73.2614 74.4512 76.1899 70.6807 78.0703L66.6836 68.0488C67.9478 67.2815 69.0066 66.2588 69.791 65.0225L79.5928 69.6582Z" fill="white"/></svg>
+            <p>Clutch Certified</p>
+          </div>
+          <div class="summary-card__back"><p>10-day money-back guarantee.<br><br>90-day warranty.<br><br>Free CARFAX report.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 1: Inspected -->
+  <section class="step1 scale-section" id="s-inspected">
+    <div class="step1__inner">
+      <p class="eyebrow">STEP 1 . INSPECTED</p>
+      <div class="counter-callout">
+        <span class="counter-callout__number" id="counter-210">0</span>
+        <span class="counter-callout__label"> points.<br>No exceptions.</span>
+      </div>
+      <h2 class="step1__headline">The most rigorous car inspection in the industry</h2>
+      <p class="step1__body">
+        Every car goes through a rigorous mechanical and cosmetic inspection by our technicians. Brakes, suspension, electrical, engine, body, nothing is skipped.
+      </p>
+
+      <!-- TIMELINE DISABLED — uncomment to restore
+      <div class="rt-scene" id="rt-scene">
+        <img class="rt-car" id="rt-car-a" src="assets/car-side.png" alt="Car">
+        <img class="rt-car" id="rt-car-b" src="assets/car-side.png" alt="Car" style="opacity:0;">
+        <div class="rt-track">
+          <div class="rt-line-bg"></div>
+          <div class="rt-stops">
+            <div class="rt-stop">
+              <div class="rt-stop-top">
+                <span class="rt-stop-sub">Test Drive</span>
+                <span class="rt-stop-num">#1</span>
+              </div>
+              <svg class="rt-check" id="rt-check-0" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12" stroke="#FF464C" stroke-width="2"/><path class="rt-mark" d="M9 14.5l3.5 3.5 6-7" stroke="#FF464C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></svg>
+              <div class="rt-dot"></div>
+            </div>
+            <div class="rt-stop">
+              <div class="rt-stop-top">
+                <span class="rt-stop-sub">Test Drive</span>
+                <span class="rt-stop-num">#2</span>
+              </div>
+              <svg class="rt-check" id="rt-check-1" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12" stroke="#FF464C" stroke-width="2"/><path class="rt-mark" d="M9 14.5l3.5 3.5 6-7" stroke="#FF464C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></svg>
+              <div class="rt-dot"></div>
+            </div>
+            <div class="rt-stop">
+              <div class="rt-stop-top">
+                <span class="rt-stop-sub">Test Drive</span>
+                <span class="rt-stop-num">#3</span>
+              </div>
+              <svg class="rt-check" id="rt-check-2" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12" stroke="#FF464C" stroke-width="2"/><path class="rt-mark" d="M9 14.5l3.5 3.5 6-7" stroke="#FF464C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></svg>
+              <div class="rt-dot"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      END TIMELINE -->
+
+      <!-- New test drive stage -->
+      <div class="td-stage" id="td-stage">
+        <div class="td-card">
+          <p class="td-label">Test drive</p>
+          <div class="td-num-wrap">
+            <span class="td-num" id="td-num">#1</span>
+          </div>
+          <div class="td-car-wrap">
+            <img class="td-car" id="td-car-a" src="assets/car-side.png" alt="Car">
+            <img class="td-car" id="td-car-b" src="assets/car-side.png" alt="Car" style="opacity:0;">
+            <div class="td-badge" id="td-badge">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path class="td-badge__check" d="M5 12.5L10 17.5L19 8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="td-dots">
+          <div class="td-dot active"></div>
+          <div class="td-dot"></div>
+          <div class="td-dot"></div>
+        </div>
+      </div>
+
+      <p class="step1__body">That includes a total of three separate mechanic-led road tests to validate real-world performance.</p>
+    </div>
+
+    <!-- 210-point module -->
+    <div class="module-210">
+      <div class="module-210__categories" id="cat-list">
+
+        <div class="category-row active" data-cat="0">
+          <div class="category-row__bg"></div><div class="category-row__header">
+            <div class="category-row__left">
+              <div class="category-row__icon-wrap"><svg class="icon-morph" width="16" height="16" viewBox="0 0 18 18"><path class="morph-line morph-line-h" d="M2,9 L16,9"/><path class="morph-line morph-line-v" d="M9,2 L9,16"/></svg></div>
+              <span class="category-row__name">Body</span>
+            </div>
+            <span class="category-row__count">21 points</span>
+          </div>
+<div class="category-row__body"><div class="category-row__body-inner"><p>Every panel, gap, and surface is inspected for damage, rust, prior repairs, and paint consistency. We check structural integrity and cosmetic condition to ensure nothing is hidden before listing.</p></div></div>
+        </div>
+
+        <div class="category-row" data-cat="1">
+          <div class="category-row__bg"></div><div class="category-row__header">
+            <div class="category-row__left">
+              <div class="category-row__icon-wrap"><svg class="icon-morph" width="16" height="16" viewBox="0 0 18 18"><path class="morph-line morph-line-h" d="M2,9 L16,9"/><path class="morph-line morph-line-v" d="M9,2 L9,16"/></svg></div>
+              <span class="category-row__name">Road Test</span>
+            </div>
+            <span class="category-row__count">79 points</span>
+          </div>
+<div class="category-row__body"><div class="category-row__body-inner"><p>Three separate mechanic-led road tests validate real-world performance. We assess acceleration, braking, handling, noise, and vibration — the kind of issues that only reveal themselves when the car is actually moving.</p></div></div>
+        </div>
+
+        <div class="category-row" data-cat="2">
+          <div class="category-row__bg"></div><div class="category-row__header">
+            <div class="category-row__left">
+              <div class="category-row__icon-wrap"><svg class="icon-morph" width="16" height="16" viewBox="0 0 18 18"><path class="morph-line morph-line-h" d="M2,9 L16,9"/><path class="morph-line morph-line-v" d="M9,2 L9,16"/></svg></div>
+              <span class="category-row__name">Engine</span>
+            </div>
+            <span class="category-row__count">41 points</span>
+          </div>
+<div class="category-row__body"><div class="category-row__body-inner"><p>A full engine inspection covers fluid levels, belts, hoses, sensors, and emissions. We run diagnostic scans to catch any stored fault codes and verify the engine performs within manufacturer specifications.</p></div></div>
+        </div>
+
+        <div class="category-row" data-cat="3">
+          <div class="category-row__bg"></div><div class="category-row__header">
+            <div class="category-row__left">
+              <div class="category-row__icon-wrap"><svg class="icon-morph" width="16" height="16" viewBox="0 0 18 18"><path class="morph-line morph-line-h" d="M2,9 L16,9"/><path class="morph-line morph-line-v" d="M9,2 L9,16"/></svg></div>
+              <span class="category-row__name">Suspension</span>
+            </div>
+            <span class="category-row__count">16 points</span>
+          </div>
+<div class="category-row__body"><div class="category-row__body-inner"><p>Shocks, struts, control arms, bushings, and wheel bearings are all assessed for wear. Suspension condition directly affects ride quality and safety — we don't pass anything that compromises either.</p></div></div>
+        </div>
+
+        <div class="category-row" data-cat="4">
+          <div class="category-row__bg"></div><div class="category-row__header">
+            <div class="category-row__left">
+              <div class="category-row__icon-wrap"><svg class="icon-morph" width="16" height="16" viewBox="0 0 18 18"><path class="morph-line morph-line-h" d="M2,9 L16,9"/><path class="morph-line morph-line-v" d="M9,2 L9,16"/></svg></div>
+              <span class="category-row__name">Steering</span>
+            </div>
+            <span class="category-row__count">8 points</span>
+          </div>
+<div class="category-row__body"><div class="category-row__body-inner"><p>Rack and pinion, power steering fluid, tie rods, and alignment are checked. Any play or drift in the steering system is flagged and resolved before the car reaches you.</p></div></div>
+        </div>
+
+        <div class="category-row" data-cat="5">
+          <div class="category-row__bg"></div><div class="category-row__header">
+            <div class="category-row__left">
+              <div class="category-row__icon-wrap"><svg class="icon-morph" width="16" height="16" viewBox="0 0 18 18"><path class="morph-line morph-line-h" d="M2,9 L16,9"/><path class="morph-line morph-line-v" d="M9,2 L9,16"/></svg></div>
+              <span class="category-row__name">Lights</span>
+            </div>
+            <span class="category-row__count">10 points</span>
+          </div>
+<div class="category-row__body"><div class="category-row__body-inner"><p>Every exterior and interior light is tested — headlights, indicators, brake lights, reverse lights, and cabin lighting. We also verify all sensors tied to the lighting system are functioning correctly.</p></div></div>
+        </div>
+
+        <div class="category-row" data-cat="6">
+          <div class="category-row__bg"></div><div class="category-row__header">
+            <div class="category-row__left">
+              <div class="category-row__icon-wrap"><svg class="icon-morph" width="16" height="16" viewBox="0 0 18 18"><path class="morph-line morph-line-h" d="M2,9 L16,9"/><path class="morph-line morph-line-v" d="M9,2 L9,16"/></svg></div>
+              <span class="category-row__name">Underbody</span>
+            </div>
+            <span class="category-row__count">11 points</span>
+          </div>
+<div class="category-row__body"><div class="category-row__body-inner"><p>The undercarriage is inspected for frame damage, rust, exhaust condition, and fluid leaks. An underbody inspection often reveals the car's true history in ways a visual exterior check cannot.</p></div></div>
+        </div>
+
+        <div class="category-row" data-cat="7">
+          <div class="category-row__bg"></div><div class="category-row__header">
+            <div class="category-row__left">
+              <div class="category-row__icon-wrap"><svg class="icon-morph" width="16" height="16" viewBox="0 0 18 18"><path class="morph-line morph-line-h" d="M2,9 L16,9"/><path class="morph-line morph-line-v" d="M9,2 L9,16"/></svg></div>
+              <span class="category-row__name">Tires &amp; Brakes</span>
+            </div>
+            <span class="category-row__count">21 points</span>
+          </div>
+<div class="category-row__body"><div class="category-row__body-inner"><p>Tread depth is measured on all four tires. Brake pad thickness, rotor condition, and caliper function are all checked. Anything below safe operating standards is replaced before the car is listed.</p></div></div>
+        </div>
+
+      </div>
+      <div class="module-210__car-wrap">
+        <img class="module-210__car" id="cat-car-img-a" src="assets/Body.png" alt="">
+        <img class="module-210__car module-210__car--b" id="cat-car-img-b" src="" alt="">
+      </div>
+    </div>
+  </section>
+
+  <!-- Photo carousel -->
+  <div class="photo-carousel">
+    <div class="photo-carousel__track-wrap">
+      <div class="photo-carousel__track" id="photo-track">
+        <div class="photo-carousel__slide">
+          <img class="photo-carousel__img" src="assets/photo-card-1.png" alt="Inspection">
+          <div class="photo-carousel__caption">
+            <span class="photo-carousel__caption-title">Full inspection.</span>
+            <span class="photo-carousel__caption-body">Every system checked by our certified technicians before the car ever reaches a listing. Nothing skipped, nothing assumed.</span>
+          </div>
+        </div>
+        <div class="photo-carousel__slide">
+          <img class="photo-carousel__img" src="assets/photo-card-2.png" alt="Reconditioning">
+          <div class="photo-carousel__caption">
+            <span class="photo-carousel__caption-title">Reconditioning.</span>
+            <span class="photo-carousel__caption-body">Our licensed mechanics address every flag from the inspection report. Worn parts replaced, fluids topped, everything brought up to standard.</span>
+          </div>
+        </div>
+        <div class="photo-carousel__slide">
+          <img class="photo-carousel__img" src="assets/photo-card-3.png" alt="Quality check">
+          <div class="photo-carousel__caption">
+            <span class="photo-carousel__caption-title">Quality sign-off.</span>
+            <span class="photo-carousel__caption-body">A final review before the car earns the Clutch Certified badge. Our mechanics personally sign off on every vehicle we list.</span>
+          </div>
+        </div>
+        <div class="photo-carousel__slide">
+          <div class="photo-carousel__img" style="background:#d8d8dc;"></div>
+          <div class="photo-carousel__caption">
+            <span class="photo-carousel__caption-title">Detailed inside and out.</span>
+            <span class="photo-carousel__caption-body">Every car is professionally detailed and photographed — exterior, interior, engine bay — so what you see online is exactly what you get in person.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="photo-carousel__nav">
+      <button class="photo-carousel__btn" id="photo-prev" disabled>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M11 4L6 9l5 5" stroke="#1d1d1f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="photo-carousel__btn" id="photo-next">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M7 4l5 5-5 5" stroke="#1d1d1f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Verdict -->
+  <div class="verdict" id="s-verdict">
+    <h2 class="verdict__headline">This is where most cars fail...</h2>
+    <p class="verdict__body">
+      The majority of used cars on the market would never pass our 210-point inspection. Clutch Certified isn't just a badge — it's proof that your car cleared every check.
+    </p>
+    <p class="verdict__cta-head">Browse the cars that passed</p>
+    <a href="https://www.clutch.ca/cars" class="verdict__btn">Browse Clutch Certified</a>
+  </div>
+
+  <!-- Step 2: Serviced -->
+  <section class="step2 scale-section" id="s-serviced">
+    <div class="step2__inner">
+      <p class="eyebrow">STEP 2 - SERVICED</p>
+      <h2 class="step2__headline">Reconditioning.</h2>
+      <p class="step2__body-large">
+        Our licensed mechanics replace worn components, perform required servicing, and address anything that falls short, bringing every vehicle up to the Clutch Certified standard.
+      </p>
+      <p class="step2__body">
+        When our technicians flag an issue, we repair or replace it before the car is ever listed. Worn brake pads, oil changes, damaged trim — all resolved to our standards, not just acceptable minimums.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- Detailing section -->
+  <div class="detailing" id="s-detailing">
+    <div class="detailing__left">
+      <p class="detailing__eyebrow">DETAILING</p>
+      <h2 class="detailing__headline">Detailed and photographed, inside and out</h2>
+      <p class="detailing__body">
+        Before listing, every car is professionally detailed and photographed from every angle — exterior, interior, engine bay, and undercarriage. What you see is exactly what you get.
+      </p>
+    </div>
+    <img
+      class="detailing__photo"
+      src="assets/detailing-photo.png"
+      alt="Detailing"
+    >
+  </div>
+
+  <!-- Photography thumbnail grid -->
+  <div class="photo-grid-section">
+
+    <!-- Exterior 01 -->
+    <div class="photo-grid__group">
+      <p class="photo-grid__label">Exterior 01</p>
+      <div class="photo-grid__thumbs">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-01/01.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-01/02.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-01/03.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-01/04.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-01/05.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-01/06.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-01/07.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-01/08.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-01/09.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-01/10.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-01/11.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-01/12.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-01/13.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-01/14.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-01/15.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-01/16.png" alt="">
+      </div>
+    </div>
+
+    <!-- Interior -->
+    <div class="photo-grid__group">
+      <p class="photo-grid__label">Interior</p>
+      <div class="photo-grid__thumbs">
+        <img class="photo-grid__thumb" src="assets/thumbs/interior/01.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/interior/02.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/interior/03.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/interior/04.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/interior/05.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/interior/06.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/interior/07.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/interior/08.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/interior/09.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/interior/10.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/interior/11.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/interior/12.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/interior/13.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/interior/14.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/interior/15.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/interior/16.png" alt="">
+      </div>
+    </div>
+
+    <!-- Exterior 02 -->
+    <div class="photo-grid__group">
+      <p class="photo-grid__label">Exterior 02</p>
+      <div class="photo-grid__thumbs">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-02/01.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-02/02.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-02/03.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-02/04.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-02/05.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-02/06.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-02/07.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-02/08.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-02/09.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-02/10.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-02/11.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-02/12.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-02/13.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-02/14.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-02/15.png" alt="">
+        <img class="photo-grid__thumb" src="assets/thumbs/exterior-02/16.png" alt="">
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Step 3: Listed -->
+  <section class="step3 scale-section" id="s-listed">
+    <div class="step3__inner">
+      <p class="eyebrow">STEP 3 - LISTED</p>
+      <h2 class="step3__headline">Clutch Certified.</h2>
+      <div class="step3__car-wrap">
+        <img class="step3__badge" src="assets/clutch-c-badge.gif" alt="Clutch C">
+        <img class="step3__car" src="assets/hero-car.png" alt="Clutch Certified Vehicle">
+      </div>
+      <p class="step3__body">Our mechanics personally sign off. It's earned the badge, secured, listed,<br>and ready for you.</p>
+      <div class="step3__grid-wrap">
+        <div class="step3__tags">
+          <!-- Row 1 -->
+          <div class="step3__tag step3__tag--stat">
+            <p class="step3__tag-label">Up to</p>
+            <p class="step3__tag-stat">3×</p>
+            <p class="step3__tag-sub">mechanic-led road tests</p>
+          </div>
+          <div class="step3__tag step3__tag--photo step3__tag--top-text">
+            <img class="step3__tag-img" src="assets/Detail-card.png" alt="Car interior">
+            <p class="step3__tag-text">Detailed inside<br>and out</p>
+          </div>
+          <div class="step3__tag step3__tag--stat">
+            <p class="step3__tag-label">Full</p>
+            <p class="step3__tag-stat">210</p>
+            <p class="step3__tag-sub">point inspection checklist</p>
+          </div>
+          <!-- Row 2 -->
+          <div class="step3__tag step3__tag--photo step3__tag--centered-text">
+            <div class="step3__tag-cars">
+              <img class="car c1" src="assets/step3-parking.jpg" alt="">
+              <img class="car c2" src="assets/step3-parking.jpg" alt="">
+              <img class="car c3" src="assets/step3-parking.jpg" alt="">
+              <img class="car c5" src="assets/step3-parking.jpg" alt="">
+              <img class="car c6" src="assets/step3-parking.jpg" alt="">
+              <img class="car c7" src="assets/step3-parking.jpg" alt="">
+            </div>
+            <p class="step3__tag-text">Safely stored at<br>our facility</p>
+          </div>
+          <div class="step3__tag step3__tag--icon">
+            <div class="step3__tag-icon-wrap"><img class="step3__tag-img" src="assets/cc.gif" alt="Clutch Certified"></div>
+            <p class="step3__tag-text">Reconditioned by Clutch Certified Mechanics</p>
+          </div>
+          <div class="step3__tag step3__tag--photo step3__tag--photographed">
+            <img class="step3__tag-img" src="assets/step3-front.jpg" alt="Car front">
+            <p class="step3__tag-text">Photographed from<br>every angle</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Promise -->
+  <section class="promise scale-section" id="s-promise">
+    <div class="promise__inner">
+      <h2 class="promise__headline">Buy with<br>total confidence.</h2>
+      <div class="promise__cards">
+        <div class="promise__card">
+          <svg width="37" height="34" viewBox="0 0 37 34" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M35.155 9.84277C35.155 5.1834 31.2194 1.40527 26.365 1.40527C22.7369 1.40527 19.6207 3.51652 18.28 6.52965C16.9394 3.51652 13.8232 1.40527 10.1932 1.40527C5.34253 1.40527 1.40503 5.1834 1.40503 9.84277C1.40503 23.3803 18.28 32.3428 18.28 32.3428C18.28 32.3428 35.155 23.3803 35.155 9.84277Z" stroke="#1d1d1f" stroke-width="2.81" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3 class="promise__card-title">10-day love it<br>or return it</h3>
+          <p class="promise__card-body">Money-back guarantee. If it's not the right fit for you, return or exchange, no questions asked.</p>
+        </div>
+        <div class="promise__card">
+          <svg width="45" height="45" viewBox="0 0 45 45" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16.875 23.9064L21.0938 28.1251L28.125 18.2814M22.5 5.08887C18.2545 9.12056 12.6005 11.3318 6.74626 11.2501C6.00157 13.5188 5.62308 15.8917 5.62501 18.2795C5.62501 28.7645 12.795 37.5732 22.5 40.0726C32.205 37.5751 39.375 28.7664 39.375 18.2814C39.375 15.8251 38.9813 13.4607 38.2538 11.2482H37.9688C31.9763 11.2482 26.5313 8.90824 22.5 5.08887Z" stroke="#1d1d1f" stroke-width="2.8125" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3 class="promise__card-title">90-day<br>Warranty</h3>
+          <p class="promise__card-body">90 day or 6,000km, comprehensive warranty for peace of mind.</p>
+        </div>
+        <div class="promise__card">
+          <svg width="32" height="32" viewBox="0 0 117 117" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M111.719 58.0938C111.719 65.6489 107.965 72.3342 102.227 76.3739C102.845 79.9058 102.603 83.5347 101.522 86.9533C100.44 90.3718 98.5501 93.4793 96.0126 96.0126C93.4793 98.5501 90.3718 100.44 86.9532 101.522C83.5347 102.603 79.9058 102.845 76.3739 102.227C74.3136 105.161 71.5766 107.556 68.3945 109.208C65.2125 110.861 61.6792 111.722 58.0938 111.719C50.5386 111.719 43.8533 107.965 39.8136 102.227C36.2817 102.845 32.6529 102.603 29.2345 101.521C25.816 100.439 22.7085 98.5497 20.1749 96.0126C17.6374 93.4793 15.7478 90.3718 14.666 86.9533C13.5842 83.5347 13.3422 79.9058 13.9604 76.3739C11.026 74.3136 8.63137 71.5766 6.97916 68.3945C5.32694 65.2125 4.46584 61.6792 4.46876 58.0938C4.46876 50.5386 8.22251 43.8533 13.9604 39.8136C13.3422 36.2817 13.5842 32.6528 14.666 29.2343C15.7478 25.8157 17.6374 22.7082 20.1749 20.1749C22.7085 17.6378 25.816 15.7484 29.2345 14.6667C32.6529 13.585 36.2817 13.3427 39.8136 13.9604C41.8742 11.0264 44.6114 8.632 47.7933 6.97983C50.9753 5.32766 54.5084 4.46633 58.0938 4.46876C65.6489 4.46876 72.3342 8.2225 76.3739 13.9604C79.9058 13.3427 83.5346 13.585 86.953 14.6667C90.3715 15.7484 93.479 17.6378 96.0126 20.1749C98.5497 22.7085 100.439 25.816 101.521 29.2345C102.603 32.6529 102.845 36.2817 102.227 39.8136C105.161 41.8739 107.556 44.6109 109.208 47.793C110.861 50.975 111.722 54.5083 111.719 58.0938Z" stroke="#1d1d1f" stroke-width="8.9375" stroke-linecap="round" stroke-linejoin="round"/><path d="M58.4395 69.4482C59.1512 69.5771 59.8914 69.6475 60.6553 69.6475C61.3715 69.6474 62.067 69.5883 62.7373 69.4785L66.7627 79.5713C64.852 80.1004 62.8304 80.3838 60.7383 80.3838C58.557 80.3837 56.4742 80.101 54.5195 79.5703L58.4395 69.4482ZM60.7383 36.0938C68.9587 36.0938 76.0891 40.4561 79.5283 46.915L79.5215 46.918L79.5137 46.9014L69.7617 51.542C67.9382 48.5836 64.5797 46.7472 60.6553 46.7471C54.1963 46.7471 49.415 51.5287 49.415 58.2393C49.4151 62.5 51.3932 65.9947 54.5215 67.9492L50.5938 78.0918C43.3101 74.5162 38.5938 67.0942 38.5938 58.2393C38.5938 45.7409 47.9884 36.094 60.7383 36.0938ZM79.5928 69.6582C77.5582 73.2614 74.4512 76.1899 70.6807 78.0703L66.6836 68.0488C67.9478 67.2815 69.0066 66.2588 69.791 65.0225L79.5928 69.6582Z" fill="#1d1d1f"/></svg>
+          <h3 class="promise__card-title">Clutch<br>Certified</h3>
+          <p class="promise__card-body">210 points. 3 test drives. A standard of quality you can trust.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="final-cta">
+    <p class="final-cta__headline">Ready to find your next car?</p>
+    <a href="https://www.clutch.ca/cars" class="final-cta__btn">Shop Clutch Certified Vehicles</a>
+  </section>
+
+  <!-- Section dot nav -->
+  <nav class="section-nav">
+
+    <div class="section-nav__dots">
+      <div class="section-nav__dot active" data-target="s-hero"       data-label="Overview"></div>
+      <div class="section-nav__dot"        data-target="s-inspected"  data-label="Inspected"></div>
+      <div class="section-nav__dot"        data-target="s-verdict"    data-label="Verdict"></div>
+      <div class="section-nav__dot"        data-target="s-serviced"   data-label="Serviced"></div>
+      <div class="section-nav__dot"        data-target="s-detailing"  data-label="Detailing"></div>
+      <div class="section-nav__dot"        data-target="s-listed"     data-label="Listed"></div>
+      <div class="section-nav__dot"        data-target="s-promise"    data-label="Our Promise"></div>
+    </div>
+  </nav>
+
+  <script>
+    const fill = document.getElementById('progress-fill');
+    const sections = ['s-hero','s-inspected','s-verdict','s-serviced','s-detailing','s-listed','s-promise'];
+    const dots = document.querySelectorAll('.section-nav__dot');
+
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      fill.style.width = (scrolled / total * 100) + '%';
+
+      // Update active dot
+      let current = 0;
+      sections.forEach((id, i) => {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= window.innerHeight * 0.5) current = i;
+      });
+      dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    });
+
+    // Roll-up counter
+    let counted = false;
+    const counterEl = document.getElementById('counter-210');
+    function runCounter() {
+      if (counted) return;
+      const rect = counterEl.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.85) {
+        counted = true;
+        let start = 0;
+        const end = 210;
+        const duration = 1600;
+        const startTime = performance.now();
+        function step(now) {
+          const progress = Math.min((now - startTime) / duration, 1);
+          const ease = 1 - Math.pow(1 - progress, 3);
+          counterEl.textContent = Math.round(ease * end);
+          if (progress < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
+    }
+    window.addEventListener('scroll', runCounter);
+    runCounter();
+
+    // Photo carousel
+    const track = document.getElementById('photo-track');
+    const prevBtn = document.getElementById('photo-prev');
+    const nextBtn = document.getElementById('photo-next');
+    const slides = track ? track.querySelectorAll('.photo-carousel__slide') : [];
+    let currentSlide = 0;
+    const slideWidth = 360; // 340px + 20px gap
+
+    function updateCarousel() {
+      track.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+      prevBtn.disabled = currentSlide === 0;
+      nextBtn.disabled = currentSlide >= slides.length - 1;
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', () => { if (currentSlide > 0) { currentSlide--; updateCarousel(); } });
+    if (nextBtn) nextBtn.addEventListener('click', () => { if (currentSlide < slides.length - 1) { currentSlide++; updateCarousel(); } });
+
+    // 210 category accordion
+    const collapseTimers = new WeakMap();
+
+    function collapseRow(r) {
+      r.classList.remove('active');
+      const b = r.querySelector('.category-row__body');
+      const inner = r.querySelector('.category-row__body-inner');
+      b.style.opacity = '0';
+      // Dip inner content down — clipped by body overflow:hidden, container stays put
+      inner.style.transition = 'transform 80ms ease-out';
+      inner.style.transform = 'translateY(10px)';
+      const t = setTimeout(() => {
+        inner.style.transition = '';
+        inner.style.transform = '';
+        b.style.transition = 'height 320ms cubic-bezier(0.4, 0, 0.2, 1)';
+        b.style.height = '0';
+        collapseTimers.delete(r);
+        const anyActive = document.querySelector('#cat-list .category-row.active');
+      }, 80);
+      collapseTimers.set(r, t);
+    }
+
+    const catImages = [
+      'assets/Body.png',
+      'assets/Road test.png',
+      'assets/Engine.png',
+      'assets/Suspension-2.png',
+      'assets/Steering.png',
+      'assets/Lights.png',
+      'assets/Underbody.png',
+      'assets/Tires and Brakes.png',
+    ];
+    const catCarImgA = document.getElementById('cat-car-img-a');
+    const catCarImgB = document.getElementById('cat-car-img-b');
+    let catCarImg = catCarImgA;
+    let catCarImgAlt = catCarImgB;
+    catCarImgB.style.opacity = '0';
+
+    const carWrap = catCarImgA.closest('.module-210__car-wrap');
+
+    function swapCarImage(newSrc, cat) {
+      const outgoing = catCarImg;
+      const incoming = catCarImgAlt;
+
+
+      incoming.src = newSrc;
+      if (cat !== undefined) incoming.dataset.cat = cat;
+      incoming.classList.remove('is-exiting');
+      incoming.classList.add('is-entering');
+      incoming.style.opacity = '';
+
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        outgoing.classList.add('is-exiting');
+        incoming.classList.remove('is-entering');
+      }));
+
+      setTimeout(() => {
+        outgoing.style.opacity = '0';
+        outgoing.classList.remove('is-exiting');
+        catCarImg = incoming;
+        catCarImgAlt = outgoing;
+      }, 440);
+    }
+
+    function expandRow(row) {
+      if (collapseTimers.has(row)) {
+        clearTimeout(collapseTimers.get(row));
+        collapseTimers.delete(row);
+        row.querySelector('.category-row__body-inner').style.transform = '';
+      }
+      const body = row.querySelector('.category-row__body');
+      row.classList.add('active');
+      body.style.transition = '';
+      body.style.height = body.scrollHeight + 'px';
+      body.style.opacity = '1';
+      const cat = parseInt(row.dataset.cat);
+      if (catImages[cat]) swapCarImage(catImages[cat], cat);
+    }
+
+    // Init pre-active row on load
+    const preActive = document.querySelector('#cat-list .category-row.active');
+    if (preActive) {
+      const b = preActive.querySelector('.category-row__body');
+      b.style.height = b.scrollHeight + 'px';
+      b.style.opacity = '1';
+    }
+
+    document.querySelectorAll('#cat-list .category-row').forEach(row => {
+      row.addEventListener('click', e => {
+        if (row.classList.contains('active')) { collapseRow(row); return; }
+        document.querySelectorAll('#cat-list .category-row').forEach(r => collapseRow(r));
+        expandRow(row);
+      });
+    });
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const el = document.getElementById(dot.dataset.target);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+
+    // Test drive stage
+    (function() {
+      const stage = document.getElementById('td-stage');
+      if (!stage) return;
+      const carA = document.getElementById('td-car-a');
+      const carB = document.getElementById('td-car-b');
+      const numEl = document.getElementById('td-num');
+      const dots = stage.querySelectorAll('.td-dot');
+      const badge = document.getElementById('td-badge');
+      let fired = false;
+      let currentStep = 0;
+      let animating = false;
+      let autoTimer = null;
+      const cars = [carA, carB];
+
+      // Reset a car element to off-screen left, hidden, no transition
+      function reset(car, src) {
+        car.style.transition = 'none';
+        car.style.opacity = '0';
+        car.src = src || 'assets/car-side.png';
+        car.classList.remove('is-moving', 'in-position');
+        // Force off-screen left instantly — include scale so size is consistent throughout animation
+        car.style.transformOrigin = 'right bottom';
+        car.style.transform = 'translateX(-200%) scale(1.27) translate(0px, 20px)';
+      }
+
+      function setDot(i) {
+        dots.forEach((d, j) => d.classList.toggle('active', j === i));
+      }
+
+      function setNum(n, cb) {
+        numEl.classList.add('is-changing');
+        setTimeout(() => { numEl.textContent = '#' + n; numEl.classList.remove('is-changing'); cb && cb(); }, 300);
+      }
+
+      const FINAL_TRANSFORM = 'translateX(-38%) scale(1.27) translate(0px, 20px)';
+
+      function showBadge() {
+        badge.classList.add('is-visible');
+      }
+      function hideBadge(cb) {
+        badge.classList.remove('is-visible');
+        setTimeout(cb, 260);
+      }
+
+      // Drive gifCar in, then crossfade to staticCar at rest position, call cb(staticCar)
+      // onFadeStart fires when crossfade begins (for syncing badge)
+      function driveIn(gifCar, staticCar, onFadeStart, cb) {
+        // gif car moves in from left
+        reset(gifCar, 'assets/move.gif');
+        gifCar.classList.add('is-moving');
+        gifCar.style.opacity = '1';
+
+        // static car sits at the final position, invisible, ready to fade in
+        staticCar.style.transition = 'none';
+        staticCar.src = 'assets/car-side.png';
+        staticCar.classList.remove('is-moving', 'in-position');
+        staticCar.style.transformOrigin = 'right bottom';
+        staticCar.style.transform = FINAL_TRANSFORM;
+        staticCar.style.opacity = '0';
+
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          gifCar.style.transition = 'transform 1000ms cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+          gifCar.style.transform = FINAL_TRANSFORM;
+        }));
+
+        // Wait for car to fully stop, then crossfade gif → static (badge fires in sync)
+        setTimeout(() => {
+          onFadeStart && onFadeStart();
+          staticCar.style.transition = 'opacity 200ms ease';
+          staticCar.style.opacity = '1';
+          gifCar.style.transition = 'opacity 200ms ease';
+          gifCar.style.opacity = '0';
+          setTimeout(() => {
+            reset(gifCar);
+            cb(staticCar);
+          }, 220);
+        }, 1050);
+      }
+
+      // Drive car out to the right
+      function driveOut(car, cb) {
+        car.style.transition = 'transform 700ms cubic-bezier(0.4, 0, 1, 1), opacity 300ms ease 400ms';
+        car.style.transform = 'translateX(160%) scale(1.27) translate(0px, 20px)';
+        car.style.opacity = '0';
+        setTimeout(cb, 750);
+      }
+
+      let liveCar = null;
+
+      function step(i) {
+        currentStep = i;
+        animating = true;
+        const gifCar = cars[i % 2];
+        const staticCar = cars[(i + 1) % 2];
+        setDot(i);
+        setNum(i + 1, () => {
+          driveIn(gifCar, staticCar, showBadge, (live) => {
+            liveCar = live;
+            animating = false;
+            if (i < 2) {
+              autoTimer = setTimeout(() => {
+                hideBadge(() => driveOut(liveCar, () => step(i + 1)));
+              }, 1600);
+            }
+          });
+        });
+      }
+
+      // Jump to a step (for dot clicks)
+      function jumpToStep(i) {
+        if (animating) return;
+        clearTimeout(autoTimer);
+        badge.classList.remove('is-visible');
+        reset(carA); reset(carB);
+        liveCar = null;
+        step(i);
+      }
+
+      dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => {
+          if (!fired) { fired = true; step(i); return; }
+          if (i === currentStep) return;
+          jumpToStep(i);
+        });
+      });
+
+      function runStage() {
+        if (fired) return;
+        fired = true;
+        reset(carA); reset(carB);
+        step(0);
+      }
+
+      const obs = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) { runStage(); obs.disconnect(); }
+      }, { threshold: 0.4 });
+      obs.observe(stage);
+    })();
+
+    /* TIMELINE JS DISABLED — uncomment to restore
+    // Road test timeline
+    (function() {
+      const scene = document.getElementById('rt-scene');
+      if (!scene) return;
+      let carA = document.getElementById('rt-car-a');
+      let carB = document.getElementById('rt-car-b');
+      const checks = ['rt-check-0','rt-check-1','rt-check-2'].map(id => document.getElementById(id));
+      const dots = scene.querySelectorAll('.rt-dot');
+      let fired = false;
+
+      let active = carA, inactive = carB;
+
+      function crossfade(newSrc, isMoving, newLeft, moveActive, cb) {
+        inactive.src = newSrc;
+        inactive.classList.toggle('is-moving', isMoving);
+        inactive.style.left = (newLeft !== null ? newLeft + 'px' : active.style.left || '-320px');
+        if (moveActive && newLeft !== null) active.style.left = newLeft + 'px';
+        inactive.style.opacity = '1';
+        active.style.opacity = '0';
+        const tmp = active; active = inactive; inactive = tmp;
+        cb && cb();
+      }
+
+      function runAnim() {
+        if (fired) return;
+        fired = true;
+        const sceneRect = scene.getBoundingClientRect();
+        const carW = carA.offsetWidth;
+        const dotXs = [...dots].map(d => {
+          const r = d.getBoundingClientRect();
+          return r.left - sceneRect.left + r.width / 2;
+        });
+
+        function goTo(i) {
+          if (window.rtFrozen) return;
+          const targetLeft = dotXs[i] - carW + 60;
+          crossfade('assets/move.gif', true, targetLeft, true, null);
+          const arriveDelay = 980;
+          setTimeout(() => {
+            if (window.rtFrozen) return;
+            crossfade('assets/car-side.png', false, targetLeft, false, () => {
+              checks[i].classList.add('is-done');
+              if (i < 2) setTimeout(() => goTo(i + 1), 650);
+            });
+          }, arriveDelay);
+        }
+        goTo(0);
+      }
+
+      const obs = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) { runAnim(); obs.disconnect(); }
+      }, { threshold: 0.5 });
+      obs.observe(scene);
+    })();
+    END TIMELINE JS */
+
+  </script>
+</body>
+</html>
