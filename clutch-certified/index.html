@@ -734,10 +734,89 @@
       border-radius: 4px;
       object-fit: cover;
       display: block;
+      cursor: pointer;
+      transition: opacity 150ms ease, transform 150ms ease;
+    }
+    .photo-grid__thumb:hover {
+      opacity: 0.8;
+      transform: scale(1.05);
     }
     .photo-grid__thumb--placeholder {
       background: #ccc;
       border-radius: 4px;
+    }
+
+    /* ── Lightbox ── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(0,0,0,0.93);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 220ms ease;
+    }
+    .lightbox.is-open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .lightbox__img {
+      max-width: 90vw;
+      max-height: 85vh;
+      border-radius: 8px;
+      object-fit: contain;
+      transition: opacity 180ms ease;
+      user-select: none;
+    }
+    .lightbox__img.is-switching { opacity: 0; }
+    .lightbox__btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 150ms ease;
+    }
+    .lightbox__btn:hover { background: rgba(255,255,255,0.22); }
+    .lightbox__btn--prev { left: 24px; }
+    .lightbox__btn--next { right: 24px; }
+    .lightbox__btn svg { display: block; }
+    .lightbox__close {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 150ms ease;
+    }
+    .lightbox__close:hover { background: rgba(255,255,255,0.2); }
+    .lightbox__counter {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.5);
+      font-size: 13px;
+      font-family: 'CircularXX', sans-serif;
+      font-weight: 500;
+      letter-spacing: -0.1px;
     }
 
     /* ── Step 3 ── */
@@ -2255,6 +2334,71 @@
     })();
     END TIMELINE JS */
 
+  </script>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+    <button class="lightbox__close" id="lb-close" aria-label="Close">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 14M14 2L2 14" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <button class="lightbox__btn lightbox__btn--prev" id="lb-prev" aria-label="Previous">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12 4L6 10L12 16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <img class="lightbox__img" id="lb-img" src="" alt="">
+    <button class="lightbox__btn lightbox__btn--next" id="lb-next" aria-label="Next">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M8 4L14 10L8 16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="lightbox__counter" id="lb-counter"></div>
+  </div>
+
+  <script>
+    (function() {
+      const lb = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lb-img');
+      const lbCounter = document.getElementById('lb-counter');
+      const lbPrev = document.getElementById('lb-prev');
+      const lbNext = document.getElementById('lb-next');
+
+      const thumbs = Array.from(document.querySelectorAll('.photo-grid__thumb'));
+      let current = 0;
+
+      function open(i) {
+        current = i;
+        lbImg.src = thumbs[i].src;
+        lbCounter.textContent = (i + 1) + ' / ' + thumbs.length;
+        lb.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function close() {
+        lb.classList.remove('is-open');
+        document.body.style.overflow = '';
+      }
+
+      function go(i) {
+        current = (i + thumbs.length) % thumbs.length;
+        lbImg.classList.add('is-switching');
+        setTimeout(() => {
+          lbImg.src = thumbs[current].src;
+          lbCounter.textContent = (current + 1) + ' / ' + thumbs.length;
+          lbImg.classList.remove('is-switching');
+        }, 180);
+      }
+
+      thumbs.forEach((img, i) => img.addEventListener('click', () => open(i)));
+
+      lbPrev.addEventListener('click', (e) => { e.stopPropagation(); go(current - 1); });
+      lbNext.addEventListener('click', (e) => { e.stopPropagation(); go(current + 1); });
+      document.getElementById('lb-close').addEventListener('click', close);
+      lb.addEventListener('click', (e) => { if (e.target === lb) close(); });
+
+      document.addEventListener('keydown', (e) => {
+        if (!lb.classList.contains('is-open')) return;
+        if (e.key === 'Escape') close();
+        if (e.key === 'ArrowLeft') go(current - 1);
+        if (e.key === 'ArrowRight') go(current + 1);
+      });
+    })();
   </script>
 </body>
 </html>
