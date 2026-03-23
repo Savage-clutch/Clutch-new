@@ -160,6 +160,40 @@
       letter-spacing: var(--t14-ls);
     }
     .hero .eyebrow { letter-spacing: 0px; }
+
+    /* ── Hero load animations ── */
+    @keyframes hero-fade-up {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes hero-fade-in {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes hero-car-in {
+      from { opacity: 0; transform: translateX(32px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes hero-badge-in {
+      from { opacity: 0; transform: scale(0.88); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    .hero .eyebrow {
+      animation: hero-fade-up 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 100ms both;
+    }
+    .hero__h1 {
+      animation: hero-fade-up 700ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 240ms both;
+    }
+    .hero__sub {
+      animation: hero-fade-in 700ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 420ms both;
+    }
+    .hero__car {
+      animation: hero-car-in 900ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 180ms both;
+    }
+    .hero__badge {
+      animation: hero-badge-in 600ms cubic-bezier(0.34, 1.56, 0.64, 1) 560ms both;
+    }
     .hero__h1 {
       font-size: var(--t3-size);
       font-weight: var(--t3-fw);
@@ -2210,13 +2244,12 @@
         });
       }, { threshold: 0.12 });
 
-      // Hero is already in view — reveal immediately with a short delay
-      document.querySelectorAll('.hero .reveal').forEach((el, i) => {
-        el.dataset.d = i + 1;
-        setTimeout(() => el.classList.add('is-revealed'), 100 + i * 120);
+      // Hero uses CSS keyframe animations — skip it from the observer
+      document.querySelectorAll('.hero .reveal').forEach(el => {
+        el.classList.remove('reveal');
       });
 
-      document.querySelectorAll('.reveal:not(.is-revealed)').forEach(el => obs.observe(el));
+      document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
     })();
 
 
