@@ -16,7 +16,7 @@
       font-family: 'CircularXX';
       src: url('../fonts/CircularXX-Bold.woff2') format('woff2'),
            url('../fonts/CircularXX-Bold.otf') format('opentype');
-      font-weight: 700;
+      font-weight: 600 700;
       font-display: block;
     }
 
@@ -61,7 +61,11 @@
       /* L19 Micro Label      */ --t19-size:10px; --t19-lh:15px; --t19-fw:400; --t19-ls:-0.08px;
     }
 
-    html { font-family: 'CircularXX', sans-serif; }
+    html {
+      font-family: 'CircularXX', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
 
     body {
       background: #fff;
