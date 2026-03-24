@@ -1,0 +1,468 @@
+    /* ── Layout B (alt 210-point) ── */
+    .module-210--alt {
+      background: #000;
+      border-radius: 16px;
+      width: 1073px;
+      margin: 60px auto 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .alt-car-top {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 48px 0 32px;
+    }
+    .alt-car-img {
+      width: 420px;
+      height: 260px;
+      object-fit: contain;
+      object-position: center top;
+      display: block;
+      transition: opacity 180ms ease;
+    }
+    .alt-car-img.is-rotated {
+      transform: rotate(90deg) scale(1.55);
+    }
+    .alt-bottom {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      padding: 0 48px 48px;
+      align-items: start;
+    }
+    .alt-cats {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-right: 24px;
+    }
+    .alt-cat {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      background: transparent; /* background always lives on ::before */
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .alt-cat::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      z-index: 0;
+      background: rgba(255,255,255,0.07);
+      transition: background 150ms ease;
+    }
+    .alt-cat > * { position: relative; z-index: 1; }
+    .alt-cat:hover::before { background: rgba(255,255,255,0.11); }
+    .alt-cat.active::before { background: rgba(255,255,255,0.13); }
+    .alt-cat__icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 150ms ease;
+    }
+    .alt-cat.active .alt-cat__icon { background: rgba(255,255,255,0.2); }
+    .alt-cat .alt-icon-v {
+      transition: opacity 150ms ease;
+    }
+    .alt-cat.active .alt-icon-v { opacity: 0; }
+    .alt-cat__name {
+      flex: 1;
+      font-family: 'CircularXX', sans-serif;
+      font-size: var(--t15-size);
+      font-weight: 500;
+      color: rgba(255,255,255,0.6);
+      transition: color 150ms ease;
+    }
+    .alt-cat.active .alt-cat__name { color: #fff; }
+    .alt-cat__count {
+      font-family: 'CircularXX', sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.25);
+    }
+    .alt-cat.active .alt-cat__count { color: rgba(255,255,255,0.45); }
+    .alt-items-wrap {
+      position: relative;
+    }
+    .alt-fade {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 72px;
+      pointer-events: none;
+      transition: opacity 200ms ease;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 10px;
+    }
+    .alt-fade--bottom {
+      bottom: 0;
+      background: linear-gradient(to top, #0f0f0f 0%, transparent 100%);
+      border-radius: 0 0 12px 12px;
+    }
+    .alt-fade--top {
+      top: 0;
+      background: linear-gradient(to bottom, #0f0f0f 0%, transparent 100%);
+      border-radius: 12px 12px 0 0;
+      align-items: flex-start;
+      padding-bottom: 0;
+      padding-top: 10px;
+    }
+    .alt-fade { cursor: pointer; }
+    .alt-fade.is-hidden { opacity: 0; pointer-events: none; }
+    .alt-fade svg { color: #fff; display: block; }
+    @keyframes altItemIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Layout B intro animation ── */
+
+    /* Car scales down over 1.5s */
+    @keyframes altCarScaleDown {
+      from { transform: translateY(var(--car-start-y, 0px)) rotate(90deg) scale(2.2); }
+      to   { transform: translateY(0px) rotate(90deg) scale(1.55); }
+    }
+    @keyframes altBottomReveal {
+      from { clip-path: inset(0 0 100% 0); }
+      to   { clip-path: inset(0 0 0% 0); }
+    }
+
+    /*
+     * CENTER ROW — dot at left edge grows to circle, circle expands rightward.
+     * ::before carries the bg so text is never scaleX-squished.
+     */
+    /* Center row: dot enters from the left, grows to circle, expands to pill */
+    @keyframes altCatRowIn {
+      0%   { opacity: 0; transform: translateX(-40px) scaleX(0.025) scaleY(0.25); border-radius: 999px; background: rgba(255,255,255,0.30); }
+      8%   { opacity: 1; transform: translateX(-40px) scaleX(0.025) scaleY(0.25); border-radius: 999px; background: rgba(255,255,255,0.30); }
+      30%  { opacity: 1; transform: translateX(0)     scaleX(0.12)  scaleY(1);    border-radius: 999px; background: rgba(255,255,255,0.28); }
+      100% { opacity: 1; transform: translateX(0)     scaleX(1)     scaleY(1);    border-radius: 10px;  background: rgba(255,255,255,0.07); }
+    }
+
+    /* Split rows: element translates vertically from center Y to own Y */
+    @keyframes altCatSplit {
+      from { transform: translateY(var(--intro-y, 0px)); }
+      to   { transform: translateY(0); }
+    }
+
+    /* Split rows bg: starts as circle, expands to pill */
+    @keyframes altCatSplitBg {
+      0%   { opacity: 0; transform: scaleX(0.12) scaleY(1); border-radius: 999px; background: rgba(255,255,255,0.28); }
+      6%   { opacity: 1; transform: scaleX(0.12) scaleY(1); border-radius: 999px; background: rgba(255,255,255,0.28); }
+      100% { opacity: 1; transform: scaleX(1)    scaleY(1); border-radius: 10px;  background: rgba(255,255,255,0.07); }
+    }
+
+    @keyframes altCatTextIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes altPanelIntro {
+      from { opacity: 0; transform: translateX(28px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* ── Pending: full module height maintained; bottom hidden visually ── */
+    #module-layout-b.intro-pending .alt-bottom {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #module-layout-b.intro-pending .alt-car-img.is-rotated {
+      /* translateY first = screen-space offset to center car in full module */
+      transform: translateY(var(--car-start-y, 0px)) rotate(90deg) scale(2.2);
+      transition: none;
+    }
+
+    /* ── Playing ── */
+    /* Phase 2: car scales down + moves up, 800ms, starts at 150ms → done at 1250ms */
+    #module-layout-b.intro-playing .alt-car-img.is-rotated {
+      animation: altCarScaleDown 1100ms cubic-bezier(0.4, 0, 0.2, 1) 150ms both;
+      transition: none;
+    }
+    /* Bottom revealed by 1000ms so it's ready when list starts at 1100ms */
+    #module-layout-b.intro-playing .alt-bottom {
+      animation: altBottomReveal 900ms cubic-bezier(0.22, 1, 0.36, 1) 100ms both;
+    }
+
+    /* Center row: dot→circle→pill on ::before, element stays in place */
+    /* center ::before overrides base background via animation keyframes */
+    #module-layout-b.intro-playing .alt-cat[data-intro-type="center"]::before {
+      transform-origin: left center;
+      animation: altCatRowIn 1000ms cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation-delay: var(--cat-delay, 0ms);
+    }
+
+    /* Split rows: element translates Y, ::before expands X simultaneously */
+    #module-layout-b.intro-playing .alt-cat[data-intro-type="from-center"] {
+      animation: altCatSplit 1000ms cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation-delay: var(--cat-delay, 0ms);
+    }
+    #module-layout-b.intro-playing .alt-cat[data-intro-type="from-center"]::before {
+      transform-origin: left center;
+      animation: altCatSplitBg 1000ms cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation-delay: var(--cat-delay, 0ms);
+    }
+
+    /* Text fades in when pill is near full width */
+    #module-layout-b.intro-playing .alt-cat .alt-cat__name,
+    #module-layout-b.intro-playing .alt-cat .alt-cat__count,
+    #module-layout-b.intro-playing .alt-cat .alt-cat__icon {
+      opacity: 0;
+      animation: altCatTextIn 300ms ease both;
+      animation-delay: calc(var(--cat-delay, 0ms) + 750ms);
+    }
+
+    #module-layout-b.intro-playing .alt-items-wrap {
+      animation: altPanelIntro 400ms ease-out var(--panel-delay, 0ms) both;
+    }
+    .alt-items-summary {
+      margin: 0;
+      padding: 12px 16px 10px;
+      font-size: 14px;
+      font-weight: 400;
+      color: #fff;
+      line-height: 1.5;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .alt-item {
+      animation: altItemIn 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .alt-items {
+      background: rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 8px 0;
+      min-height: 300px;
+      max-height: 460px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .alt-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .alt-item:last-child { border-bottom: none; }
+    .alt-item__icon {
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: rgba(52,199,89,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .alt-item span {
+      font-family: 'CircularXX', sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.4;
+    }
+
+    /* ── Layout toggle ── */
+    .layout-toggle {
+      display: flex;
+      gap: 6px;
+      background: rgba(0,0,0,0.06);
+      border-radius: 100px;
+      padding: 4px;
+      margin: 0 auto 40px;
+      width: fit-content;
+    }
+    .layout-toggle__btn {
+      font-family: 'CircularXX', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(0,0,0,0.4);
+      background: transparent;
+      border: none;
+      border-radius: 100px;
+      padding: 7px 18px;
+      cursor: pointer;
+      transition: background 150ms ease, color 150ms ease;
+    }
+    .layout-toggle__btn.active {
+      background: #fff;
+      color: #1d1d1f;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+    }
+
+    /* ── 210-point module (Layout A) ── */
+    .module-210 {
+      background: #000;
+      border-radius: 16px;
+      width: 1073px;
+      margin: 60px auto 0;
+      padding: 60px 64px 64px;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 48px;
+      align-items: stretch;
+    }
+    .module-210__car-wrap {
+      position: relative;
+      min-height: 400px;
+    }
+    .module-210__car {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      object-fit: contain;
+      transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1), opacity 500ms ease;
+      transform: translateY(-50%);
+    }
+    .module-210__car.is-exiting {
+      transform: translateY(-50%) translateX(-30px);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .module-210__car.is-entering {
+      transform: translateY(-50%) translateX(30px);
+      opacity: 0;
+      transition: none;
+    }
+    .module-210__car[data-cat="0"] {
+      transform: translateY(-50%) scale(1.3);
+    }
+    .module-210__categories {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .category-row {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .category-row__bg {
+      position: absolute;
+      inset: 0;
+      border-radius: 10px;
+      background: #1c1c1e;
+      box-shadow: rgba(255,255,255,0.06) 0px 0px 0.5px 0px inset;
+      transition: background-color 250ms linear;
+      z-index: 0;
+    }
+    .category-row.active .category-row__bg { background: #2c2c2e; }
+    .category-row:not(.active):hover .category-row__bg { background: #1c1c1e; }
+    .category-row__header {
+      position: relative;
+      z-index: 1;
+      height: 56px;
+      padding: 0 20px 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      opacity: 1;
+      transition: opacity 400ms ease-in-out 350ms, padding-left 200ms ease;
+    }
+    .category-row.active .category-row__header {
+      opacity: 1;
+    }
+    .category-row.active .category-row__icon-wrap {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
+    .category-row.active .category-row__left {
+      gap: 0;
+    }
+    .category-row.active .category-row__header {
+      padding-left: 20px;
+    }
+    .category-row.active .category-row__body {
+      transition: height 420ms cubic-bezier(0.4, 0, 0.2, 1), opacity 300ms ease-in-out;
+    }
+    .category-row__left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: gap 200ms ease;
+    }
+    .category-row__icon-wrap {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: opacity 200ms ease, width 200ms ease, margin 200ms ease;
+      overflow: hidden;
+    }
+    .category-row__icon-wrap svg { display: block; }
+    .category-row__name {
+      color: #fff;
+      font-size: var(--t14-size);
+      font-weight: var(--t14-fw);
+      line-height: var(--t14-lh);
+      letter-spacing: var(--t14-ls);
+      white-space: nowrap;
+    }
+    .category-row__count {
+      color: rgba(255,255,255,0.45);
+      font-size: var(--t15-size);
+      font-weight: var(--t15-fw);
+    }
+    .category-row__body {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      height: 0;
+      opacity: 0;
+      transition: height 320ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms ease-in-out;
+    }
+    .category-row__body-inner {
+      padding: 0 20px 18px;
+    }
+    .category-row__body p {
+      margin: 0;
+      color: rgba(255,255,255,0.65);
+      font-size: var(--t13-size);
+      font-weight: var(--t13-fw);
+      line-height: var(--t13-lh);
+      letter-spacing: var(--t13-ls);
+    }
+    .c-items-panel { display: flex; flex-direction: column; gap: 1px; }
+    .c-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 0;
+      color: rgba(255,255,255,0.65);
+      font-size: var(--t13-size);
+      font-weight: var(--t13-fw);
+      line-height: var(--t13-lh);
+      letter-spacing: var(--t13-ls);
+    }
+    .c-item__icon { flex-shrink: 0; display: flex; align-items: center; }
+    .icon-morph .morph-line {
+      fill: none;
+      stroke: white;
+      stroke-width: 2;
+      stroke-linecap: round;
+      transition: d 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .category-row.active .icon-morph .morph-line-v {
+      d: path("M9,9 L9,9");
+    }

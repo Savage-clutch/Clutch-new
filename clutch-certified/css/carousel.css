@@ -1,0 +1,98 @@
+    /* ── Apple-style horizontal photo carousel ── */
+    .photo-carousel {
+      margin: 80px 0;
+      padding: 0 calc((100vw - 1073px) / 2);
+    }
+    .photo-carousel__header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 40px;
+      margin-bottom: 28px;
+      width: 1073px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .photo-carousel__caption {
+      flex: 1;
+      transition: opacity 220ms ease;
+    }
+    .photo-carousel__caption-title {
+      font-size: var(--t8-size);
+      font-weight: var(--t8-fw);
+      line-height: var(--t8-lh);
+      letter-spacing: var(--t8-ls);
+      color: var(--near-black);
+      display: block;
+      margin-bottom: 10px;
+    }
+    .photo-carousel__caption-body {
+      font-size: var(--t13-size);
+      font-weight: var(--t13-fw);
+      color: var(--body-text);
+      line-height: var(--t13-lh);
+      letter-spacing: var(--t13-ls);
+      display: block;
+    }
+    .photo-carousel__nav {
+      display: flex;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .photo-carousel__btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.08);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .photo-carousel__btn:hover { background: rgba(0,0,0,0.15); }
+    .photo-carousel__btn:disabled { opacity: 0.3; cursor: default; }
+    .photo-carousel__btn svg { display: block; }
+
+    .photo-carousel__track-wrap {
+      overflow: hidden;
+      position: relative;
+    }
+    .photo-carousel__track-wrap::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: 160px;
+      pointer-events: none;
+      z-index: 1;
+      background: linear-gradient(to left, #ffffff 30%, transparent);
+      transition: opacity 300ms ease;
+    }
+    .photo-carousel__track-wrap.is-at-end::after { opacity: 0; }
+    .photo-carousel__track {
+      display: flex;
+      gap: 16px;
+      transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: transform;
+    }
+    .photo-carousel__slide {
+      flex-shrink: 0;
+    }
+    .photo-carousel__slide--portrait {
+      width: 400px;
+    }
+    .photo-carousel__slide--landscape {
+      width: 720px;
+    }
+    .photo-carousel__img {
+      border-radius: 18px;
+      object-fit: cover;
+      display: block;
+      background: #d8d8dc;
+      width: 100%;
+    }
+    .photo-carousel__slide--portrait .photo-carousel__img  { height: 480px; }
+    .photo-carousel__slide--landscape .photo-carousel__img { height: 480px; }

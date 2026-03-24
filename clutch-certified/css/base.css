@@ -1,0 +1,71 @@
+    @font-face {
+      font-family: 'CircularXX';
+      src: url('../fonts/CircularXX-Regular.woff2') format('woff2'),
+           url('../fonts/CircularXX-Regular.otf') format('opentype');
+      font-weight: 400;
+      font-display: block;
+    }
+    @font-face {
+      font-family: 'CircularXX';
+      src: url('../fonts/CircularXX-Medium.woff2') format('woff2'),
+           url('../fonts/CircularXX-Medium.otf') format('opentype');
+      font-weight: 500;
+      font-display: block;
+    }
+    @font-face {
+      font-family: 'CircularXX';
+      src: url('../fonts/CircularXX-Bold.woff2') format('woff2'),
+           url('../fonts/CircularXX-Bold.otf') format('opentype');
+      font-weight: 700;
+      font-display: block;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --coral: #FF464C;
+      --coral-dark: #C9262B;
+      --coral-shadow: #7E070B;
+      --black: #000000;
+      --near-black: #1E1E1E;
+      --dark-card: #191919;
+      --dark-module: #3B3B3B;
+      --page-bg: #F7F7F7;
+      --white: #FFFFFF;
+      --body-text: rgba(0,0,0,0.8);
+      --muted-white: rgba(255,255,255,0.6);
+      --gray-label: #787878;
+      --progress-bg: #EFEFEF;
+      --burgundy: #550E30;
+      --nav-pill: rgba(25,25,25,0.51);
+
+      /* ── Type scale ── */
+      /* L1  Hero Headline    */ --t1-size:96px;  --t1-lh:100px; --t1-fw:600; --t1-ls:-1.44px;
+      /* L2  Stat Number      */ --t2-size:80px;  --t2-lh:80px;  --t2-fw:600; --t2-ls:-1.2px;
+      /* L3  Pull Quote       */ --t3-size:72px;  --t3-lh:72px;  --t3-fw:600; --t3-ls:-0.864px;
+      /* L4  Section Title Lg */ --t4-size:64px;  --t4-lh:68px;  --t4-fw:600; --t4-ls:-0.576px;
+      /* L5  Section Title Md */ --t5-size:56px;  --t5-lh:60px;  --t5-fw:600; --t5-ls:-0.28px;
+      /* L6  Stat Callout     */ --t6-size:48px;  --t6-lh:62px;  --t6-fw:600; --t6-ls:-0.144px;
+      /* L7  Subheading       */ --t7-size:32px;  --t7-lh:36px;  --t7-fw:600; --t7-ls:0.128px;
+      /* L8  Large Body       */ --t8-size:28px;  --t8-lh:32px;  --t8-fw:600; --t8-ls:0.196px;
+      /* L9  Body Bold        */ --t9-size:24px;  --t9-lh:32px;  --t9-fw:600; --t9-ls:0.216px;
+      /* L10 Body Regular Lg  */ --t10-size:21px; --t10-lh:24px; --t10-fw:600; --t10-ls:0.231px;
+      /* L11 Eyebrow/Label    */ --t11-size:19px; --t11-lh:23px; --t11-fw:600; --t11-ls:0.228px;
+      /* L12 Body Regular     */ --t12-size:19px; --t12-lh:27px; --t12-fw:400; --t12-ls:0.228px;
+      /* L13 Nav/Body Small   */ --t13-size:17px; --t13-lh:25px; --t13-fw:400; --t13-ls:-0.374px;
+      /* L14 UI Label Bold    */ --t14-size:17px; --t14-lh:21px; --t14-fw:600; --t14-ls:-0.374px;
+      /* L15 Caption          */ --t15-size:14px; --t15-lh:18px; --t15-fw:400; --t15-ls:-0.224px;
+      /* L16 Footer Nav       */ --t16-size:12px; --t16-lh:12px; --t16-fw:400; --t16-ls:-0.12px;
+      /* L17 Footer Nav Bold  */ --t17-size:12px; --t17-lh:16px; --t17-fw:600; --t17-ls:-0.12px;
+      /* L18 Eyebrow Tag      */ --t18-size:12px; --t18-lh:12px; --t18-fw:600; --t18-ls:-0.374px;
+      /* L19 Micro Label      */ --t19-size:10px; --t19-lh:15px; --t19-fw:400; --t19-ls:-0.08px;
+    }
+
+    html { font-family: 'CircularXX', sans-serif; }
+
+    body {
+      background: #fff;
+      color: var(--near-black);
+      overflow-x: hidden;
+      padding-top: 115px;
+    }

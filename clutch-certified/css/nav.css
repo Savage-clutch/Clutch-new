@@ -1,0 +1,64 @@
+    /* ── Progress bar ── */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+    }
+    .progress-bar {
+      width: 100%;
+      height: 5px;
+      background: var(--progress-bg);
+    }
+    .progress-bar__fill {
+      width: 0%;
+      height: 100%;
+      background: var(--coral);
+      transition: width 0.1s linear;
+    }
+
+    /* ── Nav ── */
+    .nav {
+      background: #fff;
+      height: 110px;
+      display: flex;
+      align-items: center;
+      padding: 0 calc(12.5% + 3px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .nav__logo {
+      width: 100px;
+    }
+    .nav__pill {
+      margin: 0 auto;
+      background: var(--nav-pill);
+      border-radius: 100px;
+      width: 264px;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+    }
+    .nav__signin {
+      width: 100px;
+      text-align: right;
+      text-decoration: none;
+      color: var(--near-black);
+      font-size: var(--t13-size);
+      font-weight: var(--t13-fw);
+      line-height: var(--t13-lh);
+      letter-spacing: -0.2px;
+      font-family: 'CircularXX', sans-serif;
+      flex-shrink: 0;
+    }
+    .nav__pill a {
+      color: #fff;
+      text-decoration: none;
+      font-size: var(--t13-size);
+      font-weight: var(--t13-fw);
+      line-height: var(--t13-lh);
+      letter-spacing: -0.2px;
+      font-family: 'CircularXX', sans-serif;
+    }
