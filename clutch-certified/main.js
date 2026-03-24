@@ -1,3 +1,14 @@
+    // Smooth scroll polyfill for Safari < 15.4
+    function smoothScrollTo(el, top) {
+      if ('scrollBehavior' in document.documentElement.style) {
+        el.scrollTo({ top, behavior: 'smooth' });
+      } else if (el === window) {
+        window.scrollTo(0, top);
+      } else {
+        el.scrollTop = top;
+      }
+    }
+
     const fill = document.getElementById('progress-fill');
     const sections = ['s-inspected','s-serviced','s-listed'];
     const dots = document.querySelectorAll('.section-nav__dot');
@@ -172,7 +183,7 @@
         const el = document.getElementById(dot.dataset.target);
         if (el) {
           const top = el.getBoundingClientRect().top + window.scrollY - 80;
-          window.scrollTo({ top, behavior: 'smooth' });
+          smoothScrollTo(window, top);
         }
       });
     });
@@ -261,12 +272,12 @@
       }
       if (fadeTop) {
         fadeTop.addEventListener('click', function() {
-          altItemsPanel.scrollTo({ top: 0, behavior: 'smooth' });
+          smoothScrollTo(altItemsPanel, 0);
         });
       }
       if (fadeBottom) {
         fadeBottom.addEventListener('click', function() {
-          altItemsPanel.scrollTo({ top: altItemsPanel.scrollHeight, behavior: 'smooth' });
+          smoothScrollTo(altItemsPanel, altItemsPanel.scrollHeight);
         });
       }
       window.checkAltScroll = checkAltScroll;
