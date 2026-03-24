@@ -583,14 +583,14 @@
     /* ── Footer car ── */
     .car-footer-wrap {
       overflow: hidden;
-      height: 200px;
-      padding-top: 40px;
+      height: 240px;
     }
     .car-footer-img {
-      width: 130%;
+      width: 100%;
+      height: 100%;
       display: block;
-      margin-top: -380px;
-      margin-left: -15%;
+      object-fit: cover;
+      object-position: center 35%;
     }
 
     /* ── Counter callout ── */
