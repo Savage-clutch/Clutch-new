@@ -76,11 +76,11 @@
       letter-spacing: var(--t14-ls);
     }
     .verdict__headline {
-      font-size: var(--t6-size);
-      font-weight: var(--t6-fw);
+      font-size: var(--t7-size);
+      font-weight: var(--t7-fw);
       color: #fff;
-      line-height: var(--t6-lh);
-      letter-spacing: var(--t6-ls);
+      line-height: var(--t7-lh);
+      letter-spacing: var(--t7-ls);
       width: 873px;
       text-align: center;
     }
