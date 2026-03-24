@@ -58,6 +58,8 @@
     .photo-carousel__track-wrap {
       overflow: hidden;
       position: relative;
+      margin-left: -40px;
+      padding-left: 40px;
     }
     .photo-carousel__track-wrap::after {
       content: '';
@@ -85,7 +87,7 @@
       width: 400px;
     }
     .photo-carousel__slide--landscape {
-      width: 720px;
+      width: min(657px, calc(100vw - 80px));
     }
     .photo-carousel__img {
       border-radius: 18px;

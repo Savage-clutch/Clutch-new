@@ -58,9 +58,12 @@
         const rawOffset = slides[current].offsetLeft;
         track.style.transform = 'translateX(-' + Math.min(rawOffset, maxOffset) + 'px)';
         prevBtn.disabled = current === 0;
-        const atEnd = current >= slides.length - 1 || rawOffset >= maxOffset;
-        nextBtn.disabled = atEnd;
-        wrap.classList.toggle('is-at-end', atEnd);
+        const atEnd = rawOffset >= maxOffset || current >= slides.length - 1;
+        // Skip redundant stop: if next click would just hit maxOffset anyway, treat this as end
+        const nextOffset = current + 1 < slides.length ? slides[current + 1].offsetLeft : Infinity;
+        const isEffectiveEnd = atEnd || nextOffset >= maxOffset;
+        nextBtn.disabled = isEffectiveEnd;
+        wrap.classList.toggle('is-at-end', isEffectiveEnd);
         isAnimating = true;
         setTimeout(() => { isAnimating = false; }, 550);
       }
