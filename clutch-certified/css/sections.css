@@ -587,9 +587,10 @@
       padding-top: 40px;
     }
     .car-footer-img {
-      width: 100%;
+      width: 130%;
       display: block;
-      margin-top: -260px;
+      margin-top: -380px;
+      margin-left: -15%;
     }
 
     /* ── Counter callout ── */
