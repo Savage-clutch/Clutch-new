@@ -2272,6 +2272,20 @@
       }, { rootMargin: '0px 0px -12% 0px', threshold: 0 });
 
       document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+      // Fallback: reveal anything already visible on load (e.g. last element on page
+      // can't scroll past the -12% rootMargin threshold)
+      requestAnimationFrame(() => {
+        document.querySelectorAll('.reveal:not(.is-revealed)').forEach(el => {
+          const r = el.getBoundingClientRect();
+          if (r.top < window.innerHeight && r.bottom > 0) {
+            el.style.willChange = 'opacity, transform';
+            el.classList.add('is-revealed');
+            el.addEventListener('transitionend', () => { el.style.willChange = 'auto'; }, { once: true });
+            obs.unobserve(el);
+          }
+        });
+      });
     })();
 
 
