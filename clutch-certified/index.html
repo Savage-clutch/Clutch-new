@@ -1493,11 +1493,12 @@
     }
 
     /* ── Reveal animations ── */
+    /* easeInOutQuad, matching Apple's Lotus timing */
     .reveal {
       opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 650ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                  transform 650ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transform: translateY(30px);
+      transition: opacity 900ms cubic-bezier(0.455, 0.03, 0.515, 0.955),
+                  transform 700ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
     }
     .reveal.is-revealed {
       opacity: 1;
@@ -1560,7 +1561,7 @@
     <div class="hero__text">
       <p class="eyebrow">EVERY CAR WE SELL IS CLUTCH CERTIFIED</p>
       <h1 class="hero__h1">Every car you see has passed our rigorous inspection.</h1>
-      <p class="hero__sub">Every car listed on Clutch has passed a rigorous 210-point inspection, been reconditioned by licensed mechanics, and photographed in detail so you know exactly what you're getting.</p>
+      <p class="hero__sub">Only vehicles that survive our 210-point inspection and full reconditioning make it to the site. If it didn't pass, you'll never see it.</p>
     </div>
     <div class="hero__image-wrap">
       <img class="hero__car" src="assets/hero-car.webp" alt="Clutch Certified Vehicle">
@@ -2209,19 +2210,18 @@
       // Elements to reveal individually
       const solo = [
         '.eyebrow',
-        '.hero__h1', '.hero__sub',
-        '.step1__body',
+        '.step1__headline', '.step1__body',
         '.counter-callout',
         '.verdict__headline', '.verdict__body', '.verdict__cta-head', '.verdict__btn',
-        '.step2__headline', '.step2__body',
+        '.step2__headline', '.step2__body', '.step2__body-large',
         '.detailing__eyebrow', '.detailing__headline', '.detailing__body', '.detailing__photo',
-        '.step3__headline', '.step3__body',
+        '.step3__headline', '.step3__body', '.step3__car-wrap', '.step3__badge',
         '.promise__headline',
         '.road-test-callout p',
-        '.step1__body',
         '.td-stage',
+        '.photo-grid__label',
         '.photo-grid-section',
-        '.final-cta__head', '.final-cta__sub', '.final-cta__btn',
+        '.final-cta__headline', '.final-cta__btn',
       ];
 
       // Elements whose children should stagger
