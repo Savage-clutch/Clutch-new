@@ -135,13 +135,13 @@
   .hero-cta {
     padding: 13px 26px; border-radius: 99px; border: none; cursor: pointer;
     font-size: 15px; font-weight: 700; color: #fff; font-family: inherit;
-    background: linear-gradient(360deg, #ff464c 0%, #b00700 100%);
-    box-shadow: inset 0 -3px 2px 0px rgba(0,0,0,0.17),
-                inset 0 1px 2px 0px rgba(0,0,0,0.18);
+    background: linear-gradient(to top, #ff1c24 0%, #ff464c 46.875%);
+    box-shadow: 0.6px 0.6px 2px 0px rgba(126,7,11,0.32),
+                inset 0px 1px 2px 0px rgba(255,255,255,0.45);
     transition: transform .15s, filter .15s;
     white-space: nowrap; flex-shrink: 0;
   }
-  .hero-cta:hover  { transform: translateY(-3px) scale(1.02); filter: brightness(105%); }
+  .hero-cta:hover  { transform: translateY(-3px) scale(1.02); }
   .hero-cta:active { transform: translateY(2px)  scale(0.96); filter: brightness(85%); }
 
   .hero-fine {
@@ -156,9 +156,87 @@
     .hero-cta { order: 3; width: 100%; justify-content: center; padding: 15px; }
     .hero-sub { font-size: 15px; }
   }
+  /* ── ANNOUNCEMENT BAR ── */
+  .announce {
+    background: #111;
+    color: #fff;
+    text-align: center;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 400;
+  }
+  .announce a {
+    color: #fff;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: #fff;
+    border-bottom: 1px solid #e8e8e8;
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+    height: 64px;
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    margin-right: 40px;
+    flex-shrink: 0;
+  }
+  .nav-logo img { height: 26px; object-fit: contain; }
+  .nav-links { display: flex; align-items: center; gap: 4px; flex: 1; }
+  .nav-link {
+    font-size: 14px; font-weight: 500; color: #191919;
+    text-decoration: none; padding: 8px 14px; border-radius: 8px;
+    cursor: pointer; transition: background 0.12s;
+    display: flex; align-items: center; gap: 4px;
+    white-space: nowrap; border: none; background: transparent;
+    font-family: inherit;
+  }
+  .nav-link:hover { background: #f4f4f4; }
+  .nav-link svg { opacity: 0.55; flex-shrink: 0; }
+  .nav-right { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+  .nav-signin {
+    font-size: 14px; font-weight: 500; color: #191919;
+    background: transparent; border: none; cursor: pointer;
+    padding: 8px 14px; border-radius: 8px; transition: background 0.12s;
+    font-family: inherit;
+  }
+  .nav-signin:hover { background: #f4f4f4; }
 </style>
 </head>
 <body>
+
+  <!-- ANNOUNCEMENT BAR -->
+  <div class="announce">
+    New deals every week.&nbsp; <a href="#">Shop deals.</a>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">
+      <a href="./index.html"><img src="./logo/Red/Clutch Logo CTA Red.png" alt="Clutch"></a>
+    </div>
+    <div class="nav-links">
+      <button class="nav-link">Shop Cars</button>
+      <button class="nav-link">Sell or Trade</button>
+      <button class="nav-link">
+        Financing
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="#191919" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="nav-link">
+        More
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="#191919" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <div class="nav-right">
+      <button class="nav-signin">Sign In</button>
+    </div>
+  </nav>
 
 <div class="hero-wrap">
 
