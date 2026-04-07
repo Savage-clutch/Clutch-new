@@ -140,6 +140,86 @@
     gap: 28px;
   }
 
+  /* Instructions */
+  .sig-instructions {
+    border: 1px solid #e8e8e8;
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 13px;
+  }
+  .sig-instructions__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 16px;
+    font-weight: 600;
+    font-size: 13px;
+    color: #111;
+    cursor: pointer;
+    background: #fafafa;
+    user-select: none;
+  }
+  .sig-instructions__header:hover { background: #f3f3f3; }
+  .sig-instructions__chevron {
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  .sig-instructions.is-open .sig-instructions__chevron { transform: rotate(180deg); }
+  .sig-instructions__body {
+    display: none;
+    padding: 16px;
+    border-top: 1px solid #e8e8e8;
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+    background: #fff;
+  }
+  .sig-instructions.is-open .sig-instructions__body { display: flex; }
+  .sig-instructions__steps {
+    padding-left: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    color: #333;
+    line-height: 1.5;
+  }
+  .sig-instructions__variants {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .sig-instructions__variant-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 2px;
+  }
+  .sig-instructions__variant {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .sig-instructions__variant-name {
+    font-weight: 600;
+    color: #111;
+    font-size: 12px;
+  }
+  .sig-instructions__variant-desc {
+    color: #777;
+    font-size: 12px;
+  }
+  .sig-instructions__note {
+    background: #fff8ec;
+    border: 1px solid #f0d080;
+    border-radius: 6px;
+    padding: 9px 12px;
+    color: #7a5500;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
   .preview-tabs {
     display: flex;
     gap: 0;
@@ -455,6 +535,24 @@
 
   <!-- PREVIEW -->
   <div class="preview-panel">
+
+    <!-- Instructions -->
+    <div class="sig-instructions is-open">
+      <div class="sig-instructions__header" onclick="this.parentElement.classList.toggle('is-open')">
+        <span>How to install your signature</span>
+        <svg class="sig-instructions__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="sig-instructions__body">
+        <ol class="sig-instructions__steps">
+          <li>Open Gmail → click the <strong>gear icon</strong> → <strong>See all settings</strong></li>
+          <li>Scroll down to the <strong>Signature</strong> section</li>
+          <li>Click <strong>+ Create new</strong>, name it, then click into the editor</li>
+          <li>Hit <strong>Copy signature</strong> above and paste it in</li>
+          <li>Scroll down and hit <strong>Save Changes</strong></li>
+        </ol>
+        <img src="sig.png" alt="Gmail signature settings guide" style="width:60%; border-radius:7px; border:1px solid #e8e8e8; display:block;">
+      </div>
+    </div>
 
     <!-- Simple preview (live) -->
     <div id="view-simple" style="display:contents;">
