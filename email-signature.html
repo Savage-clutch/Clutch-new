@@ -650,7 +650,7 @@
     return {
       name:   (first || last) ? `${first} ${last}`.trim() : 'First Last',
       title:  document.getElementById('jobTitle').value.trim() || 'Job Title',
-      phone:  document.getElementById('phone').value.trim()    || '(000) 000-0000',
+      phone:  document.getElementById('phone').value.trim(),
       email:  document.getElementById('email').value.trim()    || 'name@clutch.ca',
       socials: {
         li: { on: document.getElementById('toggle-li').checked, url: document.getElementById('url-li').value.trim() },
@@ -719,7 +719,7 @@
       <div class="sig-name"  style="font-size:16px; font-weight:700; color:#000000; line-height:1.2;">${d.name}</div>
       <div class="sig-title" style="font-size:13px; font-weight:400; color:#000000; margin-top:1px; line-height:1.15;">${d.title}</div>
       <div style="height:10px;"></div>
-      <div class="sig-contact" style="font-size:11px; color:#777777; line-height:1.5;">${d.phone}</div>
+      ${d.phone ? `<div class="sig-contact" style="font-size:11px; color:#777777; line-height:1.5;">${d.phone}</div>` : ''}
       <div class="sig-contact" style="font-size:11px; color:#777777; line-height:1.5; margin-bottom:8px;">
         <a href="mailto:${d.email}" class="sig-contact" style="color:#777777; text-decoration:none;">${d.email}</a>
       </div>
@@ -762,7 +762,7 @@
       <div style="font-size:16px;font-weight:700;color:${name};line-height:1.2;">${d.name}</div>
       <div style="font-size:13px;color:${title};margin-top:1px;line-height:1.15;">${d.title}</div>
       <div style="height:10px;"></div>
-      <div style="font-size:11px;color:${contact};line-height:1.5;">${d.phone}</div>
+      ${d.phone ? `<div style="font-size:11px;color:${contact};line-height:1.5;">${d.phone}</div>` : ''}
       <div style="font-size:11px;color:${contact};line-height:1.5;margin-bottom:8px;">
         <a href="mailto:${d.email}" style="color:${contact};text-decoration:none;">${d.email}</a>
       </div>
@@ -828,7 +828,7 @@
             <div style="font-size:16px; font-weight:700; color:#000000; line-height:1.2;">${d.name}</div>
             <div style="font-size:13px; font-weight:400; color:#000000; margin-top:1px; line-height:1.15;">${d.title}</div>
             <div style="height:10px;"></div>
-            <div style="font-size:11px; color:#777777; line-height:1.5;">${d.phone}</div>
+            ${d.phone ? `<div style="font-size:11px; color:#777777; line-height:1.5;">${d.phone}</div>` : ''}
             <div style="font-size:11px; color:#777777; line-height:1.5; margin-bottom:8px;">
               <a href="mailto:${d.email}" style="color:#777777; text-decoration:none;">${d.email}</a>
             </div>
