@@ -36,7 +36,7 @@
       --sans: 'CircularXX', -apple-system, sans-serif;
       --nav-pill: rgba(25,25,25,0.51);
       --coral: #FF464C;
-      --progress-bg: #EFEFEF;
+      --progress-bg: transparent;
       --near-black: #1E1E1E;
     }
 
@@ -243,7 +243,7 @@
     .stat__number {
       font-family: 'CircularXX', -apple-system, sans-serif;
       font-size: 64px;
-      font-weight: 400;
+      font-weight: 700;
       letter-spacing: -0.04em;
       line-height: 72px;
       color: var(--ink);
@@ -339,7 +339,7 @@
     }
     .inspect__stat-big {
       font-size: 120px;
-      font-weight: 400;
+      font-weight: 700;
       letter-spacing: -0.05em;
       line-height: 1;
       color: var(--ink);
@@ -439,15 +439,17 @@
       background: #fff;
       padding: 100px 60px;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 80px;
+      gap: 40px;
+      text-align: center;
       position: relative;
       width: 100vw;
       left: 50%;
       transform: translateX(-50%);
     }
-    .verdict__left { display: flex; flex-direction: column; gap: 20px; max-width: 520px; }
+    .verdict__left { display: flex; flex-direction: column; align-items: center; gap: 20px; max-width: 680px; }
     .verdict__headline {
       font-size: clamp(28px, 3.5vw, 52px);
       font-weight: 400;
@@ -581,6 +583,145 @@
       color: rgba(255,255,255,0.2);
     }
 
+    /* ── Recon gallery ── */
+    .recon-gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .recon-gallery__stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 7;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #111;
+    }
+    .recon-gallery__item {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .recon-gallery__item.is-active {
+      opacity: 1;
+    }
+    .recon-gallery__item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 8s ease;
+    }
+    .recon-gallery__item.is-active img {
+      transform: scale(1.04);
+    }
+    .recon-gallery__overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 32px 36px;
+      background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .recon-gallery__cat-name {
+      font-size: 20px;
+      font-weight: 500;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .recon-gallery__chips {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .recon-gallery__chips li {
+      font-size: 12px;
+      color: rgba(255,255,255,0.75);
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 100px;
+      padding: 4px 12px;
+    }
+
+    /* Apple-style tabnav pill */
+    .recon-tabnav {
+      display: flex;
+      justify-content: center;
+    }
+    .recon-tabnav__platter {
+      position: relative;
+      display: inline-flex;
+      align-items: stretch;
+      gap: 2px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 20px;
+      padding: 6px;
+    }
+    .recon-tabnav__btn {
+      position: relative;
+      z-index: 1;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 14px 22px;
+      border-radius: 14px;
+      font-family: 'CircularXX', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.45);
+      transition: color 0.3s ease;
+      white-space: nowrap;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      min-width: 100px;
+      text-align: center;
+      line-height: 1.35;
+    }
+    .recon-tabnav__btn svg {
+      opacity: 0.5;
+      transition: opacity 0.3s ease;
+      flex-shrink: 0;
+    }
+    .recon-tabnav__btn.is-active {
+      color: #111;
+    }
+    .recon-tabnav__btn.is-active svg {
+      opacity: 1;
+    }
+    .recon-tabnav__indicator {
+      position: absolute;
+      top: 6px;
+      height: calc(100% - 12px);
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      transition: left 300ms cubic-bezier(0.34, 1.1, 0.64, 1), width 300ms cubic-bezier(0.34, 1.1, 0.64, 1);
+      pointer-events: none;
+    }
+
+    .recon-tab-copy {
+      margin-top: 28px;
+      min-height: 48px;
+    }
+    .recon-tab-copy__text {
+      display: none;
+      font-size: 15px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.7;
+      max-width: 640px;
+      text-align: center;
+      margin: 0 auto;
+    }
+    .recon-tab-copy__text.is-active { display: block; }
+
     /* ── SPLIT BLOCKS ── */
     .split {
       display: grid;
@@ -624,7 +765,7 @@
     /* ── STEP 3: LISTED ── */
     .listed {
       background: var(--ink);
-      padding: 100px 0;
+      padding: 48px 0;
       position: relative;
       width: 100vw;
       left: 50%;
@@ -632,10 +773,10 @@
     }
     .listed__header {
       padding: 0 60px;
-      margin-bottom: 72px;
+      margin-bottom: 60px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 16px;
       max-width: 1200px;
       margin-left: auto;
       margin-right: auto;
@@ -654,6 +795,29 @@
       max-width: 480px;
     }
 
+    .listed__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background-image: linear-gradient(to top, #FF1C24 0%, #FF464C 46.875%);
+      box-shadow: 0.6px 0.6px 2px 0px rgba(126,7,11,0.32), inset 0px 1px 2px 0px rgba(255,255,255,0.45);
+      color: #fff;
+      text-decoration: none;
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 400;
+      padding: 16px 32px;
+      border-radius: 99px;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      transition: transform 0.2s, box-shadow 0.2s;
+      align-self: flex-start;
+    }
+    .listed__cta:hover {
+      transform: scale(1.03);
+      box-shadow: 0.6px 0.6px 8px 0px rgba(126,7,11,0.4), inset 0px 1px 2px 0px rgba(255,255,255,0.45);
+    }
+
     /* Car + badge */
     .listed__car-wrap {
       position: relative;
@@ -663,20 +827,46 @@
       margin-right: auto;
       margin-bottom: 72px;
     }
-    .listed__car {
-      width: 50%;
+    .listed__spin-canvas {
+      width: 90%;
+      max-width: 1100px;
       display: block;
-      object-fit: contain;
       margin: 0 auto;
+      cursor: grab;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .listed__spin-canvas:active { cursor: grabbing; }
+    .spin-hint {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.7);
+      font-size: 12px;
+      font-family: var(--sans);
+      padding: 7px 14px;
+      border-radius: 99px;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      white-space: nowrap;
     }
     .listed__badge {
       position: absolute;
-      top: -6px;
+      top: -40px;
       left: 58%;
       transform: translate(-50%, 0);
       width: 96px;
       height: 96px;
       z-index: 2;
+      pointer-events: none;
     }
 
     /* Tags grid */
@@ -706,7 +896,7 @@
     }
     .listed__tag-number {
       font-size: clamp(52px, 6.5vw, 100px);
-      font-weight: 400;
+      font-weight: 700;
       color: #fff;
       letter-spacing: -0.04em;
       line-height: 1;
@@ -820,7 +1010,9 @@
       display: block;
       object-fit: cover;
       object-position: center 40%;
+      margin-top: 24px;
     }
+    .final__btn-wrap { margin-top: 24px; }
     .final__btn-wrap {
       z-index: 2;
     }
@@ -905,8 +1097,6 @@
       min-height: 100vh;
       background: var(--cream);
       padding-bottom: 0;
-      max-width: 1440px;
-      margin: 0 auto;
     }
 
     /* ── SECTION NAV ── */
@@ -1781,6 +1971,75 @@
         </div>
         <p class="recondition__body">Our licensed mechanics replace worn components, perform required servicing, and address anything that falls short, bringing every vehicle up to the Clutch Certified standard.</p>
       </div>
+      <!-- View toggle -->
+      <div style="display:flex;gap:8px;margin-bottom:32px;">
+        <button id="v3-recon-toggle-gallery" onclick="document.getElementById('v3-recon-gallery-view').style.display='block';document.getElementById('v3-recon-grid-view').style.display='none';this.style.background='rgba(255,255,255,0.18)';document.getElementById('v3-recon-toggle-grid').style.background='rgba(255,255,255,0.07)';" style="background:rgba(255,255,255,0.18);border:none;cursor:pointer;padding:8px 16px;border-radius:100px;color:#fff;font-family:'CircularXX',sans-serif;font-size:13px;display:inline-flex;align-items:center;gap:6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M3 9h18"/></svg>
+          Gallery
+        </button>
+        <button id="v3-recon-toggle-grid" onclick="document.getElementById('v3-recon-gallery-view').style.display='none';document.getElementById('v3-recon-grid-view').style.display='block';this.style.background='rgba(255,255,255,0.18)';document.getElementById('v3-recon-toggle-gallery').style.background='rgba(255,255,255,0.07)';" style="background:rgba(255,255,255,0.07);border:none;cursor:pointer;padding:8px 16px;border-radius:100px;color:#fff;font-family:'CircularXX',sans-serif;font-size:13px;display:inline-flex;align-items:center;gap:6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Grid
+        </button>
+      </div>
+
+      <!-- NEW: Gallery view -->
+      <div id="v3-recon-gallery-view">
+        <div class="recon-gallery" id="v3-recon-gallery">
+          <div class="recon-gallery__stage">
+            <div class="recon-gallery__item is-active">
+              <img src="assets/_DSC1600.webp" alt="Mechanical">
+            </div>
+            <div class="recon-gallery__item">
+              <img src="assets/_DSC1900.webp" alt="Body &amp; Cosmetic">
+            </div>
+            <div class="recon-gallery__item">
+              <img src="assets/_DSC1850.webp" alt="Glass">
+            </div>
+            <div class="recon-gallery__item">
+              <img src="assets/_DSC1075.webp" alt="Tires">
+            </div>
+            <div class="recon-gallery__item">
+              <img src="assets/_DSC1958.webp" alt="Detailing">
+            </div>
+          </div>
+          <div class="recon-tabnav">
+            <div class="recon-tabnav__platter" id="v3-recon-platter">
+              <button class="recon-tabnav__btn is-active" data-tab="0">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.75 6.75a4.5 4.5 0 0 1-4.884 4.484c-1.076-.091-2.264.071-2.95.904l-7.152 8.684a2.548 2.548 0 1 1-3.586-3.586l8.684-7.152c.833-.686.995-1.874.904-2.95a4.5 4.5 0 0 1 6.336-4.486l-3.276 3.276a3.004 3.004 0 0 0 2.25 2.25l3.276-3.276c.256.565.398 1.192.398 1.852Z"/></svg>
+                Mechanical
+              </button>
+              <button class="recon-tabnav__btn" data-tab="1">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.53 16.122a3 3 0 0 0-5.78 1.128 2.25 2.25 0 0 1-2.4 2.245 4.5 4.5 0 0 0 8.4-2.245c0-.399-.078-.78-.22-1.128m0 0a15.998 15.998 0 0 0 3.388-1.62m-5.043-.025a15.994 15.994 0 0 1 1.622-3.395m3.42 3.42a15.995 15.995 0 0 0 4.764-4.648l3.876-5.814a1.151 1.151 0 0 0-1.597-1.597L14.146 6.32a15.996 15.996 0 0 0-4.649 4.763m3.42 3.42a6.776 6.776 0 0 0-3.42-3.42"/></svg>
+                Body &amp; Cosmetic
+              </button>
+              <button class="recon-tabnav__btn" data-tab="2">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6a1.125 1.125 0 0 1-1.125-1.125v-3.75ZM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-8.25ZM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-2.25Z"/></svg>
+                Glass
+              </button>
+              <button class="recon-tabnav__btn" data-tab="3">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>
+                Tires
+              </button>
+              <button class="recon-tabnav__btn" data-tab="4">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456Z"/></svg>
+                Detailing
+              </button>
+              <div class="recon-tabnav__indicator" id="v3-recon-indicator"></div>
+            </div>
+          </div>
+          <div class="recon-tab-copy" id="v3-recon-copy">
+            <p class="recon-tab-copy__text is-active" data-copy="0">Engine, brakes, suspension — every mechanical system is inspected and repaired to spec by our licensed technicians before the car goes anywhere near a listing.</p>
+            <p class="recon-tab-copy__text" data-copy="1">Dents, paint chips, misaligned panels — we address cosmetic issues that affect how the car looks and holds its value. Only targeted work, done right.</p>
+            <p class="recon-tab-copy__text" data-copy="2">Every windshield and pane of glass is checked for chips, cracks, and seal integrity. Anything below standard gets repaired or fully replaced.</p>
+            <p class="recon-tab-copy__text" data-copy="3">Tread depth is measured on all four tires. Anything that doesn't meet our threshold gets replaced — and we check alignment and balance while we're at it.</p>
+            <p class="recon-tab-copy__text" data-copy="4">Full interior clean, exterior wash and polish, engine bay detail, and odour treatment. The car arrives to you ready — not just mechanically, but presentation-ready.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- OLD: Grid view -->
+      <div id="v3-recon-grid-view" style="display:none;">
       <div class="recon-grid">
 
         <div class="recon-cat reveal">
@@ -1862,8 +2121,11 @@
     </div>
 
     <div class="listed__car-wrap">
-      <img class="listed__car" src="assets/hero-car.webp" alt="Clutch Certified Vehicle">
-      <img class="listed__badge" src="assets/3D_C-Fast.gif" alt="Clutch Certified Badge">
+      <canvas class="listed__spin-canvas" id="listed-spin-canvas"></canvas>
+      <div class="spin-hint" id="spin-hint">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M5 12l4-4M5 12l4 4M19 12l-4-4M19 12l-4 4"/></svg>
+        Drag to spin
+      </div>
     </div>
 
     <div class="listed__grid">
@@ -1879,8 +2141,8 @@
       </div>
       <div class="listed__tag listed__tag--stat reveal" style="transition-delay:0.12s">
         <span class="listed__tag-label">Up to</span>
-        <div class="listed__tag-number">3<span class="red">×</span></div>
-        <span class="listed__tag-sub">Reconditioned by Clutch Certified mechanics</span>
+        <div class="listed__tag-number">3×</div>
+        <span class="listed__tag-sub">Mechanic-led road tests</span>
       </div>
       <div class="listed__tag listed__tag--photo reveal" style="transition-delay:0.0s">
         <img src="assets/garage.webp" alt="Clutch facility" style="object-fit: contain; object-position: center 60%; transform: scale(2.2) translateX(8%);">
@@ -1888,7 +2150,7 @@
       </div>
       <div class="listed__tag listed__tag--stat reveal" style="transition-delay:0.06s">
         <span class="listed__tag-label">Rated</span>
-        <div class="listed__tag-number"><span class="red">9</span>/10</div>
+        <div class="listed__tag-number">9/10</div>
         <span class="listed__tag-sub">Customer vehicle satisfaction</span>
       </div>
       <div class="listed__tag listed__tag--photo reveal" style="transition-delay:0.12s">
@@ -1929,10 +2191,10 @@
   <!-- Final CTA — sticky footer -->
   <div class="final">
     <h2 class="final__headline reveal">See every car<br>that made it.</h2>
-    <img class="final__car" src="assets/hero.webp" alt="Clutch Certified Vehicle">
     <div class="final__btn-wrap">
       <a class="final__btn" href="https://www.clutch.ca/cars" target="_blank" rel="noopener">Shop now</a>
     </div>
+    <img class="final__car" src="assets/hero.webp" alt="Clutch Certified Vehicle">
   </div>
 
   <a class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
@@ -2553,6 +2815,128 @@
         if (e.key === 'ArrowLeft' && current > 0) show(current - 1);
         if (e.key === 'ArrowRight' && current < imgs.length - 1) show(current + 1);
       });
+    })();
+
+    // ── Recon gallery tabnav ──
+    (function() {
+      var platter = document.getElementById('v3-recon-platter');
+      if (!platter) return;
+      var indicator = document.getElementById('v3-recon-indicator');
+      var btns = platter.querySelectorAll('.recon-tabnav__btn');
+      var items = document.querySelectorAll('#v3-recon-gallery .recon-gallery__item');
+      var copyEls = document.querySelectorAll('#v3-recon-copy .recon-tab-copy__text');
+
+      function moveIndicator(btn) {
+        // offsetLeft is relative to platter (position:relative), minus the 4px padding
+        indicator.style.left = (btn.offsetLeft) + 'px';
+        indicator.style.width = btn.offsetWidth + 'px';
+      }
+
+      function selectTab(idx) {
+        btns.forEach(function(b, i) {
+          b.classList.toggle('is-active', i === idx);
+        });
+        items.forEach(function(item, i) {
+          item.classList.toggle('is-active', i === idx);
+        });
+        copyEls.forEach(function(el, i) {
+          el.classList.toggle('is-active', i === idx);
+        });
+        moveIndicator(btns[idx]);
+      }
+
+      btns.forEach(function(btn, idx) {
+        btn.addEventListener('click', function() { selectTab(idx); });
+      });
+
+      // Init indicator position without transition
+      indicator.style.transition = 'none';
+      moveIndicator(btns[0]);
+      // Re-enable transition after a frame
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          indicator.style.transition = '';
+        });
+      });
+    })();
+  </script>
+
+  <script>
+    /* ── 360 SPIN VIEWER ── */
+    (function () {
+      var canvas = document.getElementById('listed-spin-canvas');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      var base = 'assets/car-cert/Comp 1/';
+      var names = Array.from({length: 36}, function(_, i) {
+        return 'Comp 1_' + String(i).padStart(5, '0') + '.png';
+      });
+      var images = [];
+      var current = 5; // start slightly rotated
+      var dragX = null;
+      var sensitivity = 7;
+      var hinted = false;
+
+      function draw(img) {
+        canvas.width  = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0);
+      }
+
+      names.forEach(function (name, i) {
+        var img = new Image();
+        img.onload = function () {
+          if (i === current) {
+            draw(img);
+            // rock animation after a short delay to hint interactivity
+            setTimeout(function () {
+              var step = 0;
+              var seq = [1,2,3,2,1,0,-1,-2,-1,0]; // nudge right then back
+              var interval = setInterval(function () {
+                showFrame(current + seq[step]);
+                step++;
+                if (step >= seq.length) clearInterval(interval);
+              }, 60);
+            }, 800);
+          }
+        };
+        img.src = base + encodeURIComponent(name);
+        images.push(img);
+      });
+
+      function showFrame(i) {
+        current = ((i % images.length) + images.length) % images.length;
+        var img = images[current];
+        if (img.complete && img.naturalWidth) draw(img);
+      }
+
+      function onMove(x) {
+        if (dragX === null) return;
+        var diff = x - dragX;
+        if (Math.abs(diff) >= sensitivity) {
+          showFrame(current - Math.sign(diff));
+          dragX = x;
+        }
+      }
+
+      canvas.addEventListener('mousedown', function (e) {
+        dragX = e.clientX;
+        e.preventDefault();
+        // hide hint on first interaction
+        var hint = document.getElementById('spin-hint');
+        if (hint) { hint.style.opacity = '0'; setTimeout(function(){ hint.remove(); }, 300); }
+      });
+      window.addEventListener('mousemove', function (e) { onMove(e.clientX); });
+      window.addEventListener('mouseup',   function ()  { dragX = null; });
+
+      canvas.addEventListener('touchstart', function (e) {
+        dragX = e.touches[0].clientX;
+        var hint = document.getElementById('spin-hint');
+        if (hint) { hint.style.opacity = '0'; setTimeout(function(){ hint.remove(); }, 300); }
+      }, { passive: true });
+      canvas.addEventListener('touchmove',  function (e) { onMove(e.touches[0].clientX); }, { passive: true });
+      canvas.addEventListener('touchend',   function ()  { dragX = null; });
     })();
   </script>
 
