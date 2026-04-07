@@ -773,7 +773,7 @@
     }
     .listed__header {
       padding: 0 60px;
-      margin-bottom: 60px;
+      margin-bottom: 20px;
       display: flex;
       flex-direction: column;
       gap: 16px;
@@ -1696,7 +1696,7 @@
     .td-card {
       position: relative;
       width: 720px;
-      height: 420px;
+      height: 340px;
       background: #f5f5f7;
       border-radius: 24px;
       overflow: hidden;
@@ -1717,23 +1717,37 @@
       position: absolute;
       inset: 0;
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       justify-content: center;
+      padding-bottom: 100px;
       z-index: 1;
     }
-    .td-num {
-      font-size: 240px;
+    .td-odometer {
+      display: inline-flex;
+      line-height: 1;
+      font-size: 150px;
       font-weight: 800;
       letter-spacing: -8px;
-      line-height: 1;
       font-family: 'CircularXX', sans-serif;
-      transition: opacity 300ms ease;
+    }
+    .td-odometer__window {
+      height: 1em;
+      overflow: hidden;
+    }
+    .td-odometer__strip {
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .td-odometer__digit {
+      height: 1em;
+      display: flex;
+      align-items: flex-start;
       background: linear-gradient(to bottom, #1c1c1e 0%, #c8c8cc 100%);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .td-num.is-changing { opacity: 0; }
     .td-car-wrap {
       position: absolute;
       bottom: 0; left: 0; right: 0;
@@ -1932,16 +1946,18 @@
       <div class="td-card">
         <p class="td-label">Mechanic-led road test</p>
         <div class="td-num-wrap">
-          <span class="td-num" id="v3-td-num">#1</span>
+          <div class="td-odometer">
+            <div class="td-odometer__window">
+              <div class="td-odometer__strip" id="v3-td-strip">
+                <div class="td-odometer__digit">#1</div>
+                <div class="td-odometer__digit">#2</div>
+                <div class="td-odometer__digit">#3</div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="td-car-wrap">
-          <img class="td-car" id="v3-td-car-a" src="assets/car-side.webp" alt="Car">
-          <img class="td-car" id="v3-td-car-b" src="assets/car-side.webp" alt="Car" style="opacity:0;">
-          <div class="td-badge" id="v3-td-badge">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path class="td-badge__check" d="M5 12.5L10 17.5L19 8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
+          <canvas id="td-spin-canvas" style="position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:100%; height:100%; object-fit:contain;"></canvas>
         </div>
       </div>
       <div class="td-dots">
@@ -2434,105 +2450,81 @@
       window.addEventListener('touchend', function() { touchStartX = null; });
     })();
 
-    // Road test stage
+    // Road test stage — spin sequence + number cycler
     (function() {
       var stage = document.getElementById('v3-td-stage');
       if (!stage) return;
-      var carA = document.getElementById('v3-td-car-a');
-      var carB = document.getElementById('v3-td-car-b');
-      var numEl = document.getElementById('v3-td-num');
-      var dots = stage.querySelectorAll('.td-dot');
-      var badge = document.getElementById('v3-td-badge');
-      var fired = false, currentStep = 0, animating = false, autoTimer = null;
-      var cars = [carA, carB];
-      var FINAL_TRANSFORM = 'translateX(-38%) scale(1.27) translate(0px, 20px)';
+      var strip  = document.getElementById('v3-td-strip');
+      var dots   = stage.querySelectorAll('.td-dot');
+      var canvas = document.getElementById('td-spin-canvas');
+      var ctx    = canvas.getContext('2d');
+      var current = 0;
+      var FPS = 14;
+      var frameIndex = 0;
+      var rafId = null;
+      var lastTime = 0;
+      var images = [];
+      var loaded = 0;
+      var started = false;
 
-      function resetEl(el) {
-        el.style.transition = 'none';
-        el.style.opacity = '0';
-        el.classList.remove('is-moving', 'in-position');
-        el.style.transformOrigin = 'right bottom';
-        el.style.transform = 'translateX(-200%) scale(1.27) translate(0px, 20px)';
+      // Preload frames
+      var base = 'assets/car-cert/car-moving/';
+      for (var i = 0; i < 130; i++) {
+        (function(idx) {
+          var img = new Image();
+          img.onload = function() {
+            loaded++;
+            if (idx === 0 && loaded === 1) drawFrame(0);
+          };
+          img.src = base + encodeURIComponent('car-moving_' + String(idx).padStart(5,'0') + '.png');
+          images[idx] = img;
+        })(i);
       }
+
+      function drawFrame(idx) {
+        var img = images[idx];
+        if (!img || !img.complete || !img.naturalWidth) return;
+        canvas.width  = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0);
+      }
+
       function setDot(i) { dots.forEach(function(d,j){ d.classList.toggle('active', j===i); }); }
-      function setNum(n, cb) {
-        numEl.classList.add('is-changing');
-        setTimeout(function(){ numEl.textContent = '#'+n; numEl.classList.remove('is-changing'); cb && cb(); }, 300);
-      }
-      function showBadge() { badge.classList.add('is-visible'); }
-      function hideBadge(cb) { badge.classList.remove('is-visible'); setTimeout(cb, 260); }
 
-      function driveIn(gifCar, staticCar, onFadeStart, cb) {
-        resetEl(gifCar);
-        gifCar.src = 'assets/move-opt.gif';
-        gifCar.style.opacity = '1';
-        staticCar.style.transition = 'none';
-        staticCar.src = 'assets/car-side.webp';
-        staticCar.classList.remove('is-moving','in-position');
-        staticCar.style.transformOrigin = 'right bottom';
-        staticCar.style.transform = FINAL_TRANSFORM;
-        staticCar.style.opacity = '0';
-        requestAnimationFrame(function(){ requestAnimationFrame(function(){
-          gifCar.style.transition = 'transform 1000ms cubic-bezier(0.25,0.46,0.45,0.94)';
-          gifCar.style.transform = FINAL_TRANSFORM;
-        }); });
-        setTimeout(function(){
-          onFadeStart && onFadeStart();
-          staticCar.style.transition = 'opacity 200ms ease';
-          staticCar.style.opacity = '1';
-          gifCar.style.transition = 'opacity 200ms ease';
-          gifCar.style.opacity = '0';
-          setTimeout(function(){
-            resetEl(gifCar);
-            gifCar.src = 'assets/car-side.webp';
-            cb(staticCar);
-          }, 220);
-        }, 1050);
-      }
-
-      function driveOut(car, cb) {
-        car.style.transition = 'transform 700ms cubic-bezier(0.4,0,1,1), opacity 300ms ease 400ms';
-        car.style.transform = 'translateX(160%) scale(1.27) translate(0px,20px)';
-        car.style.opacity = '0';
-        setTimeout(cb, 750);
-      }
-
-      var liveCar = null;
-      function step(i) {
-        currentStep = i; animating = true;
-        var gifCar = cars[i%2], staticCar = cars[(i+1)%2];
+      function showStep(i) {
+        current = i;
         setDot(i);
-        setNum(i+1, function(){
-          driveIn(gifCar, staticCar, showBadge, function(live){
-            liveCar = live; animating = false;
-            if (i < 2) {
-              autoTimer = setTimeout(function(){
-                hideBadge(function(){ driveOut(liveCar, function(){ step(i+1); }); });
-              }, 1600);
-            }
-          });
-        });
+        strip.style.transform = 'translateY(-' + i + 'em)';
       }
 
-      function jumpToStep(i) {
-        if (animating) return;
-        clearTimeout(autoTimer);
-        badge.classList.remove('is-visible');
-        resetEl(carA); resetEl(carB);
-        liveCar = null; step(i);
+      function animate(ts) {
+        rafId = requestAnimationFrame(animate);
+        if (ts - lastTime < 1000 / FPS) return;
+        lastTime = ts;
+        drawFrame(frameIndex);
+        frameIndex++;
+        if (frameIndex >= images.length) {
+          frameIndex = 0;
+          // one loop complete — advance test number (up to 3, then wrap)
+          showStep((current + 1) % 3);
+        }
       }
 
-      dots.forEach(function(dot, i){
-        dot.addEventListener('click', function(){
-          if (!fired) { fired = true; step(i); return; }
-          if (i === currentStep) return;
-          jumpToStep(i);
-        });
+      dots.forEach(function(dot, i) {
+        dot.addEventListener('click', function() { showStep(i); });
       });
 
-      var obs = new IntersectionObserver(function(entries){
-        if (entries[0].isIntersecting) { if (!fired){ fired=true; resetEl(carA); resetEl(carB); step(0); } obs.disconnect(); }
-      }, { threshold: 0.4 });
+      // Start when visible
+      var obs = new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting && !started) {
+          started = true;
+          showStep(0);
+          frameIndex = 20; // start at front frame
+          rafId = requestAnimationFrame(animate);
+          obs.disconnect();
+        }
+      }, { threshold: 0.3 });
       obs.observe(stage);
     })();
 
@@ -2872,10 +2864,11 @@
         return 'Comp 1_' + String(i).padStart(5, '0') + '.png';
       });
       var images = [];
-      var current = 5; // start slightly rotated
+      var current = 20;
       var dragX = null;
       var sensitivity = 7;
-      var hinted = false;
+      var allLoaded = false;
+      var section = document.getElementById('v3-s-listed');
 
       function draw(img) {
         canvas.width  = img.naturalWidth;
@@ -2884,22 +2877,13 @@
         ctx.drawImage(img, 0, 0);
       }
 
+      var loaded = 0;
       names.forEach(function (name, i) {
         var img = new Image();
         img.onload = function () {
-          if (i === current) {
-            draw(img);
-            // rock animation after a short delay to hint interactivity
-            setTimeout(function () {
-              var step = 0;
-              var seq = [1,2,3,2,1,0,-1,-2,-1,0]; // nudge right then back
-              var interval = setInterval(function () {
-                showFrame(current + seq[step]);
-                step++;
-                if (step >= seq.length) clearInterval(interval);
-              }, 60);
-            }, 800);
-          }
+          loaded++;
+          if (i === 20) draw(img);
+          if (loaded === names.length) allLoaded = true;
         };
         img.src = base + encodeURIComponent(name);
         images.push(img);
@@ -2910,6 +2894,18 @@
         var img = images[current];
         if (img.complete && img.naturalWidth) draw(img);
       }
+
+      // Scroll-driven rotation — starts at front (frame 35) when section enters
+      var FRONT_FRAME = 20;
+      window.addEventListener('scroll', function () {
+        if (dragX !== null) return;
+        var rect = section.getBoundingClientRect();
+        var vh = window.innerHeight;
+        var progress = (vh - rect.top) / (rect.height + vh);
+        progress = Math.max(0, Math.min(1, progress));
+        var frameOffset = Math.round(progress * images.length);
+        showFrame(FRONT_FRAME + frameOffset);
+      }, { passive: true });
 
       function onMove(x) {
         if (dragX === null) return;
