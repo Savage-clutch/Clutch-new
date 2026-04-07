@@ -161,6 +161,19 @@
       flex-direction: column;
       align-items: center;
       gap: 28px;
+      perspective: 1200px;
+    }
+    .hero__eyebrow  { animation: hero-z-move 1.4s ease-out 0.2s  both, hero-z-fade 2.4s ease-out 0.2s  both; }
+    .hero__headline { animation: hero-z-move 1.4s ease-out 0.36s both, hero-z-fade 2.4s ease-out 0.36s both; }
+    .hero__sub      { animation: hero-z-move 1.4s ease-out 0.55s both, hero-z-fade 2.4s ease-out 0.55s both; }
+    .hero__scroll   { animation: hero-z-move 1.4s ease-out 0.7s  both, hero-z-fade 2.4s ease-out 0.7s  both; }
+    @keyframes hero-z-move {
+      from { transform: translateZ(-80px) scale(0.94); }
+      to   { transform: translateZ(0) scale(1); }
+    }
+    @keyframes hero-z-fade {
+      from { opacity: 0; }
+      to   { opacity: 1; }
     }
     .hero__eyebrow {
       font-size: 11px;
@@ -636,7 +649,7 @@
     }
     .listed__body {
       font-size: 15px;
-      color: var(--dim-light);
+      color: rgba(255,255,255,0.7);
       line-height: 1.7;
       max-width: 480px;
     }
@@ -778,7 +791,7 @@
       line-height: 1.7;
     }
 
-    /* ── FINAL CTA ── */
+    /* ── FINAL CTA (sticky footer) ── */
     .final {
       background: #000;
       display: flex;
@@ -786,10 +799,10 @@
       align-items: center;
       gap: 16px;
       padding: 60px 60px 120px;
-      position: relative;
-      width: 100vw;
-      left: 50%;
-      transform: translateX(-50%);
+      position: sticky;
+      bottom: 0;
+      z-index: 0;
+      width: 100%;
     }
     .final__headline {
       font-size: clamp(36px, 4vw, 60px);
@@ -908,7 +921,7 @@
       align-items: center;
     }
     .section-nav__dots {
-      background: rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.15);
       border-radius: 100px;
       padding: 10px 0;
       display: flex;
@@ -916,26 +929,27 @@
       align-items: center;
       gap: 10px;
       transition: background 0.2s ease;
+      mix-blend-mode: difference;
     }
     .section-nav__dots:hover {
-      background: rgba(255,255,255,0.28);
+      background: rgba(255,255,255,0.32);
     }
     .section-nav__dot {
       position: relative;
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.7);
       cursor: pointer;
       transition: background 0.2s, transform 0.2s;
       margin: 0 10px;
     }
     .section-nav__dot.active {
-      background: var(--red);
+      background: #fff;
       transform: scale(1.25);
     }
-    .section-nav__dot:hover { background: rgba(255,255,255,0.65); }
-    .section-nav__dot.active:hover { background: var(--red); }
+    .section-nav__dot:hover { background: #fff; }
+    .section-nav__dot.active:hover { background: #fff; }
     .section-nav__dot::before {
       content: attr(data-label);
       position: absolute;
@@ -954,6 +968,7 @@
       padding: 5px 10px;
       border-radius: 8px;
       pointer-events: none;
+      mix-blend-mode: normal;
     }
     .section-nav__dot:hover::before {
       opacity: 1;
@@ -1429,39 +1444,158 @@
       transition: none;
     }
     #v3-module-layout-b.intro-playing .alt-car-img.is-rotated {
-      animation: altCarScaleDown 1100ms cubic-bezier(0.4, 0, 0.2, 1) 150ms both;
+      animation: altCarScaleDown 1800ms cubic-bezier(0.4, 0, 0.2, 1) 200ms both;
       transition: none;
     }
     #v3-module-layout-b.intro-playing .alt-bottom {
-      animation: altBottomReveal 900ms cubic-bezier(0.22, 1, 0.36, 1) 100ms both;
+      animation: altBottomReveal 1400ms cubic-bezier(0.22, 1, 0.36, 1) 150ms both;
     }
     #v3-module-layout-b.intro-playing .alt-cat[data-intro-type="center"]::before {
       transform-origin: left center;
-      animation: altCatRowIn 1000ms cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation: altCatRowIn 1600ms cubic-bezier(0.16, 1, 0.3, 1) both;
       animation-delay: var(--cat-delay, 0ms);
     }
     #v3-module-layout-b.intro-playing .alt-cat[data-intro-type="from-center"] {
-      animation: altCatSplit 1000ms cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation: altCatSplit 1600ms cubic-bezier(0.16, 1, 0.3, 1) both;
       animation-delay: var(--cat-delay, 0ms);
     }
     #v3-module-layout-b.intro-playing .alt-cat[data-intro-type="from-center"]::before {
       transform-origin: left center;
-      animation: altCatSplitBg 1000ms cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation: altCatSplitBg 1600ms cubic-bezier(0.16, 1, 0.3, 1) both;
       animation-delay: var(--cat-delay, 0ms);
     }
     #v3-module-layout-b.intro-playing .alt-cat .alt-cat__name,
     #v3-module-layout-b.intro-playing .alt-cat .alt-cat__count,
     #v3-module-layout-b.intro-playing .alt-cat .alt-cat__icon {
       opacity: 0;
-      animation: altCatTextIn 300ms ease both;
-      animation-delay: calc(var(--cat-delay, 0ms) + 750ms);
+      animation: altCatTextIn 600ms ease both;
+      animation-delay: calc(var(--cat-delay, 0ms) + 1100ms);
     }
     #v3-module-layout-b.intro-playing .alt-items-wrap {
-      animation: altPanelIntro 400ms ease-out var(--panel-delay, 0ms) both;
+      animation: altPanelIntro 700ms ease-out var(--panel-delay, 0ms) both;
     }
     .alt-item {
       animation: altItemIn 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
     }
+
+    /* ── ROAD TEST ── */
+    .td-stage-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 100px 60px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .road-test-callout {
+      font-size: clamp(22px, 2.5vw, 36px);
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.25;
+      letter-spacing: -0.03em;
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 56px;
+    }
+    .td-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      width: 100%;
+    }
+    .td-card {
+      position: relative;
+      width: 720px;
+      height: 420px;
+      background: #f5f5f7;
+      border-radius: 24px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .td-label {
+      position: relative;
+      z-index: 3;
+      margin-top: 28px;
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--dim);
+      font-family: 'CircularXX', sans-serif;
+    }
+    .td-num-wrap {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+    }
+    .td-num {
+      font-size: 240px;
+      font-weight: 800;
+      letter-spacing: -8px;
+      line-height: 1;
+      font-family: 'CircularXX', sans-serif;
+      transition: opacity 300ms ease;
+      background: linear-gradient(to bottom, #1c1c1e 0%, #c8c8cc 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .td-num.is-changing { opacity: 0; }
+    .td-car-wrap {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 100%;
+      z-index: 2;
+    }
+    .td-car {
+      position: absolute;
+      width: 580px;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-200%);
+      transition: transform 1000ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .td-car.is-moving {
+      transform-origin: right bottom;
+      transform: translateX(-200%) scale(1.27) translate(0px, 20px);
+    }
+    .td-car.in-position { transform: translateX(-50%); }
+    .td-car.in-position.is-moving {
+      transform: translateX(-50%) scale(1.27) translate(0px, 20px);
+    }
+    .td-dots { display: flex; gap: 10px; }
+    .td-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #d1d1d6;
+      transition: background 400ms ease;
+      cursor: pointer;
+    }
+    .td-dot.active { background: var(--red); }
+    .td-badge {
+      position: absolute;
+      bottom: 155px;
+      left: calc(50% + 90px);
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: #460B28;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 6;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: opacity 250ms ease, transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
+      pointer-events: none;
+    }
+    .td-badge.is-visible { opacity: 1; transform: scale(1); }
+    .td-badge__check {
+      stroke-dasharray: 22;
+      stroke-dashoffset: 22;
+      transition: stroke-dashoffset 320ms ease 180ms;
+    }
+    .td-badge.is-visible .td-badge__check { stroke-dashoffset: 0; }
   </style>
 </head>
 <body>
@@ -1597,6 +1731,33 @@
         <div class="photo-carousel__slide photo-carousel__slide--md">
           <img class="photo-carousel__img" src="assets/photo-card-1.webp" alt="Inspection">
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Road Test -->
+  <div class="td-stage-wrap">
+    <h2 class="road-test-callout">That includes a total of three separate mechanic-led road tests to validate real-world performance.</h2>
+    <div class="td-stage" id="v3-td-stage">
+      <div class="td-card">
+        <p class="td-label">Mechanic-led road test</p>
+        <div class="td-num-wrap">
+          <span class="td-num" id="v3-td-num">#1</span>
+        </div>
+        <div class="td-car-wrap">
+          <img class="td-car" id="v3-td-car-a" src="assets/car-side.webp" alt="Car">
+          <img class="td-car" id="v3-td-car-b" src="assets/car-side.webp" alt="Car" style="opacity:0;">
+          <div class="td-badge" id="v3-td-badge">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path class="td-badge__check" d="M5 12.5L10 17.5L19 8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="td-dots">
+        <div class="td-dot active"></div>
+        <div class="td-dot"></div>
+        <div class="td-dot"></div>
       </div>
     </div>
   </div>
@@ -1763,7 +1924,9 @@
     </div>
   </section>
 
-  <!-- Final CTA -->
+  </main>
+
+  <!-- Final CTA — sticky footer -->
   <div class="final">
     <h2 class="final__headline reveal">See every car<br>that made it.</h2>
     <img class="final__car" src="assets/hero.webp" alt="Clutch Certified Vehicle">
@@ -1772,13 +1935,10 @@
     </div>
   </div>
 
-  <!-- Footer -->
-<a class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <a class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
     Back to top
   </a>
-
-  </main>
 
   <!-- Section dot nav -->
   <nav class="section-nav" id="v3-section-nav">
@@ -2010,6 +2170,108 @@
         setFrame(touchStartFrame + Math.round(delta / SENSITIVITY));
       }, { passive: true });
       window.addEventListener('touchend', function() { touchStartX = null; });
+    })();
+
+    // Road test stage
+    (function() {
+      var stage = document.getElementById('v3-td-stage');
+      if (!stage) return;
+      var carA = document.getElementById('v3-td-car-a');
+      var carB = document.getElementById('v3-td-car-b');
+      var numEl = document.getElementById('v3-td-num');
+      var dots = stage.querySelectorAll('.td-dot');
+      var badge = document.getElementById('v3-td-badge');
+      var fired = false, currentStep = 0, animating = false, autoTimer = null;
+      var cars = [carA, carB];
+      var FINAL_TRANSFORM = 'translateX(-38%) scale(1.27) translate(0px, 20px)';
+
+      function resetEl(el) {
+        el.style.transition = 'none';
+        el.style.opacity = '0';
+        el.classList.remove('is-moving', 'in-position');
+        el.style.transformOrigin = 'right bottom';
+        el.style.transform = 'translateX(-200%) scale(1.27) translate(0px, 20px)';
+      }
+      function setDot(i) { dots.forEach(function(d,j){ d.classList.toggle('active', j===i); }); }
+      function setNum(n, cb) {
+        numEl.classList.add('is-changing');
+        setTimeout(function(){ numEl.textContent = '#'+n; numEl.classList.remove('is-changing'); cb && cb(); }, 300);
+      }
+      function showBadge() { badge.classList.add('is-visible'); }
+      function hideBadge(cb) { badge.classList.remove('is-visible'); setTimeout(cb, 260); }
+
+      function driveIn(gifCar, staticCar, onFadeStart, cb) {
+        resetEl(gifCar);
+        gifCar.src = 'assets/move-opt.gif';
+        gifCar.style.opacity = '1';
+        staticCar.style.transition = 'none';
+        staticCar.src = 'assets/car-side.webp';
+        staticCar.classList.remove('is-moving','in-position');
+        staticCar.style.transformOrigin = 'right bottom';
+        staticCar.style.transform = FINAL_TRANSFORM;
+        staticCar.style.opacity = '0';
+        requestAnimationFrame(function(){ requestAnimationFrame(function(){
+          gifCar.style.transition = 'transform 1000ms cubic-bezier(0.25,0.46,0.45,0.94)';
+          gifCar.style.transform = FINAL_TRANSFORM;
+        }); });
+        setTimeout(function(){
+          onFadeStart && onFadeStart();
+          staticCar.style.transition = 'opacity 200ms ease';
+          staticCar.style.opacity = '1';
+          gifCar.style.transition = 'opacity 200ms ease';
+          gifCar.style.opacity = '0';
+          setTimeout(function(){
+            resetEl(gifCar);
+            gifCar.src = 'assets/car-side.webp';
+            cb(staticCar);
+          }, 220);
+        }, 1050);
+      }
+
+      function driveOut(car, cb) {
+        car.style.transition = 'transform 700ms cubic-bezier(0.4,0,1,1), opacity 300ms ease 400ms';
+        car.style.transform = 'translateX(160%) scale(1.27) translate(0px,20px)';
+        car.style.opacity = '0';
+        setTimeout(cb, 750);
+      }
+
+      var liveCar = null;
+      function step(i) {
+        currentStep = i; animating = true;
+        var gifCar = cars[i%2], staticCar = cars[(i+1)%2];
+        setDot(i);
+        setNum(i+1, function(){
+          driveIn(gifCar, staticCar, showBadge, function(live){
+            liveCar = live; animating = false;
+            if (i < 2) {
+              autoTimer = setTimeout(function(){
+                hideBadge(function(){ driveOut(liveCar, function(){ step(i+1); }); });
+              }, 1600);
+            }
+          });
+        });
+      }
+
+      function jumpToStep(i) {
+        if (animating) return;
+        clearTimeout(autoTimer);
+        badge.classList.remove('is-visible');
+        resetEl(carA); resetEl(carB);
+        liveCar = null; step(i);
+      }
+
+      dots.forEach(function(dot, i){
+        dot.addEventListener('click', function(){
+          if (!fired) { fired = true; step(i); return; }
+          if (i === currentStep) return;
+          jumpToStep(i);
+        });
+      });
+
+      var obs = new IntersectionObserver(function(entries){
+        if (entries[0].isIntersecting) { if (!fired){ fired=true; resetEl(carA); resetEl(carB); step(0); } obs.disconnect(); }
+      }, { threshold: 0.4 });
+      obs.observe(stage);
     })();
 
     // Photo carousel — CSS scroll snap
