@@ -140,6 +140,25 @@
     gap: 28px;
   }
 
+  .preview-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid #e8e8e8;
+    margin-bottom: -1px;
+  }
+  .preview-tab {
+    font-size: 12px;
+    font-weight: 600;
+    color: #aaa;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s;
+    user-select: none;
+  }
+  .preview-tab.active { color: #111; border-bottom-color: #111; }
+  .preview-tab:hover:not(.active) { color: #555; }
+
   .preview-label {
     font-size: 10px;
     font-weight: 700;
@@ -155,6 +174,155 @@
     background: #ffffff;
     border: 1px solid #e8e8e8;
   }
+
+  /* CLIENT PREVIEW MOCKS */
+  .client-row {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+  }
+  .view-col { display: flex; flex-direction: column; gap: 8px; }
+  .view-col-desktop { flex: 1; min-width: 0; }
+  .view-col-mobile  { flex-shrink: 0; width: 320px; }
+  .view-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #bbb;
+  }
+
+  /* Base mock */
+  .mail-mock {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .mock-chrome {
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    transition: background 0.2s;
+  }
+  .mock-subject {
+    padding: 14px 18px 6px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #111;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .mock-meta {
+    padding: 8px 18px;
+    font-size: 11px;
+    color: #999;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .mock-body {
+    padding: 18px;
+    background: #fff;
+    font-size: 13px;
+    color: #333;
+    line-height: 1.6;
+    transition: background 0.2s, color 0.2s;
+  }
+  .mock-body-text { margin-bottom: 16px; }
+  .mock-divider { border: none; border-top: 1px solid #eee; margin: 14px 0; transition: border-color 0.2s; }
+  .sig-mount { display: inline-block; }
+
+
+  /* ── GMAIL ── */
+  .gmail-mock .mock-chrome { background: #fff; border-bottom: 1px solid #e8e8e8; }
+  .gmail-mock .mock-logo { color: #ea4335; font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
+  .gmail-mock .mock-logo span { color: #4285f4; }
+  .gmail-mock .mock-logo em  { color: #34a853; font-style: normal; }
+  .gmail-mock .mock-logo strong { color: #fbbc04; }
+
+  .gmail-mock.dark { background: #202124; border-color: #3c4043; }
+  .gmail-mock.dark .mock-chrome  { background: #303134; border-bottom-color: #3c4043; }
+  .gmail-mock.dark .mock-subject { background: #202124; color: #e8eaed; border-bottom-color: #3c4043; }
+  .gmail-mock.dark .mock-meta    { background: #202124; color: #9aa0a6; border-bottom-color: #3c4043; }
+  .gmail-mock.dark .mock-body    { background: #202124; color: #bdc1c6; }
+  .gmail-mock.dark .mock-divider { border-top-color: #3c4043; }
+
+  /* ── SUPERHUMAN ── */
+  .sh-mock { }
+  .sh-mock .mock-chrome  { background: #ececec; border-bottom: 1px solid #ddd; }
+  .sh-mock .mock-subject { background: #f9f9f9; border-bottom-color: #e0e0e0; }
+  .sh-mock .mock-meta    { background: #f9f9f9; border-bottom-color: #e0e0e0; }
+  .sh-mock .mock-body    { background: #f9f9f9; color: #444; }
+  .sh-mock .sh-sig-bg    { background: transparent; }
+  .sh-mock .sh-reply-bar { border-top: 1px solid #e8e8e8; }
+  .sh-mock .sh-reply-pill { color: #555; background: #fff; border: 1px solid #ddd; }
+
+  .sh-mock.dark { background: #1a1a1a; border-color: #2a2a2a; }
+  .sh-mock.dark .mock-chrome  { background: #111; border-bottom-color: #222; }
+  .sh-mock.dark .mock-subject { background: #1a1a1a; color: #fff; border-bottom-color: #2a2a2a; }
+  .sh-mock.dark .mock-meta    { background: #1a1a1a; color: #555; border-bottom-color: #2a2a2a; }
+  .sh-mock.dark .mock-body    { background: #1a1a1a; color: #888; }
+  .sh-mock.dark .mock-divider { border-top-color: #333; }
+  .sh-mock.dark .sh-sig-bg    { background: transparent; }
+  .sh-mock.dark .sh-reply-bar { border-top-color: #222; }
+  .sh-mock.dark .sh-reply-pill { color: #aaa; background: #2a2a2a; border-color: #333; }
+
+  .sh-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .sh-chrome-title { font-size: 12px; margin-left: 4px; }
+  .sh-mock      .sh-chrome-title { color: #999; }
+  .sh-mock.dark .sh-chrome-title { color: #555; }
+  .sh-reply-bar { padding: 10px 16px; display: flex; gap: 8px; }
+  .sh-reply-pill { font-size: 12px; padding: 5px 12px; border-radius: 6px; cursor: default; }
+
+  /* ── OUTLOOK ── */
+  .outlook-mock .mock-chrome { background: #0078d4; }
+  .outlook-mock .mock-logo   { color: #fff; font-size: 13px; }
+
+  .outlook-mock.dark { background: #1b1b1b; border-color: #2d2d2d; }
+  .outlook-mock.dark .mock-chrome  { background: #0067b8; }
+  .outlook-mock.dark .mock-subject { background: #1b1b1b; color: #ffffff; border-bottom-color: #2d2d2d; }
+  .outlook-mock.dark .mock-meta    { background: #1b1b1b; color: #8a8886; border-bottom-color: #2d2d2d; }
+  .outlook-mock.dark .mock-body    { background: #1b1b1b; color: #d2d0ce; }
+  .outlook-mock.dark .mock-divider { border-top-color: #2d2d2d; }
+
+  /* ── YAHOO ── */
+  .yahoo-mock .mock-chrome { background: #6001d2; }
+  .yahoo-mock .mock-logo   { color: #fff; font-size: 13px; }
+
+  .yahoo-mock.dark { background: #1d1d21; border-color: #2f2f35; }
+  .yahoo-mock.dark .mock-chrome  { background: #4a00a8; }
+  .yahoo-mock.dark .mock-subject { background: #1d1d21; color: #f3f3f3; border-bottom-color: #2f2f35; }
+  .yahoo-mock.dark .mock-meta    { background: #1d1d21; color: #888; border-bottom-color: #2f2f35; }
+  .yahoo-mock.dark .mock-body    { background: #1d1d21; color: #c8c8c8; }
+  .yahoo-mock.dark .mock-divider { border-top-color: #2f2f35; }
+
+  /* ── MODE TOGGLE (global) ── */
+  .mode-toggle {
+    margin-left: auto;
+    display: flex;
+    gap: 2px;
+    background: rgba(0,0,0,0.07);
+    border-radius: 7px;
+    padding: 3px;
+  }
+  .mode-btn {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    background: none;
+    color: #aaa;
+    transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  }
+  .mode-btn.active { background: #fff; color: #111; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
 
   /* COPY BUTTON */
   .copy-btn {
@@ -233,15 +401,15 @@
     <div class="section-label">Your Details</div>
 
     <div class="field">
-      <label>First Name</label>
+      <label>First Name <span style="color:#e74c3c;">*</span></label>
       <input id="firstName" type="text" placeholder="First" oninput="update()">
     </div>
     <div class="field">
-      <label>Last Name</label>
+      <label>Last Name <span style="color:#e74c3c;">*</span></label>
       <input id="lastName" type="text" placeholder="Last" oninput="update()">
     </div>
     <div class="field">
-      <label>Job Title</label>
+      <label>Job Title <span style="color:#e74c3c;">*</span></label>
       <input id="jobTitle" type="text" placeholder="e.g. Account Manager" oninput="update()">
     </div>
     <div class="field">
@@ -249,7 +417,7 @@
       <input id="phone" type="text" placeholder="(000) 000-0000" oninput="formatPhone(this)">
     </div>
     <div class="field">
-      <label>Email</label>
+      <label>Email <span style="color:#e74c3c;">*</span></label>
       <input id="email" type="text" placeholder="name@clutch.ca" oninput="update()">
     </div>
 
@@ -281,11 +449,175 @@
   <!-- PREVIEW -->
   <div class="preview-panel">
 
-    <div class="preview-label">Preview</div>
-
-    <div class="preview-box">
-      <div id="sigPreview" class="sig-wrap"></div>
+    <!-- Simple preview (live) -->
+    <div id="view-simple" style="display:contents;">
+      <div class="preview-label">Preview</div>
+      <div class="preview-box">
+        <div id="sigPreview" class="sig-wrap"></div>
+      </div>
     </div>
+
+    <!-- Client switcher (?test mode only) -->
+    <div id="view-clients" style="display:none; flex-direction:column; gap:28px;">
+    <div class="preview-tabs">
+      <div class="preview-tab active" id="tab-gmail"      onclick="setClient('gmail')">Gmail</div>
+      <div class="preview-tab"        id="tab-superhuman" onclick="setClient('superhuman')">Superhuman</div>
+      <div class="preview-tab"        id="tab-outlook"    onclick="setClient('outlook')">Outlook</div>
+      <div class="preview-tab"        id="tab-yahoo"      onclick="setClient('yahoo')">Yahoo Mail</div>
+      <div class="mode-toggle">
+        <button class="mode-btn active" id="btn-light" onclick="setMode('light')">Light</button>
+        <button class="mode-btn"        id="btn-dark"  onclick="setMode('dark')">Dark</button>
+      </div>
+    </div>
+
+    <!-- GMAIL -->
+    <div id="view-gmail" class="client-row">
+      <div class="view-col view-col-desktop">
+        <div class="view-label">Desktop</div>
+        <div class="mail-mock gmail-mock">
+          <div class="mock-chrome">
+            <span class="mock-logo">G<span>m</span><em>a</em><strong>i</strong>l</span>
+          </div>
+          <div class="mock-subject" id="gd-subject">test signature</div>
+          <div class="mock-meta"><span id="gd-sender">First Last</span><span>6:41 PM</span></div>
+          <div class="mock-body">
+            <div class="mock-body-text">Hi team, testing my new email signature.</div>
+            <hr class="mock-divider">
+            <div id="sig-gmail-desktop" class="sig-mount"></div>
+          </div>
+        </div>
+      </div>
+      <div class="view-col view-col-mobile">
+        <div class="view-label">Mobile</div>
+        <div class="mail-mock gmail-mock">
+          <div class="mock-chrome">
+            <span class="mock-logo" style="font-size:14px;">G<span>m</span><em>a</em><strong>i</strong>l</span>
+          </div>
+          <div class="mock-subject" id="gm-subject" style="font-size:14px;">test signature</div>
+          <div class="mock-meta"><span id="gm-sender">First Last</span><span>6:41 PM</span></div>
+          <div class="mock-body" style="padding:14px; overflow-x:auto;">
+            <div class="mock-body-text" style="font-size:13px;">Hi team, testing my new email signature.</div>
+            <hr class="mock-divider">
+            <div id="sig-gmail-mobile" class="sig-mount" style="max-width:100%; overflow-x:auto;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUPERHUMAN -->
+    <div id="view-superhuman" class="client-row" style="display:none;">
+      <div class="view-col view-col-desktop">
+        <div class="view-label">Desktop</div>
+        <div class="mail-mock sh-mock" id="sh-desktop">
+          <div class="mock-chrome">
+            <div class="sh-dot" style="background:#ff5f57;"></div>
+            <div class="sh-dot" style="background:#febc2e;"></div>
+            <div class="sh-dot" style="background:#28c840;"></div>
+            <span class="sh-chrome-title">Superhuman</span>
+          </div>
+          <div class="mock-subject" id="shd-subject">test signature</div>
+          <div class="mock-meta"><span id="shd-sender">First Last</span><span>6:41 PM</span></div>
+          <div class="mock-body">
+            <div class="mock-body-text">Hi team, testing my new email signature.</div>
+            <hr class="mock-divider">
+            <div class="sh-sig-bg" id="shd-sig-bg" style="display:inline-block;border-radius:6px;padding:10px;">
+              <div id="sig-sh-desktop" class="sig-mount"></div>
+            </div>
+          </div>
+          <div class="sh-reply-bar">
+            <div class="sh-reply-pill">Reply</div>
+            <div class="sh-reply-pill">Reply All</div>
+            <div class="sh-reply-pill">Forward</div>
+          </div>
+        </div>
+      </div>
+      <div class="view-col view-col-mobile">
+        <div class="view-label">Mobile</div>
+        <div class="mail-mock sh-mock" id="sh-mobile">
+          <div class="mock-chrome" style="padding:8px 12px;">
+            <span class="sh-chrome-title" style="font-size:11px;">Superhuman</span>
+          </div>
+          <div class="mock-subject" id="shm-subject" style="font-size:14px;">test signature</div>
+          <div class="mock-meta"><span id="shm-sender">First Last</span><span>6:41 PM</span></div>
+          <div class="mock-body" style="padding:14px; overflow-x:auto;">
+            <div class="mock-body-text" style="font-size:13px;">Hi team, testing my new email signature.</div>
+            <hr class="mock-divider">
+            <div class="sh-sig-bg" id="shm-sig-bg" style="display:inline-block;border-radius:6px;padding:8px;">
+              <div id="sig-sh-mobile" class="sig-mount" style="max-width:100%; overflow-x:auto;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OUTLOOK -->
+    <div id="view-outlook" class="client-row" style="display:none;">
+      <div class="view-col view-col-desktop">
+        <div class="view-label">Desktop</div>
+        <div class="mail-mock outlook-mock">
+          <div class="mock-chrome">
+            <span class="mock-logo">Outlook</span>
+          </div>
+          <div class="mock-subject" id="od-subject">test signature</div>
+          <div class="mock-meta"><span id="od-sender">First Last</span><span>6:41 PM</span></div>
+          <div class="mock-body">
+            <div class="mock-body-text">Hi team, testing my new email signature.</div>
+            <hr class="mock-divider">
+            <div id="sig-outlook-desktop" class="sig-mount"></div>
+          </div>
+        </div>
+      </div>
+      <div class="view-col view-col-mobile">
+        <div class="view-label">Mobile</div>
+        <div class="mail-mock outlook-mock">
+          <div class="mock-chrome">
+            <span class="mock-logo" style="font-size:12px;">Outlook</span>
+          </div>
+          <div class="mock-subject" id="om-subject" style="font-size:14px;">test signature</div>
+          <div class="mock-meta"><span id="om-sender">First Last</span><span>6:41 PM</span></div>
+          <div class="mock-body" style="padding:14px; overflow-x:auto;">
+            <div class="mock-body-text" style="font-size:13px;">Hi team, testing my new email signature.</div>
+            <hr class="mock-divider">
+            <div id="sig-outlook-mobile" class="sig-mount" style="max-width:100%; overflow-x:auto;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- YAHOO -->
+    <div id="view-yahoo" class="client-row" style="display:none;">
+      <div class="view-col view-col-desktop">
+        <div class="view-label">Desktop</div>
+        <div class="mail-mock yahoo-mock">
+          <div class="mock-chrome">
+            <span class="mock-logo">Yahoo Mail</span>
+          </div>
+          <div class="mock-subject" id="yd-subject">test signature</div>
+          <div class="mock-meta"><span id="yd-sender">First Last</span><span>6:41 PM</span></div>
+          <div class="mock-body">
+            <div class="mock-body-text">Hi team, testing my new email signature.</div>
+            <hr class="mock-divider">
+            <div id="sig-yahoo-desktop" class="sig-mount"></div>
+          </div>
+        </div>
+      </div>
+      <div class="view-col view-col-mobile">
+        <div class="view-label">Mobile</div>
+        <div class="mail-mock yahoo-mock">
+          <div class="mock-chrome">
+            <span class="mock-logo" style="font-size:12px;">Yahoo Mail</span>
+          </div>
+          <div class="mock-subject" id="ym-subject" style="font-size:14px;">test signature</div>
+          <div class="mock-meta"><span id="ym-sender">First Last</span><span>6:41 PM</span></div>
+          <div class="mock-body" style="padding:14px; overflow-x:auto;">
+            <div class="mock-body-text" style="font-size:13px;">Hi team, testing my new email signature.</div>
+            <hr class="mock-divider">
+            <div id="sig-yahoo-mobile" class="sig-mount" style="max-width:100%; overflow-x:auto;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div> <!-- /view-clients -->
 
     <div>
       <button class="open-btn" id="copySignatureBtn" onclick="openSignature()" disabled>
@@ -352,35 +684,58 @@
     const d = getData();
     const social = buildSocialHTML(d.socials, '#777777', '#bbbbbb');
 
+    const darkSocial = buildSocialHTML(d.socials, '#999999', '#555555');
     return `<!-- Clutch Email Signature -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="color-scheme" content="light only">
-<meta name="supported-color-schemes" content="light">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark">
 <style>
-  a { color: inherit !important; text-decoration: none !important; }
+  a { text-decoration: none !important; }
+  @media (prefers-color-scheme: dark) {
+    .sig-wrap  { background-color: transparent !important; }
+    .sig-divider { background-color: #555555 !important; }
+    .sig-name    { color: #ffffff !important; }
+    .sig-title   { color: #cccccc !important; }
+    .sig-contact { color: #999999 !important; }
+    .sig-contact a { color: #999999 !important; }
+    .sig-social a  { color: #999999 !important; }
+    .sig-social .sep { color: #555555 !important; }
+  }
 </style>
 </head>
-<body style="margin:0; padding:0; background:transparent; color-scheme:light only;">
-<table cellpadding="0" cellspacing="0" border="0" bgcolor="ffffff" style="font-family:Arial,Helvetica,sans-serif; color:#000000; background-color:#ffffff;">
+<body style="margin:0; padding:0; background:transparent;">
+<table class="sig-wrap" cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,Helvetica,sans-serif;">
   <tr>
     <td style="padding-right:6px; vertical-align:middle;">
-      <a href="https://clutch.ca" style="text-decoration:none; display:inline-block; color:inherit;">
+      <a href="https://clutch.ca" style="text-decoration:none; display:inline-block;">
         <img src="https://i.imgur.com/RTNSMBt.png" width="115" alt="Clutch" style="display:block;">
       </a>
     </td>
-    <td style="width:1px; padding:0; background-color:#e6e6e6;"></td>
+    <td class="sig-divider" style="width:1px; padding:0; background-color:#e6e6e6;"></td>
     <td style="padding-left:18px; padding-top:10px; padding-bottom:10px; vertical-align:middle;">
-      <div style="font-size:16px; font-weight:700; color:#000000; line-height:1.2;">${d.name}</div>
-      <div style="font-size:13px; font-weight:400; color:#000000; margin-top:1px; line-height:1.15;">${d.title}</div>
+      <div class="sig-name"  style="font-size:16px; font-weight:700; color:#000000; line-height:1.2;">${d.name}</div>
+      <div class="sig-title" style="font-size:13px; font-weight:400; color:#000000; margin-top:1px; line-height:1.15;">${d.title}</div>
       <div style="height:10px;"></div>
-      <div style="font-size:11px; color:#777777; line-height:1.5;">${d.phone}</div>
-      <div style="font-size:11px; color:#777777; line-height:1.5; margin-bottom:8px;">
-        <a href="mailto:${d.email}" style="color:#777777; text-decoration:none;">${d.email}</a>
+      <div class="sig-contact" style="font-size:11px; color:#777777; line-height:1.5;">${d.phone}</div>
+      <div class="sig-contact" style="font-size:11px; color:#777777; line-height:1.5; margin-bottom:8px;">
+        <a href="mailto:${d.email}" class="sig-contact" style="color:#777777; text-decoration:none;">${d.email}</a>
       </div>
-      ${social}
+      <div class="sig-social" style="font-size:11px; color:#777777; line-height:1.5; margin-bottom:8px;">${(() => {
+        const links = [
+          { key: 'li', label: 'LinkedIn' },
+          { key: 'fb', label: 'FB' },
+          { key: 'ig', label: 'IG' },
+          { key: 'yt', label: 'YT' },
+        ].filter(s => d.socials[s.key].on);
+        if (!links.length) return '';
+        return links.map((s, i) => {
+          const sep = i < links.length - 1 ? '<span class="sep" style="padding:0 5px; color:#bbbbbb;">|</span>' : '';
+          return '<a href="' + d.socials[s.key].url + '" class="sig-social" style="color:#777777; text-decoration:none;">' + s.label + '</a>' + sep;
+        }).join('');
+      })()}</div>
       <img src="https://i.imgur.com/KUXzoFI.png" alt="Official Partner of the NBA" width="50" style="display:block;">
     </td>
   </tr>
@@ -389,13 +744,66 @@
 </html>`;
   }
 
+  var currentMode = 'light';
+
+  function buildSigTable(d, social, dark) {
+    var divider = dark ? '#555555' : '#e6e6e6';
+    var name    = dark ? '#ffffff' : '#000000';
+    var title   = dark ? '#cccccc' : '#000000';
+    var contact = dark ? '#999999' : '#777777';
+    var socialHTML = dark ? buildSocialHTML(d.socials, '#999999', '#555555') : social;
+    return `<table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,Helvetica,sans-serif;">
+  <tr>
+    <td style="padding-right:6px;vertical-align:middle;">
+      <img src="https://i.imgur.com/RTNSMBt.png" width="115" alt="Clutch" style="display:block;">
+    </td>
+    <td style="width:1px;padding:0;background:${divider};"></td>
+    <td style="padding-left:18px;padding-top:10px;padding-bottom:10px;vertical-align:middle;">
+      <div style="font-size:16px;font-weight:700;color:${name};line-height:1.2;">${d.name}</div>
+      <div style="font-size:13px;color:${title};margin-top:1px;line-height:1.15;">${d.title}</div>
+      <div style="height:10px;"></div>
+      <div style="font-size:11px;color:${contact};line-height:1.5;">${d.phone}</div>
+      <div style="font-size:11px;color:${contact};line-height:1.5;margin-bottom:8px;">
+        <a href="mailto:${d.email}" style="color:${contact};text-decoration:none;">${d.email}</a>
+      </div>
+      ${socialHTML}
+      <img src="https://i.imgur.com/KUXzoFI.png" alt="Official Partner of the NBA" width="50" style="display:block;">
+    </td>
+  </tr>
+</table>`;
+  }
+
+  function setMode(mode) {
+    currentMode = mode;
+    var isDark = mode === 'dark';
+    document.getElementById('btn-light').classList.toggle('active', !isDark);
+    document.getElementById('btn-dark').classList.toggle('active',  isDark);
+    document.querySelectorAll('.mail-mock').forEach(el => {
+      el.classList.toggle('dark', isDark);
+    });
+    // Re-render client mocks
+    var d = getData();
+    var social = buildSocialHTML(d.socials, '#777777', '#bbbbbb');
+    var sig = buildSigTable(d, social, isDark);
+    ['sig-gmail-desktop','sig-gmail-mobile','sig-sh-desktop','sig-sh-mobile','sig-outlook-desktop','sig-outlook-mobile','sig-yahoo-desktop','sig-yahoo-mobile'].forEach(id => {
+      var el = document.getElementById(id);
+      if (el) el.innerHTML = sig;
+    });
+  }
+
+  function setClient(name) {
+    ['gmail','superhuman','outlook','yahoo'].forEach(c => {
+      document.getElementById('view-' + c).style.display = c === name ? '' : 'none';
+      document.getElementById('tab-' + c).classList.toggle('active', c === name);
+    });
+  }
+
   function isComplete() {
     const first = document.getElementById('firstName').value.trim();
     const last  = document.getElementById('lastName').value.trim();
     const title = document.getElementById('jobTitle').value.trim();
-    const phone = document.getElementById('phone').value.trim();
     const email = document.getElementById('email').value.trim();
-    return first && last && title && phone && email;
+    return first && last && title && email;
   }
 
   function update() {
@@ -429,6 +837,23 @@
           </td>
         </tr>
       </table>`;
+
+    var isDark = currentMode === 'dark';
+    // Client mocks respect current mode
+    var modeSig = buildSigTable(d, social, isDark);
+    ['sig-gmail-desktop','sig-gmail-mobile','sig-sh-desktop','sig-sh-mobile','sig-outlook-desktop','sig-outlook-mobile','sig-yahoo-desktop','sig-yahoo-mobile'].forEach(id => {
+      var el = document.getElementById(id);
+      if (el) el.innerHTML = modeSig;
+    });
+
+    // Update sender name in all mocks
+    var subjectText = d.name + ' tests email signature';
+    ['gd','gm','shd','shm','od','om','yd','ym'].forEach(prefix => {
+      var s = document.getElementById(prefix + '-sender');
+      if (s) s.textContent = d.name;
+      var sub = document.getElementById(prefix + '-subject');
+      if (sub) sub.textContent = 'test signature';
+    });
   }
 
   function toggleSocial(key) {
@@ -454,7 +879,7 @@
       const el = document.createElement('div');
       el.contentEditable = 'true';
       el.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;overflow:hidden;background:#ffffff;';
-      el.innerHTML = document.getElementById('sigPreview').innerHTML;
+      el.innerHTML = document.getElementById('sig-gmail-desktop').innerHTML;
       document.body.appendChild(el);
       const range = document.createRange();
       range.selectNodeContents(el);
@@ -495,6 +920,12 @@
     });
   }
 
+  var testMode = new URLSearchParams(window.location.search).has('test');
+  if (testMode) {
+    document.querySelectorAll('#view-simple > *').forEach(el => el.style.display = 'none');
+    document.getElementById('view-clients').style.display = 'flex';
+    setClient('gmail');
+  }
   update();
 </script>
 </body>
