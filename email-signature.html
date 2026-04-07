@@ -417,6 +417,13 @@
       <input id="phone" type="text" placeholder="(000) 000-0000" oninput="formatPhone(this)">
     </div>
     <div class="field">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:5px;">
+        <label style="margin-bottom:0;">Pronouns <span style="color:#999; font-weight:400;">(optional)</span></label>
+        <label class="toggle"><input type="checkbox" id="toggle-pronouns" checked onchange="update()"><span class="toggle-slider"></span></label>
+      </div>
+      <input id="pronouns" type="text" placeholder="e.g. she/her, he/him, they/them" oninput="update()">
+    </div>
+    <div class="field">
       <label>Email <span style="color:#e74c3c;">*</span></label>
       <input id="email" type="text" placeholder="name@clutch.ca" oninput="update()">
     </div>
@@ -649,6 +656,7 @@
     const last  = document.getElementById('lastName').value.trim();
     return {
       name:   (first || last) ? `${first} ${last}`.trim() : 'First Last',
+      pronouns: document.getElementById('toggle-pronouns').checked ? document.getElementById('pronouns').value.trim() : '',
       title:  document.getElementById('jobTitle').value.trim() || 'Job Title',
       phone:  document.getElementById('phone').value.trim(),
       email:  document.getElementById('email').value.trim()    || 'name@clutch.ca',
@@ -716,7 +724,7 @@
     </td>
     <td class="sig-divider" style="width:1px; padding:0; background-color:#e6e6e6;"></td>
     <td style="padding-left:18px; padding-top:10px; padding-bottom:10px; vertical-align:middle;">
-      <div class="sig-name"  style="font-size:16px; font-weight:700; color:#000000; line-height:1.2;">${d.name}</div>
+      <div class="sig-name"  style="font-size:16px; font-weight:700; color:#000000; line-height:1.2;">${d.name}${d.pronouns ? `<span style="font-size:11px; font-weight:400; color:#999999; margin-left:6px;">(${d.pronouns})</span>` : ''}</div>
       <div class="sig-title" style="font-size:13px; font-weight:400; color:#000000; margin-top:1px; line-height:1.15;">${d.title}</div>
       <div style="height:10px;"></div>
       ${d.phone ? `<div class="sig-contact" style="font-size:11px; color:#777777; line-height:1.5;">${d.phone}</div>` : ''}
@@ -759,7 +767,7 @@
     </td>
     <td style="width:1px;padding:0;background:${divider};"></td>
     <td style="padding-left:18px;padding-top:10px;padding-bottom:10px;vertical-align:middle;">
-      <div style="font-size:16px;font-weight:700;color:${name};line-height:1.2;">${d.name}</div>
+      <div style="font-size:16px;font-weight:700;color:${name};line-height:1.2;">${d.name}${d.pronouns ? `<span style="font-size:11px; font-weight:400; color:${name}; opacity:0.6; margin-left:6px;">(${d.pronouns})</span>` : ''}</div>
       <div style="font-size:13px;color:${title};margin-top:1px;line-height:1.15;">${d.title}</div>
       <div style="height:10px;"></div>
       ${d.phone ? `<div style="font-size:11px;color:${contact};line-height:1.5;">${d.phone}</div>` : ''}
@@ -825,7 +833,7 @@
           </td>
           <td style="width:1px; padding:0; background-color:#e6e6e6;"></td>
           <td style="padding-left:18px; padding-top:10px; padding-bottom:10px; vertical-align:middle;">
-            <div style="font-size:16px; font-weight:700; color:#000000; line-height:1.2;">${d.name}</div>
+            <div style="font-size:16px; font-weight:700; color:#000000; line-height:1.2;">${d.name}${d.pronouns ? `<span style="font-size:11px; font-weight:400; color:#999999; margin-left:6px;">(${d.pronouns})</span>` : ''}</div>
             <div style="font-size:13px; font-weight:400; color:#000000; margin-top:1px; line-height:1.15;">${d.title}</div>
             <div style="height:10px;"></div>
             ${d.phone ? `<div style="font-size:11px; color:#777777; line-height:1.5;">${d.phone}</div>` : ''}
