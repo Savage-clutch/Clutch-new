@@ -191,8 +191,9 @@
     transition: background 0.15s, transform 0.1s;
     width: fit-content;
   }
-  .open-btn:hover { background: #333; }
-  .open-btn:active { transform: scale(0.97); }
+  .open-btn:hover:not(:disabled) { background: #333; }
+  .open-btn:active:not(:disabled) { transform: scale(0.97); }
+  .open-btn:disabled { background: #ccc; cursor: not-allowed; opacity: 0.6; }
 
   .copy-hint {
     font-size: 12px;
@@ -225,6 +226,10 @@
   <!-- FORM -->
   <div class="form-panel">
 
+    <div id="fillWarning" style="background:#fff8ec; border:1px solid #f0d080; border-radius:7px; padding:10px 12px; margin-bottom:18px; font-size:12px; color:#7a5500; line-height:1.5;">
+      ⚠ Fill in your details before copying — placeholder text will appear in the signature if any field is left blank.
+    </div>
+
     <div class="section-label">Your Details</div>
 
     <div class="field">
@@ -246,7 +251,6 @@
     <div class="field">
       <label>Email</label>
       <input id="email" type="text" placeholder="name@clutch.ca" oninput="update()">
-      <div style="margin-top:5px; font-size:11px; color:#cc6600; line-height:1.4;">⚠ Fill this in — if left blank, clicking the email address in the signature will link to <strong>name@clutch.ca</strong></div>
     </div>
 
     <div class="section-label">Social Links</div>
@@ -284,7 +288,7 @@
     </div>
 
     <div>
-      <button class="open-btn" onclick="openSignature()">
+      <button class="open-btn" id="copySignatureBtn" onclick="openSignature()" disabled>
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
         Copy Signature
       </button>
@@ -385,8 +389,22 @@
 </html>`;
   }
 
+  function isComplete() {
+    const first = document.getElementById('firstName').value.trim();
+    const last  = document.getElementById('lastName').value.trim();
+    const title = document.getElementById('jobTitle').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const email = document.getElementById('email').value.trim();
+    return first && last && title && phone && email;
+  }
+
   function update() {
     const d = getData();
+    const complete = isComplete();
+    const btn = document.getElementById('copySignatureBtn');
+    const warning = document.getElementById('fillWarning');
+    btn.disabled = !complete;
+    warning.style.display = complete ? 'none' : '';
     const social = buildSocialHTML(d.socials, '#777777', '#bbbbbb');
 
     document.getElementById('sigPreview').innerHTML = `
