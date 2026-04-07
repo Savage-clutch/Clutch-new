@@ -1705,9 +1705,11 @@
       align-items: center;
     }
     .td-label {
-      position: relative;
+      position: absolute;
       z-index: 3;
-      margin-top: 28px;
+      bottom: 200px;
+      left: 0; right: 0;
+      text-align: center;
       font-size: 15px;
       font-weight: 400;
       color: var(--dim);
@@ -1719,15 +1721,15 @@
       display: flex;
       align-items: flex-end;
       justify-content: center;
-      padding-bottom: 100px;
+      padding-bottom: 94px;
       z-index: 1;
     }
     .td-odometer {
       display: inline-flex;
       line-height: 1;
-      font-size: 150px;
+      font-size: 110px;
       font-weight: 800;
-      letter-spacing: -8px;
+      letter-spacing: -6px;
       font-family: 'CircularXX', sans-serif;
     }
     .td-odometer__window {
@@ -1957,7 +1959,7 @@
           </div>
         </div>
         <div class="td-car-wrap">
-          <canvas id="td-spin-canvas" style="position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:100%; height:100%; object-fit:contain;"></canvas>
+          <canvas id="td-spin-canvas" style="position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:100%; height:100%;"></canvas>
         </div>
       </div>
       <div class="td-dots">
@@ -2459,7 +2461,7 @@
       var canvas = document.getElementById('td-spin-canvas');
       var ctx    = canvas.getContext('2d');
       var current = 0;
-      var FPS = 14;
+      var FPS = 24;
       var frameIndex = 0;
       var rafId = null;
       var lastTime = 0;
@@ -2484,10 +2486,17 @@
       function drawFrame(idx) {
         var img = images[idx];
         if (!img || !img.complete || !img.naturalWidth) return;
-        canvas.width  = img.naturalWidth;
-        canvas.height = img.naturalHeight;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 0, 0);
+        var cw = canvas.clientWidth;
+        var ch = canvas.clientHeight;
+        if (canvas.width !== cw) canvas.width = cw;
+        if (canvas.height !== ch) canvas.height = ch;
+        var scale = Math.min(cw / img.naturalWidth, ch / img.naturalHeight);
+        var dw = img.naturalWidth * scale;
+        var dh = img.naturalHeight * scale;
+        var dx = (cw - dw) / 2;
+        var dy = ch - dh; // pin to bottom
+        ctx.clearRect(0, 0, cw, ch);
+        ctx.drawImage(img, dx, dy, dw, dh);
       }
 
       function setDot(i) { dots.forEach(function(d,j){ d.classList.toggle('active', j===i); }); }
