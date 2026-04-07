@@ -440,6 +440,7 @@
     width: fit-content;
   }
   .open-btn:hover:not(:disabled) { background: #333; }
+  #copyHubspotBtn:hover:not(:disabled) { background: #e06010; }
   .open-btn:active:not(:disabled) { transform: scale(0.97); }
   .open-btn:disabled { background: #ccc; cursor: not-allowed; opacity: 0.6; }
 
@@ -725,11 +726,17 @@
     </div> <!-- /view-clients -->
 
     <div>
-      <button class="open-btn" id="copySignatureBtn" onclick="openSignature()" disabled>
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        Copy Signature
-      </button>
-      <div class="copy-hint">Copies your signature — paste directly into your email client's signature settings</div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="open-btn" id="copySignatureBtn" onclick="openSignature()" disabled>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy for Gmail
+        </button>
+        <button class="open-btn" id="copyHubspotBtn" onclick="copyHubspot()" disabled style="background:#f57722;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy for HubSpot
+        </button>
+      </div>
+      <div class="copy-hint">Gmail: paste into signature settings &nbsp;·&nbsp; HubSpot: switch to <strong>HTML</strong> tab, then paste</div>
       <span class="html-link" id="copyBtn" onclick="copyHTML()">Copy HTML (for developers)</span>
     </div>
 
@@ -921,8 +928,10 @@
     const d = getData();
     const complete = isComplete();
     const btn = document.getElementById('copySignatureBtn');
+    const hubspotBtn = document.getElementById('copyHubspotBtn');
     const warning = document.getElementById('fillWarning');
     btn.disabled = !complete;
+    hubspotBtn.disabled = !complete;
     warning.style.display = complete ? 'none' : '';
     const social = buildSocialHTML(d.socials, '#777777', '#bbbbbb');
 
@@ -1016,6 +1025,20 @@
     navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([html], { type: 'text/html' }) })])
       .then(success)
       .catch(() => alert('Copy failed — please use "Copy HTML" below and paste into your email client manually.'));
+  }
+
+  function copyHubspot() {
+    const d = getData();
+    const social = buildSocialHTML(d.socials, '#777777', '#bbbbbb');
+    // HubSpot rejects <style>, <script>, <html>, <head>, <body> — just the bare table
+    const html = buildSigTable(d, social, false);
+    const btn = document.getElementById('copyHubspotBtn');
+    const original = btn.innerHTML;
+    navigator.clipboard.writeText(html).then(() => {
+      btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
+      btn.style.background = '#2a7a2a';
+      setTimeout(() => { btn.innerHTML = original; btn.style.background = '#f57722'; }, 2500);
+    });
   }
 
   function copyHTML() {
