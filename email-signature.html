@@ -494,7 +494,7 @@
     </div>
     <div class="field">
       <label>Phone</label>
-      <input id="phone" type="text" placeholder="(000) 000-0000" oninput="formatPhone(this)">
+      <input id="phone" type="text" placeholder="(000) 000-0000 or +1 000 000 0000" oninput="formatPhone(this)">
     </div>
     <div class="field">
       <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:5px;">
@@ -738,13 +738,18 @@
 
 <script>
   function formatPhone(input) {
-    const cursor = input.selectionStart;
-    const prev = input.value;
-    const digits = prev.replace(/\D/g, '').slice(0, 10);
+    const val = input.value;
+    // If it starts with + or has more than 10 digits, treat as international — don't reformat
+    const digits = val.replace(/\D/g, '');
+    if (val.trim().startsWith('+') || digits.length > 10) {
+      update();
+      return;
+    }
+    const d = digits.slice(0, 10);
     let formatted = '';
-    if (digits.length > 0) formatted = '(' + digits.slice(0, 3);
-    if (digits.length >= 4) formatted += ') ' + digits.slice(3, 6);
-    if (digits.length >= 7) formatted += '-' + digits.slice(6, 10);
+    if (d.length > 0) formatted = '(' + d.slice(0, 3);
+    if (d.length >= 4) formatted += ') ' + d.slice(3, 6);
+    if (d.length >= 7) formatted += '-' + d.slice(6, 10);
     input.value = formatted;
     update();
   }
