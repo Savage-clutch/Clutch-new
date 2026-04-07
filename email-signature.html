@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clutch Email Signature Generator</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f5f5f5;
+    color: #111;
+    min-height: 100vh;
+  }
+
+  header {
+    background: #111;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  header img { height: 28px; }
+  header span {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 0;
+    min-height: calc(100vh - 60px);
+  }
+
+  /* FORM PANEL */
+  .form-panel {
+    background: #fff;
+    border-right: 1px solid #e8e8e8;
+    padding: 28px 24px;
+    overflow-y: auto;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 14px;
+    margin-top: 24px;
+  }
+  .section-label:first-child { margin-top: 0; }
+
+  .field { margin-bottom: 12px; }
+  .field label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  .field input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #111;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .field input:focus { border-color: #111; }
+  .field input::placeholder { color: #bbb; }
+
+  /* SOCIAL TOGGLES */
+  .social-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .toggle {
+    position: relative;
+    width: 36px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: #ddd;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .toggle-slider:before {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    left: 3px;
+    top: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.2s;
+  }
+  .toggle input:checked + .toggle-slider { background: #111; }
+  .toggle input:checked + .toggle-slider:before { transform: translateX(16px); }
+
+  .social-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #555;
+    width: 60px;
+    flex-shrink: 0;
+  }
+  .social-row input {
+    flex: 1;
+    padding: 7px 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 12px;
+    color: #111;
+    outline: none;
+    transition: border-color 0.15s, opacity 0.2s;
+  }
+  .social-row input:focus { border-color: #111; }
+  .social-row input:disabled { opacity: 0.35; background: #fafafa; }
+
+  /* PREVIEW PANEL */
+  .preview-panel {
+    padding: 36px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .preview-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #999;
+  }
+
+  .preview-box {
+    border-radius: 10px;
+    padding: 32px;
+    display: inline-block;
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+  }
+
+  /* COPY BUTTON */
+  .copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #111;
+    color: #fff;
+    border: none;
+    padding: 11px 22px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    width: fit-content;
+  }
+  .copy-btn:hover { background: #333; }
+  .copy-btn:active { transform: scale(0.97); }
+  .copy-btn.copied { background: #2a7a2a; }
+
+  .open-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #111;
+    color: #fff;
+    border: none;
+    padding: 11px 22px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    width: fit-content;
+  }
+  .open-btn:hover { background: #333; }
+  .open-btn:active { transform: scale(0.97); }
+
+  .copy-hint {
+    font-size: 12px;
+    color: #999;
+    margin-top: 6px;
+  }
+
+  .html-link {
+    font-size: 12px;
+    color: #999;
+    margin-top: 10px;
+    cursor: pointer;
+    text-decoration: underline;
+    display: inline-block;
+  }
+  .html-link:hover { color: #555; }
+
+  .sig-wrap table { border-collapse: collapse; }
+</style>
+</head>
+<body>
+
+<header>
+  <img src="https://i.imgur.com/RTNSMBt.png" alt="Clutch">
+  <span>Email Signature Generator</span>
+</header>
+
+<div class="layout">
+
+  <!-- FORM -->
+  <div class="form-panel">
+
+    <div class="section-label">Your Details</div>
+
+    <div class="field">
+      <label>First Name</label>
+      <input id="firstName" type="text" placeholder="First" oninput="update()">
+    </div>
+    <div class="field">
+      <label>Last Name</label>
+      <input id="lastName" type="text" placeholder="Last" oninput="update()">
+    </div>
+    <div class="field">
+      <label>Job Title</label>
+      <input id="jobTitle" type="text" placeholder="e.g. Account Manager" oninput="update()">
+    </div>
+    <div class="field">
+      <label>Phone</label>
+      <input id="phone" type="text" placeholder="(000) 000-0000" oninput="formatPhone(this)">
+    </div>
+    <div class="field">
+      <label>Email</label>
+      <input id="email" type="text" placeholder="name@clutch.ca" oninput="update()">
+      <div style="margin-top:5px; font-size:11px; color:#cc6600; line-height:1.4;">⚠ Fill this in — if left blank, clicking the email address in the signature will link to <strong>name@clutch.ca</strong></div>
+    </div>
+
+    <div class="section-label">Social Links</div>
+
+    <div class="social-row">
+      <label class="toggle"><input type="checkbox" id="toggle-li" checked onchange="toggleSocial('li')"><span class="toggle-slider"></span></label>
+      <span class="social-label">LinkedIn</span>
+      <input id="url-li" type="text" value="https://www.linkedin.com/company/clutch-canada/" oninput="update()">
+    </div>
+    <div class="social-row">
+      <label class="toggle"><input type="checkbox" id="toggle-fb" checked onchange="toggleSocial('fb')"><span class="toggle-slider"></span></label>
+      <span class="social-label">Facebook</span>
+      <input id="url-fb" type="text" value="https://www.facebook.com/clutchcanada/" oninput="update()">
+    </div>
+    <div class="social-row">
+      <label class="toggle"><input type="checkbox" id="toggle-ig" checked onchange="toggleSocial('ig')"><span class="toggle-slider"></span></label>
+      <span class="social-label">Instagram</span>
+      <input id="url-ig" type="text" value="https://www.instagram.com/clutch.ca/" oninput="update()">
+    </div>
+    <div class="social-row">
+      <label class="toggle"><input type="checkbox" id="toggle-yt" checked onchange="toggleSocial('yt')"><span class="toggle-slider"></span></label>
+      <span class="social-label">YouTube</span>
+      <input id="url-yt" type="text" value="https://www.youtube.com/clutchcanada" oninput="update()">
+    </div>
+
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="preview-panel">
+
+    <div class="preview-label">Preview</div>
+
+    <div class="preview-box">
+      <div id="sigPreview" class="sig-wrap"></div>
+    </div>
+
+    <div>
+      <button class="open-btn" onclick="openSignature()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy Signature
+      </button>
+      <div class="copy-hint">Copies your signature — paste directly into your email client's signature settings</div>
+      <span class="html-link" id="copyBtn" onclick="copyHTML()">Copy HTML (for developers)</span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function formatPhone(input) {
+    const cursor = input.selectionStart;
+    const prev = input.value;
+    const digits = prev.replace(/\D/g, '').slice(0, 10);
+    let formatted = '';
+    if (digits.length > 0) formatted = '(' + digits.slice(0, 3);
+    if (digits.length >= 4) formatted += ') ' + digits.slice(3, 6);
+    if (digits.length >= 7) formatted += '-' + digits.slice(6, 10);
+    input.value = formatted;
+    update();
+  }
+
+  function getData() {
+    const first = document.getElementById('firstName').value.trim();
+    const last  = document.getElementById('lastName').value.trim();
+    return {
+      name:   (first || last) ? `${first} ${last}`.trim() : 'First Last',
+      title:  document.getElementById('jobTitle').value.trim() || 'Job Title',
+      phone:  document.getElementById('phone').value.trim()    || '(000) 000-0000',
+      email:  document.getElementById('email').value.trim()    || 'name@clutch.ca',
+      socials: {
+        li: { on: document.getElementById('toggle-li').checked, url: document.getElementById('url-li').value.trim() },
+        fb: { on: document.getElementById('toggle-fb').checked, url: document.getElementById('url-fb').value.trim() },
+        ig: { on: document.getElementById('toggle-ig').checked, url: document.getElementById('url-ig').value.trim() },
+        yt: { on: document.getElementById('toggle-yt').checked, url: document.getElementById('url-yt').value.trim() },
+      }
+    };
+  }
+
+  function buildSocialHTML(socials, linkColor, sepColor) {
+    const links = [
+      { key: 'li', label: 'LinkedIn' },
+      { key: 'fb', label: 'FB' },
+      { key: 'ig', label: 'IG' },
+      { key: 'yt', label: 'YT' },
+    ].filter(s => socials[s.key].on);
+
+    if (!links.length) return '';
+
+    const parts = links.map((s, i) => {
+      const sep = i < links.length - 1
+        ? `<span style="padding:0 5px; color:${sepColor};">|</span>` : '';
+      return `<a href="${socials[s.key].url}" style="color:${linkColor}; text-decoration:none;">${s.label}</a>${sep}`;
+    }).join('');
+
+    return `<div style="font-size:11px; color:${linkColor}; line-height:1.5; margin-bottom:8px;">${parts}</div>`;
+  }
+
+  function generateHTML() {
+    const d = getData();
+    const social = buildSocialHTML(d.socials, '#777777', '#bbbbbb');
+
+    return `<!-- Clutch Email Signature -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light only">
+<meta name="supported-color-schemes" content="light">
+<style>
+  a { color: inherit !important; text-decoration: none !important; }
+</style>
+</head>
+<body style="margin:0; padding:0; background:transparent; color-scheme:light only;">
+<table cellpadding="0" cellspacing="0" border="0" bgcolor="ffffff" style="font-family:Arial,Helvetica,sans-serif; color:#000000; background-color:#ffffff;">
+  <tr>
+    <td style="padding-right:6px; vertical-align:middle;">
+      <a href="https://clutch.ca" style="text-decoration:none; display:inline-block; color:inherit;">
+        <img src="https://i.imgur.com/RTNSMBt.png" width="115" alt="Clutch" style="display:block;">
+      </a>
+    </td>
+    <td style="width:1px; padding:0; background-color:#e6e6e6;"></td>
+    <td style="padding-left:18px; padding-top:10px; padding-bottom:10px; vertical-align:middle;">
+      <div style="font-size:16px; font-weight:700; color:#000000; line-height:1.2;">${d.name}</div>
+      <div style="font-size:13px; font-weight:400; color:#000000; margin-top:1px; line-height:1.15;">${d.title}</div>
+      <div style="height:10px;"></div>
+      <div style="font-size:11px; color:#777777; line-height:1.5;">${d.phone}</div>
+      <div style="font-size:11px; color:#777777; line-height:1.5; margin-bottom:8px;">
+        <a href="mailto:${d.email}" style="color:#777777; text-decoration:none;">${d.email}</a>
+      </div>
+      ${social}
+      <img src="https://i.imgur.com/KUXzoFI.png" alt="Official Partner of the NBA" width="50" style="display:block;">
+    </td>
+  </tr>
+</table>
+</body>
+</html>`;
+  }
+
+  function update() {
+    const d = getData();
+    const social = buildSocialHTML(d.socials, '#777777', '#bbbbbb');
+
+    document.getElementById('sigPreview').innerHTML = `
+      <table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,Helvetica,sans-serif;">
+        <tr>
+          <td style="padding-right:6px; vertical-align:middle;">
+            <a href="https://clutch.ca" style="text-decoration:none; display:inline-block;">
+              <img src="https://i.imgur.com/RTNSMBt.png" width="115" alt="Clutch" style="display:block;">
+            </a>
+          </td>
+          <td style="width:1px; padding:0; background-color:#e6e6e6;"></td>
+          <td style="padding-left:18px; padding-top:10px; padding-bottom:10px; vertical-align:middle;">
+            <div style="font-size:16px; font-weight:700; color:#000000; line-height:1.2;">${d.name}</div>
+            <div style="font-size:13px; font-weight:400; color:#000000; margin-top:1px; line-height:1.15;">${d.title}</div>
+            <div style="height:10px;"></div>
+            <div style="font-size:11px; color:#777777; line-height:1.5;">${d.phone}</div>
+            <div style="font-size:11px; color:#777777; line-height:1.5; margin-bottom:8px;">
+              <a href="mailto:${d.email}" style="color:#777777; text-decoration:none;">${d.email}</a>
+            </div>
+            ${social}
+            <img src="https://i.imgur.com/KUXzoFI.png" alt="Official Partner of the NBA" width="50" style="display:block;">
+          </td>
+        </tr>
+      </table>`;
+  }
+
+  function toggleSocial(key) {
+    const on = document.getElementById(`toggle-${key}`).checked;
+    document.getElementById(`url-${key}`).disabled = !on;
+    update();
+  }
+
+  function openSignature() {
+    const html = generateHTML();
+    const btn = document.querySelector('.open-btn');
+    const original = btn.innerHTML;
+
+    const success = () => {
+      btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
+      btn.style.background = '#2a7a2a';
+      setTimeout(() => { btn.innerHTML = original; btn.style.background = ''; }, 2500);
+    };
+
+    // Step 1: execCommand synchronously (preserves user gesture, works in iframes)
+    let execOk = false;
+    try {
+      const el = document.createElement('div');
+      el.contentEditable = 'true';
+      el.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;overflow:hidden;background:#ffffff;';
+      el.innerHTML = document.getElementById('sigPreview').innerHTML;
+      document.body.appendChild(el);
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      execOk = document.execCommand('copy');
+      sel.removeAllRanges();
+      document.body.removeChild(el);
+    } catch (e) {}
+
+    if (execOk) {
+      success();
+      // Also push rich HTML to clipboard async for better fidelity in modern clients
+      try {
+        const blob = new Blob([html], { type: 'text/html' });
+        navigator.clipboard.write([new ClipboardItem({ 'text/html': blob })]).catch(() => {});
+      } catch (e) {}
+      return;
+    }
+
+    // Step 2: async clipboard only (modern browsers outside iframes)
+    navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([html], { type: 'text/html' }) })])
+      .then(success)
+      .catch(() => alert('Copy failed — please use "Copy HTML" below and paste into your email client manually.'));
+  }
+
+  function copyHTML() {
+    const html = generateHTML();
+    navigator.clipboard.writeText(html).then(() => {
+      const btn = document.getElementById('copyBtn');
+      btn.classList.add('copied');
+      btn.innerHTML = `Copied!`;
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = `Copy HTML (for developers)`;
+      }, 2500);
+    });
+  }
+
+  update();
+</script>
+</body>
+</html>
