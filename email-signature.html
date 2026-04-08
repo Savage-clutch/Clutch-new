@@ -461,6 +461,18 @@
   .html-link:hover { color: #555; }
 
   .sig-wrap table { border-collapse: collapse; }
+
+  .field input.field-error {
+    border-color: #e74c3c;
+    background: #fff5f5;
+    animation: fieldShake 0.35s ease;
+  }
+  @keyframes fieldShake {
+    0%,100% { transform: translateX(0); }
+    20%      { transform: translateX(-5px); }
+    60%      { transform: translateX(5px); }
+    80%      { transform: translateX(-3px); }
+  }
 </style>
 </head>
 <body>
@@ -720,14 +732,18 @@
 
     <div>
       <div style="display:flex; gap:10px; flex-wrap:wrap;">
-        <button class="open-btn" id="copySignatureBtn" onclick="openSignature()" disabled>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          Copy for Gmail
-        </button>
-        <button class="open-btn" id="copyHubspotBtn" onclick="copyHubspot()" disabled style="background:#f57722;">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          Copy for HubSpot
-        </button>
+        <div onclick="document.getElementById('copySignatureBtn').disabled && promptFillIn()">
+          <button class="open-btn" id="copySignatureBtn" onclick="openSignature()" disabled>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copy for Gmail
+          </button>
+        </div>
+        <div onclick="document.getElementById('copyHubspotBtn').disabled && promptFillIn()">
+          <button class="open-btn" id="copyHubspotBtn" onclick="copyHubspot()" disabled style="background:#f57722;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copy for HubSpot
+          </button>
+        </div>
       </div>
       <div class="copy-hint">Gmail: paste into signature settings &nbsp;·&nbsp; HubSpot: switch to <strong>HTML</strong> tab, then paste</div>
       <span class="html-link" id="copyBtn" onclick="copyHTML()">Copy HTML (for developers)</span>
@@ -966,6 +982,24 @@
       var sub = document.getElementById(prefix + '-subject');
       if (sub) sub.textContent = 'test signature';
     });
+  }
+
+  function promptFillIn() {
+    const requiredIds = ['firstName', 'lastName', 'jobTitle', 'email'];
+    const formPanel = document.querySelector('.form-panel');
+    formPanel.scrollTop = 0;
+    var firstEmpty = null;
+    requiredIds.forEach(function(id) {
+      var el = document.getElementById(id);
+      if (!el.value.trim()) {
+        el.classList.remove('field-error');
+        void el.offsetWidth; // restart animation
+        el.classList.add('field-error');
+        setTimeout(function() { el.classList.remove('field-error'); }, 1500);
+        if (!firstEmpty) firstEmpty = el;
+      }
+    });
+    if (firstEmpty) firstEmpty.focus();
   }
 
   function toggleSocial(key) {
