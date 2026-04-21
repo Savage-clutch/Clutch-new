@@ -271,11 +271,45 @@
       function setDot(i) { dots.forEach(function(d,j){ d.classList.toggle('active', j===i); }); }
 
       var wrapping = false;
+      var testPausing = false;
+      var PAUSE_FRAME = 36; // frame where car is under the building — tune if needed
 
       function showStep(i) {
         current = i;
         setDot(i);
         strip.style.transform = 'translateY(-' + i + 'em)';
+      }
+
+      function doTestTick() {
+        testPausing = true;
+        cancelAnimationFrame(rafId);
+        var next = (current + 1) % 3;
+        if (next === 0 && !wrapping) {
+          wrapping = true;
+          strip.style.transform = 'translateY(-3em)';
+          setTimeout(function() {
+            strip.style.transition = 'none';
+            strip.style.transform = 'translateY(0)';
+            current = 0;
+            setDot(0);
+            requestAnimationFrame(function() {
+              requestAnimationFrame(function() {
+                strip.style.transition = '';
+                wrapping = false;
+                testPausing = false;
+                lastTime = 0;
+                rafId = requestAnimationFrame(animate);
+              });
+            });
+          }, 520);
+        } else if (!wrapping) {
+          showStep(next);
+          setTimeout(function() {
+            testPausing = false;
+            lastTime = 0;
+            rafId = requestAnimationFrame(animate);
+          }, 1500);
+        }
       }
 
       function animate(ts) {
@@ -285,28 +319,10 @@
         drawFrame(frameIndex);
         frameIndex++;
         if (frameIndex >= images.length) {
-          frameIndex = 0;
-          var next = (current + 1) % 3;
-          if (next === 0 && !wrapping) {
-            // Animate forward to the duplicate #1 at position 3, then snap back
-            wrapping = true;
-            strip.style.transform = 'translateY(-3em)';
-            setTimeout(function() {
-              strip.style.transition = 'none';
-              strip.style.transform = 'translateY(0)';
-              current = 0;
-              setDot(0);
-              // Re-enable transition after reflow
-              requestAnimationFrame(function() {
-                requestAnimationFrame(function() {
-                  strip.style.transition = '';
-                  wrapping = false;
-                });
-              });
-            }, 520);
-          } else if (!wrapping) {
-            showStep(next);
-          }
+          frameIndex = 0; // silent loop reset — number tick happens at PAUSE_FRAME
+        }
+        if (!testPausing && frameIndex === PAUSE_FRAME) {
+          doTestTick();
         }
       }
 
@@ -327,53 +343,46 @@
       obs.observe(stage);
     })();
 
-    // Photo carousel — CSS scroll snap
+    // Photo carousel — continuous infinite scroll
     (function() {
-      var wrap     = document.getElementById('v3-photo-wrap');
-      var prevBtn  = document.getElementById('v3-photo-prev');
-      var nextBtn  = document.getElementById('v3-photo-next');
-      if (!wrap) return;
-      var slides = Array.from(wrap.querySelectorAll('.photo-carousel__slide'));
+      var wrap  = document.getElementById('v3-photo-wrap');
+      var track = document.getElementById('v3-photo-track');
+      if (!wrap || !track) return;
 
-      function gutter() {
-        return parseFloat(getComputedStyle(wrap).paddingLeft) || 0;
+      var slides = Array.from(track.querySelectorAll('.photo-carousel__slide'));
+      var count  = slides.length;
+
+      // Clone all slides for seamless loop
+      slides.forEach(function(s) { track.appendChild(s.cloneNode(true)); });
+
+      var speed  = 1;
+      var paused = false;
+
+      function init() {
+        var pad   = parseFloat(getComputedStyle(wrap).paddingLeft) || 0;
+        var last  = slides[count - 1];
+        var loopW = last.offsetLeft + last.offsetWidth - slides[0].offsetLeft + 12;
+
+        wrap.scrollLeft = 0; // start with gap visible once as entrance
+        wrap.classList.add('is-at-end');
+
+        function tick() {
+          if (!paused) {
+            wrap.scrollLeft += speed;
+            // reset to pad (not 0) so the gap never shows again after the first pass
+            if (wrap.scrollLeft >= pad + loopW) wrap.scrollLeft -= loopW;
+          }
+          requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
       }
 
-      function updateButtons() {
-        var max = wrap.scrollWidth - wrap.clientWidth;
-        prevBtn.disabled = wrap.scrollLeft <= 4;
-        nextBtn.disabled = wrap.scrollLeft >= max - 4;
-        wrap.classList.toggle('is-at-end', wrap.scrollLeft > 10);
-      }
+      requestAnimationFrame(init);
 
-      nextBtn.addEventListener('click', function() {
-        var cur = wrap.scrollLeft;
-        var g   = gutter();
-        for (var i = 0; i < slides.length; i++) {
-          var target = slides[i].offsetLeft - g;
-          if (target > cur + 4) {
-            wrap.scrollTo({ left: target, behavior: 'smooth' });
-            wrap.classList.add('is-at-end');
-            break;
-          }
-        }
-      });
-
-      prevBtn.addEventListener('click', function() {
-        var cur = wrap.scrollLeft;
-        var g   = gutter();
-        for (var i = slides.length - 1; i >= 0; i--) {
-          var target = slides[i].offsetLeft - g;
-          if (target < cur - 4) {
-            wrap.scrollTo({ left: target, behavior: 'smooth' });
-            wrap.classList.toggle('is-at-end', target > 10);
-            break;
-          }
-        }
-      });
-
-      wrap.addEventListener('scroll', updateButtons, { passive: true });
-      updateButtons();
+      wrap.addEventListener('mouseenter', function() { paused = true; });
+      wrap.addEventListener('mouseleave', function() { paused = false; });
+      wrap.addEventListener('touchstart',  function() { paused = true; }, { passive: true });
+      wrap.addEventListener('touchend',    function() { paused = false; });
     })();
 
     // Layout B — 210-point inspection module
@@ -620,6 +629,12 @@
     (function() {
       var platter = document.getElementById('v3-recon-platter');
       if (!platter) return;
+      var arrowBtn = document.getElementById('v3-recon-platter-arrow');
+      if (arrowBtn) {
+        arrowBtn.addEventListener('click', function() {
+          platter.scrollBy({ left: 120, behavior: 'smooth' });
+        });
+      }
       var indicator = document.getElementById('v3-recon-indicator');
       var btns = platter.querySelectorAll('.recon-tabnav__btn');
       var items = document.querySelectorAll('#v3-recon-gallery .recon-gallery__item');
@@ -629,6 +644,18 @@
         // offsetLeft is relative to platter (position:relative), minus the 4px padding
         indicator.style.left = (btn.offsetLeft) + 'px';
         indicator.style.width = btn.offsetWidth + 'px';
+      }
+
+      function scrollPlatterToBtn(btn) {
+        var btnLeft = btn.offsetLeft;
+        var btnRight = btnLeft + btn.offsetWidth;
+        var visLeft = platter.scrollLeft;
+        var visRight = visLeft + platter.clientWidth;
+        if (btnRight > visRight) {
+          platter.scrollBy({ left: btnRight - visRight + 8, behavior: 'smooth' });
+        } else if (btnLeft < visLeft) {
+          platter.scrollBy({ left: btnLeft - visLeft - 8, behavior: 'smooth' });
+        }
       }
 
       function selectTab(idx) {
@@ -642,6 +669,7 @@
           el.classList.toggle('is-active', i === idx);
         });
         moveIndicator(btns[idx]);
+        scrollPlatterToBtn(btns[idx]);
       }
 
       btns.forEach(function(btn, idx) {
@@ -655,14 +683,50 @@
         }
         return 0;
       }
+      var autoTimer = null;
+      function stopAuto() {
+        if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+      }
+      function startAuto() {
+        autoTimer = setInterval(function() {
+          selectTab((getActive() + 1) % btns.length);
+        }, 3000);
+      }
+
       document.getElementById('v3-recon-prev').addEventListener('click', function() {
+        stopAuto();
         var next = (getActive() - 1 + btns.length) % btns.length;
         selectTab(next);
       });
       document.getElementById('v3-recon-next').addEventListener('click', function() {
+        stopAuto();
         var next = (getActive() + 1) % btns.length;
         selectTab(next);
       });
+      btns.forEach(function(btn) {
+        btn.addEventListener('click', stopAuto);
+      });
+
+      startAuto();
+
+      // Swipe to change tab
+      var stage = document.querySelector('#v3-recon-gallery .recon-gallery__stage');
+      if (stage) {
+        var swipeStartX = 0;
+        stage.addEventListener('touchstart', function(e) {
+          swipeStartX = e.touches[0].clientX;
+        }, { passive: true });
+        stage.addEventListener('touchend', function(e) {
+          var dx = e.changedTouches[0].clientX - swipeStartX;
+          if (Math.abs(dx) < 40) return;
+          stopAuto();
+          if (dx < 0) {
+            selectTab((getActive() + 1) % btns.length);
+          } else {
+            selectTab((getActive() - 1 + btns.length) % btns.length);
+          }
+        }, { passive: true });
+      }
 
       // Init indicator position without transition
       indicator.style.transition = 'none';
@@ -675,83 +739,33 @@
       });
     })();
 
-    /* ── 360 SPIN VIEWER ── */
+    /* ── SCROLL-DRIVEN CAR ROTATION ── */
     (function () {
-      var canvas = document.getElementById('listed-spin-canvas');
-      if (!canvas) return;
-      var ctx = canvas.getContext('2d');
-      var base = 'assets/car-cert/Comp 1/';
-      var names = Array.from({length: 36}, function(_, i) {
-        return 'Comp 1_' + String(i).padStart(5, '0') + '.png';
-      });
-      var images = [];
-      var current = 20;
-      var dragX = null;
-      var sensitivity = 7;
-      var allLoaded = false;
+      var wrapper = document.getElementById('listed-frames');
+      if (!wrapper) return;
+      var frames = Array.from(wrapper.querySelectorAll('.listed__frame'));
+      var driver = document.getElementById('listed-scroll-driver');
       var section = document.getElementById('v3-s-listed');
+      var COUNT = frames.length; // 36
+      var START_FRAME = 32;
+      var SWEEP = 8;
+      var activeIdx = -1;
 
-      function draw(img) {
-        canvas.width  = img.naturalWidth;
-        canvas.height = img.naturalHeight;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 0, 0);
+      function showFrame(idx) {
+        idx = ((idx % COUNT) + COUNT) % COUNT;
+        if (idx === activeIdx) return;
+        if (activeIdx >= 0) frames[activeIdx].style.opacity = 0;
+        frames[idx].style.opacity = 1;
+        activeIdx = idx;
       }
 
-      var loaded = 0;
-      names.forEach(function (name, i) {
-        var img = new Image();
-        img.onload = function () {
-          loaded++;
-          if (i === 20) draw(img);
-          if (loaded === names.length) allLoaded = true;
-        };
-        img.src = base + encodeURIComponent(name);
-        images.push(img);
-      });
+      showFrame(START_FRAME);
 
-      function showFrame(i) {
-        current = ((i % images.length) + images.length) % images.length;
-        var img = images[current];
-        if (img.complete && img.naturalWidth) draw(img);
-      }
-
-      // Scroll-driven rotation — starts at front (frame 35) when section enters
-      var FRONT_FRAME = 20;
       window.addEventListener('scroll', function () {
-        if (dragX !== null) return;
+        if (!section) return;
         var rect = section.getBoundingClientRect();
-        var vh = window.innerHeight;
-        var progress = (vh - rect.top) / (rect.height + vh);
-        progress = Math.max(0, Math.min(1, progress));
-        var frameOffset = Math.round(progress * images.length);
-        showFrame(FRONT_FRAME + frameOffset);
+        // 0 when section enters from below, 1 when section top hits viewport top
+        var progress = Math.max(0, Math.min(1, 1 - rect.top / window.innerHeight));
+        showFrame(Math.round(START_FRAME + progress * SWEEP));
       }, { passive: true });
-
-      function onMove(x) {
-        if (dragX === null) return;
-        var diff = x - dragX;
-        if (Math.abs(diff) >= sensitivity) {
-          showFrame(current - Math.sign(diff));
-          dragX = x;
-        }
-      }
-
-      canvas.addEventListener('mousedown', function (e) {
-        dragX = e.clientX;
-        e.preventDefault();
-        // hide hint on first interaction
-        var hint = document.getElementById('spin-hint');
-        if (hint) { hint.style.opacity = '0'; setTimeout(function(){ hint.remove(); }, 300); }
-      });
-      window.addEventListener('mousemove', function (e) { onMove(e.clientX); });
-      window.addEventListener('mouseup',   function ()  { dragX = null; });
-
-      canvas.addEventListener('touchstart', function (e) {
-        dragX = e.touches[0].clientX;
-        var hint = document.getElementById('spin-hint');
-        if (hint) { hint.style.opacity = '0'; setTimeout(function(){ hint.remove(); }, 300); }
-      }, { passive: true });
-      canvas.addEventListener('touchmove',  function (e) { onMove(e.touches[0].clientX); }, { passive: true });
-      canvas.addEventListener('touchend',   function ()  { dragX = null; });
     })();

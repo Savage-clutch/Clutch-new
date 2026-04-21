@@ -19,10 +19,12 @@
     <nav class="nav">
       <img class="nav__logo" src="assets/logo-red.webp" alt="Clutch">
       <div class="nav__pill">
-        <a href="https://www.clutch.ca/cars" target="_blank" rel="noopener">Browse Cars</a>
-        <a href="#">Sell Your Car</a>
+        <a href="https://www.clutch.ca/cars" target="_blank" rel="noopener">Browse Clutch Certified</a>
       </div>
-      <a href="#" class="nav__signin">Sign in</a>
+      <a href="https://www.clutch.ca/cars" target="_blank" rel="noopener" class="nav__signin">
+        <span class="nav__signin-desktop">Sign in</span>
+        <span class="nav__signin-mobile">Browse Certified Cars</span>
+      </a>
     </nav>
   </header>
 
@@ -34,7 +36,7 @@
     <div class="hero__content">
       <p class="hero__eyebrow">Every car we sell is</p>
       <h1 class="hero__headline">Clutch Certified</h1>
-      <p class="hero__sub">Only the best cars earn the certification and make it to our site. 210 points inspected, in-depth servicing, and transparent documentation, by our own Clutch mechanics.</p>
+      <p class="hero__sub">Only the best cars make it here. 210 points inspected, fully serviced, and road-tested by our own Clutch mechanics.</p>
     </div>
     <div class="hero__scroll">
       <span class="hero__scroll-label">Scroll</span>
@@ -48,7 +50,7 @@
       <div class="stat__row">
         <span class="stat__number" id="v3-vehicles">70,000</span><span class="stat__number plus">+</span>
       </div>
-      <div class="stat__label">Vehicles inspected<br>to date</div>
+      <div class="stat__label">Cars inspected<br>to date</div>
     </div>
     <div class="stat">
       <div class="stat__row">
@@ -68,8 +70,8 @@
       <div class="inspect__header reveal">
         <div class="inspect__left">
           <span class="section-tag">Step 1 — Inspect</span>
-          <h2 class="inspect__headline">The most rigorous car<br>inspection in the industry.</h2>
-          <p class="inspect__body">Every car goes through a rigorous mechanical and cosmetic inspection by our own Clutch mechanics. Brakes, suspension, electrical, engine, body, nothing is skipped. Everything is documented and visible for every Clutch Certified car along with a full CarFax report.</p>
+          <h2 class="inspect__headline">The most thorough<br>car inspection in the industry.</h2>
+          <p class="inspect__body">Every car is inspected by our own Clutch mechanics; mechanical, cosmetic, electrical. Brakes, suspension, engine, body. Nothing is skipped. The full inspection report and a CarFax report are visible for every vehicle.</p>
         </div>
         <div class="inspect__right">
           <div class="inspect__stat-big" id="v3-counter-210">0</div>
@@ -111,16 +113,8 @@
   <div class="photo-carousel">
     <div class="photo-carousel__header">
       <div class="photo-carousel__caption">
-        <p class="photo-carousel__caption-title">Every vehicle inspected by 23 Clutch mechanics.</p>
+        <p class="photo-carousel__caption-title">23 Clutch mechanics inspect every car.</p>
         <p class="photo-carousel__caption-body">Every system checked by our certified technicians before the car ever reaches a listing.</p>
-      </div>
-      <div class="photo-carousel__nav">
-        <button class="photo-carousel__btn" id="v3-photo-prev" disabled>
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M11 4L6 9l5 5" stroke="#1d1d1f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <button class="photo-carousel__btn" id="v3-photo-next">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M7 4l5 5-5 5" stroke="#1d1d1f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
       </div>
     </div>
     <div class="photo-carousel__track-wrap" id="v3-photo-wrap">
@@ -138,7 +132,7 @@
           <img class="photo-carousel__img" src="assets/_DSC1016.webp" alt="">
         </div>
         <div class="photo-carousel__slide photo-carousel__slide--md">
-          <img class="photo-carousel__img" src="assets/photo-card-1.webp" alt="Inspection">
+          <img class="photo-carousel__img" src="assets/_DSC1850.webp" alt="">
         </div>
       </div>
     </div>
@@ -149,7 +143,6 @@
     <h2 class="road-test-callout">That includes a total of three separate mechanic-led road tests to validate real-world performance.</h2>
     <div class="td-stage" id="v3-td-stage">
       <div class="td-card">
-        <p class="td-label">Mechanic-led road test</p>
         <div class="td-num-wrap">
           <div class="td-odometer">
             <div class="td-odometer__window">
@@ -166,18 +159,14 @@
           <canvas id="td-spin-canvas" style="position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:100%; height:100%;"></canvas>
         </div>
       </div>
-      <div class="td-dots">
-        <div class="td-dot active"></div>
-        <div class="td-dot"></div>
-        <div class="td-dot"></div>
-      </div>
+      <img class="td-building" src="assets/building-2.png" alt="">
     </div>
   </div>
 
   <!-- Verdict -->
   <div class="verdict">
     <div class="verdict__left reveal">
-      <h2 class="verdict__headline">If it doesn't pass our inspection, it never gets listed and you will never see it on our site.</h2>
+      <h2 class="verdict__headline">If it doesn't pass our inspection, you will never see it on our site.</h2>
      
     </div>
     <a href="https://www.clutch.ca/cars" class="verdict__btn" target="_blank" rel="noopener">Browse Certified</a>
@@ -188,21 +177,10 @@
     <div class="section-wrap">
       <div class="recondition__header reveal">
         <div style="display:flex;flex-direction:column;gap:16px;">
-          <span class="section-tag">Step 2 — Recondition</span>
+          <span class="section-tag">Step 2 — Serviced</span>
           <h2 class="recondition__headline">Expertly serviced by<br>Clutch mechanics.</h2>
         </div>
-        <p class="recondition__body">Anything flagged during inspection that needs to be replaced or fixed to meet our standard gets done. Oil changed, filters replaced, fluids topped, regardless of the last change. Our tire tread minimum is 4mm, double the legal requirement.</p>
-      </div>
-      <!-- View toggle -->
-      <div style="display:flex;gap:8px;margin-bottom:32px;">
-        <button id="v3-recon-toggle-gallery" onclick="document.getElementById('v3-recon-gallery-view').style.display='block';document.getElementById('v3-recon-grid-view').style.display='none';this.style.background='rgba(255,255,255,0.18)';document.getElementById('v3-recon-toggle-grid').style.background='rgba(255,255,255,0.07)';" style="background:rgba(255,255,255,0.18);border:none;cursor:pointer;padding:8px 16px;border-radius:100px;color:#fff;font-family:'CircularXX',sans-serif;font-size:13px;display:inline-flex;align-items:center;gap:6px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M3 9h18"/></svg>
-          Gallery
-        </button>
-        <button id="v3-recon-toggle-grid" onclick="document.getElementById('v3-recon-gallery-view').style.display='none';document.getElementById('v3-recon-grid-view').style.display='block';this.style.background='rgba(255,255,255,0.18)';document.getElementById('v3-recon-toggle-gallery').style.background='rgba(255,255,255,0.07)';" style="background:rgba(255,255,255,0.07);border:none;cursor:pointer;padding:8px 16px;border-radius:100px;color:#fff;font-family:'CircularXX',sans-serif;font-size:13px;display:inline-flex;align-items:center;gap:6px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-          Grid
-        </button>
+        <p class="recondition__body">Every car that passes inspection gets fully serviced before it reaches you. Fluids and filters replaced regardless of when they were last done. Tires below our 4mm minimum: replaced. Brakes below spec: replaced. We invest an average of $3,000 per car. Not because we have to. Because that's the standard.</p>
       </div>
 
       <!-- NEW: Gallery view -->
@@ -253,6 +231,9 @@
                   Detailing
                 </button>
                 <div class="recon-tabnav__indicator" id="v3-recon-indicator"></div>
+                <button class="recon-tabnav__arrow-btn" id="v3-recon-platter-arrow" aria-label="More">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
               </div>
             </div>
           </div>
@@ -348,11 +329,46 @@
       <p class="listed__body">Every car on Clutch has been personally signed off by our own mechanics. If it's listed, it has earned the Clutch Certified standard.</p>
     </div>
 
-    <div class="listed__car-wrap">
-      <canvas class="listed__spin-canvas" id="listed-spin-canvas"></canvas>
-      <div class="spin-hint" id="spin-hint">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M5 12l4-4M5 12l4 4M19 12l-4-4M19 12l-4 4"/></svg>
-        Drag to spin
+    <div class="listed__scroll-driver" id="listed-scroll-driver">
+      <div class="listed__car-sticky">
+        <div class="listed__frames" id="listed-frames">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00000.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00001.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00002.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00003.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00004.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00005.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00006.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00007.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00008.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00009.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00010.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00011.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00012.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00013.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00014.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00015.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00016.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00017.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00018.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00019.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00020.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00021.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00022.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00023.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00024.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00025.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00026.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00027.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00028.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00029.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00030.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00031.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00032.png" alt="Clutch Certified car" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00033.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00034.png" alt="" draggable="false">
+          <img class="listed__frame" src="assets/car-cert/Comp%201/Comp%201_00035.png" alt="" draggable="false">
+        </div>
       </div>
     </div>
 
