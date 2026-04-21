@@ -1,0 +1,11 @@
+assets/production/*.jpg
+assets/Production
+assets/Production-*.zip
+assets/*.zip
+assets/*.png
+assets/*.gif
+assets/*.mov
+assets/Comp*
+assets/Car.aep
+assets/Adobe*
+assets/thumbs
