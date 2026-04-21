@@ -296,6 +296,7 @@
     .section-tag {
       font-family: var(--mono);
       font-size: 11px;
+      font-weight: 700;
       letter-spacing: 0.02em;
       color: var(--red);
       text-transform: uppercase;
@@ -1002,6 +1003,7 @@
     }
     .promise__card:last-child { border-right: none; }
     .promise__card svg { opacity: 0.7; }
+    .promise__card-icon { height: 40px; width: auto; opacity: 0.85; align-self: flex-start; }
     .promise__card-title {
       font-size: 20px;
       font-weight: 400;
