@@ -859,7 +859,7 @@
     .listed__left {
       position: relative;
       z-index: 2;
-      padding: 56px 0 0 60px;
+      padding: 56px 0 0 160px;
       max-width: 400px;
     }
     .listed__right {
