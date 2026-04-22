@@ -802,8 +802,8 @@
       var driver = document.getElementById('listed-scroll-driver');
       var section = document.getElementById('v3-s-listed');
       var COUNT = frames.length; // 57
-      var START_FRAME = 28;
-      var SWEEP = 14;
+      var START_FRAME = 0;
+      var SWEEP = 56;
       var activeIdx = -1;
 
       function showFrame(idx) {
