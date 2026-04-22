@@ -625,7 +625,7 @@
       });
     })();
 
-    // ── Recon gallery tabnav ──
+    // ── Recon gallery — 3D cylinder carousel ──
     (function() {
       var platter = document.getElementById('v3-recon-platter');
       if (!platter) return;
@@ -636,13 +636,76 @@
         });
       }
       var indicator = document.getElementById('v3-recon-indicator');
+      var ring = document.getElementById('v3-recon-ring');
       var btns = platter.querySelectorAll('.recon-tabnav__btn');
-      var items = document.querySelectorAll('#v3-recon-gallery .recon-gallery__item');
+      var items = ring ? ring.querySelectorAll('.recon-gallery__item') : [];
       var copyEls = document.querySelectorAll('#v3-recon-copy .recon-tab-copy__text');
 
+      var ITEM_COUNT = items.length;
+
+      // Slot definitions — proportional to stage width (txR, tzR) so they scale responsively.
+      // Mirrors the reference: translate(-50%,-50%) centers the card, then each slot
+      // applies its own translateX / translateZ / rotateY / scale on top.
+      var SLOTS = [
+        // far-left
+        { txR: -0.619, tzR: -0.38, ry:  55, scale: 0.72, opacity: 0,    brightness: 1,    ptr: 'none' },
+        // left  (wing)
+        { txR: -0.369, tzR: -0.26, ry:  42, scale: 0.80, opacity: 0.5,  brightness: 0.45, ptr: 'auto' },
+        // center — small positive Z keeps it clearly in front of the wings
+        { txR:  0,     tzR:  0.04, ry:   0, scale: 1,    opacity: 1,    brightness: 1,    ptr: 'auto' },
+        // right (wing)
+        { txR:  0.369, tzR: -0.26, ry: -42, scale: 0.80, opacity: 0.5,  brightness: 0.45, ptr: 'auto' },
+        // far-right
+        { txR:  0.619, tzR: -0.38, ry: -55, scale: 0.72, opacity: 0,    brightness: 1,    ptr: 'none' },
+      ];
+
+      function slotIdx(offset, n) {
+        if (offset === 0)         return 2;           // center
+        if (offset === 1)         return 3;           // right
+        if (offset === 2)         return 4;           // far-right
+        if (offset === n - 1)     return 1;           // left
+        if (offset === n - 2)     return 0;           // far-left
+        return offset < n / 2 ? 4 : 0;               // rest park at far edges
+      }
+
+      function updateCards(idx, instant) {
+        var n      = ITEM_COUNT;
+        var stageW = ring.offsetWidth;
+        items.forEach(function(item, i) {
+          var offset = ((i - idx) + n) % n;
+          var s      = SLOTS[slotIdx(offset, n)];
+          var tf     = 'translate(-50%, -50%) translateX(' + (s.txR * stageW) + 'px)'
+                     + ' translateZ(' + (s.tzR * stageW) + 'px) rotateY(' + s.ry + 'deg)'
+                     + ' scale(' + s.scale + ')';
+          if (instant) item.style.transition = 'none';
+          item.style.transform     = tf;
+          item.style.opacity       = String(s.opacity);
+          item.style.filter        = 'brightness(' + s.brightness + ')';
+          item.style.pointerEvents = s.ptr;
+          item.classList.toggle('is-active', offset === 0);
+        });
+        if (instant) {
+          requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+              items.forEach(function(item) { item.style.transition = ''; });
+            });
+          });
+        }
+      }
+
+      function initRing() {
+        if (!ring || !items.length) return;
+        ring.style.transform = 'none';
+        updateCards(0, true);
+      }
+
+      function rotateTo(idx) {
+        if (!ring) return;
+        updateCards(idx, false);
+      }
+
       function moveIndicator(btn) {
-        // offsetLeft is relative to platter (position:relative), minus the 4px padding
-        indicator.style.left = (btn.offsetLeft) + 'px';
+        indicator.style.left = btn.offsetLeft + 'px';
         indicator.style.width = btn.offsetWidth + 'px';
       }
 
@@ -659,15 +722,9 @@
       }
 
       function selectTab(idx) {
-        btns.forEach(function(b, i) {
-          b.classList.toggle('is-active', i === idx);
-        });
-        items.forEach(function(item, i) {
-          item.classList.toggle('is-active', i === idx);
-        });
-        copyEls.forEach(function(el, i) {
-          el.classList.toggle('is-active', i === idx);
-        });
+        btns.forEach(function(b, i) { b.classList.toggle('is-active', i === idx); });
+        copyEls.forEach(function(el, i) { el.classList.toggle('is-active', i === idx); });
+        rotateTo(idx);
         moveIndicator(btns[idx]);
         scrollPlatterToBtn(btns[idx]);
       }
@@ -676,17 +733,21 @@
         btn.addEventListener('click', function() { selectTab(idx); });
       });
 
-      var currentTab = 0;
+      items.forEach(function(item, i) {
+        item.addEventListener('click', function() {
+          if (i !== getActive()) { stopAuto(); selectTab(i); }
+        });
+      });
+
       function getActive() {
         for (var i = 0; i < btns.length; i++) {
           if (btns[i].classList.contains('is-active')) return i;
         }
         return 0;
       }
+
       var autoTimer = null;
-      function stopAuto() {
-        if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
-      }
+      function stopAuto() { if (autoTimer) { clearInterval(autoTimer); autoTimer = null; } }
       function startAuto() {
         autoTimer = setInterval(function() {
           selectTab((getActive() + 1) % btns.length);
@@ -695,21 +756,14 @@
 
       document.getElementById('v3-recon-prev').addEventListener('click', function() {
         stopAuto();
-        var next = (getActive() - 1 + btns.length) % btns.length;
-        selectTab(next);
+        selectTab((getActive() - 1 + btns.length) % btns.length);
       });
       document.getElementById('v3-recon-next').addEventListener('click', function() {
         stopAuto();
-        var next = (getActive() + 1) % btns.length;
-        selectTab(next);
+        selectTab((getActive() + 1) % btns.length);
       });
-      btns.forEach(function(btn) {
-        btn.addEventListener('click', stopAuto);
-      });
+      btns.forEach(function(btn) { btn.addEventListener('click', stopAuto); });
 
-      startAuto();
-
-      // Swipe to change tab
       var stage = document.querySelector('#v3-recon-gallery .recon-gallery__stage');
       if (stage) {
         var swipeStartX = 0;
@@ -720,22 +774,23 @@
           var dx = e.changedTouches[0].clientX - swipeStartX;
           if (Math.abs(dx) < 40) return;
           stopAuto();
-          if (dx < 0) {
-            selectTab((getActive() + 1) % btns.length);
-          } else {
-            selectTab((getActive() - 1 + btns.length) % btns.length);
-          }
+          selectTab(dx < 0 ? (getActive() + 1) % btns.length : (getActive() - 1 + btns.length) % btns.length);
         }, { passive: true });
       }
 
-      // Init indicator position without transition
+      var resizeTimer;
+      window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() { updateCards(getActive(), true); }, 150);
+      });
+
+      initRing();
+      startAuto();
+
       indicator.style.transition = 'none';
       moveIndicator(btns[0]);
-      // Re-enable transition after a frame
       requestAnimationFrame(function() {
-        requestAnimationFrame(function() {
-          indicator.style.transition = '';
-        });
+        requestAnimationFrame(function() { indicator.style.transition = ''; });
       });
     })();
 
