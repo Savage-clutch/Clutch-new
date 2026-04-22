@@ -123,26 +123,46 @@
 
     const carWrap = catCarImgA.closest('.module-210__car-wrap');
 
+    let swapTimerA = null;
+    let swapPendingOutA = null;
+    let swapPendingInA  = null;
+
     function swapCarImage(newSrc, cat) {
+      // Cancel any in-flight swap and complete it immediately so pointers are clean
+      if (swapTimerA !== null) {
+        clearTimeout(swapTimerA);
+        swapTimerA = null;
+        if (swapPendingOutA) {
+          swapPendingOutA.style.opacity = '0';
+          swapPendingOutA.classList.remove('is-exiting');
+          catCarImg    = swapPendingInA;
+          catCarImgAlt = swapPendingOutA;
+          swapPendingOutA = swapPendingInA = null;
+        }
+      }
+
       const outgoing = catCarImg;
       const incoming = catCarImgAlt;
+      swapPendingOutA = outgoing;
+      swapPendingInA  = incoming;
 
-
+      // Hide first, THEN change src — prevents flash of old/loading image
+      incoming.classList.remove('is-exiting');
+      incoming.classList.add('is-entering');  // opacity:0, transition:none
+      incoming.style.opacity = '';
       incoming.src = newSrc;
       if (cat !== undefined) incoming.dataset.cat = cat;
-      incoming.classList.remove('is-exiting');
-      incoming.classList.add('is-entering');
-      incoming.style.opacity = '';
 
       requestAnimationFrame(() => requestAnimationFrame(() => {
         outgoing.classList.add('is-exiting');
         incoming.classList.remove('is-entering');
       }));
 
-      setTimeout(() => {
+      swapTimerA = setTimeout(() => {
+        swapTimerA = swapPendingOutA = swapPendingInA = null;
         outgoing.style.opacity = '0';
         outgoing.classList.remove('is-exiting');
-        catCarImg = incoming;
+        catCarImg    = incoming;
         catCarImgAlt = outgoing;
       }, 620);
     }
@@ -245,8 +265,11 @@
         if (altCarImg && catImages[cat]) {
           const shouldRotate = cat === 0 || cat === 6;
           altCarImg.style.opacity = '0';
-          setTimeout(() => {
-            altCarImg.src = catImages[cat];
+          if (altCarImg._swapTimer) clearTimeout(altCarImg._swapTimer);
+          const nextSrc = catImages[cat];
+          altCarImg._swapTimer = setTimeout(() => {
+            altCarImg._swapTimer = null;
+            altCarImg.src = nextSrc;
             altCarImg.classList.toggle('is-rotated', shouldRotate);
             altCarImg.style.opacity = '1';
           }, 180);
@@ -417,20 +440,46 @@
       catCarImgC2.style.opacity = '0';
       let curC = catCarImgC, altC = catCarImgC2;
 
+      let swapTimerC = null;
+      let swapPendingOutC = null;
+      let swapPendingInC  = null;
+
       function swapCarImageC(newSrc, cat) {
-        altC.src = newSrc;
-        if (cat !== undefined) altC.dataset.cat = cat;
-        altC.classList.remove('is-exiting');
-        altC.classList.add('is-entering');
-        altC.style.opacity = '';
+        if (swapTimerC !== null) {
+          clearTimeout(swapTimerC);
+          swapTimerC = null;
+          if (swapPendingOutC) {
+            swapPendingOutC.style.opacity = '0';
+            swapPendingOutC.classList.remove('is-exiting');
+            curC = swapPendingInC;
+            altC = swapPendingOutC;
+            swapPendingOutC = swapPendingInC = null;
+          }
+        }
+
+        const outgoingC = curC;
+        const incomingC = altC;
+        swapPendingOutC = outgoingC;
+        swapPendingInC  = incomingC;
+
+        // Hide first, THEN change src
+        incomingC.classList.remove('is-exiting');
+        incomingC.classList.add('is-entering');
+        incomingC.style.opacity = '';
+        incomingC.src = newSrc;
+        if (cat !== undefined) incomingC.dataset.cat = cat;
+
         requestAnimationFrame(() => requestAnimationFrame(() => {
-          curC.classList.add('is-exiting');
-          altC.classList.remove('is-entering');
+          outgoingC.classList.add('is-exiting');
+          incomingC.classList.remove('is-entering');
         }));
-        setTimeout(() => {
-          curC.style.opacity = '0';
-          curC.classList.remove('is-exiting');
-          curC = altC; altC = (altC === catCarImgC ? catCarImgC2 : catCarImgC);
+
+        swapTimerC = setTimeout(() => {
+          swapTimerC = swapPendingOutC = swapPendingInC = null;
+          outgoingC.style.opacity = '0';
+          outgoingC.classList.remove('is-exiting');
+          curC = incomingC;
+          altC = (incomingC === catCarImgC ? catCarImgC2 : catCarImgC);
         }, 620);
       }
 

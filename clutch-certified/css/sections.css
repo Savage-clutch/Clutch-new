@@ -104,22 +104,23 @@
       width: 370px;
       height: 63px;
       border-radius: 87px;
-      background: linear-gradient(to right, var(--coral), var(--coral-dark));
-      box-shadow: 1px 3px 0px var(--coral-shadow);
+      background-image: linear-gradient(to top, #FF1C24 0%, #FF464C 46.875%);
+      box-shadow: 0.6px 0.6px 2px 0px rgba(126,7,11,0.32), inset 0px 1px 2px 0px rgba(255,255,255,0.45);
       color: #fff;
       font-size: var(--t11-size);
       font-weight: var(--t11-fw);
-      letter-spacing: var(--t11-ls);
+      letter-spacing: -0.2px;
       font-family: 'CircularXX', sans-serif;
       border: none;
       cursor: pointer;
       text-decoration: none;
       line-height: 63px;
       text-align: center;
-      transition: transform 200ms ease;
+      transition: transform 200ms ease, box-shadow 200ms ease;
     }
     a.verdict__btn:hover {
       transform: scale(1.04);
+      box-shadow: 0.6px 0.6px 6px 0px rgba(126,7,11,0.45), inset 0px 1px 2px 0px rgba(255,255,255,0.45);
     }
 
     /* ── Step 2 ── */
@@ -161,6 +162,95 @@
       letter-spacing: var(--t13-ls);
       width: 631px;
       text-align: center;
+    }
+
+    /* ── Reconditioning expertise areas ── */
+    .recon-areas {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+    }
+    .recon-areas__intro {
+      font-size: var(--t13-size);
+      font-weight: var(--t13-fw);
+      color: var(--body-text);
+      line-height: var(--t13-lh);
+      letter-spacing: var(--t13-ls);
+      text-align: center;
+    }
+    /* Reconditioning cards — full-width horizontal scroll row */
+    .recon-areas {
+      width: 100%;
+      padding-top: 60px;
+    }
+    .recon-areas__intro {
+      max-width: 631px;
+      margin: 0 auto 48px;
+    }
+    .recon-areas__grid {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      overflow-y: visible;
+      padding: 16px 60px 24px; /* top padding gives hover lift room */
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .recon-areas__grid::-webkit-scrollbar { display: none; }
+    .recon-card {
+      width: 340px;
+      height: 520px;
+      flex-shrink: 0;
+      scroll-snap-align: start;
+      background: #111111;
+      border-radius: 24px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      cursor: default;
+    }
+    .recon-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.07);
+    }
+    .recon-card__top {
+      height: 210px;
+      padding: 36px 24px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .recon-card__name {
+      font-size: 34px;
+      font-weight: 600;
+      color: #ffffff;
+      line-height: 1.05;
+      letter-spacing: -0.6px;
+    }
+    .recon-card__desc {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.55;
+      color: rgba(255,255,255,0.5);
+    }
+    .recon-card__photo {
+      flex: 1;
+      overflow: hidden;
+      min-height: 0;
+      border-radius: 18px 18px 0 0; /* floats up from card bottom */
+    }
+    .recon-card__photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     /* ── Detailing section ── */
@@ -294,6 +384,30 @@
       line-height: var(--t13-lh);
       letter-spacing: var(--t13-ls);
     }
+    .step3__sat {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      padding: 32px 40px;
+      background: var(--dark-card);
+      border-radius: 20px;
+      width: 100%;
+    }
+    .step3__sat-number {
+      font-size: var(--t2-size);
+      font-weight: var(--t2-fw);
+      line-height: 1;
+      letter-spacing: var(--t2-ls);
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .step3__sat-label {
+      font-size: var(--t13-size);
+      font-weight: var(--t13-fw);
+      line-height: var(--t13-lh);
+      letter-spacing: var(--t13-ls);
+      color: rgba(255,255,255,0.55);
+    }
     .step3__grid-wrap {
       width: 100%;
       margin-top: 40px;
@@ -379,27 +493,27 @@
     }
     .step3__tag--top-text .step3__tag-img {
       position: absolute;
-      top: 35%;
+      top: 0%;
       left: 0;
       width: 100%;
       height: 100%;
       object-fit: contain;
       object-position: center;
-      transform: rotate(90deg) scale(2.1);
+      transform: scale(1.8);
       transform-origin: center center;
     }
     .step3__tag--top-text .step3__tag-text {
       position: absolute;
       top: 0;
+      bottom: 0;
       left: 0;
       right: 0;
-      height: 44%;
+      height: auto;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
       padding: 0 28px;
-      bottom: unset;
       z-index: 1;
       font-size: var(--t10-size);
       font-weight: 500;
@@ -564,20 +678,21 @@
       height: 63px;
       padding: 0 48px;
       border-radius: 87px;
-      background: linear-gradient(to right, var(--coral), var(--coral-dark));
-      box-shadow: 1px 3px 0px var(--coral-shadow);
+      background-image: linear-gradient(to top, #FF1C24 0%, #FF464C 46.875%);
+      box-shadow: 0.6px 0.6px 2px 0px rgba(126,7,11,0.32), inset 0px 1px 2px 0px rgba(255,255,255,0.45);
       color: #fff;
       font-size: var(--t11-size);
       font-weight: var(--t11-fw);
-      letter-spacing: var(--t11-ls);
+      letter-spacing: -0.2px;
       font-family: 'CircularXX', sans-serif;
       text-decoration: none;
       line-height: 63px;
       text-align: center;
-      transition: transform 200ms ease;
+      transition: transform 200ms ease, box-shadow 200ms ease;
     }
     a.final-cta__btn:hover {
       transform: scale(1.04);
+      box-shadow: 0.6px 0.6px 6px 0px rgba(126,7,11,0.45), inset 0px 1px 2px 0px rgba(255,255,255,0.45);
     }
 
     /* ── Footer car ── */

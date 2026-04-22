@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clutch Certified</title>
@@ -49,40 +50,31 @@
   <section class="summary-section">
     <div class="summary-grid">
       <div class="summary-card">
-        <div class="summary-card__inner">
-          <div class="summary-card__front">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="white" stroke-width="1.5"/><path d="M9 3h6M9 8h6M9 12h4" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path d="M8 16l2 2 4-4" stroke="#FF464C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <p>210-Point Inspection</p>
-          </div>
-          <div class="summary-card__back"><p>Every mechanical and cosmetic system checked by our technicians including three mechanic-led road tests.</p></div>
-        </div>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="white" stroke-width="1.5"/><path d="M9 3h6M9 8h6M9 12h4" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path d="M8 16l2 2 4-4" stroke="#FF464C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p>210-Point Inspection</p>
       </div>
       <div class="summary-card">
-        <div class="summary-card__inner">
-          <div class="summary-card__front">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <p>Reconditioned<br>by Clutch Certified Mechanics</p>
-          </div>
-          <div class="summary-card__back"><p>Anything our inspection flags gets repaired or replaced by our own Clutch Certified mechanics before the car is listed.<br><br>No shortcuts.</p></div>
-        </div>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p>Reconditioned<br>by Our Mechanics</p>
       </div>
-      <div class="summary-card">
-        <div class="summary-card__inner">
-          <div class="summary-card__front">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="13" r="4" stroke="white" stroke-width="1.5"/></svg>
-            <p>Photographed<br>Inside and Out</p>
-          </div>
-          <div class="summary-card__back"><p>Every car is shot from every angle with 360° photography so you see exactly what you're getting.</p></div>
+    </div>
+  </section>
+
+  <!-- Volume / Experience -->
+  <section class="volume-section">
+    <div class="volume-inner">
+      <div class="volume-stat">
+        <div class="volume-stat__row">
+          <span class="volume-stat__number" id="vol-vehicles">70,000</span><span class="volume-stat__plus">+</span>
         </div>
+        <span class="volume-stat__label">Vehicles inspected</span>
       </div>
-      <div class="summary-card summary-card--large">
-        <div class="summary-card__inner">
-          <div class="summary-card__front">
-            <img src="assets/white-c.svg" width="22" height="24" alt="Clutch">
-            <p>Clutch Certified</p>
-          </div>
-          <div class="summary-card__back"><p>10-day money-back guarantee.<br><br>90-day warranty.<br><br>Free CARFAX report.</p></div>
+      <div class="volume-divider"></div>
+      <div class="volume-stat">
+        <div class="volume-stat__row">
+          <span class="volume-stat__number" id="vol-datapoints">15,000,000</span><span class="volume-stat__plus">+</span>
         </div>
+        <span class="volume-stat__label">Inspection data points</span>
       </div>
     </div>
   </section>
@@ -109,7 +101,7 @@
           <div class="rt-stops">
             <div class="rt-stop">
               <div class="rt-stop-top">
-                <span class="rt-stop-sub">Test Drive</span>
+                <span class="rt-stop-sub">Mechanic-Led Road Test</span>
                 <span class="rt-stop-num">#1</span>
               </div>
               <svg class="rt-check" id="rt-check-0" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12" stroke="#FF464C" stroke-width="2"/><path class="rt-mark" d="M9 14.5l3.5 3.5 6-7" stroke="#FF464C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></svg>
@@ -117,7 +109,7 @@
             </div>
             <div class="rt-stop">
               <div class="rt-stop-top">
-                <span class="rt-stop-sub">Test Drive</span>
+                <span class="rt-stop-sub">Mechanic-Led Road Test</span>
                 <span class="rt-stop-num">#2</span>
               </div>
               <svg class="rt-check" id="rt-check-1" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12" stroke="#FF464C" stroke-width="2"/><path class="rt-mark" d="M9 14.5l3.5 3.5 6-7" stroke="#FF464C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></svg>
@@ -125,7 +117,7 @@
             </div>
             <div class="rt-stop">
               <div class="rt-stop-top">
-                <span class="rt-stop-sub">Test Drive</span>
+                <span class="rt-stop-sub">Mechanic-Led Road Test</span>
                 <span class="rt-stop-num">#3</span>
               </div>
               <svg class="rt-check" id="rt-check-2" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12" stroke="#FF464C" stroke-width="2"/><path class="rt-mark" d="M9 14.5l3.5 3.5 6-7" stroke="#FF464C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></svg>
@@ -378,7 +370,7 @@
     <div class="photo-carousel__header">
       <div class="photo-carousel__caption" id="photo-caption">
         <p class="photo-carousel__caption-title">Full inspection.</p>
-        <p class="photo-carousel__caption-body">Every system checked by our certified technicians before the car ever reaches a listing. Nothing skipped, nothing assumed.</p>
+        <p class="photo-carousel__caption-body">Every system checked by our certified technicians before the car ever reaches a listing.</p>
       </div>
       <div class="photo-carousel__nav">
         <button class="photo-carousel__btn" id="photo-prev" disabled>
@@ -415,7 +407,7 @@
     <h2 class="road-test-callout">That includes a total of three separate mechanic-led road tests to validate real-world performance.</h2>
     <div class="td-stage" id="td-stage">
       <div class="td-card">
-        <p class="td-label">Test drive</p>
+        <p class="td-label">Mechanic-led road test</p>
         <div class="td-num-wrap">
           <span class="td-num" id="td-num">#1</span>
         </div>
@@ -439,7 +431,7 @@
 
   <!-- Verdict -->
   <div class="verdict" id="s-verdict">
-    <h2 class="verdict__headline">This is where most cars fail and are removed from the Clutch production process.</h2>
+    <h2 class="verdict__headline">This is where most cars fail and are removed from our process.</h2>
     <p class="verdict__body">
       Vehicles that don't meet our standard are never listed and never sold to you.
     </p>
@@ -457,25 +449,68 @@
       <p class="step2__body">
         When our technicians flag an issue, we repair or replace it before the car is ever listed. Worn brake pads, oil changes, damaged trim — all resolved to our standards, not just acceptable minimums.
       </p>
-    </div>
+
+    </div><!-- /step2__inner -->
+
+    <!-- Reconditioning expertise areas -->
+    <div class="recon-areas">
+<div class="recon-areas__grid">
+
+          <div class="recon-card">
+            <div class="recon-card__top">
+              <h3 class="recon-card__name">Mechanical</h3>
+              <p class="recon-card__desc">Brakes, suspension, engine components, drivetrain, and electrical systems.</p>
+            </div>
+            <div class="recon-card__photo">
+              <img src="assets/detailing-photo.webp" alt="Mechanical reconditioning">
+            </div>
+          </div>
+
+          <div class="recon-card">
+            <div class="recon-card__top">
+              <h3 class="recon-card__name">Body &amp; Cosmetic</h3>
+              <p class="recon-card__desc">Paintless dent repair, targeted paintwork, and body restoration.</p>
+            </div>
+            <div class="recon-card__photo">
+              <img src="assets/detailing-photo.webp" alt="Body and cosmetic reconditioning">
+            </div>
+          </div>
+
+          <div class="recon-card">
+            <div class="recon-card__top">
+              <h3 class="recon-card__name">Glass</h3>
+              <p class="recon-card__desc">Windshields, side windows, and rear glass — replaced if cracked or compromised.</p>
+            </div>
+            <div class="recon-card__photo">
+              <img src="assets/detailing-photo.webp" alt="Glass replacement">
+            </div>
+          </div>
+
+          <div class="recon-card">
+            <div class="recon-card__top">
+              <h3 class="recon-card__name">Tires</h3>
+              <p class="recon-card__desc">Replaced when tread depth falls below safe driving standards.</p>
+            </div>
+            <div class="recon-card__photo">
+              <img src="assets/detailing-photo.webp" alt="Tire replacement">
+            </div>
+          </div>
+
+          <div class="recon-card">
+            <div class="recon-card__top">
+              <h3 class="recon-card__name">Detailing</h3>
+              <p class="recon-card__desc">Full professional detail inside and out before every listing.</p>
+            </div>
+            <div class="recon-card__photo">
+              <img src="assets/detailing-photo.webp" alt="Detailing">
+            </div>
+          </div>
+
+        </div>
+      </div>
+
   </section>
 
-
-  <!-- Detailing section -->
-  <div class="detailing" id="s-detailing">
-    <div class="detailing__left">
-      <p class="detailing__eyebrow">DETAILING</p>
-      <h2 class="detailing__headline">Detailed and photographed, inside and out</h2>
-      <p class="detailing__body">
-        Professionally detailed at our facility both inside and out, giving you that Clutch car feeling straight out of the gate.
-      </p>
-    </div>
-    <img
-      class="detailing__photo"
-      src="assets/detailing-photo.webp"
-      alt="Detailing"
-    >
-  </div>
 
   <!-- Photography thumbnail grid -->
   <div class="photo-grid-section">
@@ -565,34 +600,29 @@
         <div class="step3__tags">
           <!-- Row 1 -->
           <div class="step3__tag step3__tag--stat">
-            <p class="step3__tag-label">Up to</p>
-            <p class="step3__tag-stat">3×</p>
-            <p class="step3__tag-sub">mechanic-led road tests</p>
+            <p class="step3__tag-label">Inspected by</p>
+            <p class="step3__tag-stat">22</p>
+            <p class="step3__tag-sub">certified mechanics</p>
           </div>
           <div class="step3__tag step3__tag--stat">
             <p class="step3__tag-label">Full</p>
             <p class="step3__tag-stat">210</p>
             <p class="step3__tag-sub">point inspection checklist</p>
           </div>
-          <div class="step3__tag step3__tag--icon">
-            <div class="step3__tag-icon-wrap"><img class="step3__tag-img" src="assets/cc.gif" alt="Clutch Certified"></div>
-            <p class="step3__tag-text">Reconditioned by Clutch Certified Mechanics</p>
+          <div class="step3__tag step3__tag--stat">
+            <p class="step3__tag-label">Up to</p>
+            <p class="step3__tag-stat">3×</p>
+            <p class="step3__tag-sub">reconditioned by Clutch Certified mechanics</p>
           </div>
           <!-- Row 2 -->
-          <div class="step3__tag step3__tag--photo step3__tag--centered-text">
-            <div class="step3__tag-cars">
-              <img class="car c1" src="assets/step3-parking.webp" alt="">
-              <img class="car c2" src="assets/step3-parking.webp" alt="">
-              <img class="car c3" src="assets/step3-parking.webp" alt="">
-              <img class="car c5" src="assets/step3-parking.webp" alt="">
-              <img class="car c6" src="assets/step3-parking.webp" alt="">
-              <img class="car c7" src="assets/step3-parking.webp" alt="">
-            </div>
+          <div class="step3__tag step3__tag--photo step3__tag--top-text">
+            <img class="step3__tag-img" src="assets/garage.png" alt="Clutch facility">
             <p class="step3__tag-text">Safely stored at<br>our facility</p>
           </div>
-          <div class="step3__tag step3__tag--photo step3__tag--top-text">
-            <img class="step3__tag-img" src="assets/Detail-card.webp" alt="Car interior">
-            <p class="step3__tag-text">Detailed inside<br>and out</p>
+          <div class="step3__tag step3__tag--stat">
+            <p class="step3__tag-label">Rated</p>
+            <p class="step3__tag-stat">9/10</p>
+            <p class="step3__tag-sub">customer vehicle satisfaction</p>
           </div>
           <div class="step3__tag step3__tag--photo step3__tag--photographed">
             <img class="step3__tag-img" src="assets/step3-front.webp" alt="Car front">
@@ -621,7 +651,7 @@
         <div class="promise__card">
           <svg width="14" height="15" viewBox="0 0 119 129" style="width:39px;height:39px;" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M57.6055 96.8203C59.6708 97.1941 61.8189 97.3916 64.0352 97.3916C66.1143 97.3916 68.1342 97.2259 70.0801 96.9072L81.7627 126.198C76.2169 127.734 70.3505 128.557 64.2783 128.557C57.9474 128.557 51.9017 127.736 46.2285 126.196L57.6055 96.8203ZM64.2783 0C88.139 3.35799e-05 108.835 12.6606 118.817 31.4082L118.796 31.4199L118.773 31.3711L90.4717 44.8389C85.1787 36.2506 75.4271 30.922 64.0352 30.9219C45.2873 30.9219 31.4082 44.8001 31.4082 64.2783C31.4082 76.6463 37.1474 86.7985 46.2285 92.4717L34.8291 121.904C13.6882 111.526 4.14431e-05 89.9803 0 64.2783C0 28.0001 27.2696 0 64.2783 0ZM119.01 97.4258C113.104 107.884 104.081 116.382 93.1377 121.84L81.5371 92.7549C85.2056 90.528 88.2772 87.5573 90.5537 83.9697L119.01 97.4258Z" fill="#1d1d1f"/></svg>
           <h3 class="promise__card-title">Clutch<br>Certified</h3>
-          <p class="promise__card-body">210 points. 3 test drives. A standard of quality you can trust.</p>
+          <p class="promise__card-body">210 points. 3 mechanic-led road tests. A standard of quality you can trust.</p>
         </div>
       </div>
     </div>
@@ -663,5 +693,192 @@
     <div class="lightbox__counter" id="lb-counter"></div>
   </div>
   <script src="main.js"></script>
+  <script>
+    (function () {
+      // ── Config ─────────────────────────────────────────────
+      var TARGET_VEHICLES   = 70000;
+      var TARGET_DATAPOINTS = 15000000;
+      var DIGIT_H         = 80;    // px — must match CSS --t2-lh
+      var STAGGER_MS      = 70;    // per-column delay, right→left
+      var ENTER_DUR       = '2.4s';
+      var ENTER_EASE      = 'cubic-bezier(0.16, 1, 0.3, 1)'; // expo ease-out — smooth decel
+      var TICK_DELAY_MS   = 3000;  // pause after entrance before live tick starts
+      var TICK_DUR        = '0.5s';
+      var TICK_EASE       = 'cubic-bezier(0.16, 1, 0.3, 1)';
+
+      // ── Helpers ─────────────────────────────────────────────
+      function formattedChars(n) {
+        return Math.round(n).toLocaleString('en-US').split('');
+      }
+
+      function paddedDigits(n, len) {
+        var d = String(Math.round(n)).split('').map(Number);
+        while (d.length < len) d.unshift(0);
+        return d;
+      }
+
+      // ── Build odometer DOM ──────────────────────────────────
+      // Each strip has 20 cells (0-9 twice). The entrance rolls through
+      // the first group (0→9) and lands on the target digit in the second
+      // group — so every digit, including zeros, cycles visibly.
+      function buildOdometer(el, value) {
+        el.innerHTML = '';
+        var strips = [];
+
+        formattedChars(value).forEach(function (ch) {
+          if (ch === ',') {
+            var sep = document.createElement('span');
+            sep.className   = 'odometer__sep';
+            sep.textContent = ',';
+            sep.setAttribute('aria-hidden', 'true');
+            el.appendChild(sep);
+          } else {
+            var win   = document.createElement('span');
+            win.className = 'odometer__window';
+            var strip = document.createElement('span');
+            strip.className = 'odometer__strip';
+            for (var rep = 0; rep < 2; rep++) {
+              for (var d = 0; d <= 9; d++) {
+                var cell = document.createElement('span');
+                cell.className   = 'odometer__cell';
+                cell.textContent = String(d);
+                strip.appendChild(cell);
+              }
+            }
+            win.appendChild(strip);
+            el.appendChild(win);
+            strips.push(strip);
+          }
+        });
+
+        return strips;
+      }
+
+      function setTransition(strips, dur, ease) {
+        strips.forEach(function (s) {
+          s.style.transition      = dur ? 'transform ' + dur + ' ' + ease : 'none';
+          s.style.transitionDelay = '0ms';
+        });
+      }
+
+      // Set strips using the first group of digits (for live tick / reset)
+      function applyFirst(strips, n) {
+        paddedDigits(n, strips.length).forEach(function (d, i) {
+          strips[i].style.transform = 'translateY(' + (-(d * DIGIT_H)) + 'px)';
+        });
+      }
+
+      // Set strips using the second group (10+d) — for entrance landing
+      function applySecond(strips, n) {
+        paddedDigits(n, strips.length).forEach(function (d, i) {
+          strips[i].style.transform = 'translateY(' + (-((10 + d) * DIGIT_H)) + 'px)';
+        });
+      }
+
+      // Live tick: only move strips whose digit changed
+      function tickTo(strips, oldVal, newVal) {
+        var oldD = paddedDigits(oldVal, strips.length);
+        var newD = paddedDigits(newVal, strips.length);
+        newD.forEach(function (d, i) {
+          if (d !== oldD[i]) {
+            strips[i].style.transform = 'translateY(' + (-(d * DIGIT_H)) + 'px)';
+          }
+        });
+      }
+
+      // ── Entrance roll ────────────────────────────────────────
+      // CSS transition + left→right stagger. Strips start at translateY(0)
+      // (showing the '0' in the first group) and roll to (10+d)*DIGIT_H,
+      // passing through all 10 digits before landing. On done, resets
+      // strips to first-group positions so live tick can take over cleanly.
+      function rollIn(strips, target, onDone) {
+        // Start all at 0 (top of first group = digit 0)
+        setTransition(strips, null, null);
+        strips.forEach(function (s) { s.style.transform = 'translateY(0)'; });
+
+        // One rAF to let the reset paint, then trigger transitions
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            strips.forEach(function (s, i) {
+              s.style.transition      = 'transform ' + ENTER_DUR + ' ' + ENTER_EASE;
+              s.style.transitionDelay = ((strips.length - 1 - i) * STAGGER_MS) + 'ms';
+            });
+            applySecond(strips, target);
+
+            var settleDur = parseFloat(ENTER_DUR) * 1000
+                          + strips.length * STAGGER_MS
+                          + 200;
+
+            setTimeout(function () {
+              // Silently reset to first-group so live tick starts clean
+              setTransition(strips, null, null);
+              applyFirst(strips, target);
+              requestAnimationFrame(function () {
+                requestAnimationFrame(function () {
+                  if (onDone) setTimeout(onDone, TICK_DELAY_MS);
+                });
+              });
+            }, settleDur);
+          });
+        });
+      }
+
+      // ── Init ────────────────────────────────────────────────
+      var velEl   = document.getElementById('vol-vehicles');
+      var dpEl    = document.getElementById('vol-datapoints');
+      var section = document.querySelector('.volume-section');
+
+      var vehicles   = TARGET_VEHICLES;
+      var datapoints = TARGET_DATAPOINTS;
+      var animated   = false;
+
+      var velStrips = buildOdometer(velEl, TARGET_VEHICLES);
+      var dpStrips  = buildOdometer(dpEl,  TARGET_DATAPOINTS);
+
+      velEl.setAttribute('aria-live', 'polite');
+      dpEl.setAttribute('aria-live',  'polite');
+
+      function startLiveTick() {
+        setTransition(velStrips, TICK_DUR, TICK_EASE);
+        setTransition(dpStrips,  TICK_DUR, TICK_EASE);
+
+        setInterval(function () {
+          var prev = vehicles;
+          vehicles += 1;
+          tickTo(velStrips, prev, vehicles);
+        }, 2500);
+
+        setInterval(function () {
+          var prev = datapoints;
+          datapoints += 10;
+          tickTo(dpStrips, prev, datapoints);
+        }, 1500);
+      }
+
+      function runAnimation() {
+        if (animated) return;
+        animated = true;
+
+        rollIn(velStrips, TARGET_VEHICLES, null);
+
+        // Data points starts 300 ms after vehicles
+        setTimeout(function () {
+          rollIn(dpStrips, TARGET_DATAPOINTS, startLiveTick);
+        }, 300);
+      }
+
+      if ('IntersectionObserver' in window && section) {
+        var obs = new IntersectionObserver(function (entries) {
+          if (entries[0].isIntersecting) {
+            runAnimation();
+            obs.disconnect();
+          }
+        }, { threshold: 0.25 });
+        obs.observe(section);
+      } else {
+        runAnimation();
+      }
+    })();
+  </script>
 </body>
 </html>

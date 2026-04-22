@@ -205,7 +205,7 @@
     }
     .hero__h1 {
       font-size: var(--t3-size);
-      font-weight: var(--t3-fw);
+  
       color: var(--near-black);
       line-height: var(--t3-lh);
       letter-spacing: var(--t3-ls);

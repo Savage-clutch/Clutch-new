@@ -114,67 +114,109 @@
       margin: 0 auto;
       display: flex;
       align-items: stretch;
+      justify-content: center;
       gap: 14px;
     }
     .summary-card {
       width: 215px;
       height: 136px;
-      perspective: 800px;
-      cursor: pointer;
-    }
-    .summary-card__inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transform-style: preserve-3d;
-      transition: transform 0.7s cubic-bezier(0.34, 1.05, 0.64, 1);
-    }
-    .summary-card:hover .summary-card__inner {
-      transform: rotateY(180deg);
-    }
-    .summary-card__front,
-    .summary-card__back {
-      position: absolute;
-      inset: 0;
-      border-radius: 12px;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      display: flex;
-      align-items: flex-start;
-      justify-content: flex-start;
-      text-align: left;
-      padding: 16px;
-    }
-    .summary-card__front {
       background: var(--dark-card);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
       flex-direction: column;
       gap: 10px;
       align-items: flex-start;
       justify-content: flex-start;
     }
-    .summary-card__front svg { flex-shrink: 0; width: 30px; height: 30px; }
-    .summary-card__front p {
+    .summary-card svg { flex-shrink: 0; width: 30px; height: 30px; }
+    .summary-card p {
       color: #fff;
       font-size: 16px;
       font-weight: 500;
       line-height: 21px;
       letter-spacing: var(--t15-ls);
     }
-    .summary-card__back {
-      background: var(--coral);
-      transform: rotateY(180deg);
+
+    /* ── Volume / Experience ── */
+    .volume-section {
+      padding: 60px 0 80px;
+      background: var(--page-bg);
+    }
+    .volume-inner {
+      width: 902px;
+      margin: 0 auto;
+      display: flex;
       align-items: center;
       justify-content: center;
-      text-align: center;
+      gap: 0;
     }
-    .summary-card__back p {
-      color: #fff;
-      font-size: 11px;
-      font-weight: 400;
-      line-height: 17px;
-      letter-spacing: -0.1px;
+    .volume-stat {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
     }
-    .summary-card--large {
-      width: 215px;
-      height: 136px;
+    .volume-stat__row {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+    .volume-stat__number {
+      /* becomes an inline-flex odometer container via JS */
+      display: inline-flex;
+      align-items: flex-end;
+      font-size: var(--t2-size);
+      font-weight: var(--t2-fw);
+      letter-spacing: var(--t2-ls);
+      color: var(--near-black);
+      font-variant-numeric: tabular-nums;
+    }
+    .volume-stat__plus {
+      font-size: var(--t2-size);
+      font-weight: var(--t2-fw);
+      line-height: var(--t2-lh);
+      color: var(--coral);
+    }
+
+    /* ── Odometer strip ── */
+    .odometer__window {
+      height: var(--t2-lh);        /* 80px — one digit tall */
+      overflow: hidden;
+      display: inline-flex;
+      align-items: flex-start;
+    }
+    .odometer__strip {
+      display: flex;
+      flex-direction: column;
+      will-change: transform;
+      /* transition injected by JS */
+    }
+    .odometer__cell {
+      height: var(--t2-lh);        /* 80px */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .odometer__sep {
+      height: var(--t2-lh);        /* 80px */
+      display: inline-flex;
+      align-items: flex-end;
+      padding-bottom: 10px;        /* drop comma to optical baseline */
+    }
+    .volume-stat__label {
+      font-size: var(--t13-size);
+      font-weight: var(--t13-fw);
+      line-height: var(--t13-lh);
+      letter-spacing: var(--t13-ls);
+      color: var(--gray-label);
+    }
+    .volume-divider {
+      width: 1px;
+      height: 64px;
+      background: rgba(0,0,0,0.12);
+      flex-shrink: 0;
+      margin: 0 48px;
     }
