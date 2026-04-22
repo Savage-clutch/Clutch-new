@@ -799,7 +799,7 @@
 
     /* ── STEP 3: LISTED ── */
     .listed {
-      background: var(--ink);
+      background: #1F1F1F;
       padding: 0 0 48px;
       position: relative;
       width: 100vw;
