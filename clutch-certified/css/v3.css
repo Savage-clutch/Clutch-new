@@ -1045,10 +1045,8 @@
     .final__car {
       width: 83%;
       max-width: 83%;
-      height: 400px;
+      height: auto;
       display: block;
-      object-fit: cover;
-      object-position: center 40%;
       margin-top: 80px;
     }
     .final__btn-wrap { margin-top: 24px; }
@@ -2056,7 +2054,7 @@
 
   /* ── FINAL ── */
   .final { padding: 60px 24px 0; min-height: 80vh; }
-  .final__car { width: 100%; max-width: 100%; height: 240px; }
+  .final__car { width: 100%; max-width: 100%; height: auto; }
 
   /* ── SECTION NAV ── */
   .section-nav { display: none; }
