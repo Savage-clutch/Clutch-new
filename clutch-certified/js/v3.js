@@ -102,11 +102,17 @@
     })();
 
     // Reveal on scroll
-    const reveals = document.querySelectorAll('.reveal');
-    const revealObs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    reveals.forEach(el => revealObs.observe(el));
+    const reveals = Array.from(document.querySelectorAll('.reveal'));
+    function checkReveals() {
+      reveals.forEach(el => {
+        if (el.classList.contains('visible')) return;
+        if (el.getBoundingClientRect().top < window.innerHeight - 80) {
+          el.classList.add('visible');
+        }
+      });
+    }
+    window.addEventListener('scroll', checkReveals, { passive: true });
+    setTimeout(checkReveals, 100);
 
     // 210 roll-up counter
     (function() {
@@ -816,11 +822,18 @@
 
       showFrame(START_FRAME);
 
+      var rafPending = false;
       window.addEventListener('scroll', function () {
-        if (!section) return;
-        var rect = section.getBoundingClientRect();
-        // 0 when section enters from below, 1 when section top hits viewport top
-        var progress = Math.max(0, Math.min(1, 1 - rect.top / window.innerHeight));
-        showFrame(Math.round(START_FRAME + progress * SWEEP));
+        if (rafPending) return;
+        rafPending = true;
+        requestAnimationFrame(function () {
+          rafPending = false;
+          if (!section) return;
+          var rect = section.getBoundingClientRect();
+          var raw = Math.max(0, Math.min(1, 1 - rect.top / window.innerHeight));
+          var progress = Math.max(0, Math.min(1, (raw - 0.4) / 0.6));
+          showFrame(Math.round(START_FRAME + (1 - progress) * SWEEP));
+        });
       }, { passive: true });
     })();
+
