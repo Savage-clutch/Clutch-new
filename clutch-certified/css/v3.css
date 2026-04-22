@@ -822,7 +822,7 @@
       font-size: 15px;
       color: #fff;
       line-height: 1.7;
-      max-width: 340px;
+      max-width: 380px;
     }
 
     .listed__cta {
@@ -864,9 +864,9 @@
     }
     .listed__right {
       position: absolute;
-      right: -4%;
-      bottom: -10%;
-      width: 62%;
+      right: -2%;
+      bottom: -40px;
+      width: 65%;
       pointer-events: none;
     }
     /* Scroll-driven car rotation */
