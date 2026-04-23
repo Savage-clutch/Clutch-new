@@ -654,15 +654,15 @@
       // applies its own translateX / translateZ / rotateY / scale on top.
       var SLOTS = [
         // far-left
-        { txR: -0.619, tzR: -0.38, ry:  55, scale: 0.72, opacity: 0,    brightness: 1,    ptr: 'none' },
+        { txR: -0.619, tzR: -0.38, ry:  55, scale: 0.72, opacity: 0,    brightness: 1,    ptr: 'none',   cursor: 'default' },
         // left  (wing)
-        { txR: -0.369, tzR: -0.26, ry:  42, scale: 0.80, opacity: 1,    brightness: 1,    ptr: 'auto' },
-        // center — small positive Z keeps it clearly in front of the wings
-        { txR:  0,     tzR:  0.04, ry:   0, scale: 1,    opacity: 1,    brightness: 1,    ptr: 'auto' },
+        { txR: -0.369, tzR: -0.26, ry:  42, scale: 0.80, opacity: 1,    brightness: 1,    ptr: 'auto',   cursor: 'pointer' },
+        // center
+        { txR:  0,     tzR:  0.04, ry:   0, scale: 1,    opacity: 1,    brightness: 1,    ptr: 'auto',   cursor: 'default' },
         // right (wing)
-        { txR:  0.369, tzR: -0.26, ry: -42, scale: 0.80, opacity: 1,    brightness: 1,    ptr: 'auto' },
+        { txR:  0.369, tzR: -0.26, ry: -42, scale: 0.80, opacity: 1,    brightness: 1,    ptr: 'auto',   cursor: 'pointer' },
         // far-right
-        { txR:  0.619, tzR: -0.38, ry: -55, scale: 0.72, opacity: 0,    brightness: 1,    ptr: 'none' },
+        { txR:  0.619, tzR: -0.38, ry: -55, scale: 0.72, opacity: 0,    brightness: 1,    ptr: 'none',   cursor: 'default' },
       ];
 
       function slotIdx(offset, n) {
@@ -688,6 +688,7 @@
           item.style.opacity       = String(s.opacity);
           item.style.filter        = 'brightness(' + s.brightness + ')';
           item.style.pointerEvents = s.ptr;
+          item.style.cursor        = s.cursor;
           item.classList.toggle('is-active', offset === 0);
         });
         if (instant) {
@@ -727,23 +728,78 @@
         }
       }
 
+      var tabAnimating = false;
+      var MORPH_MS = 380;
+      var FADE_MS  = 140;
+
       function selectTab(idx) {
-        btns.forEach(function(b, i) { b.classList.toggle('is-active', i === idx); });
-        copyEls.forEach(function(el, i) { el.classList.toggle('is-active', i === idx); });
-        rotateTo(idx);
-        moveIndicator(btns[idx]);
-        scrollPlatterToBtn(btns[idx]);
+        if (tabAnimating) return;
+        var prevIdx = getActive();
+        if (idx === prevIdx) return;
+        tabAnimating = true;
+
+        var prevBtn = btns[prevIdx];
+        var nextBtn = btns[idx];
+
+        // 1 — fade OUT current button
+        if (prevBtn) {
+          prevBtn.style.transition = 'opacity ' + FADE_MS + 'ms ease';
+          prevBtn.style.opacity = '0';
+        }
+
+        setTimeout(function () {
+          // 2 — measure pill width BEFORE class swap
+          var firstW = platter.getBoundingClientRect().width;
+
+          // 3 — DOM snap: swap active classes (layout jumps instantly)
+          btns.forEach(function (b, i) { b.classList.toggle('is-active', i === idx); });
+          copyEls.forEach(function (el, i) { el.classList.toggle('is-active', i === idx); });
+
+          // keep new button invisible during morph
+          if (nextBtn) { nextBtn.style.transition = 'none'; nextBtn.style.opacity = '0'; }
+
+          // 4 — measure pill width AFTER class swap
+          var lastW = platter.getBoundingClientRect().width;
+
+          // 5 — pin platter to old pixel width so we can transition to new
+          platter.style.transition = 'none';
+          platter.style.width = firstW + 'px';
+
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              // 6 — animate width to new size (pixel→pixel, no auto needed)
+              platter.style.transition = 'width ' + MORPH_MS + 'ms cubic-bezier(0.4,0,0.2,1)';
+              platter.style.width = lastW + 'px';
+
+              // 7 — after morph, clear inline width then fade IN new button
+              setTimeout(function () {
+                platter.style.transition = 'none';
+                platter.style.width = '';
+
+                if (nextBtn) {
+                  nextBtn.style.transition = 'opacity ' + FADE_MS + 'ms ease';
+                  nextBtn.style.opacity = '1';
+                }
+
+                setTimeout(function () {
+                  if (prevBtn) prevBtn.style.transition = '';
+                  if (nextBtn) nextBtn.style.transition = '';
+                  tabAnimating = false;
+                }, FADE_MS);
+              }, MORPH_MS);
+            });
+          });
+
+          rotateTo(idx);
+          moveIndicator(btns[idx]);
+          scrollPlatterToBtn(btns[idx]);
+        }, FADE_MS);
       }
 
       btns.forEach(function(btn, idx) {
         btn.addEventListener('click', function() { selectTab(idx); });
       });
 
-      items.forEach(function(item, i) {
-        item.addEventListener('click', function() {
-          if (i !== getActive()) { stopAuto(); selectTab(i); }
-        });
-      });
 
       function getActive() {
         for (var i = 0; i < btns.length; i++) {
@@ -782,6 +838,24 @@
           stopAuto();
           selectTab(dx < 0 ? (getActive() + 1) % btns.length : (getActive() - 1 + btns.length) % btns.length);
         }, { passive: true });
+        stage.addEventListener('mousemove', function(e) {
+          var stageRect = stage.getBoundingClientRect();
+          var relX = (e.clientX - stageRect.left) / stageRect.width;
+          stage.style.cursor = (relX < 0.38 || relX > 0.62) ? 'pointer' : 'default';
+        });
+        stage.addEventListener('mouseleave', function() { stage.style.cursor = ''; });
+        stage.addEventListener('click', function(e) {
+          var stageRect = stage.getBoundingClientRect();
+          var relX = (e.clientX - stageRect.left) / stageRect.width;
+          // left 38% → prev, right 38% → next, centre dead zone → ignore
+          if (relX < 0.38) {
+            stopAuto();
+            selectTab((getActive() - 1 + btns.length) % btns.length);
+          } else if (relX > 0.62) {
+            stopAuto();
+            selectTab((getActive() + 1) % btns.length);
+          }
+        });
       }
 
       var resizeTimer;
@@ -792,6 +866,9 @@
 
       initRing();
       startAuto();
+
+      // Show first active button immediately (FLIP controls opacity on transitions)
+      if (btns[0]) btns[0].style.opacity = '1';
 
       indicator.style.transition = 'none';
       moveIndicator(btns[0]);
