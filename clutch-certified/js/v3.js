@@ -656,11 +656,11 @@
         // far-left
         { txR: -0.619, tzR: -0.38, ry:  55, scale: 0.72, opacity: 0,    brightness: 1,    ptr: 'none' },
         // left  (wing)
-        { txR: -0.369, tzR: -0.26, ry:  42, scale: 0.80, opacity: 0.5,  brightness: 0.45, ptr: 'auto' },
+        { txR: -0.369, tzR: -0.26, ry:  42, scale: 0.80, opacity: 1,    brightness: 1,    ptr: 'auto' },
         // center — small positive Z keeps it clearly in front of the wings
         { txR:  0,     tzR:  0.04, ry:   0, scale: 1,    opacity: 1,    brightness: 1,    ptr: 'auto' },
         // right (wing)
-        { txR:  0.369, tzR: -0.26, ry: -42, scale: 0.80, opacity: 0.5,  brightness: 0.45, ptr: 'auto' },
+        { txR:  0.369, tzR: -0.26, ry: -42, scale: 0.80, opacity: 1,    brightness: 1,    ptr: 'auto' },
         // far-right
         { txR:  0.619, tzR: -0.38, ry: -55, scale: 0.72, opacity: 0,    brightness: 1,    ptr: 'none' },
       ];
