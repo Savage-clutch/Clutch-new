@@ -1019,6 +1019,25 @@
     }
 
     /* ── FINAL CTA (sticky footer) ── */
+    .final__frames {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .final__frame {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -20%) scale(0.45);
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      opacity: 0;
+      display: block;
+    }
     .final {
       background: #000;
       display: flex;
@@ -1026,31 +1045,35 @@
       align-items: center;
       justify-content: center;
       gap: 16px;
-      padding: 80px 60px 0;
+      padding: 80px 60px 200px;
       position: sticky;
       bottom: 0;
       z-index: 0;
       width: 100%;
       min-height: 100vh;
+      overflow: hidden;
     }
     .final__headline {
-      font-size: var(--text-h1);
+      font-size: clamp(48px, 6vw, 88px);
       font-weight: 400;
       color: #fff;
       letter-spacing: -0.03em;
-      line-height: 1.1;
+      line-height: 1.05;
       text-align: center;
-      max-width: 800px;
+      max-width: 900px;
     }
-    .final__car {
-      width: 83%;
-      max-width: 83%;
-      height: auto;
-      display: block;
-      margin-top: 140px;
+    .final__content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      z-index: 2;
     }
-    .final__btn-wrap { margin-top: 24px; }
     .final__btn-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 32px;
       z-index: 2;
     }
     .final__btn {
@@ -2054,8 +2077,9 @@
   .promise__card:last-child { border-bottom: none; }
 
   /* ── FINAL ── */
-  .final { padding: 60px 24px 0; min-height: 80vh; }
-  .final__car { width: 100%; max-width: 100%; height: auto; }
+  .final { padding: 60px 24px; min-height: auto; }
+  .final__btn-wrap { flex-direction: column; align-items: stretch; }
+  .final__btn { justify-content: center; }
 
   /* ── SECTION NAV ── */
   .section-nav { display: none; }

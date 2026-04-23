@@ -837,3 +837,39 @@
       }, { passive: true });
     })();
 
+    /* ── SCROLL-DRIVEN FOOTER LIGHT-UP ── */
+    (function () {
+      var wrapper = document.getElementById('final-frames');
+      if (!wrapper) return;
+      var frames = Array.from(wrapper.querySelectorAll('.final__frame'));
+      if (!frames.length) return;
+      // .final is sticky under <main>; track main's bottom edge for reveal progress
+      var mainEl = document.querySelector('main');
+      if (!mainEl) return;
+      var COUNT = frames.length;
+      var SWEEP = COUNT - 1;
+      var activeIdx = -1;
+      function showFrame(idx) {
+        idx = Math.max(0, Math.min(COUNT - 1, idx));
+        if (idx === activeIdx) return;
+        if (activeIdx >= 0) frames[activeIdx].style.opacity = 0;
+        frames[idx].style.opacity = 1;
+        activeIdx = idx;
+      }
+      showFrame(0);
+      var rafPending = false;
+      function update() {
+        var mainBottom = mainEl.getBoundingClientRect().bottom;
+        var raw = 1 - mainBottom / window.innerHeight;
+        // hold on frame 0 until 35% of the footer is revealed, then animate across the rest
+        var progress = Math.max(0, Math.min(1, (raw - 0.35) / 0.65));
+        showFrame(Math.round(progress * SWEEP));
+      }
+      window.addEventListener('scroll', function () {
+        if (rafPending) return;
+        rafPending = true;
+        requestAnimationFrame(function () { rafPending = false; update(); });
+      }, { passive: true });
+      update();
+    })();
+
