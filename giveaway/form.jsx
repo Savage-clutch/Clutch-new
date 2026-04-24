@@ -111,7 +111,7 @@ function EnterSection({ formRef }) {
 
                 <form onSubmit={submit}>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
-                    <Field label="First name" value={name} setValue={setName} placeholder="e.g. Alex" />
+                    <Field label="First name" value={name} setValue={setName} placeholder="Alex" />
                     <Field label="Email address" value={email} setValue={setEmail} placeholder="you@email.com" type="email" />
                   </div>
                   <div style={{ marginBottom: 8 }}>
