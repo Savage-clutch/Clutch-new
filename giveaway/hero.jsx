@@ -242,6 +242,9 @@ function Hero({ deadlineIso, onCtaClick }) {
             <button className="btn btn-primary" onClick={onCtaClick} style={{ fontSize: 18, padding: '20px 40px' }}>
               Enter the Giveaway
             </button>
+            <div style={{ marginTop: 14, fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,.35)', letterSpacing: '.04em' }}>
+              Est. value C$80,000 · Free to enter
+            </div>
           </div>
         </>}
 
@@ -309,11 +312,11 @@ function Hero({ deadlineIso, onCtaClick }) {
       )}
 
       {/* ─── FEATURE CAROUSEL ─── */}
-      <div style={{ background: '#f5f4f2', padding: '64px 0 0' }}>
+      <div style={{ background: '#f5f4f2', padding: '44px 0 0' }}>
 
         {/* Headline + arrows */}
-        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', padding: '0 64px', marginBottom: 36 }}>
-          <h2 style={{ fontSize: clamp(28, 44), fontWeight: 800, letterSpacing: '-0.03em', color: '#0a0a0a', margin: 0, lineHeight: 1.1 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 48px', marginBottom: 24 }}>
+          <h2 style={{ fontSize: clamp(22, 32), fontWeight: 800, letterSpacing: '-0.03em', color: '#0a0a0a', margin: 0, lineHeight: 1.1 }}>
             Take a closer look.
           </h2>
           <div style={{ display: 'flex', gap: 8 }}>
@@ -321,7 +324,7 @@ function Hero({ deadlineIso, onCtaClick }) {
               const disabled = dir === -1 ? carouselIdx === 0 : carouselIdx === maxIdx;
               return (
                 <button key={dir} onClick={() => navigate(dir)} disabled={disabled} style={{
-                  width: 36, height: 36, borderRadius: '50%',
+                  width: 32, height: 32, borderRadius: '50%',
                   border: '1px solid rgba(0,0,0,.18)',
                   background: 'transparent', cursor: disabled ? 'default' : 'pointer',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -331,7 +334,7 @@ function Hero({ deadlineIso, onCtaClick }) {
                   onMouseEnter={e => { if (!disabled) e.currentTarget.style.background = 'rgba(0,0,0,.06)'; }}
                   onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
                 >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d={path} />
                   </svg>
                 </button>
@@ -341,26 +344,26 @@ function Hero({ deadlineIso, onCtaClick }) {
         </div>
 
         {/* Sliding track — peeks next slide */}
-        <div style={{ overflow: 'hidden', paddingLeft: 64 }}>
+        <div style={{ overflow: 'hidden', paddingLeft: 48 }}>
           <div style={{
-            display: 'flex', gap: 16,
-            transform: `translateX(calc(-${carouselIdx} * (47% + 16px)))`,
+            display: 'flex', gap: 12,
+            transform: `translateX(calc(-${carouselIdx} * (34% + 12px)))`,
             transition: 'transform .55s cubic-bezier(0.16,1,0.3,1)',
           }}>
             {specs.map((s, si) => (
-              <div key={s.key} style={{ width: '47%', flexShrink: 0 }}>
-                <div onClick={() => setLightbox(si)} style={{ overflow: 'hidden', borderRadius: 16, aspectRatio: '4/3', marginBottom: 20, cursor: 'zoom-in', position: 'relative' }}>
+              <div key={s.key} style={{ width: '34%', flexShrink: 0 }}>
+                <div onClick={() => setLightbox(si)} style={{ overflow: 'hidden', borderRadius: 12, aspectRatio: '3/2', marginBottom: 14, cursor: 'zoom-in', position: 'relative' }}>
                   <img src={s.img} alt={s.label} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform .4s ease' }}
                     onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.03)'}
                     onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
                   />
                 </div>
-                <div style={{ paddingRight: 32 }}>
-                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--coral)', marginBottom: 6 }}>{s.label}</div>
-                  <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-0.02em', color: '#0a0a0a', marginBottom: 8 }}>
-                    {s.value}{s.sub && <span style={{ fontSize: 14, fontWeight: 400, color: 'rgba(0,0,0,.35)', marginLeft: 6 }}>· {s.sub}</span>}
+                <div style={{ paddingRight: 24 }}>
+                  <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--coral)', marginBottom: 4 }}>{s.label}</div>
+                  <div style={{ fontSize: 16, fontWeight: 800, letterSpacing: '-0.02em', color: '#0a0a0a', marginBottom: 5 }}>
+                    {s.value}{s.sub && <span style={{ fontSize: 13, fontWeight: 400, color: 'rgba(0,0,0,.35)', marginLeft: 5 }}>· {s.sub}</span>}
                   </div>
-                  <p style={{ fontSize: 14, color: 'rgba(0,0,0,.5)', lineHeight: 1.65, margin: '0 0 48px' }}>{s.detail}</p>
+                  <p style={{ fontSize: 13, color: 'rgba(0,0,0,.5)', lineHeight: 1.6, margin: '0 0 32px' }}>{s.detail}</p>
                 </div>
               </div>
             ))}
