@@ -1,30 +1,14 @@
 // WhyCertified — dark stats section (vehicle details now in hero)
 const { useState: useStateS, useRef: useRefS, useEffect: useEffectS } = React;
 
-function useCountUp(target, duration = 1600) {
-  const [value, setValue] = useStateS(0);
-  const ref = useRefS(null);
-  useEffectS(() => {
-    const el = ref.current;
-    if (!el) return;
-    let started = false;
-    const run = () => {
-      if (started) return;
-      started = true;
-      const startTime = performance.now();
-      const step = (now) => {
-        const progress = Math.min((now - startTime) / duration, 1);
-        const ease = 1 - Math.pow(1 - progress, 3);
-        setValue(Math.round(ease * target));
-        if (progress < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
-    };
-    const obs = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) run(); }, { threshold: 0.3 });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [target]);
-  return [value, ref];
+function animateCount(setValue, target, duration) {
+  const t0 = performance.now();
+  const tick = (now) => {
+    const p = Math.min((now - t0) / duration, 1);
+    setValue(Math.round((1 - Math.pow(1 - p, 3)) * target));
+    if (p < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
 }
 
 function TiltCard({ children, style }) {
@@ -49,11 +33,25 @@ function TiltCard({ children, style }) {
   );
 }
 
-function StatNumber({ target, suffix, label, delay = 0 }) {
-  const [value, ref] = useCountUp(target, 1600 + delay);
+function StatNumber({ target, suffix, label, triggerRef, delay = 0 }) {
+  const [value, setValue] = useStateS(0);
+  useEffectS(() => {
+    const el = triggerRef.current;
+    if (!el) return;
+    let fired = false;
+    const obs = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !fired) {
+        fired = true;
+        obs.disconnect();
+        setTimeout(() => animateCount(setValue, target, 1500), delay);
+      }
+    }, { threshold: 0.5 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
   const display = target >= 1000 ? value.toLocaleString('en-CA') : String(value);
   return (
-    <div ref={ref} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       <div style={{ display: 'inline-flex', alignItems: 'flex-end' }}>
         <span style={{ fontSize: 64, fontWeight: 700, letterSpacing: '-0.04em', lineHeight: '72px', color: 'white' }}>{display}</span>
         {suffix && <span style={{ fontSize: 64, fontWeight: 700, letterSpacing: '-0.04em', lineHeight: '72px', color: 'var(--coral)', marginLeft: 2 }}>{suffix}</span>}
@@ -64,11 +62,12 @@ function StatNumber({ target, suffix, label, delay = 0 }) {
 }
 
 function WhyCertified() {
+  const gridRef = useRefS(null);
   const stats = [
-    { target: 70000, suffix: '+', label: 'Vehicles inspected',              delay: 0   },
-    { target: 210,   suffix: '',  label: 'Inspection points — no exceptions', delay: 120 },
-    { target: 23,    suffix: '',  label: 'Certified mechanics per vehicle',   delay: 240 },
-    { target: 3,     suffix: '×', label: 'Mechanic-led road tests',           delay: 360 },
+    { target: 70000, suffix: '+', label: 'Vehicles inspected',               delay: 0   },
+    { target: 210,   suffix: '',  label: 'Inspection points — no exceptions', delay: 140 },
+    { target: 23,    suffix: '',  label: 'Certified mechanics per vehicle',   delay: 280 },
+    { target: 3,     suffix: '×', label: 'Mechanic-led road tests',           delay: 420 },
   ];
   return (
     <section style={{ background: '#010101', position: 'relative', overflow: 'hidden', color: 'white', '--ink': '#ffffff', '--ink-700': 'rgba(255,255,255,.72)', '--ink-500': 'rgba(255,255,255,.40)' }}>
@@ -109,7 +108,7 @@ function WhyCertified() {
             </a>
           </div>
         </div>
-        <div style={{
+        <div ref={gridRef} style={{
           display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
           borderTop: '1px solid rgba(255,255,255,.1)',
           borderBottom: '1px solid rgba(255,255,255,.1)',
@@ -120,7 +119,7 @@ function WhyCertified() {
               padding: '52px 44px',
               borderRight: i < stats.length - 1 ? '1px solid rgba(255,255,255,.1)' : 'none',
             }}>
-              <StatNumber target={s.target} suffix={s.suffix} label={s.label} delay={s.delay} />
+              <StatNumber target={s.target} suffix={s.suffix} label={s.label} triggerRef={gridRef} delay={s.delay} />
             </div>
           ))}
         </div>
