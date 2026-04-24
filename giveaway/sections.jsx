@@ -1,5 +1,31 @@
 // WhyCertified — dark stats section (vehicle details now in hero)
-const { useState: useStateS, useRef: useRefS } = React;
+const { useState: useStateS, useRef: useRefS, useEffect: useEffectS } = React;
+
+function useCountUp(target, duration = 1600) {
+  const [value, setValue] = useStateS(0);
+  const ref = useRefS(null);
+  useEffectS(() => {
+    const el = ref.current;
+    if (!el) return;
+    let started = false;
+    const run = () => {
+      if (started) return;
+      started = true;
+      const startTime = performance.now();
+      const step = (now) => {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        setValue(Math.round(ease * target));
+        if (progress < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+    const obs = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) run(); }, { threshold: 0.3 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [target]);
+  return [value, ref];
+}
 
 function TiltCard({ children, style }) {
   const ref = useRefS(null);
@@ -23,12 +49,26 @@ function TiltCard({ children, style }) {
   );
 }
 
+function StatNumber({ target, suffix, label, delay = 0 }) {
+  const [value, ref] = useCountUp(target, 1600 + delay);
+  const display = target >= 1000 ? value.toLocaleString('en-CA') : String(value);
+  return (
+    <div ref={ref} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <div style={{ display: 'inline-flex', alignItems: 'flex-end' }}>
+        <span style={{ fontSize: 64, fontWeight: 700, letterSpacing: '-0.04em', lineHeight: '72px', color: 'white' }}>{display}</span>
+        {suffix && <span style={{ fontSize: 64, fontWeight: 700, letterSpacing: '-0.04em', lineHeight: '72px', color: 'var(--coral)', marginLeft: 2 }}>{suffix}</span>}
+      </div>
+      <div style={{ fontSize: 13, color: 'rgba(255,255,255,.5)', letterSpacing: '-0.01em', lineHeight: 1.5 }}>{label}</div>
+    </div>
+  );
+}
+
 function WhyCertified() {
   const stats = [
-    { n: '70,000', suffix: '+', label: 'Vehicles inspected' },
-    { n: '210',    suffix: '',  label: 'Inspection points — no exceptions' },
-    { n: '23',     suffix: '',  label: 'Certified mechanics per vehicle' },
-    { n: '3',      suffix: '×', label: 'Mechanic-led road tests' },
+    { target: 70000, suffix: '+', label: 'Vehicles inspected',              delay: 0   },
+    { target: 210,   suffix: '',  label: 'Inspection points — no exceptions', delay: 120 },
+    { target: 23,    suffix: '',  label: 'Certified mechanics per vehicle',   delay: 240 },
+    { target: 3,     suffix: '×', label: 'Mechanic-led road tests',           delay: 360 },
   ];
   return (
     <section style={{ background: '#010101', position: 'relative', overflow: 'hidden', color: 'white', '--ink': '#ffffff', '--ink-700': 'rgba(255,255,255,.72)', '--ink-500': 'rgba(255,255,255,.40)' }}>
@@ -79,13 +119,8 @@ function WhyCertified() {
             <div key={i} style={{
               padding: '52px 44px',
               borderRight: i < stats.length - 1 ? '1px solid rgba(255,255,255,.1)' : 'none',
-              display: 'flex', flexDirection: 'column', gap: 10,
             }}>
-              <div style={{ display: 'inline-flex', alignItems: 'flex-end' }}>
-                <span style={{ fontSize: 64, fontWeight: 700, letterSpacing: '-0.04em', lineHeight: '72px', color: 'white' }}>{s.n}</span>
-                {s.suffix && <span style={{ fontSize: 64, fontWeight: 700, letterSpacing: '-0.04em', lineHeight: '72px', color: 'var(--coral)', marginLeft: 2 }}>{s.suffix}</span>}
-              </div>
-              <div style={{ fontSize: 13, color: 'rgba(255,255,255,.5)', letterSpacing: '-0.01em', lineHeight: 1.5 }}>{s.label}</div>
+              <StatNumber target={s.target} suffix={s.suffix} label={s.label} delay={s.delay} />
             </div>
           ))}
         </div>
