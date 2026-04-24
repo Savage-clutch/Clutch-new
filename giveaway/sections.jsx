@@ -189,7 +189,7 @@ function HowToWin({ onStepClick }) {
 
                   {/* Title + desc */}
                   <div style={{ fontSize: 15, fontWeight: 700, color: '#0a0a0a', marginBottom: 6, letterSpacing: '-0.01em' }}>{s.title}</div>
-                  <p style={{ fontSize: 13, color: 'rgba(0,0,0,.45)', lineHeight: 1.6, margin: '0 0 24px' }}>{s.desc}</p>
+                  <p style={{ fontSize: 13, fontWeight: 500, color: 'rgba(0,0,0,.72)', lineHeight: 1.6, margin: '0 0 24px' }}>{s.desc}</p>
 
                   {/* CTA */}
                   <button onClick={() => onStepClick?.(s.n)} style={{
