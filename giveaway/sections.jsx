@@ -78,7 +78,7 @@ function WhyCertified() {
           <div>
             <img src="assets/clutch-certified-chrome-v2.webp" alt="Clutch Certified"
                  style={{
-                   width: '75%', display: 'block',
+                   width: '100%', display: 'block',
                    filter: 'drop-shadow(0 40px 60px rgba(0,0,0,.5))',
                  }} />
           </div>
