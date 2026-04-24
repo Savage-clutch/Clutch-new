@@ -81,7 +81,11 @@ function SpecTile({ icon, label, value, sub, detail, isOpen, onToggle }) {
 function Hero({ deadlineIso, onCtaClick }) {
   const { days, hours, mins, secs } = useCountdown(deadlineIso);
   const [scroll, setScroll] = useState(0);
+  // intro → sequence plays full-screen | settling → overlay shrinks away | done → hero layout visible
+  const [phase, setPhase] = useState('intro');
+  const introCanvasRef = useRef(null);
   const canvasRef = useRef(null);
+  const lastFrameRef = useRef(null);
 
   const specs = [
     { key: 'engine', label: 'Engine',       value: 'Mild Hybrid V6', sub: null,          detail: 'Gasoline/Mild Electric Hybrid V6 — refined power with improved efficiency. Smooth, responsive, and built for the long haul.',           img: 'audi/ac41fab2-03e7-44e1-a338-04f43d9ba0ca.webp' },
@@ -98,30 +102,56 @@ function Hero({ deadlineIso, onCtaClick }) {
   const lbNext = () => setLightbox(i => (i + 1) % specs.length);
   const lbPrev = () => setLightbox(i => (i - 1 + specs.length) % specs.length);
 
+  // Lock scroll during intro
+  useEffect(() => {
+    document.body.style.overflow = phase !== 'done' ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [phase]);
+
   useEffect(() => {
     const onScroll = () => setScroll(window.scrollY);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Full-screen intro sequence — plays once to the end, then transitions
   useEffect(() => {
-    const canvas = canvasRef.current;
+    const canvas = introCanvasRef.current;
     if (!canvas) return;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
     const TOTAL = 285, FPS = 24;
     const frames = new Array(TOTAL).fill(null);
     let loaded = 0, rafId, currentFrame = 0, lastTime = 0;
     const interval = 1000 / FPS;
+    let finished = false;
+
+    const blit = (img) => {
+      const ctx = canvas.getContext('2d');
+      const cw = canvas.width, ch = canvas.height;
+      const iw = img.naturalWidth, ih = img.naturalHeight;
+      const scale = Math.max(cw / iw, ch / ih);
+      const dx = (cw - iw * scale) / 2, dy = (ch - ih * scale) / 2;
+      ctx.clearRect(0, 0, cw, ch);
+      ctx.drawImage(img, dx, dy, iw * scale, ih * scale);
+      lastFrameRef.current = img;
+    };
 
     const draw = (time) => {
+      if (finished) return;
       rafId = requestAnimationFrame(draw);
       const delta = time - lastTime;
       if (delta < interval) return;
       lastTime = time - (delta % interval);
       const img = frames[currentFrame];
-      if (img) {
-        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+      if (img) blit(img);
+      currentFrame++;
+      if (currentFrame >= TOTAL) {
+        finished = true;
+        cancelAnimationFrame(rafId);
+        setPhase('settling');
+        setTimeout(() => setPhase('done'), 1300);
       }
-      currentFrame = (currentFrame + 1) % TOTAL;
     };
 
     for (let i = 0; i < TOTAL; i++) {
@@ -129,17 +159,24 @@ function Hero({ deadlineIso, onCtaClick }) {
       img.src = `assets/hero-frames/frame-${String(i).padStart(3, '0')}.webp`;
       img.onload = () => {
         loaded++;
-        if (loaded === 1) {
-          canvas.width = img.naturalWidth;
-          canvas.height = img.naturalHeight;
-          canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-          rafId = requestAnimationFrame(draw);
-        }
+        if (loaded === 1) { blit(img); rafId = requestAnimationFrame(draw); }
       };
       frames[i] = img;
     }
     return () => cancelAnimationFrame(rafId);
   }, []);
+
+  // When settling starts, stamp last frame onto the in-page canvas so it's ready underneath
+  useEffect(() => {
+    if (phase !== 'settling') return;
+    const canvas = canvasRef.current;
+    const img = lastFrameRef.current;
+    if (!canvas || !img) return;
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  }, [phase]);
 
   useEffect(() => {
     if (lightbox === null) return;
@@ -153,49 +190,72 @@ function Hero({ deadlineIso, onCtaClick }) {
   }, [lightbox]);
 
   return (
+    <>
+      {/* ── FULL-SCREEN INTRO OVERLAY ── */}
+      {phase !== 'done' && (
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 9999, background: '#010101', overflow: 'hidden',
+          ...(phase === 'settling' ? {
+            transform: 'scale(0.66)',
+            transformOrigin: '50% 82%',
+            opacity: 0,
+            transition: 'transform 1.1s cubic-bezier(0.16,1,0.3,1), opacity 0.8s ease 0.3s',
+          } : {}),
+        }}>
+          <canvas ref={introCanvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />
+        </div>
+      )}
+
     <section className="section-dark" style={{ padding: '140px 0 0', overflow: 'hidden', position: 'relative', background: '#010101' }}>
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
 
-        {/* Title */}
-        <h1 className="h-display center hero-animate hero-title" style={{ maxWidth: 1000, margin: '0 auto 28px', textWrap: 'balance' }}>
-          Win a <span style={{ whiteSpace: 'nowrap' }}>Clutch Certified</span><br />2025 Audi Q7.
-        </h1>
+        {phase === 'done' && <>
+          {/* Title */}
+          <h1 className="h-display center hero-animate hero-title" style={{ maxWidth: 1000, margin: '0 auto 28px', textWrap: 'balance' }}>
+            Win a <span style={{ whiteSpace: 'nowrap' }}>Clutch Certified</span><br />2025 Audi Q7.
+          </h1>
 
-        {/* Countdown */}
-        <div className="center hero-animate hero-clock" style={{ marginBottom: 28 }}>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
-            <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '.22em', textTransform: 'uppercase', color: 'var(--ink-500)' }}>
-              Ends in
-            </span>
-            <div className="flip-clock">
-              <FlipUnit value={days} label="Days" />
-              <span className="flip-colon">:</span>
-              <FlipUnit value={hours} label="Hrs" />
-              <span className="flip-colon">:</span>
-              <FlipUnit value={mins} label="Min" />
-              <span className="flip-colon">:</span>
-              <FlipUnit value={secs} label="Sec" />
+          {/* Countdown */}
+          <div className="center hero-animate hero-clock" style={{ marginBottom: 28 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
+              <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '.22em', textTransform: 'uppercase', color: 'var(--ink-500)' }}>
+                Ends in
+              </span>
+              <div className="flip-clock">
+                <FlipUnit value={days} label="Days" />
+                <span className="flip-colon">:</span>
+                <FlipUnit value={hours} label="Hrs" />
+                <span className="flip-colon">:</span>
+                <FlipUnit value={mins} label="Min" />
+                <span className="flip-colon">:</span>
+                <FlipUnit value={secs} label="Sec" />
+              </div>
             </div>
           </div>
-        </div>
 
-        <p className="lede center hero-animate hero-lede" style={{ margin: '0 auto 28px' }}>
-          Enter for a chance to win a free 2025 Audi Q7 and experience Clutch Certified first hand.
-        </p>
+          <p className="lede center hero-animate hero-lede" style={{ margin: '0 auto 28px' }}>
+            Enter for a chance to win a free 2025 Audi Q7 and experience Clutch Certified first hand.
+          </p>
 
-        {/* CTA */}
-        <div className="center hero-animate hero-cta" style={{ marginBottom: 60 }}>
-          <button className="btn btn-primary" onClick={onCtaClick} style={{ fontSize: 18, padding: '20px 40px' }}>
-            Enter the Giveaway
-          </button>
-        </div>
+          {/* CTA */}
+          <div className="center hero-animate hero-cta" style={{ marginBottom: 60 }}>
+            <button className="btn btn-primary" onClick={onCtaClick} style={{ fontSize: 18, padding: '20px 40px' }}>
+              Enter the Giveaway
+            </button>
+          </div>
+        </>}
 
       </div>
 
-      {/* Car — bleeds edge to edge below content */}
-      <div className="hero-car" style={{ position: 'relative', zIndex: 1, marginTop: -100 }}>
+      {/* Car — in-page canvas, revealed as overlay fades */}
+      <div style={{ position: 'relative', zIndex: 1, marginTop: -100 }}>
         <canvas ref={canvasRef}
-          style={{ width: '70%', display: 'block', margin: '0 auto', transform: `translateX(4%) translateY(${-scroll * 0.04}px)` }} />
+          style={{
+            width: '70%', display: 'block', margin: '0 auto',
+            transform: `translateX(4%) translateY(${-scroll * 0.04}px)`,
+            opacity: phase === 'intro' ? 0 : 1,
+            transition: phase === 'settling' ? 'opacity 0.5s ease' : 'none',
+          }} />
       </div>
 
       {/* Lightbox */}
@@ -310,6 +370,7 @@ function Hero({ deadlineIso, onCtaClick }) {
       </div>
 
     </section>
+    </>
   );
 }
 
