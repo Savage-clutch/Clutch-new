@@ -120,7 +120,7 @@ function Hero({ deadlineIso, onCtaClick }) {
     if (!canvas) return;
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    const TOTAL = 285, FPS = 24;
+    const TOTAL = 285, FPS = 60;
     const frames = new Array(TOTAL).fill(null);
     let loaded = 0, rafId, currentFrame = 0, lastTime = 0;
     const interval = 1000 / FPS;
@@ -130,7 +130,7 @@ function Hero({ deadlineIso, onCtaClick }) {
       const ctx = canvas.getContext('2d');
       const cw = canvas.width, ch = canvas.height;
       const iw = img.naturalWidth, ih = img.naturalHeight;
-      const scale = Math.max(cw / iw, ch / ih);
+      const scale = Math.min(cw / iw, ch / ih); // contain — full car visible
       const dx = (cw - iw * scale) / 2, dy = (ch - ih * scale) / 2;
       ctx.clearRect(0, 0, cw, ch);
       ctx.drawImage(img, dx, dy, iw * scale, ih * scale);
