@@ -81,6 +81,7 @@ function SpecTile({ icon, label, value, sub, detail, isOpen, onToggle }) {
 function Hero({ deadlineIso, onCtaClick }) {
   const { days, hours, mins, secs } = useCountdown(deadlineIso);
   const [scroll, setScroll] = useState(0);
+  const canvasRef = useRef(null);
 
   const specs = [
     { key: 'engine', label: 'Engine',       value: 'Mild Hybrid V6', sub: null,          detail: 'Gasoline/Mild Electric Hybrid V6 — refined power with improved efficiency. Smooth, responsive, and built for the long haul.',           img: 'audi/ac41fab2-03e7-44e1-a338-04f43d9ba0ca.webp' },
@@ -101,6 +102,43 @@ function Hero({ deadlineIso, onCtaClick }) {
     const onScroll = () => setScroll(window.scrollY);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const TOTAL = 285, FPS = 24;
+    const frames = new Array(TOTAL).fill(null);
+    let loaded = 0, rafId, currentFrame = 0, lastTime = 0;
+    const interval = 1000 / FPS;
+
+    const draw = (time) => {
+      rafId = requestAnimationFrame(draw);
+      const delta = time - lastTime;
+      if (delta < interval) return;
+      lastTime = time - (delta % interval);
+      const img = frames[currentFrame];
+      if (img) {
+        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+      }
+      currentFrame = (currentFrame + 1) % TOTAL;
+    };
+
+    for (let i = 0; i < TOTAL; i++) {
+      const img = new Image();
+      img.src = `assets/hero-frames/frame-${String(i).padStart(3, '0')}.webp`;
+      img.onload = () => {
+        loaded++;
+        if (loaded === 1) {
+          canvas.width = img.naturalWidth;
+          canvas.height = img.naturalHeight;
+          canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+          rafId = requestAnimationFrame(draw);
+        }
+      };
+      frames[i] = img;
+    }
+    return () => cancelAnimationFrame(rafId);
   }, []);
 
   useEffect(() => {
@@ -156,8 +194,8 @@ function Hero({ deadlineIso, onCtaClick }) {
 
       {/* Car — bleeds edge to edge below content */}
       <div className="hero-car" style={{ position: 'relative', zIndex: 1, marginTop: -100 }}>
-        <img src="assets/hero.webp" alt="2025 Audi Q7"
-             style={{ width: '70%', display: 'block', margin: '0 auto', transform: `translateX(4%) translateY(${-scroll * 0.04}px)` }} />
+        <canvas ref={canvasRef}
+          style={{ width: '70%', display: 'block', margin: '0 auto', transform: `translateX(4%) translateY(${-scroll * 0.04}px)` }} />
       </div>
 
       {/* Lightbox */}
