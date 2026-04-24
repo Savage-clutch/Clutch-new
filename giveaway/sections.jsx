@@ -31,7 +31,7 @@ function WhyCertified() {
     { n: '3',      suffix: '×', label: 'Mechanic-led road tests' },
   ];
   return (
-    <section className="dark grid-bg" style={{ position: 'relative', overflow: 'hidden' }}>
+    <section style={{ background: '#010101', position: 'relative', overflow: 'hidden', color: 'white', '--ink': '#ffffff', '--ink-700': 'rgba(255,255,255,.72)', '--ink-500': 'rgba(255,255,255,.40)' }}>
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
 
         {/* Two-col intro: logo left, text right */}

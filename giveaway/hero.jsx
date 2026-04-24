@@ -147,7 +147,7 @@ function Hero({ deadlineIso, onCtaClick }) {
       </div>
 
       {/* ─── FEATURE CAROUSEL ─── */}
-      <div style={{ borderTop: '1px solid rgba(255,255,255,.08)', padding: '64px 0 0' }}>
+      <div style={{ background: '#f5f4f2', padding: '64px 0 0' }}>
 
         {/* Headline + arrows */}
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', padding: '0 64px', marginBottom: 36 }}>
