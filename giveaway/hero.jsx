@@ -106,12 +106,12 @@ function Hero({ deadlineIso, onCtaClick }) {
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
 
         {/* Title */}
-        <h1 className="h-display center" style={{ maxWidth: 1000, margin: '0 auto 28px', textWrap: 'balance' }}>
+        <h1 className="h-display center hero-animate hero-title" style={{ maxWidth: 1000, margin: '0 auto 28px', textWrap: 'balance' }}>
           Win a <span style={{ whiteSpace: 'nowrap' }}>Clutch Certified</span><br />2025 Audi Q7.
         </h1>
 
         {/* Countdown */}
-        <div className="center" style={{ marginBottom: 28 }}>
+        <div className="center hero-animate hero-clock" style={{ marginBottom: 28 }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
             <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '.22em', textTransform: 'uppercase', color: 'var(--ink-500)' }}>
               Ends in
@@ -128,12 +128,12 @@ function Hero({ deadlineIso, onCtaClick }) {
           </div>
         </div>
 
-        <p className="lede center" style={{ margin: '0 auto 28px' }}>
+        <p className="lede center hero-animate hero-lede" style={{ margin: '0 auto 28px' }}>
           Enter for a chance to win a free 2025 Audi Q7 and experience Clutch Certified first hand.
         </p>
 
         {/* CTA */}
-        <div className="center" style={{ marginBottom: 60 }}>
+        <div className="center hero-animate hero-cta" style={{ marginBottom: 60 }}>
           <button className="btn btn-primary" onClick={onCtaClick} style={{ fontSize: 18, padding: '20px 40px' }}>
             Enter the Giveaway
           </button>
@@ -142,8 +142,8 @@ function Hero({ deadlineIso, onCtaClick }) {
       </div>
 
       {/* Car — bleeds edge to edge below content */}
-      <div style={{ position: 'relative', zIndex: 1, marginTop: -100 }}>
-        <img src="assets/hero.png" alt="2025 Audi Q7"
+      <div className="hero-car" style={{ position: 'relative', zIndex: 1, marginTop: -100 }}>
+        <img src="assets/hero.webp" alt="2025 Audi Q7"
              style={{ width: '70%', display: 'block', margin: '0 auto', transform: `translateX(4%) translateY(${-scroll * 0.04}px)` }} />
       </div>
 

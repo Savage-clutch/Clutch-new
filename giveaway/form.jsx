@@ -100,7 +100,7 @@ function EnterSection({ formRef }) {
             pts="5" ptsLabel="POINTS"
             required
             complete={step1Done}
-            icon="assets/icon-picker.png"
+            icon="assets/icon-picker.webp"
             iconRotate={-8}
           >
             {!submitted ? (
@@ -144,7 +144,7 @@ function EnterSection({ formRef }) {
             highlighted
             dimmed={!step1Done}
             nextUp={step1Done && !step2Visited}
-            icon="assets/icon-coins.png"
+            icon="assets/icon-coins.webp"
             iconRotate={10}
           >
             {!step1Done ? (
@@ -187,7 +187,7 @@ function EnterSection({ formRef }) {
             pts="30" ptsLabel="PTS MAX"
             dimmed={!step1Done}
             nextUp={step1Done && step2Visited && !visitedAds.some(Boolean)}
-            icon="assets/icon-bomb.png"
+            icon="assets/icon-bomb.webp"
             iconRotate={-10}
           >
             {!step1Done ? (

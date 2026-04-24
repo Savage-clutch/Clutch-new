@@ -37,7 +37,7 @@ function WhyCertified() {
         {/* Two-col intro: logo left, text right */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center', marginBottom: 72 }}>
           <div>
-            <img src="assets/clutch-certified-chrome-v2.png" alt="Clutch Certified"
+            <img src="assets/clutch-certified-chrome-v2.webp" alt="Clutch Certified"
                  style={{
                    width: '75%', display: 'block',
                    filter: 'drop-shadow(0 40px 60px rgba(0,0,0,.5))',
