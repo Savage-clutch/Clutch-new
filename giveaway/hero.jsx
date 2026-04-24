@@ -94,12 +94,25 @@ function Hero({ deadlineIso, onCtaClick }) {
   const maxIdx = specs.length - 2;
   const navigate = (dir) => setCarouselIdx(i => Math.max(0, Math.min(maxIdx, i + dir)));
   const [lightbox, setLightbox] = useState(null);
+  const lbNext = () => setLightbox(i => (i + 1) % specs.length);
+  const lbPrev = () => setLightbox(i => (i - 1 + specs.length) % specs.length);
 
   useEffect(() => {
     const onScroll = () => setScroll(window.scrollY);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  useEffect(() => {
+    if (lightbox === null) return;
+    const onKey = (e) => {
+      if (e.key === 'ArrowRight') lbNext();
+      else if (e.key === 'ArrowLeft') lbPrev();
+      else if (e.key === 'Escape') setLightbox(null);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [lightbox]);
 
   return (
     <section className="section-dark" style={{ padding: '140px 0 0', overflow: 'hidden', position: 'relative', background: '#010101' }}>
@@ -148,14 +161,45 @@ function Hero({ deadlineIso, onCtaClick }) {
       </div>
 
       {/* Lightbox */}
-      {lightbox && (
+      {lightbox !== null && (
         <div onClick={() => setLightbox(null)} style={{
           position: 'fixed', inset: 0, zIndex: 1000,
           background: 'rgba(0,0,0,.92)', backdropFilter: 'blur(12px)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           cursor: 'zoom-out',
         }}>
-          <img src={lightbox} alt="" style={{ maxWidth: '90vw', maxHeight: '90vh', objectFit: 'contain', borderRadius: 12 }} />
+          <img src={specs[lightbox].img} alt={specs[lightbox].label}
+               style={{ maxWidth: '82vw', maxHeight: '82vh', objectFit: 'contain', borderRadius: 12 }} />
+
+          {/* Prev */}
+          <button onClick={(e) => { e.stopPropagation(); lbPrev(); }} style={{
+            position: 'absolute', left: 24, top: '50%', transform: 'translateY(-50%)',
+            background: 'rgba(255,255,255,.1)', border: 'none', borderRadius: '50%',
+            width: 48, height: 48, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            backdropFilter: 'blur(8px)',
+          }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+
+          {/* Next */}
+          <button onClick={(e) => { e.stopPropagation(); lbNext(); }} style={{
+            position: 'absolute', right: 24, top: '50%', transform: 'translateY(-50%)',
+            background: 'rgba(255,255,255,.1)', border: 'none', borderRadius: '50%',
+            width: 48, height: 48, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            backdropFilter: 'blur(8px)',
+          }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+
+          {/* Counter */}
+          <div style={{
+            position: 'absolute', bottom: 24, left: '50%', transform: 'translateX(-50%)',
+            fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,.5)', letterSpacing: '.1em',
+          }}>
+            {lightbox + 1} / {specs.length}
+          </div>
+
+          {/* Close */}
           <button onClick={() => setLightbox(null)} style={{
             position: 'absolute', top: 24, right: 24,
             background: 'rgba(255,255,255,.1)', border: 'none', borderRadius: '50%',
@@ -205,9 +249,9 @@ function Hero({ deadlineIso, onCtaClick }) {
             transform: `translateX(calc(-${carouselIdx} * (47% + 16px)))`,
             transition: 'transform .55s cubic-bezier(0.16,1,0.3,1)',
           }}>
-            {specs.map((s) => (
+            {specs.map((s, si) => (
               <div key={s.key} style={{ width: '47%', flexShrink: 0 }}>
-                <div onClick={() => setLightbox(s.img)} style={{ overflow: 'hidden', borderRadius: 16, aspectRatio: '4/3', marginBottom: 20, cursor: 'zoom-in', position: 'relative' }}>
+                <div onClick={() => setLightbox(si)} style={{ overflow: 'hidden', borderRadius: 16, aspectRatio: '4/3', marginBottom: 20, cursor: 'zoom-in', position: 'relative' }}>
                   <img src={s.img} alt={s.label} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform .4s ease' }}
                     onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.03)'}
                     onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}

@@ -53,7 +53,7 @@ function WhyCertified() {
             }}>
               Every vehicle is inspected, serviced, detailed, and certified in person by a Clutch mechanic — so you know exactly what you're getting.
             </p>
-            <a href="https://clutch.ca/certified" target="_blank" rel="noopener noreferrer" style={{
+            <a href="../clutch-certified/v3.html" style={{
               display: 'inline-block',
               fontSize: 14, fontWeight: 700, letterSpacing: '-0.01em',
               padding: '12px 24px', borderRadius: 10,
