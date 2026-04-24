@@ -84,6 +84,7 @@ function Hero({ deadlineIso, onCtaClick }) {
   // intro → sequence plays full-screen | settling → overlay shrinks away | done → hero layout visible
   const [phase, setPhase] = useState('intro');
   const introCanvasRef = useRef(null);
+  const overlayRef = useRef(null);
   const canvasRef = useRef(null);
   const lastFrameRef = useRef(null);
 
@@ -145,6 +146,12 @@ function Hero({ deadlineIso, onCtaClick }) {
       lastTime = time - (delta % interval);
       const img = frames[currentFrame];
       if (img) blit(img);
+      // Scale down from midpoint → end: 1.0 → 0.66 (ease-in)
+      if (currentFrame >= TOTAL / 2 && overlayRef.current) {
+        const t = (currentFrame - TOTAL / 2) / (TOTAL / 2);
+        const ease = t * t;
+        overlayRef.current.style.transform = `scale(${1 - ease * 0.34})`;
+      }
       currentFrame++;
       if (currentFrame >= TOTAL) {
         finished = true;
@@ -193,13 +200,13 @@ function Hero({ deadlineIso, onCtaClick }) {
     <>
       {/* ── FULL-SCREEN INTRO OVERLAY ── */}
       {phase !== 'done' && (
-        <div style={{
+        <div ref={overlayRef} style={{
           position: 'fixed', inset: 0, zIndex: 9999, background: '#010101', overflow: 'hidden',
+          transformOrigin: '50% 82%',
           ...(phase === 'settling' ? {
             transform: 'scale(0.66)',
-            transformOrigin: '50% 82%',
             opacity: 0,
-            transition: 'transform 1.1s cubic-bezier(0.16,1,0.3,1), opacity 0.8s ease 0.3s',
+            transition: 'opacity 0.8s ease 0.2s',
           } : {}),
         }}>
           <canvas ref={introCanvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />
