@@ -157,9 +157,20 @@ function EnterSection({ formRef }) {
                 <div style={{ fontSize: 15, color: 'var(--ink-700)', lineHeight: 1.6, marginBottom: 22 }}>
                   Get a <strong style={{ color: 'var(--ink)' }}>free, no-obligation instant cash offer</strong> for any vehicle you own. It takes about <strong style={{ color: 'var(--ink)' }}>1 minute</strong> — earn <strong style={{ color: 'var(--ink)' }}>100 points for every vehicle</strong>. Submit as many as you like.¹
                 </div>
-                <div style={{ display: 'inline-flex', background: 'var(--ink-150)', borderRadius: 999, padding: 4, marginBottom: 14, fontSize: 12, fontWeight: 700 }}>
-                  <button onClick={() => setVinMode(false)} style={{ padding: '6px 14px', borderRadius: 999, border: 'none', cursor: 'pointer', background: !vinMode ? 'white' : 'transparent', color: !vinMode ? 'var(--ink)' : 'var(--ink-500)', boxShadow: !vinMode ? '0 2px 8px -2px rgba(0,0,0,.1)' : 'none', fontFamily: 'inherit', letterSpacing: '.02em', transition: 'background .2s, color .2s' }}>Licence plate</button>
-                  <button onClick={() => setVinMode(true)}  style={{ padding: '6px 14px', borderRadius: 999, border: 'none', cursor: 'pointer', background: vinMode  ? 'white' : 'transparent', color: vinMode  ? 'var(--ink)' : 'var(--ink-500)', boxShadow: vinMode  ? '0 2px 8px -2px rgba(0,0,0,.1)' : 'none', fontFamily: 'inherit', letterSpacing: '.02em', transition: 'background .2s, color .2s' }}>VIN</button>
+                <div style={{ display: 'inline-grid', gridTemplateColumns: '1fr 1fr', position: 'relative', background: 'var(--ink-150)', borderRadius: 999, padding: 4, marginBottom: 14, fontSize: 12, fontWeight: 700 }}>
+                  {/* sliding pill — 100% = one column width */}
+                  <div style={{
+                    position: 'absolute', top: 4, bottom: 4,
+                    left: 4, width: 'calc(50% - 4px)',
+                    borderRadius: 999,
+                    background: 'white',
+                    boxShadow: '0 2px 8px -2px rgba(0,0,0,.12)',
+                    transform: vinMode ? 'translateX(100%)' : 'translateX(0)',
+                    transition: 'transform .28s cubic-bezier(0.16,1,0.3,1)',
+                    pointerEvents: 'none',
+                  }} />
+                  <button onClick={() => setVinMode(false)} style={{ position: 'relative', zIndex: 1, padding: '7px 18px', border: 'none', cursor: 'pointer', background: 'transparent', color: !vinMode ? 'var(--ink)' : 'var(--ink-500)', fontFamily: 'inherit', letterSpacing: '.02em', transition: 'color .2s', whiteSpace: 'nowrap', textAlign: 'center' }}>Licence plate</button>
+                  <button onClick={() => setVinMode(true)}  style={{ position: 'relative', zIndex: 1, padding: '7px 18px', border: 'none', cursor: 'pointer', background: 'transparent', color: vinMode  ? 'var(--ink)' : 'var(--ink-500)', fontFamily: 'inherit', letterSpacing: '.02em', transition: 'color .2s', whiteSpace: 'nowrap', textAlign: 'center' }}>VIN</button>
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 12 }}>
                   <Field label={vinMode ? 'VIN' : 'Licence plate'} value={plate} setValue={setPlate} placeholder={vinMode ? 'e.g. 1HGCM82633A123456' : 'e.g. ABCD 123'} />
