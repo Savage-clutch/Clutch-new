@@ -90,11 +90,11 @@ function Hero({ deadlineIso, onCtaClick }) {
   const lastDrawRectRef = useRef(null);
 
   const specs = [
-    { key: 'engine', label: 'Engine',       value: 'Mild Hybrid V6', sub: null,          detail: 'Gasoline/Mild Electric Hybrid V6 — refined power with improved efficiency. Smooth, responsive, and built for the long haul.',           img: 'audi/ac41fab2-03e7-44e1-a338-04f43d9ba0ca.webp' },
-    { key: 'drive',  label: 'Drivetrain',   value: 'Automatic AWD',  sub: null,          detail: 'Full-time all-wheel drive with automatic torque distribution. Confident grip in every condition, every season.',                          img: 'audi/4a9d11a0-034c-4134-98af-81e478132802.webp' },
-    { key: 'fuel',   label: 'L / 100 km',  value: '13 city',         sub: '10 hwy',      detail: 'Mild hybrid tech keeps city and highway fuel consumption in check without sacrificing performance.',                                       img: 'audi/6613a406-f7ab-4a6a-91a5-4aa344832a7c.webp' },
-    { key: 'seats',  label: 'Seating',      value: '7 seats',         sub: null,          detail: 'Three rows of seating for up to 7. Premium leather upholstery, heated fronts, and a panoramic sunroof overhead.',                        img: 'audi/337f4feb-4d4b-43a6-96f9-1328a32498d1.webp' },
-    { key: 'history',label: 'History',      value: 'No accidents',    sub: 'Carfax clean', detail: 'Carfax verified — no reported accidents. Comes with 2 keys and all-season tires. Factory premium audio included.',                      img: 'audi/ce8dbc97-c525-425b-8853-16fdfa8aa9b5.webp' },
+    { key: 'engine', label: 'Engine',       value: 'Mild Hybrid V6', sub: null,          detail: 'Gasoline/Mild Electric Hybrid V6 — refined power with improved efficiency. Smooth, responsive, and built for the long haul.',           img: 'Audi/ac41fab2-03e7-44e1-a338-04f43d9ba0ca.webp' },
+    { key: 'drive',  label: 'Drivetrain',   value: 'Automatic AWD',  sub: null,          detail: 'Full-time all-wheel drive with automatic torque distribution. Confident grip in every condition, every season.',                          img: 'Audi/4a9d11a0-034c-4134-98af-81e478132802.webp' },
+    { key: 'fuel',   label: 'L / 100 km',  value: '13 city',         sub: '10 hwy',      detail: 'Mild hybrid tech keeps city and highway fuel consumption in check without sacrificing performance.',                                       img: 'Audi/6613a406-f7ab-4a6a-91a5-4aa344832a7c.webp' },
+    { key: 'seats',  label: 'Seating',      value: '7 seats',         sub: null,          detail: 'Three rows of seating for up to 7. Premium leather upholstery, heated fronts, and a panoramic sunroof overhead.',                        img: 'Audi/337f4feb-4d4b-43a6-96f9-1328a32498d1.webp' },
+    { key: 'history',label: 'History',      value: 'No accidents',    sub: 'Carfax clean', detail: 'Carfax verified — no reported accidents. Comes with 2 keys and all-season tires. Factory premium audio included.',                      img: 'Audi/ce8dbc97-c525-425b-8853-16fdfa8aa9b5.webp' },
   ];
 
   const [carouselIdx, setCarouselIdx] = useState(0);
@@ -121,8 +121,9 @@ function Hero({ deadlineIso, onCtaClick }) {
     const introCanvas = introCanvasRef.current;
     const inPageCanvas = canvasRef.current;
     if (!introCanvas || !inPageCanvas) return;
-    introCanvas.width = window.innerWidth;
-    introCanvas.height = window.innerHeight;
+    const dpr = window.devicePixelRatio || 1;
+    introCanvas.width = window.innerWidth * dpr;
+    introCanvas.height = window.innerHeight * dpr;
     const TOTAL = 285, FPS = 72;
     const frames = new Array(TOTAL).fill(null);
     let loaded = 0, rafId, currentFrame = 0, lastTime = 0;
@@ -153,10 +154,10 @@ function Hero({ deadlineIso, onCtaClick }) {
         const ease = t < 0.5
           ? 4 * t * t * t
           : 1 - Math.pow(-2 * t + 2, 3) / 2;
-        x = fullX + ease * (targetRect.left   - fullX);
-        y = fullY + ease * (targetRect.top    - fullY);
-        w = fullW + ease * (targetRect.width  - fullW);
-        h = fullH + ease * (targetRect.height - fullH);
+        x = fullX + ease * (targetRect.left   * dpr - fullX);
+        y = fullY + ease * (targetRect.top    * dpr - fullY);
+        w = fullW + ease * (targetRect.width  * dpr - fullW);
+        h = fullH + ease * (targetRect.height * dpr - fullH);
       }
 
       ctx.clearRect(0, 0, cw, ch);
@@ -189,7 +190,7 @@ function Hero({ deadlineIso, onCtaClick }) {
         loaded++;
         if (loaded === 1) {
           // Establish in-page canvas intrinsic aspect ratio so CSS auto-height is correct
-          const cw = inPageCanvas.clientWidth;
+          const cw = inPageCanvas.clientWidth * dpr;
           const ch = Math.round(cw * img.naturalHeight / img.naturalWidth);
           inPageCanvas.width = cw;
           inPageCanvas.height = ch;
@@ -213,16 +214,17 @@ function Hero({ deadlineIso, onCtaClick }) {
 
     // Size canvas to exactly match the overlay's last draw rect — with targetRect measured
     // at TOTAL/2 these dimensions equal the canvas's natural CSS size, so no jump on reveal.
+    const dpr = window.devicePixelRatio || 1;
     const inPageRect = canvas.getBoundingClientRect();
-    const w = Math.round(lastDraw.w);
-    const h = Math.round(lastDraw.h);
+    const w = Math.round(inPageRect.width * dpr);
+    const h = Math.round(inPageRect.height * dpr);
     canvas.width = w;
     canvas.height = h;
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, w, h);
     ctx.drawImage(img,
-      Math.round(lastDraw.x - inPageRect.left),
-      Math.round(lastDraw.y - inPageRect.top),
+      Math.round(lastDraw.x - inPageRect.left * dpr),
+      Math.round(lastDraw.y - inPageRect.top  * dpr),
       w, h
     );
 
