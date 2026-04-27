@@ -260,17 +260,19 @@
       function drawFrame(idx) {
         var img = images[idx];
         if (!img || !img.complete || !img.naturalWidth) return;
+        var dpr = window.devicePixelRatio || 1;
         var cw = canvas.clientWidth;
         var ch = canvas.clientHeight;
-        if (canvas.width !== cw) canvas.width = cw;
-        if (canvas.height !== ch) canvas.height = ch;
-        var scale = Math.min(cw / img.naturalWidth, ch / img.naturalHeight);
+        if (canvas.width !== Math.round(cw * dpr)) canvas.width = Math.round(cw * dpr);
+        if (canvas.height !== Math.round(ch * dpr)) canvas.height = Math.round(ch * dpr);
+        var pw = canvas.width, ph = canvas.height;
+        var scale = Math.min(pw / img.naturalWidth, ph / img.naturalHeight);
         var dw = img.naturalWidth * scale;
         var dh = img.naturalHeight * scale;
-        var dx = (cw - dw) / 2;
-        var dy = ch - dh; // pin to bottom
+        var dx = (pw - dw) / 2;
+        var dy = ph - dh; // pin to bottom
         ctx.fillStyle = '#f5f5f7';
-        ctx.fillRect(0, 0, cw, ch);
+        ctx.fillRect(0, 0, pw, ph);
         ctx.drawImage(img, dx, dy, dw, dh);
       }
 
