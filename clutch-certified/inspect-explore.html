@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inspection — Layout Exploration</title>
+  <style>
+    @font-face {
+      font-family: 'CircularXX';
+      src: url('fonts/CircularXX-Regular.woff2') format('woff2');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'CircularXX';
+      src: url('fonts/CircularXX-Medium.woff2') format('woff2');
+      font-weight: 500;
+    }
+    @font-face {
+      font-family: 'CircularXX';
+      src: url('fonts/CircularXX-Bold.woff2') format('woff2');
+      font-weight: 700;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'CircularXX', -apple-system, sans-serif;
+      background: #111;
+      color: #fff;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Nav label */
+    .exp-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(10,10,10,.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      height: 52px;
+      display: flex; align-items: center; gap: 0;
+      padding: 0 40px;
+    }
+    .exp-nav__label {
+      font-size: 11px; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: rgba(255,255,255,.4);
+      margin-right: 32px;
+    }
+    .exp-nav__link {
+      font-size: 13px; font-weight: 500; color: rgba(255,255,255,.5);
+      text-decoration: none; padding: 6px 14px; border-radius: 999px;
+      transition: background .15s, color .15s;
+    }
+    .exp-nav__link:hover { background: rgba(255,255,255,.08); color: #fff; }
+
+    /* Section wrapper */
+    .exp-section {
+      padding: 120px 0 100px;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+    .exp-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .18em;
+      text-transform: uppercase; color: rgba(255,255,255,.3);
+      text-align: center; margin-bottom: 12px;
+    }
+    .exp-title {
+      font-size: clamp(28px, 3vw, 42px); font-weight: 700;
+      letter-spacing: -.02em; text-align: center; margin-bottom: 8px;
+    }
+    .exp-desc {
+      font-size: 14px; color: rgba(255,255,255,.4); text-align: center;
+      margin-bottom: 64px;
+    }
+
+    /* ── Shared data ── */
+    :root {
+      --coral: #FF464C;
+      --bg: #0d0d0d;
+      --surface: #1a1a1a;
+      --surface2: #222;
+      --rule: rgba(255,255,255,.1);
+    }
+
+    /* ════════════════════════════════════════════
+       LAYOUT A — Image hero, tabs below, list below
+    ════════════════════════════════════════════ */
+    .la-wrap {
+      max-width: 880px; margin: 0 auto; padding: 0 40px;
+    }
+    .la-car {
+      width: 340px; margin: 0 auto 48px;
+      filter: drop-shadow(0 40px 80px rgba(255,255,255,.06));
+      display: block;
+      transition: transform .5s cubic-bezier(.16,1,.3,1);
+    }
+    .la-tabs {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      justify-content: center; margin-bottom: 40px;
+    }
+    .la-tab {
+      padding: 8px 18px; border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      font-size: 13px; font-weight: 500; color: rgba(255,255,255,.6);
+      cursor: pointer; transition: all .2s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .la-tab.active {
+      background: #fff; color: #000; border-color: #fff;
+    }
+    .la-tab .pts {
+      font-size: 11px; opacity: .6; font-weight: 400;
+    }
+    .la-tab.active .pts { opacity: .5; }
+    .la-checklist {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .la-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 14px 16px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 10px;
+      font-size: 13.5px; color: rgba(255,255,255,.75);
+      line-height: 1.4;
+    }
+    .la-item svg { flex-shrink: 0; margin-top: 2px; }
+
+    /* ════════════════════════════════════════════
+       LAYOUT B — Split: large image left, list right
+    ════════════════════════════════════════════ */
+    .lb-wrap {
+      max-width: 1200px; margin: 0 auto; padding: 0 40px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+      background: var(--bg);
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .lb-left {
+      position: relative;
+      background: #000;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 60px 40px;
+      min-height: 640px;
+    }
+    .lb-glow {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(255,70,76,.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .lb-car {
+      width: 85%; max-width: 380px;
+      filter: drop-shadow(0 40px 60px rgba(0,0,0,.8));
+      position: relative; z-index: 1;
+      transition: transform .5s cubic-bezier(.16,1,.3,1);
+    }
+    .lb-cat-dots {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      justify-content: center; margin-top: 36px;
+      position: relative; z-index: 1;
+    }
+    .lb-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,.2);
+      cursor: pointer; transition: all .2s;
+    }
+    .lb-dot.active { background: var(--coral); transform: scale(1.4); }
+    .lb-right {
+      padding: 48px;
+      display: flex; flex-direction: column;
+    }
+    .lb-cats {
+      display: flex; flex-direction: column; gap: 2px;
+      margin-bottom: 32px;
+    }
+    .lb-cat {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 14px; border-radius: 10px;
+      cursor: pointer; transition: background .15s;
+    }
+    .lb-cat:hover { background: rgba(255,255,255,.05); }
+    .lb-cat.active { background: rgba(255,255,255,.08); }
+    .lb-cat__name { font-size: 14px; font-weight: 500; }
+    .lb-cat__pts { font-size: 12px; color: rgba(255,255,255,.4); }
+    .lb-cat.active .lb-cat__pts { color: var(--coral); }
+    .lb-divider { height: 1px; background: rgba(255,255,255,.07); margin: 4px 0; }
+    .lb-items {
+      display: flex; flex-direction: column; gap: 8px;
+      flex: 1; overflow-y: auto; max-height: 280px;
+      padding-right: 4px;
+    }
+    .lb-items::-webkit-scrollbar { width: 3px; }
+    .lb-items::-webkit-scrollbar-track { background: transparent; }
+    .lb-items::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 2px; }
+    .lb-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 13px; color: rgba(255,255,255,.7);
+      line-height: 1.45; padding: 2px 0;
+    }
+    .lb-item svg { flex-shrink: 0; margin-top: 2px; }
+
+    /* ════════════════════════════════════════════
+       LAYOUT C — Immersive: full-bleed car + floating UI
+    ════════════════════════════════════════════ */
+    .lc-wrap {
+      max-width: 1100px; margin: 0 auto; padding: 0 40px;
+    }
+    .lc-stage {
+      position: relative;
+      background: #000;
+      border-radius: 28px;
+      overflow: hidden;
+      min-height: 680px;
+      display: flex; align-items: center;
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .lc-bg-glow {
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 80% 80% at 50% 40%, rgba(255,70,76,.07) 0%, transparent 60%),
+        radial-gradient(ellipse 100% 100% at 50% 50%, rgba(255,255,255,.02) 0%, transparent 70%);
+    }
+    .lc-car {
+      position: absolute;
+      left: 50%; top: 50%; transform: translate(-50%, -52%);
+      width: 56%;
+      filter: drop-shadow(0 60px 80px rgba(0,0,0,.9)) drop-shadow(0 0 120px rgba(255,255,255,.04));
+      pointer-events: none;
+    }
+    .lc-overlay-bottom {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.95) 0%, rgba(0,0,0,.7) 60%, transparent 100%);
+      height: 55%;
+      pointer-events: none;
+    }
+    .lc-ui {
+      position: relative; z-index: 2;
+      width: 100%;
+      display: flex; align-items: flex-end; gap: 24px;
+      padding: 48px;
+    }
+    .lc-cats {
+      display: flex; flex-direction: column; gap: 6px;
+      flex-shrink: 0; width: 200px;
+    }
+    .lc-cat {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 9px 14px; border-radius: 10px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+      cursor: pointer; transition: all .2s;
+      font-size: 13px;
+    }
+    .lc-cat:hover { background: rgba(255,255,255,.1); }
+    .lc-cat.active {
+      background: rgba(255,255,255,.14);
+      border-color: rgba(255,255,255,.22);
+    }
+    .lc-cat__name { font-weight: 500; }
+    .lc-cat__pts { font-size: 11px; color: rgba(255,255,255,.4); }
+    .lc-cat.active .lc-cat__pts { color: var(--coral); }
+    .lc-panel {
+      flex: 1;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 16px;
+      backdrop-filter: blur(24px);
+      padding: 24px;
+    }
+    .lc-panel__header {
+      font-size: 11px; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: rgba(255,255,255,.4);
+      margin-bottom: 16px;
+    }
+    .lc-items {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 8px; max-height: 220px; overflow-y: auto;
+    }
+    .lc-items::-webkit-scrollbar { width: 3px; }
+    .lc-items::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 2px; }
+    .lc-item {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 12.5px; color: rgba(255,255,255,.7);
+      line-height: 1.4;
+    }
+    .lc-item svg { flex-shrink: 0; margin-top: 2px; }
+
+    /* check icon */
+    .check-icon { color: #60be02; }
+
+    /* ════════════════════════════════════════════
+       LAYOUT E — Linear-style: nav left, photo right
+    ════════════════════════════════════════════ */
+    .le-wrap {
+      max-width: 1040px; margin: 0 auto; padding: 0 40px;
+    }
+    .le-cols {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 64px;
+      align-items: start;
+    }
+    .le-header {
+      margin-bottom: 28px;
+    }
+    .le-eyebrow {
+      font-size: 10px; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--coral);
+      margin-bottom: 10px;
+    }
+    .le-headline {
+      font-size: 20px; font-weight: 700; letter-spacing: -.02em;
+      line-height: 1.25; color: #fff;
+    }
+    .le-cats {
+      flex: 1; overflow-y: auto;
+      display: flex; flex-direction: column;
+      padding: 8px 0;
+      min-height: 0;
+    }
+    .le-cats::-webkit-scrollbar { display: none; }
+    .le-cat {
+      cursor: pointer;
+      border-left: 2px solid transparent;
+      transition: border-color .2s, background .2s;
+    }
+    .le-cat.active {
+      border-left-color: var(--coral);
+      background: rgba(255,70,76,.05);
+    }
+    .le-cat__row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 11px 24px 11px 22px;
+    }
+    .le-cat__num {
+      font-size: 11px; font-weight: 700;
+      color: rgba(255,255,255,.2);
+      width: 20px; flex-shrink: 0;
+      font-variant-numeric: tabular-nums;
+      transition: color .2s;
+    }
+    .le-cat.active .le-cat__num { color: var(--coral); }
+    .le-cat__name {
+      font-size: 14px; font-weight: 600;
+      color: rgba(255,255,255,.4);
+      flex: 1; line-height: 1;
+      transition: color .2s;
+    }
+    .le-cat.active .le-cat__name { color: #fff; }
+    .le-cat__pts {
+      font-size: 11px; font-weight: 600;
+      color: rgba(255,255,255,.22);
+      background: rgba(255,255,255,.05);
+      padding: 3px 8px; border-radius: 999px;
+      flex-shrink: 0;
+      transition: color .2s, background .2s;
+    }
+    .le-cat.active .le-cat__pts {
+      color: var(--coral);
+      background: rgba(255,70,76,.12);
+    }
+    .le-cat__chevron {
+      width: 16px; height: 16px; flex-shrink: 0;
+      color: rgba(255,255,255,.2);
+      transition: transform .3s cubic-bezier(.16,1,.3,1), color .2s;
+    }
+    .le-cat.active .le-cat__chevron {
+      transform: rotate(180deg);
+      color: rgba(255,255,255,.5);
+    }
+    .le-subitems {
+      max-height: 0; overflow: hidden;
+      transition: max-height .4s cubic-bezier(.16,1,.3,1);
+    }
+    .le-cat.active .le-subitems { max-height: 600px; }
+    .le-subitems-inner {
+      padding: 0 24px 14px 54px;
+    }
+    .le-subitem {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 12px; color: rgba(255,255,255,.38);
+      line-height: 1.5; padding: 3.5px 0;
+    }
+    .le-subitem svg { flex-shrink: 0; margin-top: 2px; color: rgba(255,70,76,.5); }
+    /* right: photo */
+    .le-right {
+      position: sticky; top: 80px;
+    }
+    .le-photo {
+      width: 100%; aspect-ratio: 3/4;
+      object-fit: cover;
+      border-radius: 16px;
+      transition: opacity .35s ease;
+      display: block;
+      box-shadow: 0 32px 64px rgba(0,0,0,.5);
+    }
+    .le-pts-badge {
+      position: absolute; bottom: 20px; left: 20px;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 10px;
+      padding: 10px 14px;
+    }
+    .le-pts-badge__num {
+      font-size: 22px; font-weight: 800; letter-spacing: -.03em;
+      color: #fff; line-height: 1;
+    }
+    .le-pts-badge__label {
+      font-size: 10px; color: rgba(255,255,255,.4);
+      margin-top: 3px; font-weight: 500;
+    }
+
+    /* ════════════════════════════════════════════
+       LAYOUT D — animations
+    ════════════════════════════════════════════ */
+    @keyframes ldCatRowIn {
+      0%   { opacity: 0; transform: translateX(-40px) scaleX(0.025) scaleY(0.25); border-radius: 999px; background: rgba(255,255,255,.3); }
+      8%   { opacity: 1; transform: translateX(-40px) scaleX(0.025) scaleY(0.25); border-radius: 999px; background: rgba(255,255,255,.3); }
+      30%  { opacity: 1; transform: translateX(0)     scaleX(0.12)  scaleY(1);    border-radius: 999px; background: rgba(255,255,255,.28); }
+      100% { opacity: 1; transform: translateX(0)     scaleX(1)     scaleY(1);    border-radius: 10px;  background: rgba(255,255,255,.07); }
+    }
+    @keyframes ldItemIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes ldTextIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes ldPanelIn {
+      from { opacity: 0; transform: translateX(24px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .ld-card.is-animating .ld-cat {
+      animation: ldCatRowIn 1600ms cubic-bezier(.16,1,.3,1) both;
+      animation-delay: var(--cat-delay, 0ms);
+    }
+    .ld-card.is-animating .ld-cat__name,
+    .ld-card.is-animating .ld-cat__pts,
+    .ld-card.is-animating .ld-cat__icon {
+      animation: ldTextIn 300ms ease both;
+      animation-delay: calc(var(--cat-delay, 0ms) + 1100ms);
+    }
+    .ld-card.is-animating .ld-right {
+      animation: ldPanelIn 700ms ease-out 200ms both;
+    }
+
+    /* ════════════════════════════════════════════
+       LAYOUT D — Photo top-left, cats below, list right
+    ════════════════════════════════════════════ */
+    .ld-wrap {
+      max-width: 1100px; margin: 0 auto; padding: 0 40px;
+    }
+    .ld-card {
+      display: grid;
+      grid-template-columns: 55% 45%;
+      height: 780px;
+      background: #0d0d0d;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 24px;
+      overflow: hidden;
+      align-items: stretch;
+    }
+    .ld-left {
+      display: flex; flex-direction: column;
+      border-right: 1px solid rgba(255,255,255,.07);
+      background: #000;
+    }
+    .ld-photo-wrap {
+      display: flex; justify-content: center; align-items: center;
+      flex-shrink: 0; background: #151515;
+    }
+    .ld-photo {
+      width: 100%; aspect-ratio: 16/9;
+      object-fit: contain; object-position: center center;
+      display: block; transition: opacity .18s ease;
+    }
+    .ld-cats {
+      display: flex; flex-direction: column; gap: 6px;
+      padding: 12px 16px 24px 20px; flex: 1;
+      border-top: 1px solid rgba(255,255,255,.07);
+      overflow-y: auto; min-height: 0;
+    }
+    .ld-cats::-webkit-scrollbar { display: none; }
+    .ld-cat {
+      position: relative;
+      display: flex; align-items: center; gap: 14px;
+      padding: 12px 16px;
+      cursor: pointer; border-radius: 10px; padding: 13px 16px;
+      transition: background .15s;
+    }
+    .ld-cat::before {
+      content: ''; position: absolute; inset: 0;
+      border-radius: inherit; pointer-events: none;
+      background: rgba(255,255,255,.07); transition: background .15s;
+    }
+    .ld-cat > * { position: relative; z-index: 1; }
+    .ld-cat:hover::before { background: rgba(255,255,255,.11); }
+    .ld-cat.active::before { background: rgba(255,255,255,.13); }
+    .ld-cat__icon {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: rgba(255,255,255,.12);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: background .15s;
+    }
+    .ld-cat.active .ld-cat__icon { background: rgba(255,255,255,.2); }
+    .ld-icon-v { transition: opacity .15s; }
+    .ld-cat.active .ld-icon-v { opacity: 0; }
+    .ld-cat__name { flex: 1; font-size: 13px; font-weight: 500; color: #fff; }
+    .ld-cat__pts { font-size: 11px; color: rgba(255,255,255,.25); }
+    .ld-cat.active .ld-cat__pts { color: rgba(255,255,255,.45); }
+    /* right: tall list panel */
+    .ld-right {
+      display: flex; flex-direction: column;
+      padding: 32px 36px;
+      overflow: hidden;
+    }
+    .ld-right__header {
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      flex-shrink: 0;
+    }
+    .ld-right__eyebrow {
+      font-size: 10px; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--coral); margin-bottom: 8px;
+    }
+    .ld-right__title {
+      font-size: 22px; font-weight: 700;
+      letter-spacing: -.02em; line-height: 1.2;
+    }
+    .ld-summary {
+      font-size: 14px; font-weight: 400; color: #fff;
+      line-height: 1.5; margin-bottom: 16px; flex-shrink: 0;
+    }
+    .ld-items-wrap {
+      position: relative; flex: 1; min-height: 0;
+      display: flex; flex-direction: column;
+    }
+    .ld-items {
+      flex: 1; overflow-y: auto; min-height: 0;
+      padding: 4px 0;
+    }
+    .ld-items::-webkit-scrollbar { display: none; }
+    .ld-fade {
+      position: absolute; left: 0; right: 0; height: 64px;
+      pointer-events: none; transition: opacity .2s ease;
+      display: flex; justify-content: center;
+      color: #fff; cursor: pointer;
+    }
+    .ld-fade { pointer-events: auto; }
+    .ld-fade.is-hidden { opacity: 0; pointer-events: none; }
+    .ld-fade--top {
+      top: 0; border-radius: 12px 12px 0 0;
+      background: linear-gradient(to bottom, #0d0d0d 0%, transparent 100%);
+      align-items: flex-start; padding-top: 10px;
+    }
+    .ld-fade--bottom {
+      bottom: 0; border-radius: 0 0 12px 12px;
+      background: linear-gradient(to top, #0d0d0d 0%, transparent 100%);
+      align-items: flex-end; padding-bottom: 10px;
+    }
+    .ld-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      font-size: 13px; color: #fff;
+      line-height: 1.4; flex-shrink: 0;
+    }
+    .ld-item:last-child { border-bottom: none; }
+    .ld-item__icon {
+      flex-shrink: 0; width: 16px; height: 16px; border-radius: 50%;
+      background: rgba(52,199,89,.15);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ld-total {
+      margin-top: 16px; padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,.07);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .ld-total__label { font-size: 11px; color: rgba(255,255,255,.3); }
+    .ld-total__count { font-size: 13px; font-weight: 600; color: rgba(255,255,255,.6); }
+    .ld-total__count span { color: rgba(255,255,255,.25); }
+  </style>
+</head>
+<body>
+
+<nav class="exp-nav">
+  <span class="exp-nav__label">Inspection Layout Exploration</span>
+  <a class="exp-nav__link" href="#layout-a">A — Tabs + Grid</a>
+  <a class="exp-nav__link" href="#layout-b">B — Split</a>
+  <a class="exp-nav__link" href="#layout-c">C — Immersive</a>
+  <a class="exp-nav__link" href="#layout-d">D — Editorial</a>
+  <a class="exp-nav__link" href="#layout-e">E — Linear</a>
+  <a class="exp-nav__link" href="v3.html" style="margin-left:auto">Back to v3 →</a>
+</nav>
+
+<!-- ══════════════ LAYOUT A ══════════════ -->
+<section class="exp-section" id="layout-a">
+  <p class="exp-label">Layout A</p>
+  <h2 class="exp-title">Tabs + Grid</h2>
+  <p class="exp-desc">Car centered and prominent. Category pills below. Checklist in a 2-col grid.</p>
+
+  <div class="la-wrap">
+    <img class="la-car" src="assets/car-overhead.webp" alt="Vehicle overhead" id="la-car">
+    <div class="la-tabs" id="la-tabs"></div>
+    <div class="la-checklist" id="la-list"></div>
+  </div>
+</section>
+
+<!-- ══════════════ LAYOUT B ══════════════ -->
+<section class="exp-section" id="layout-b" style="padding-left:40px; padding-right:40px;">
+  <p class="exp-label">Layout B</p>
+  <h2 class="exp-title">Split — Image Left</h2>
+  <p class="exp-desc">Large atmospheric car on the left. Category list and checklist on the right.</p>
+
+  <div class="lb-wrap" style="max-width:1100px; margin:0 auto;">
+    <div class="lb-left">
+      <div class="lb-glow"></div>
+      <img class="lb-car" src="assets/car-overhead.webp" alt="" id="lb-car">
+      <div class="lb-cat-dots" id="lb-dots"></div>
+    </div>
+    <div class="lb-right">
+      <div class="lb-cats" id="lb-cats"></div>
+      <div class="lb-divider"></div>
+      <div style="font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.3); margin:20px 0 12px;">Inspection points</div>
+      <div class="lb-items" id="lb-list"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ LAYOUT C ══════════════ -->
+<section class="exp-section" id="layout-c">
+  <p class="exp-label">Layout C</p>
+  <h2 class="exp-title">Immersive</h2>
+  <p class="exp-desc">Full-bleed car as the hero. Category list and checklist float at the bottom.</p>
+
+  <div class="lc-wrap">
+    <div class="lc-stage">
+      <div class="lc-bg-glow"></div>
+      <img class="lc-car" src="assets/car-overhead.webp" alt="" id="lc-car">
+      <div class="lc-overlay-bottom"></div>
+      <div class="lc-ui">
+        <div class="lc-cats" id="lc-cats"></div>
+        <div class="lc-panel">
+          <div class="lc-panel__header" id="lc-panel-header">Body — 21 points</div>
+          <div class="lc-items" id="lc-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ LAYOUT D ══════════════ -->
+<section class="exp-section" id="layout-d">
+  <p class="exp-label">Layout D</p>
+  <h2 class="exp-title">Editorial — Both in Focus</h2>
+  <p class="exp-desc">Car + categories on the left. The checklist takes equal space on the right — large, readable, no scrolling.</p>
+
+  <div class="ld-wrap">
+    <div class="ld-card">
+      <div class="ld-left">
+        <div class="ld-photo-wrap">
+          <img class="ld-photo" src="assets/part-tire.png" alt="" id="ld-photo">
+        </div>
+        <div class="ld-cats" id="ld-cats"></div>
+      </div>
+      <div class="ld-right">
+        <p class="ld-summary" id="ld-summary"></p>
+        <div class="ld-items-wrap">
+          <div class="ld-fade ld-fade--top is-hidden" id="ld-fade-top">
+            <svg width="16" height="10" viewBox="0 0 16 10" fill="none"><path d="M15 9l-7-7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="ld-items" id="ld-list"></div>
+          <div class="ld-fade ld-fade--bottom is-hidden" id="ld-fade-bottom">
+            <svg width="16" height="10" viewBox="0 0 16 10" fill="none"><path d="M1 1l7 7 7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="ld-total">
+          <span class="ld-total__label">Points in this category</span>
+          <span class="ld-total__count" id="ld-count">21 <span>/ 210</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ LAYOUT E ══════════════ -->
+<section class="exp-section" id="layout-e">
+  <p class="exp-label">Layout E</p>
+  <h2 class="exp-title">Linear-style</h2>
+  <p class="exp-desc">Headline + vertical nav with expandable sub-items left. Large atmospheric photo right.</p>
+
+  <div class="le-wrap">
+    <div class="le-cols">
+      <div class="le-left">
+        <div class="le-header">
+          <div class="le-eyebrow">Clutch Certified</div>
+          <div class="le-headline">The most thorough car inspection in the industry.</div>
+        </div>
+        <div class="le-cats" id="le-cats"></div>
+      </div>
+      <div class="le-right">
+        <img class="le-photo" src="assets/_DSC1900.webp" alt="" id="le-photo">
+        <div class="le-pts-badge">
+          <div class="le-pts-badge__num" id="le-pts">21</div>
+          <div class="le-pts-badge__label">points checked</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const CAT_META = [
+    { title: 'Every panel, gap,\nand surface checked.', sub: 'Paint consistency, rust, structural integrity — nothing skipped.' },
+    { title: 'Real-world performance\nvalidated on the road.', sub: 'Three separate mechanic-led road tests across city and highway conditions.' },
+    { title: 'Under the hood,\nnothing is assumed.', sub: 'Oil, coolant, belts, battery, sensors — the full picture before it ever lists.' },
+    { title: 'Ride quality\ntested to spec.', sub: 'Every bushing, strut, and link inspected for wear, play, and noise.' },
+    { title: 'Steering feel\nand response confirmed.', sub: 'From rack to column — precise, leak-free, and straight.' },
+    { title: 'Every light.\nEvery circuit.', sub: 'Interior, exterior, and safety lighting all verified functional.' },
+    { title: 'The part you\nnever see — checked.', sub: 'Frame, exhaust, brake lines, and fuel system inspected from below.' },
+    { title: 'Grip, stopping power,\nand tread measured.', sub: 'Brake pads, rotors, tyre depth, and pressure checked across all four corners.' },
+  ];
+
+  const CATS = [
+    { name: 'Body',          pts: 21, items: ['All body gaps are appropriate','All doors open and close properly','Antenna present and in good condition','No damage to rims','No noticeable signs of body repair or paint work','No scratches, dings, or dents on any doors','No scratches, dings, or dents on front bumper cover or hood','No scratches, dings, or dents on front fender or wheel arch areas','No scratches, dings, or dents on rear bumper cover or trunk/hatch area','No scratches, dings, or dents on rear quarter panels or wheel arch areas','No rust on body panels','No rust on door jambs','No visible damage to quarter glass or rear glass','Trunk/cargo area in good condition','All lights functional','Paint colour consistent across panels','No hail damage','Trim pieces intact','Mirrors functional','Glass free from cracks','Wipers functional'] },
+    { name: 'Road Test',     pts: 79, items: ['Smooth acceleration','No abnormal noises under load','Transmission shifts properly','Brakes respond firmly','No vibration at highway speed','ABS system functional','Traction control operational','All warning lights clear','HVAC functional','Infotainment responsive','Horn operational','Power windows functional','Heated seats functional','No unusual exhaust smell','Fuel economy in normal range','Cruise control functional','Backup camera operational','Lane-keep assist operational','Blind-spot monitoring functional','Parking sensors functional','Remote start functional'] },
+    { name: 'Engine',        pts: 41, items: ['No oil leaks','No coolant leaks','No transmission fluid leaks','Belt and hose condition good','Air filter clean','Battery terminals clean','Battery holds charge','Alternator charging normally','Serpentine belt intact','No check engine light','Oil level at proper level','Coolant level at proper level','Engine mounts intact','Turbo/supercharger functional','EGR valve functional','Catalytic converter intact','Exhaust manifold sealed','Fuel lines intact','Throttle body clean','Ignition system functional','No misfires detected'] },
+    { name: 'Suspension',    pts: 16, items: ['No worn control arm bushings','Sway bar links intact','Shock absorbers not leaking','Struts in good condition','Ball joints tight','Tie rod ends tight','No excessive play in steering','Wheel bearings no noise','Coil springs intact','Subframe intact'] },
+    { name: 'Steering',      pts: 8,  items: ['Power steering functional','No loose steering feel','Steering wheel centred','Rack and pinion no leaks','Column intact','Tilt/telescope functional','Steering dampener good','Return-to-centre normal'] },
+    { name: 'Lights',        pts: 10, items: ['Headlights functional','High beams functional','Tail lights functional','Brake lights functional','Turn signals functional','Reverse lights functional','Fog lights functional','DRL functional','Interior lights functional','Hazards functional'] },
+    { name: 'Underbody',     pts: 11, items: ['No frame damage','No excessive rust on subframe','Exhaust system intact','No fluid accumulation','Heat shields present','Fuel tank intact','Brake lines intact','Spare tire present','Skid plates intact','No collision damage to floor pan','Tow hitch (if equipped) secure'] },
+    { name: 'Tires & Brakes',pts: 21, items: ['Front brake pad thickness acceptable','Rear brake pad thickness acceptable','Front rotors not grooved','Rear rotors not grooved','No brake dust seal failure','Callipers move freely','Brake fluid level correct','Brake fluid condition good','Tyre tread depth front left acceptable','Tyre tread depth front right acceptable','Tyre tread depth rear left acceptable','Tyre tread depth rear right acceptable','No uneven tread wear','No sidewall damage','Tyre pressure correct across all wheels','Spare tyre present and inflated','Wheel locks present if required','TPMS sensors functional','No feathering on tyres','All lug nuts present and torqued','Winter tyres (if equipped) in good condition'] },
+  ];
+
+  function checkIcon() {
+    return `<svg class="check-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12l5 5L20 7"/></svg>`;
+  }
+
+  /* ── Layout A ── */
+  let laActive = 0;
+  const laTabs = document.getElementById('la-tabs');
+  const laList = document.getElementById('la-list');
+
+  function laRender() {
+    laTabs.innerHTML = CATS.map((c,i) =>
+      `<button class="la-tab ${i===laActive?'active':''}" data-i="${i}">${c.name} <span class="pts">${c.pts}pts</span></button>`
+    ).join('');
+    laList.innerHTML = CATS[laActive].items.map(item =>
+      `<div class="la-item">${checkIcon()} <span>${item}</span></div>`
+    ).join('');
+    laTabs.querySelectorAll('.la-tab').forEach(btn => {
+      btn.addEventListener('click', () => { laActive = +btn.dataset.i; laRender(); });
+    });
+  }
+  laRender();
+
+  /* ── Layout B ── */
+  let lbActive = 0;
+  const lbCats = document.getElementById('lb-cats');
+  const lbList = document.getElementById('lb-list');
+  const lbDots = document.getElementById('lb-dots');
+
+  function lbRender() {
+    lbCats.innerHTML = CATS.map((c,i) =>
+      `<div class="lb-cat ${i===lbActive?'active':''}" data-i="${i}">
+        <span class="lb-cat__name">${c.name}</span>
+        <span class="lb-cat__pts">${c.pts} pts</span>
+      </div>`
+    ).join('');
+    lbDots.innerHTML = CATS.map((c,i) =>
+      `<div class="lb-dot ${i===lbActive?'active':''}" data-i="${i}"></div>`
+    ).join('');
+    lbList.innerHTML = CATS[lbActive].items.map(item =>
+      `<div class="lb-item">${checkIcon()} <span>${item}</span></div>`
+    ).join('');
+    lbCats.querySelectorAll('.lb-cat').forEach(el => {
+      el.addEventListener('click', () => { lbActive = +el.dataset.i; lbRender(); });
+    });
+    lbDots.querySelectorAll('.lb-dot').forEach(el => {
+      el.addEventListener('click', () => { lbActive = +el.dataset.i; lbRender(); });
+    });
+  }
+  lbRender();
+
+  /* ── Layout C ── */
+  let lcActive = 0;
+  const lcCats = document.getElementById('lc-cats');
+  const lcList = document.getElementById('lc-list');
+  const lcHeader = document.getElementById('lc-panel-header');
+
+  function lcRender() {
+    const cat = CATS[lcActive];
+    lcCats.innerHTML = CATS.map((c,i) =>
+      `<div class="lc-cat ${i===lcActive?'active':''}" data-i="${i}">
+        <span class="lc-cat__name">${c.name}</span>
+        <span class="lc-cat__pts">${c.pts}pts</span>
+      </div>`
+    ).join('');
+    lcHeader.textContent = `${cat.name} — ${cat.pts} points`;
+    lcList.innerHTML = cat.items.map(item =>
+      `<div class="lc-item">${checkIcon()} <span>${item}</span></div>`
+    ).join('');
+    lcCats.querySelectorAll('.lc-cat').forEach(el => {
+      el.addEventListener('click', () => { lcActive = +el.dataset.i; lcRender(); });
+    });
+  }
+  lcRender();
+
+  /* ── Layout D ── */
+  const LD_CAR_IMGS = [
+    { src: 'assets/part-seat.png',       rotated: false }, // Body
+    { src: 'assets/part-seat.png',       rotated: false }, // Road Test
+    { src: 'assets/part-suspension.png', rotated: false }, // Engine
+    { src: 'assets/part-suspension.png', rotated: false }, // Suspension
+    { src: 'assets/part-brake.png',      rotated: false }, // Steering
+    { src: 'assets/part-tire.png',       rotated: false }, // Lights
+    { src: 'assets/part-brake.png',      rotated: false }, // Underbody
+    { src: 'assets/part-tire.png',       rotated: false }, // Tires & Brakes
+  ];
+
+  const LD_SUMMARIES = [
+    'Every panel, gap, and surface is checked for damage, rust, prior repairs, and paint consistency.',
+    'Three separate mechanic-led road tests validate real-world performance across acceleration, braking, and handling.',
+    'Fluid levels, belts, hoses, sensors, and emissions are inspected along with a full diagnostic scan.',
+    'Shocks, struts, control arms, bushings, and wheel bearings are assessed for wear affecting ride and safety.',
+    'Rack and pinion, tie rods, power steering fluid, and alignment are checked for any play or drift.',
+    'Every headlight, indicator, brake light, reverse light, and interior cabin light is tested for function.',
+    'The undercarriage is inspected for frame damage, rust, exhaust condition, and any fluid leaks.',
+    'Tread depth is measured on all four tires and brake pads, rotors, and calipers are fully evaluated.',
+  ];
+
+  let ldActive = 0;
+  const ldCats    = document.getElementById('ld-cats');
+  const ldList    = document.getElementById('ld-list');
+  const ldCount   = document.getElementById('ld-count');
+  const ldSummary = document.getElementById('ld-summary');
+  const ldPhoto   = document.getElementById('ld-photo');
+  const ldFadeTop = document.getElementById('ld-fade-top');
+  const ldFadeBot = document.getElementById('ld-fade-bottom');
+
+  function ldCheckScroll() {
+    const overflows = ldList.scrollHeight > ldList.clientHeight + 8;
+    if (!overflows) { ldFadeTop.classList.add('is-hidden'); ldFadeBot.classList.add('is-hidden'); return; }
+    ldFadeTop.classList.toggle('is-hidden', ldList.scrollTop < 4);
+    ldFadeBot.classList.toggle('is-hidden', ldList.scrollTop + ldList.clientHeight >= ldList.scrollHeight - 4);
+  }
+  ldList.addEventListener('scroll', ldCheckScroll);
+  ldFadeTop.addEventListener('click', () => ldList.scrollTo({ top: 0, behavior: 'smooth' }));
+  ldFadeBot.addEventListener('click', () => ldList.scrollTo({ top: ldList.scrollHeight, behavior: 'smooth' }));
+
+  function ldGreenCheck() {
+    return `<div class="ld-item__icon"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="#34C759" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>`;
+  }
+
+  function plusIcon() {
+    return `<div class="ld-cat__icon">
+      <svg width="12" height="12" viewBox="0 0 12 12">
+        <path d="M2,6 L10,6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+        <path class="ld-icon-v" d="M6,2 L6,10" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>`;
+  }
+
+  // Build DOM once
+  ldCats.innerHTML = CATS.map((c,i) =>
+    `<div class="ld-cat ${i===ldActive?'active':''}" data-i="${i}">
+      ${plusIcon()}
+      <span class="ld-cat__name">${c.name}</span>
+      <span class="ld-cat__pts">${c.pts} pts</span>
+    </div>`
+  ).join('');
+
+  function ldUpdate() {
+    const cat = CATS[ldActive];
+    const img = LD_CAR_IMGS[ldActive];
+    ldSummary.style.animation = 'none';
+    ldSummary.textContent = LD_SUMMARIES[ldActive];
+    requestAnimationFrame(() => { ldSummary.style.animation = 'ldTextIn 400ms ease both'; });
+    ldCount.innerHTML = `${cat.pts} <span>/ 210</span>`;
+    ldList.innerHTML = cat.items.map((item, i) =>
+      `<div class="ld-item" style="animation: ldItemIn 500ms cubic-bezier(.16,1,.3,1) ${i * 25}ms both">${ldGreenCheck()} <span>${item}</span></div>`
+    ).join('');
+    ldList.scrollTop = 0;
+    setTimeout(ldCheckScroll, 50);
+    ldPhoto.style.opacity = '0';
+    if (ldPhoto._t) clearTimeout(ldPhoto._t);
+    ldPhoto._t = setTimeout(() => {
+      ldPhoto.src = img.src;
+      ldPhoto.style.opacity = '1';
+    }, 180);
+  }
+
+  ldCats.querySelectorAll('.ld-cat').forEach((el, i) => {
+    el.style.setProperty('--cat-delay', `${i * 90}ms`);
+    el.addEventListener('click', () => {
+      if (+el.dataset.i === ldActive) return;
+      ldCats.querySelectorAll('.ld-cat').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      ldActive = +el.dataset.i;
+      ldUpdate();
+    });
+  });
+
+  // Trigger entrance animation when card scrolls into view
+  const ldCard = document.querySelector('#layout-d .ld-card');
+  new IntersectionObserver((entries, obs) => {
+    if (entries[0].isIntersecting) {
+      ldCard.classList.add('is-animating');
+      obs.disconnect();
+    }
+  }, { threshold: 0.15 }).observe(ldCard);
+
+  ldUpdate();
+
+  /* ── Layout E ── */
+  const CAT_PHOTOS = [
+    'assets/_DSC1900.webp',
+    'assets/_DSC1016.webp',
+    'assets/_DSC1479.webp',
+    'assets/garage.webp',
+    'assets/_DSC1600.webp',
+    'assets/photo-card-1.webp',
+    'assets/_DSC1850.webp',
+    'assets/_DSC1931.webp',
+  ];
+
+  let leActive = 0;
+  const leCats  = document.getElementById('le-cats');
+  const lePhoto = document.getElementById('le-photo');
+  const lePts   = document.getElementById('le-pts');
+
+  function chevronIcon() {
+    return `<svg class="le-cat__chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l4 4 4-4"/></svg>`;
+  }
+
+  // Build DOM once — toggle classes on click so CSS transitions actually fire
+  leCats.innerHTML = CATS.map((c,i) =>
+    `<div class="le-cat ${i===leActive?'active':''}" data-i="${i}">
+      <div class="le-cat__row">
+        <span class="le-cat__num">${String(i+1).padStart(2,'0')}</span>
+        <span class="le-cat__name">${c.name}</span>
+        <span class="le-cat__pts">${c.pts} pts</span>
+        ${chevronIcon()}
+      </div>
+      <div class="le-subitems"><div class="le-subitems-inner">${c.items.map(item =>
+        `<div class="le-subitem">${checkIcon()} <span>${item}</span></div>`
+      ).join('')}</div></div>
+    </div>`
+  ).join('');
+
+  lePts.textContent = CATS[leActive].pts;
+
+  leCats.querySelectorAll('.le-cat').forEach(el => {
+    el.addEventListener('click', () => {
+      const idx = +el.dataset.i;
+      const closing = leActive === idx;
+      leCats.querySelectorAll('.le-cat').forEach(c => c.classList.remove('active'));
+      if (!closing) {
+        el.classList.add('active');
+        leActive = idx;
+      } else {
+        leActive = -1;
+      }
+      lePhoto.style.opacity = '0';
+      setTimeout(() => {
+        lePhoto.src = CAT_PHOTOS[idx];
+        lePhoto.style.opacity = '1';
+      }, 150);
+      lePts.textContent = CATS[idx].pts;
+    });
+  });
+</script>
+</body>
+</html>

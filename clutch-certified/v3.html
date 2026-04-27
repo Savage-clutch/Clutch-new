@@ -19,7 +19,7 @@
     <nav class="nav">
       <img class="nav__logo" src="assets/logo-red.webp" alt="Clutch">
       <div class="nav__pill">
-        <a href="https://www.clutch.ca/cars" target="_blank" rel="noopener">Browse Clutch Certified</a>
+        <a href="https://www.clutch.ca/cars" target="_blank" rel="noopener">Shop Clutch Certified Cars</a>
       </div>
     </nav>
   </header>
@@ -40,23 +40,39 @@
     </div>
   </section>
 
-  <!-- Stats -->
-  <div class="stats" id="v3-stats">
-    <div class="stat">
-      <div class="stat__row">
-        <span class="stat__number" id="v3-vehicles">70,000</span><span class="stat__number plus">+</span>
+  <div class="listed-grid-banner">
+    <div class="listed__grid">
+      <div class="listed__tag listed__tag--stat reveal">
+        <span class="listed__tag-label">Every car goes through</span>
+        <div class="listed__tag-number">8</div>
+        <span class="listed__tag-sub">Clutch mechanics</span>
       </div>
-      <div class="stat__label">Cars inspected<br>to date</div>
-    </div>
-    <div class="stat">
-      <div class="stat__row">
-        <span class="stat__number" id="v3-datapoints">15,000,000</span><span class="stat__number plus">+</span>
+      <div class="listed__tag listed__tag--stat reveal" style="transition-delay:0.15s">
+        <span class="listed__tag-label">Full</span>
+        <div class="listed__tag-number">210</div>
+        <span class="listed__tag-sub">Point inspection checklist</span>
       </div>
-      <div class="stat__label">Total points<br>inspected</div>
-    </div>
-    <div class="stat reveal" style="transition-delay:0.4s">
-      <div class="stat__number">23</div>
-      <div class="stat__label">Clutch mechanics</div>
+      <div class="listed__tag listed__tag--stat reveal" style="transition-delay:0.3s">
+        <span class="listed__tag-label">Up to</span>
+        <div class="listed__tag-number">3×</div>
+        <span class="listed__tag-sub">Mechanic-led road tests</span>
+      </div>
+      <div class="listed__tag listed__tag--stat reveal" style="transition-delay:0.15s">
+        <span class="listed__tag-label">Cars inspected</span>
+        <div class="listed__tag-number">70,000<span style="font-size:0.55em; vertical-align:super;">+</span></div>
+        <span class="listed__tag-sub">To date</span>
+      </div>
+      <div class="listed__tag listed__tag--photo reveal" style="transition-delay:0.3s; display:flex; flex-direction:column; justify-content:flex-end; padding:32px 40px 52px;">
+        <img src="assets/mirror.webp" alt="Car photographed" style="transform: scale(1.3) translate(12%, 10%); object-position: center 65%;">
+        <span class="listed__tag-label">Average</span>
+        <div class="listed__tag-number">$3K</div>
+        <span class="listed__tag-sub">Invested in each car</span>
+      </div>
+      <div class="listed__tag listed__tag--stat reveal" style="transition-delay:0.45s">
+        <span class="listed__tag-label">Rated</span>
+        <div class="listed__tag-number">9/10</div>
+        <span class="listed__tag-sub">Customer vehicle satisfaction<br>from 1,744 surveys</span>
+      </div>
     </div>
   </div>
 
@@ -75,29 +91,29 @@
         </div>
       </div>
 
-      <!-- Layout B: 210-point animated module -->
-      <div class="module-210--alt reveal" id="v3-module-layout-b">
-        <div class="alt-car-top">
-          <img class="alt-car-img is-rotated" src="assets/Body.webp" id="v3-alt-car-img" alt="">
-        </div>
-        <div class="alt-bottom">
-          <div class="alt-cats" id="v3-alt-cat-list">
-            <div class="alt-cat active" data-cat="0"><div class="alt-cat__icon"><svg width="12" height="12" viewBox="0 0 12 12"><path class="alt-icon-h" d="M2,6 L10,6" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path class="alt-icon-v" d="M6,2 L6,10" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><span class="alt-cat__name">Body</span><span class="alt-cat__count">21 points</span></div>
-            <div class="alt-cat" data-cat="1"><div class="alt-cat__icon"><svg width="12" height="12" viewBox="0 0 12 12"><path class="alt-icon-h" d="M2,6 L10,6" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path class="alt-icon-v" d="M6,2 L6,10" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><span class="alt-cat__name">Road Test</span><span class="alt-cat__count">79 points</span></div>
-            <div class="alt-cat" data-cat="2"><div class="alt-cat__icon"><svg width="12" height="12" viewBox="0 0 12 12"><path class="alt-icon-h" d="M2,6 L10,6" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path class="alt-icon-v" d="M6,2 L6,10" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><span class="alt-cat__name">Engine</span><span class="alt-cat__count">41 points</span></div>
-            <div class="alt-cat" data-cat="3"><div class="alt-cat__icon"><svg width="12" height="12" viewBox="0 0 12 12"><path class="alt-icon-h" d="M2,6 L10,6" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path class="alt-icon-v" d="M6,2 L6,10" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><span class="alt-cat__name">Suspension</span><span class="alt-cat__count">16 points</span></div>
-            <div class="alt-cat" data-cat="4"><div class="alt-cat__icon"><svg width="12" height="12" viewBox="0 0 12 12"><path class="alt-icon-h" d="M2,6 L10,6" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path class="alt-icon-v" d="M6,2 L6,10" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><span class="alt-cat__name">Steering</span><span class="alt-cat__count">8 points</span></div>
-            <div class="alt-cat" data-cat="5"><div class="alt-cat__icon"><svg width="12" height="12" viewBox="0 0 12 12"><path class="alt-icon-h" d="M2,6 L10,6" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path class="alt-icon-v" d="M6,2 L6,10" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><span class="alt-cat__name">Lights</span><span class="alt-cat__count">10 points</span></div>
-            <div class="alt-cat" data-cat="6"><div class="alt-cat__icon"><svg width="12" height="12" viewBox="0 0 12 12"><path class="alt-icon-h" d="M2,6 L10,6" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path class="alt-icon-v" d="M6,2 L6,10" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><span class="alt-cat__name">Underbody</span><span class="alt-cat__count">11 points</span></div>
-            <div class="alt-cat" data-cat="7"><div class="alt-cat__icon"><svg width="12" height="12" viewBox="0 0 12 12"><path class="alt-icon-h" d="M2,6 L10,6" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path class="alt-icon-v" d="M6,2 L6,10" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><span class="alt-cat__name">Tires &amp; Brakes</span><span class="alt-cat__count">21 points</span></div>
-          </div>
-          <div class="alt-items-wrap" id="v3-alt-items-wrap">
-            <div class="alt-fade alt-fade--top is-hidden" id="v3-alt-fade-top">
-              <svg width="16" height="10" viewBox="0 0 16 10" fill="none"><path d="M15 9l-7-7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <!-- Layout D: 210-point inspection card -->
+      <div class="v3-ld-wrap">
+        <div class="ld-card" id="v3-ld-card">
+          <div class="ld-left">
+            <div class="ld-photo-wrap">
+              <img class="ld-photo is-rotated" src="assets/Body.webp" alt="" id="v3-ld-photo">
             </div>
-            <div class="alt-items" id="v3-alt-items-panel"></div>
-            <div class="alt-fade alt-fade--bottom is-hidden" id="v3-alt-fade-bottom">
-              <svg width="16" height="10" viewBox="0 0 16 10" fill="none"><path d="M1 1l7 7 7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="ld-cats" id="v3-ld-cats"></div>
+          </div>
+          <div class="ld-right">
+            <p class="ld-summary" id="v3-ld-summary"></p>
+            <div class="ld-items-wrap">
+              <div class="ld-fade ld-fade--top is-hidden" id="v3-ld-fade-top">
+                <svg width="16" height="10" viewBox="0 0 16 10" fill="none"><path d="M15 9l-7-7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="ld-items" id="v3-ld-list"></div>
+              <div class="ld-fade ld-fade--bottom is-hidden" id="v3-ld-fade-bottom">
+                <svg width="16" height="10" viewBox="0 0 16 10" fill="none"><path d="M1 1l7 7 7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+            </div>
+            <div class="ld-total">
+              <span class="ld-total__label">Points in this category</span>
+              <span class="ld-total__count" id="v3-ld-count">21 <span>/ 210</span></span>
             </div>
           </div>
         </div>
@@ -133,13 +149,19 @@
         <div class="photo-carousel__slide photo-carousel__slide--md">
           <img class="photo-carousel__img" src="assets/_DSC1850.webp" alt="">
         </div>
+        <div class="photo-carousel__slide photo-carousel__slide--lg">
+          <img class="photo-carousel__img" src="assets/_DSC1600.webp" alt="">
+        </div>
+        <div class="photo-carousel__slide photo-carousel__slide--md">
+          <img class="photo-carousel__img" src="assets/_DSC1900.webp" alt="">
+        </div>
       </div>
     </div>
   </div>
 
   <!-- Road Test -->
   <div class="td-stage-wrap">
-    <h2 class="road-test-callout reveal">That includes a total of three separate mechanic-led road tests to validate real-world performance.</h2>
+    <h2 class="road-test-callout reveal">Three mechanic-led road tests. Every car. Every time.</h2>
     <div class="td-stage" id="v3-td-stage">
       <div class="td-card">
         <div class="td-num-wrap">
@@ -323,6 +345,54 @@
     </div>
   </section>
 
+  <!-- Us vs Them -->
+  <section class="vs" id="v3-s-vs">
+    <div class="section-wrap">
+      <div class="vs__header reveal">
+        <span class="section-tag">How we compare</span>
+        <h2 class="vs__headline">Better than any CPO program.</h2>
+        <p class="vs__sub">Certified Pre-Owned programs vary by brand and dealer. Here's how Clutch Certified stacks up.</p>
+      </div>
+      <div class="vs__grid reveal">
+        <div class="vs__clutch-panel"></div>
+        <div class="vs__col-labels">
+          <div class="vs__spacer"></div>
+          <div class="vs__col-label vs__col-label--us"><img src="assets/logo-red.webp" alt="Clutch" class="vs__col-badge"></div>
+          <div class="vs__col-label vs__col-label--them">Standard CPO programs</div>
+        </div>
+        <div class="vs__row">
+          <div class="vs__feature">Inspection depth</div>
+          <div class="vs__cell vs__cell--us"><span class="vs__check">✓</span>210 points across 8 categories</div>
+          <div class="vs__cell vs__cell--them"><span class="vs__dash">—</span>50–130 points, varies by brand</div>
+        </div>
+        <div class="vs__row">
+          <div class="vs__feature">Report visible to buyers</div>
+          <div class="vs__cell vs__cell--us"><span class="vs__check">✓</span>Full report on every listing</div>
+          <div class="vs__cell vs__cell--them"><span class="vs__dash">—</span>Rarely shared</div>
+        </div>
+        <div class="vs__row">
+          <div class="vs__feature">Works on any brand</div>
+          <div class="vs__cell vs__cell--us"><span class="vs__check">✓</span>Any make, any model</div>
+          <div class="vs__cell vs__cell--them"><span class="vs__dash">—</span>Brand-specific only</div>
+        </div>
+        <div class="vs__row">
+          <div class="vs__feature">Servicing included</div>
+          <div class="vs__cell vs__cell--us"><span class="vs__check">✓</span>Every car serviced, no exceptions</div>
+          <div class="vs__cell vs__cell--them"><span class="vs__dash">—</span>Only if defects are found</div>
+        </div>
+        <div class="vs__row">
+          <div class="vs__feature">Road testing</div>
+          <div class="vs__cell vs__cell--us"><span class="vs__check">✓</span>3 mechanic-led road tests</div>
+          <div class="vs__cell vs__cell--them"><span class="vs__dash">—</span>Single dealer test drive</div>
+        </div>
+        <div class="vs__row">
+          <div class="vs__feature">CarFax included</div>
+          <div class="vs__cell vs__cell--us"><span class="vs__check">✓</span>Free on every listing</div>
+          <div class="vs__cell vs__cell--them"><span class="vs__dash">—</span>Often behind a paywall</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Step 3: Listed -->
   <section class="listed" id="v3-s-listed">
@@ -397,38 +467,6 @@
       </div>
     </div>
 
-    <div class="listed__grid">
-      <div class="listed__tag listed__tag--stat reveal">
-        <span class="listed__tag-label">Every car goes through</span>
-        <div class="listed__tag-number">8</div>
-        <span class="listed__tag-sub">Clutch mechanics</span>
-      </div>
-      <div class="listed__tag listed__tag--stat reveal" style="transition-delay:0.15s">
-        <span class="listed__tag-label">Full</span>
-        <div class="listed__tag-number">210</div>
-        <span class="listed__tag-sub">Point inspection checklist</span>
-      </div>
-      <div class="listed__tag listed__tag--stat reveal" style="transition-delay:0.3s">
-        <span class="listed__tag-label">Up to</span>
-        <div class="listed__tag-number">3×</div>
-        <span class="listed__tag-sub">Mechanic-led road tests</span>
-      </div>
-      <div class="listed__tag listed__tag--photo reveal" style="transition-delay:0.15s">
-        <img src="assets/garage.webp" alt="Clutch facility" style="object-fit: contain; object-position: center 60%; transform: scale(2.2) translateX(8%);">
-        <span class="listed__tag-text">Safely stored at<br>our facility</span>
-      </div>
-      <div class="listed__tag listed__tag--stat reveal" style="transition-delay:0.3s">
-        <span class="listed__tag-label">Rated</span>
-        <div class="listed__tag-number">9/10</div>
-        <span class="listed__tag-sub">Customer vehicle satisfaction<br>from 1,744 surveys</span>
-      </div>
-      <div class="listed__tag listed__tag--photo reveal" style="transition-delay:0.45s; display:flex; flex-direction:column; justify-content:flex-end; padding:32px 40px 52px;">
-        <img src="assets/mirror.webp" alt="Car photographed" style="transform: scale(1.3) translate(12%, 10%); object-position: center 65%;">
-        <span class="listed__tag-label">Average</span>
-        <div class="listed__tag-number">$3K</div>
-        <span class="listed__tag-sub">Invested in each car</span>
-      </div>
-    </div>
   </section>
 
   <!-- Promise -->

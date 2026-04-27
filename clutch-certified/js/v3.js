@@ -81,6 +81,7 @@
       var velEl = document.getElementById('v3-vehicles');
       var dpEl  = document.getElementById('v3-datapoints');
       var section = document.getElementById('v3-stats');
+      if (!velEl || !dpEl) return;
       var vehicles = TARGET_VEHICLES, datapoints = TARGET_DATAPOINTS, animated = false;
       var velStrips = buildOdometer(velEl, TARGET_VEHICLES);
       var dpStrips  = buildOdometer(dpEl,  TARGET_DATAPOINTS);
@@ -363,21 +364,21 @@
       // Clone all slides for seamless loop
       slides.forEach(function(s) { track.appendChild(s.cloneNode(true)); });
 
-      var speed  = 1;
-      var paused = false;
+      var speed   = 1;
+      var paused  = true;
+      var started = false;
 
       function init() {
         var pad   = parseFloat(getComputedStyle(wrap).paddingLeft) || 0;
         var last  = slides[count - 1];
         var loopW = last.offsetLeft + last.offsetWidth - slides[0].offsetLeft + 12;
 
-        wrap.scrollLeft = 0; // start with gap visible once as entrance
+        wrap.scrollLeft = 0;
         wrap.classList.add('is-at-end');
 
         function tick() {
           if (!paused) {
             wrap.scrollLeft += speed;
-            // reset to pad (not 0) so the gap never shows again after the first pass
             if (wrap.scrollLeft >= pad + loopW) wrap.scrollLeft -= loopW;
           }
           requestAnimationFrame(tick);
@@ -387,13 +388,17 @@
 
       requestAnimationFrame(init);
 
+      new IntersectionObserver(function(entries) {
+        paused = !entries[0].isIntersecting;
+      }, { threshold: 0.2 }).observe(wrap);
+
       wrap.addEventListener('mouseenter', function() { paused = true; });
       wrap.addEventListener('mouseleave', function() { paused = false; });
       wrap.addEventListener('touchstart',  function() { paused = true; }, { passive: true });
       wrap.addEventListener('touchend',    function() { paused = false; });
     })();
 
-    // Layout B — 210-point inspection module
+    // Layout D — 210-point inspection module
     (function() {
       var catImages = [
         'assets/Body.webp',
@@ -405,7 +410,17 @@
         'assets/Underbody.webp',
         'assets/Tires and Brakes.webp',
       ];
-      var inspectionCatSummaries = [
+      var CATS = [
+        { name: 'Body',           pts: 21 },
+        { name: 'Road Test',      pts: 79 },
+        { name: 'Engine',         pts: 41 },
+        { name: 'Suspension',     pts: 16 },
+        { name: 'Steering',       pts: 8  },
+        { name: 'Lights',         pts: 10 },
+        { name: 'Underbody',      pts: 11 },
+        { name: 'Tires & Brakes', pts: 21 }
+      ];
+      var catSummaries = [
         'Every panel, gap, and surface is checked for damage, rust, prior repairs, and paint consistency.',
         'Three separate mechanic-led road tests validate real-world performance across acceleration, braking, and handling.',
         'Fluid levels, belts, hoses, sensors, and emissions are inspected along with a full diagnostic scan.',
@@ -415,7 +430,7 @@
         'The undercarriage is inspected for frame damage, rust, exhaust condition, and any fluid leaks.',
         'Tread depth is measured on all four tires and brake pads, rotors, and calipers are fully evaluated.'
       ];
-      var inspectionItems = {
+      var catItems = {
         0: ["All body gaps are appropriate","All doors open and close properly","Antenna present and in good condition","No damage to rims","No noticeable signs of body repair or paint work","No scratches, dings, or dents on any doors","No scratches, dings, or dents on front bumper cover or hood","No scratches, dings, or dents on front fender or wheel arch areas","No scratches, dings, or dents on rear bumper cover or trunk/hatch area","No scratches, dings, or dents on rear quarter panels or wheel arch areas","No scratches, dings, or dents on roof","Paint color and lustre match across the entire vehicle","Hood hinges function properly","Hood latch secures properly with no signs of damage","No body panels or trim are loose or have sharp edges","No signs of damage to any piece of glass","Sub-frame assembly is not bent or damaged","Tow hook cover present","Trunk hinges function properly","Trunk latch secures properly with no signs of damage","Vehicle equipped with front and rear license plate brackets in good condition"],
         1: ["A pillar interior trim in good condition","All 12v accessory ports functional","All cupholders operational and in good condition","All door locks function properly","All interior door handles operational","All other interior accessories function properly","All speakers function and sound good","Armrests operational","B pillar interior trim in good condition","Blower recirculation functions properly","Blower speed control functions properly","Bluetooth functions properly","C pillar interior trim in good condition","Cargo covers in good condition","Center console in good condition, buttons legible","Central lock buttons by driver's seat work as expected","Centre console storage compartments operational and in good condition","Dashboard in good condition","Driver's seat belt operational","Driver's seat in good condition","Driver's seat lumbar support operational","Driver's seat position adjustments operational","Floor mats are in proper condition","Front and rear carpeting in good condition","Front defrost works","Fuel door release operational","Glovebox operational and in good condition","Headliner in good condition","Headrests function properly","Hood release operational","Horn honks","Interior door panels in good shape","Interior free from all odours including cigarette smoke","Interior lights function properly","Interior sun visors present and function properly","Interior vanity mirrors not cracked, chipped, or scratched","Navigation functions properly","Parking sensors test for accuracy and operational","Passenger's seat belt operational","Passenger's seat in good condition","Passenger's seat lumbar support operational","Passenger's seat position adjustments operational","Radio functions properly","Rear defrost works","Rear folding seats operational","Rear seat belts operational","Rear seats in good condition","Rearview mirror functions properly","Seat mountings are secure","Trip computer operational","Trunk interior panels and carpet in good shape","Trunk release operational","Vehicle key remote operational and starts vehicle","Vent controls function properly","Windows open and close smoothly","Cruise control operational","Differential operates properly during a tight turn","Equal amount of right / left steering wheel lock","Gear indicator display operational","Instrument cluster gauges and lights operational while driving","No dash warning lights on","No exterior clunks or rattles","No exterior squeaks or squeals","No interior rattles","No interior squeaks","No right / left pull under heavy braking","No warning lights are burnt out","No wind noise","Nothing abnormal on startup or idling","Odometer functions properly","OBD system returns no faults","Speedometer functions properly","Steering does not pull right / left","Steering returns to centre position after a turn","Transmission shifts smoothly","Vehicle absorbs bumps properly","Vehicle stopping distance is appropriate","Windshield sprayers operational and blades in good condition","Wiper blades operational on all speeds and intermittent"],
         2: ["Accelerator pedal functions properly and shows no signs of excessive wear","All wiring is secure and in good condition","Battery is charged","Battery is secure and appropriately covered","Battery posts and connections show no evidence of corrosion or deterioration","Brake fluid level and reservoir/cap in good condition","Clutch functions properly and shows no signs of excessive wear or slippage","Clutch pedal functions normally and shows no signs of excessive wear","Coolant level and reservoir/cap in good condition","Coolant level for hybrid cooling system in good condition","Differential functions normally","Drive belts in good condition","Drive shaft centre bearing and mount show no signs of damage","Drive shaft rotates freely","Engine air filter condition","Engine ignition functions properly","Engine interlock operational","Engine mounts in good condition","Engine oil level and condition","Exhaust system functions properly with no leaks","Fuel filler cap is present and secure","Fuel pump functions properly","Fuel system hoses are not cracked, damaged, or insecure","Fuel tank has no cracks or other forms of damage","Gear shifter functions properly and without excessive resistance","Hoses in good condition","Hybrid system electrical connections show no signs of damage or excessive wear","Hybrid system is functioning properly","MVI sticker is present","No abnormal engine sounds or smells","No battery leaks","No fuel system leaks","No signs of rodent damage or infestation","No visual signs of leaks","No wiring insulation is missing","Serpentine belt pulley is properly aligned","Transmission mounts in good condition","Vehicle engages in Drive","Vehicle engages in Neutral","Vehicle engages in Reverse","Washer fluid level and reservoir/cap in good condition"],
@@ -426,158 +441,90 @@
         7: ["Back left tire tread depth","Back right tire tread depth","Front left tire tread depth","Front right tire tread depth","ABS system functions properly","All brake lines show no evidence of corrosion or excessive wear","All brake lines show no evidence of leaks or bulging under pressure","All wheel fasteners are in good condition and torqued appropriately","Brake master cylinder is not loose and shows no evidence of damage or leaks","Brake pedal and mount do not show signs of excessive wear","Brake system functions normally","Brakes release appropriately and do not stick","Disc brake pads do not show wear beyond 50% of acceptable limits","Disc brake rotors do not show wear beyond 50% of acceptable limits","Drum Brake system operational","Emergency/Parking brake operational","No tire has less than 2mm of tread depth at any point","Tire sidewalls do not bulge","Tire tread is in good condition and has not been re-treaded","Tires are inflated to appropriate pressures","Brake pedal does not travel more than 80% of total available travel distance under medium pressure"]
       };
 
-      function renderAltItems(catIndex, baseDelay) {
-        var panel = document.getElementById('v3-alt-items-panel');
-        if (!panel) return;
-        var items = inspectionItems[catIndex] || [];
-        var summary = inspectionCatSummaries[catIndex] || '';
-        var base = baseDelay || 0;
-        panel.innerHTML =
-          '<p class="alt-items-summary" style="opacity:0;animation:altCatTextIn 300ms ease ' + base + 'ms both">' + summary + '</p>' +
-          items.map(function(item, i) {
-            return '<div class="alt-item" style="animation-delay:' + (base + i * 25) + 'ms"><div class="alt-item__icon"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="#34C759" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>' + item + '</span></div>';
-          }).join('');
+      var ldActive = 0;
+      var ldCats    = document.getElementById('v3-ld-cats');
+      var ldList    = document.getElementById('v3-ld-list');
+      var ldCount   = document.getElementById('v3-ld-count');
+      var ldSummary = document.getElementById('v3-ld-summary');
+      var ldPhoto   = document.getElementById('v3-ld-photo');
+      var ldFadeTop = document.getElementById('v3-ld-fade-top');
+      var ldFadeBot = document.getElementById('v3-ld-fade-bottom');
+      var ldCard    = document.getElementById('v3-ld-card');
+
+      if (!ldCard) return;
+
+      function ldCheckScroll() {
+        var overflows = ldList.scrollHeight > ldList.clientHeight + 8;
+        if (!overflows) { ldFadeTop.classList.add('is-hidden'); ldFadeBot.classList.add('is-hidden'); return; }
+        ldFadeTop.classList.toggle('is-hidden', ldList.scrollTop < 4);
+        ldFadeBot.classList.toggle('is-hidden', ldList.scrollTop + ldList.clientHeight >= ldList.scrollHeight - 4);
+      }
+      ldList.addEventListener('scroll', ldCheckScroll);
+      ldFadeTop.addEventListener('click', function() { ldList.scrollTo({ top: 0, behavior: 'smooth' }); });
+      ldFadeBot.addEventListener('click', function() { ldList.scrollTo({ top: ldList.scrollHeight, behavior: 'smooth' }); });
+
+      function ldGreenCheck() {
+        return '<div class="ld-item__icon"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="#34C759" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>';
       }
 
-      // Category click — swap image + render items
-      var altList = document.getElementById('v3-alt-cat-list');
-      var altCarImg = document.getElementById('v3-alt-car-img');
-      var altItemsPanel = document.getElementById('v3-alt-items-panel');
-      var fadeTop = document.getElementById('v3-alt-fade-top');
-      var fadeBottom = document.getElementById('v3-alt-fade-bottom');
-
-      function checkAltScroll() {
-        if (!altItemsPanel || !fadeTop || !fadeBottom) return;
-        var overflows = altItemsPanel.scrollHeight > altItemsPanel.clientHeight + 8;
-        if (!overflows) { fadeTop.classList.add('is-hidden'); fadeBottom.classList.add('is-hidden'); return; }
-        fadeTop.classList.toggle('is-hidden', altItemsPanel.scrollTop < 4);
-        fadeBottom.classList.toggle('is-hidden', altItemsPanel.scrollTop + altItemsPanel.clientHeight >= altItemsPanel.scrollHeight - 4);
+      function ldPlusIcon() {
+        return '<div class="ld-cat__icon"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2,6 L10,6" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path class="ld-icon-v" d="M6,2 L6,10" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div>';
       }
-      if (altItemsPanel) {
-        altItemsPanel.addEventListener('scroll', checkAltScroll);
-        new ResizeObserver(checkAltScroll).observe(altItemsPanel);
-      }
-      if (fadeTop) fadeTop.addEventListener('click', function() { if (altItemsPanel) altItemsPanel.scrollTo({ top: 0, behavior: 'smooth' }); });
-      if (fadeBottom) fadeBottom.addEventListener('click', function() { if (altItemsPanel) altItemsPanel.scrollTo({ top: altItemsPanel.scrollHeight, behavior: 'smooth' }); });
-      window.v3CheckAltScroll = checkAltScroll;
 
-      if (altList) {
-        altList.addEventListener('click', function(e) {
-          var btn = e.target.closest('.alt-cat');
-          if (!btn) return;
-          altList.querySelectorAll('.alt-cat').forEach(function(b) { b.classList.remove('active'); });
-          btn.classList.add('active');
-          var cat = parseInt(btn.dataset.cat);
-          renderAltItems(cat);
-          if (altItemsPanel) { altItemsPanel.scrollTop = 0; setTimeout(checkAltScroll, 100); }
-          if (altCarImg && catImages[cat]) {
-            var shouldRotate = cat === 0 || cat === 6;
-            altCarImg.style.opacity = '0';
-            if (altCarImg._swapTimer) clearTimeout(altCarImg._swapTimer);
-            var nextSrc = catImages[cat];
-            altCarImg._swapTimer = setTimeout(function() {
-              altCarImg._swapTimer = null;
-              altCarImg.classList.toggle('is-rotated', shouldRotate);
-              altCarImg.onload = function() {
-                altCarImg.onload = null;
-                altCarImg.style.opacity = '1';
-              };
-              altCarImg.src = nextSrc;
-              // If already cached, onload won't fire — fade in immediately
-              if (altCarImg.complete && altCarImg.naturalWidth) {
-                altCarImg.onload = null;
-                altCarImg.style.opacity = '1';
-              }
-            }, 180);
-          }
+      // Build cat list DOM once
+      ldCats.innerHTML = CATS.map(function(c, i) {
+        return '<div class="ld-cat ' + (i === 0 ? 'active' : '') + '" data-i="' + i + '">' +
+          ldPlusIcon() +
+          '<span class="ld-cat__name">' + c.name + '</span>' +
+          '<span class="ld-cat__pts">' + c.pts + ' pts</span>' +
+          '</div>';
+      }).join('');
+
+      // Set stagger delays for entrance animation
+      ldCats.querySelectorAll('.ld-cat').forEach(function(el, i) {
+        el.style.setProperty('--cat-delay', (i * 90) + 'ms');
+      });
+
+      function ldUpdate() {
+        var cat = CATS[ldActive];
+        var items = catItems[ldActive] || [];
+        ldSummary.style.animation = 'none';
+        ldSummary.textContent = catSummaries[ldActive];
+        requestAnimationFrame(function() { ldSummary.style.animation = 'ldTextIn 400ms ease both'; });
+        ldCount.innerHTML = cat.pts + ' <span>/ 210</span>';
+        ldList.innerHTML = items.map(function(item, i) {
+          return '<div class="ld-item" style="animation: ldItemIn 500ms cubic-bezier(.16,1,.3,1) ' + (i * 25) + 'ms both">' + ldGreenCheck() + ' <span>' + item + '</span></div>';
+        }).join('');
+        ldList.scrollTop = 0;
+        setTimeout(ldCheckScroll, 50);
+        ldPhoto.style.opacity = '0';
+        if (ldPhoto._t) clearTimeout(ldPhoto._t);
+        ldPhoto._t = setTimeout(function() {
+          ldPhoto.src = catImages[ldActive];
+          ldPhoto.classList.toggle('is-rotated', ldActive === 0 || ldActive === 6);
+          ldPhoto.style.opacity = '1';
+        }, 180);
+      }
+
+      ldCats.querySelectorAll('.ld-cat').forEach(function(el) {
+        el.addEventListener('click', function() {
+          var idx = parseInt(el.dataset.i);
+          if (idx === ldActive) return;
+          ldCats.querySelectorAll('.ld-cat').forEach(function(c) { c.classList.remove('active'); });
+          el.classList.add('active');
+          ldActive = idx;
+          ldUpdate();
         });
-      }
+      });
 
-      // Intro animation
-      var mod = document.getElementById('v3-module-layout-b');
-      if (!mod) return;
-      var cats = Array.prototype.slice.call(mod.querySelectorAll('.alt-cat'));
-      var itemsWrap = document.getElementById('v3-alt-items-wrap');
-      var n = cats.length;
-      var centerIdx = 3;
-      var cleanupTimer = null;
+      new IntersectionObserver(function(entries, obs) {
+        if (entries[0].isIntersecting) {
+          ldCard.classList.add('is-animating');
+          obs.disconnect();
+        }
+      }, { threshold: 0.15 }).observe(ldCard);
 
-      function assignTypes() {
-        var rowH = cats[0] ? cats[0].offsetHeight : 52;
-        if (rowH === 0) rowH = 52;
-        var gapH = 8;
-        cats.forEach(function(cat, i) {
-          var dist = i - centerIdx;
-          if (dist === 0) {
-            cat.setAttribute('data-intro-type', 'center');
-            cat.style.removeProperty('--intro-y');
-          } else {
-            cat.setAttribute('data-intro-type', 'from-center');
-            cat.style.setProperty('--intro-y', (-dist * (rowH + gapH)) + 'px');
-          }
-        });
-      }
-
-      function measureCarY() {
-        var carImgEl = document.getElementById('v3-alt-car-img');
-        if (!carImgEl) return;
-        var modRect = mod.getBoundingClientRect();
-        var carRect = carImgEl.getBoundingClientRect();
-        var carCenterFromTop = (carRect.top - modRect.top) + carRect.height / 2;
-        var modCenter = mod.offsetHeight / 2;
-        mod.style.setProperty('--car-start-y', Math.round(modCenter - carCenterFromTop) + 'px');
-      }
-
-      function playIntro() {
-        if (cleanupTimer) clearTimeout(cleanupTimer);
-        mod.classList.remove('intro-playing', 'intro-pending');
-        var panel = document.getElementById('v3-alt-items-panel');
-        if (panel) panel.innerHTML = '';
-        measureCarY();
-        mod.classList.add('intro-pending');
-        requestAnimationFrame(function() { requestAnimationFrame(function() {
-          mod.classList.remove('intro-pending');
-          assignTypes();
-          mod.classList.add('intro-playing');
-          var listStart = 850;
-          var rowStagger = 60;
-          cats.forEach(function(cat, i) {
-            var absDist = Math.abs(i - centerIdx);
-            cat.style.setProperty('--cat-delay', (listStart + absDist * rowStagger) + 'ms');
-          });
-          var maxDist = Math.max(centerIdx, n - 1 - centerIdx);
-          var panelDelay = listStart + maxDist * rowStagger + 400;
-          if (itemsWrap) {
-            itemsWrap.style.setProperty('--panel-delay', panelDelay + 'ms');
-            itemsWrap.style.animationDelay = panelDelay + 'ms';
-          }
-          setTimeout(function() {
-            renderAltItems(0, 320);
-            setTimeout(function() { if (window.v3CheckAltScroll) window.v3CheckAltScroll(); }, 450);
-          }, panelDelay);
-          cleanupTimer = setTimeout(function() {
-            mod.classList.remove('intro-playing');
-            cats.forEach(function(cat) {
-              cat.style.animationDelay = '';
-              cat.style.removeProperty('--cat-delay');
-              cat.style.removeProperty('--intro-y');
-            });
-            if (itemsWrap) itemsWrap.style.animationDelay = '';
-          }, panelDelay + 800);
-        }); });
-      }
-
-      measureCarY();
-      mod.classList.add('intro-pending');
-      assignTypes();
-
-      var carImg = document.getElementById('v3-alt-car-img');
-      var io = new IntersectionObserver(function(entries) {
-        if (!entries[0].isIntersecting) return;
-        io.disconnect();
-        playIntro();
-      }, { threshold: 0.6 });
-      io.observe(carImg || mod);
+      ldUpdate();
     })();
 
     // ── Lightbox ────────────────────────────────────────────
