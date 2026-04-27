@@ -609,14 +609,18 @@
       transform-style: preserve-3d;
     }
     .recon-gallery__nav-row {
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
       margin-top: 24px;
+      min-height: 48px;
     }
     .recon-gallery__arrow {
-      flex-shrink: 0;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
       width: 40px;
       height: 40px;
       border-radius: 50%;
@@ -629,6 +633,8 @@
       color: #fff;
       transition: background 0.2s;
     }
+    .recon-gallery__arrow--prev { left: 0; }
+    .recon-gallery__arrow--next { right: 0; }
     .recon-gallery__arrow:hover { background: rgba(255,255,255,0.22); }
     .recon-gallery__item {
       position: absolute;
