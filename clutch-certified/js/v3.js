@@ -118,6 +118,7 @@
     // 210 roll-up counter
     (function() {
       var counterEl = document.getElementById('v3-counter-210');
+      if (!counterEl) return;
       var counted = false;
       function runCounter() {
         if (counted) return;
@@ -396,6 +397,26 @@
       wrap.addEventListener('mouseleave', function() { paused = false; });
       wrap.addEventListener('touchstart',  function() { paused = true; }, { passive: true });
       wrap.addEventListener('touchend',    function() { paused = false; });
+
+      // Mouse drag to scroll
+      var dragX = null, dragScroll = 0;
+      wrap.addEventListener('mousedown', function(e) {
+        dragX = e.clientX;
+        dragScroll = wrap.scrollLeft;
+        document.body.style.cursor = 'grabbing';
+        paused = true;
+        e.preventDefault();
+      });
+      window.addEventListener('mousemove', function(e) {
+        if (dragX === null) return;
+        wrap.scrollLeft = dragScroll - (e.clientX - dragX);
+      });
+      window.addEventListener('mouseup', function() {
+        if (dragX === null) return;
+        dragX = null;
+        document.body.style.cursor = '';
+        paused = false;
+      });
     })();
 
     // Layout D — 210-point inspection module
@@ -524,9 +545,25 @@
       ldUpdate();
     })();
 
+    // ── Photo grid entrance ──────────────────────────────────
+    (function() {
+      var gridImgs = Array.from(document.querySelectorAll('.photo-grid__img'));
+      if (!gridImgs.length) return;
+      var fired = false;
+      new IntersectionObserver(function(entries, obs) {
+        if (!entries[0].isIntersecting || fired) return;
+        fired = true;
+        obs.disconnect();
+        gridImgs.forEach(function(img, i) {
+          img.style.animationDelay = (i * 60) + 'ms';
+          img.classList.add('photo-grid__img--in');
+        });
+      }, { threshold: 0.15 }).observe(document.querySelector('.photo-grid'));
+    })();
+
     // ── Lightbox ────────────────────────────────────────────
     (function () {
-      var imgs = Array.from(document.querySelectorAll('.photo-carousel__img'));
+      var imgs = Array.from(document.querySelectorAll('.photo-grid__img'));
       if (!imgs.length) return;
 
       var lb = document.createElement('div');
