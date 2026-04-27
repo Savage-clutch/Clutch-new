@@ -1763,7 +1763,7 @@
     .ld-card {
       display: grid;
       grid-template-columns: 55% 45%;
-      height: 820px;
+      height: 760px;
       background: #0d0d0d;
       border: 1px solid rgba(255,255,255,.08);
       border-radius: 24px;
@@ -1806,7 +1806,7 @@
     .ld-cat {
       position: relative;
       display: flex; align-items: center; gap: 14px;
-      padding: 13px 16px;
+      padding: 9px 16px;
       cursor: pointer; border-radius: 10px;
       transition: background .15s;
       flex: 1;
@@ -1837,8 +1837,8 @@
       overflow: hidden;
     }
     .ld-summary {
-      font-size: 14px; color: rgba(255,255,255,.7);
-      line-height: 1.6; margin-bottom: 20px; flex-shrink: 0;
+      font-size: 16px; color: rgba(255,255,255,.85);
+      line-height: 1.55; margin-bottom: 18px; flex-shrink: 0;
     }
     .ld-items-wrap {
       position: relative; flex: 1; min-height: 0;
@@ -1885,7 +1885,7 @@
       display: flex; align-items: center; justify-content: space-between;
       flex-shrink: 0;
     }
-    .ld-total__label { font-size: 11px; color: rgba(255,255,255,.3); }
+    .ld-total__label { font-size: 11px; color: rgba(255,255,255,1); }
     .ld-total__count { font-size: 13px; font-weight: 600; color: rgba(255,255,255,.6); }
     .ld-total__count span { color: rgba(255,255,255,.25); }
 

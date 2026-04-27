@@ -441,15 +441,15 @@
         7: ["Back left tire tread depth","Back right tire tread depth","Front left tire tread depth","Front right tire tread depth","ABS system functions properly","All brake lines show no evidence of corrosion or excessive wear","All brake lines show no evidence of leaks or bulging under pressure","All wheel fasteners are in good condition and torqued appropriately","Brake master cylinder is not loose and shows no evidence of damage or leaks","Brake pedal and mount do not show signs of excessive wear","Brake system functions normally","Brakes release appropriately and do not stick","Disc brake pads do not show wear beyond 50% of acceptable limits","Disc brake rotors do not show wear beyond 50% of acceptable limits","Drum Brake system operational","Emergency/Parking brake operational","No tire has less than 2mm of tread depth at any point","Tire sidewalls do not bulge","Tire tread is in good condition and has not been re-treaded","Tires are inflated to appropriate pressures","Brake pedal does not travel more than 80% of total available travel distance under medium pressure"]
       };
 
-      var ldActive = 0;
+      var ldActive  = 0;
       var ldCats    = document.getElementById('v3-ld-cats');
       var ldList    = document.getElementById('v3-ld-list');
-      var ldCount   = document.getElementById('v3-ld-count');
-      var ldSummary = document.getElementById('v3-ld-summary');
       var ldPhoto   = document.getElementById('v3-ld-photo');
       var ldFadeTop = document.getElementById('v3-ld-fade-top');
       var ldFadeBot = document.getElementById('v3-ld-fade-bottom');
       var ldCard    = document.getElementById('v3-ld-card');
+      var ldSummary = document.getElementById('v3-ld-summary');
+      var ldCount   = document.getElementById('v3-ld-count');
 
       if (!ldCard) return;
 
@@ -486,17 +486,14 @@
       });
 
       function ldUpdate() {
-        var cat = CATS[ldActive];
         var items = catItems[ldActive] || [];
-        ldSummary.style.animation = 'none';
-        ldSummary.textContent = catSummaries[ldActive];
-        requestAnimationFrame(function() { ldSummary.style.animation = 'ldTextIn 400ms ease both'; });
-        ldCount.innerHTML = cat.pts + ' <span>/ 210</span>';
         ldList.innerHTML = items.map(function(item, i) {
           return '<div class="ld-item" style="animation: ldItemIn 500ms cubic-bezier(.16,1,.3,1) ' + (i * 25) + 'ms both">' + ldGreenCheck() + ' <span>' + item + '</span></div>';
         }).join('');
         ldList.scrollTop = 0;
         setTimeout(ldCheckScroll, 50);
+        if (ldSummary) ldSummary.textContent = catSummaries[ldActive];
+        if (ldCount) ldCount.innerHTML = CATS[ldActive].pts + ' <span>/ 210</span>';
         ldPhoto.style.opacity = '0';
         if (ldPhoto._t) clearTimeout(ldPhoto._t);
         ldPhoto._t = setTimeout(function() {
