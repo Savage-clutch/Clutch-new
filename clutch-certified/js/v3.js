@@ -245,8 +245,9 @@
       var loaded = 0;
       var started = false;
 
-      // Preload frames
-      var FRAME_COUNT = 24;
+      // Preload frames — assets/rotating/Comp 1_00057.png … Comp 1_00119.png
+      var FRAME_START = 57;
+      var FRAME_COUNT = 63;
       for (var i = 0; i < FRAME_COUNT; i++) {
         (function(idx) {
           var img = new Image();
@@ -254,7 +255,7 @@
             loaded++;
             if (idx === 0 && loaded === 1) drawFrame(0);
           };
-          img.src = 'assets/frame-' + String(idx + 1).padStart(3,'0') + '.jpg';
+          img.src = 'assets/rotating/' + encodeURIComponent('Comp 1_' + String(FRAME_START + idx).padStart(5,'0') + '.png');
           images[idx] = img;
         })(i);
       }
@@ -281,8 +282,8 @@
       function setDot(i) { dots.forEach(function(d,j){ d.classList.toggle('active', j===i); }); }
 
       var wrapping = false;
-      var testPausing = false;
-      var PAUSE_FRAME = 12; // frame where car is under the building — tune if needed
+      var loopCount = 0;
+      var LOOPS_PER_STEP = 3; // advance road test step every N full rotations
 
       function showStep(i) {
         current = i;
@@ -290,9 +291,7 @@
         strip.style.transform = 'translateY(-' + i + 'em)';
       }
 
-      function doTestTick() {
-        testPausing = true;
-        cancelAnimationFrame(rafId);
+      function advanceStep() {
         var next = (current + 1) % 3;
         if (next === 0 && !wrapping) {
           wrapping = true;
@@ -306,19 +305,11 @@
               requestAnimationFrame(function() {
                 strip.style.transition = '';
                 wrapping = false;
-                testPausing = false;
-                lastTime = 0;
-                rafId = requestAnimationFrame(animate);
               });
             });
           }, 520);
         } else if (!wrapping) {
           showStep(next);
-          setTimeout(function() {
-            testPausing = false;
-            lastTime = 0;
-            rafId = requestAnimationFrame(animate);
-          }, 1500);
         }
       }
 
@@ -329,10 +320,9 @@
         drawFrame(frameIndex);
         frameIndex++;
         if (frameIndex >= images.length) {
-          frameIndex = 0; // silent loop reset — number tick happens at PAUSE_FRAME
-        }
-        if (!testPausing && frameIndex === PAUSE_FRAME) {
-          doTestTick();
+          frameIndex = 0;
+          loopCount++;
+          if (loopCount % LOOPS_PER_STEP === 0) advanceStep();
         }
       }
 
