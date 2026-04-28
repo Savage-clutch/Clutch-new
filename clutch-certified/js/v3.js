@@ -156,7 +156,10 @@
       navDots.forEach(function(dot) {
         dot.addEventListener('click', function() {
           var el = document.getElementById(dot.dataset.target);
-          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (!el) return;
+          var offset = 80;
+          var top = el.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top: top, behavior: 'smooth' });
         });
       });
       updateNav();
