@@ -246,15 +246,15 @@
       var started = false;
 
       // Preload frames
-      var base = 'assets/car-cert/car-moving/';
-      for (var i = 0; i < 130; i++) {
+      var FRAME_COUNT = 24;
+      for (var i = 0; i < FRAME_COUNT; i++) {
         (function(idx) {
           var img = new Image();
           img.onload = function() {
             loaded++;
             if (idx === 0 && loaded === 1) drawFrame(0);
           };
-          img.src = base + encodeURIComponent('car-moving_' + String(idx).padStart(5,'0') + '.png');
+          img.src = 'assets/frame-' + String(idx + 1).padStart(3,'0') + '.jpg';
           images[idx] = img;
         })(i);
       }
@@ -282,7 +282,7 @@
 
       var wrapping = false;
       var testPausing = false;
-      var PAUSE_FRAME = 36; // frame where car is under the building — tune if needed
+      var PAUSE_FRAME = 12; // frame where car is under the building — tune if needed
 
       function showStep(i) {
         current = i;
@@ -345,7 +345,7 @@
         if (entries[0].isIntersecting && !started) {
           started = true;
           showStep(0);
-          frameIndex = 20; // start at front frame
+          frameIndex = 0;
           rafId = requestAnimationFrame(animate);
           obs.disconnect();
         }
@@ -513,7 +513,6 @@
         }).join('');
         ldList.scrollTop = 0;
         setTimeout(ldCheckScroll, 50);
-        if (ldSummary) ldSummary.textContent = catSummaries[ldActive];
         if (ldCount) ldCount.innerHTML = CATS[ldActive].pts + ' <span>/ 210</span>';
         ldPhoto.style.opacity = '0';
         if (ldPhoto._t) clearTimeout(ldPhoto._t);
