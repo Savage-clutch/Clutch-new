@@ -144,6 +144,7 @@
       var navSections = ['v3-s-inspect', 'v3-s-recon', 'v3-s-listed'];
       var navDots = document.querySelectorAll('.section-nav__dot');
       var navEl = document.getElementById('v3-section-nav');
+      var firstSection = document.getElementById('v3-s-inspect');
       function updateNav() {
         var current = 0;
         navSections.forEach(function(id, i) {
@@ -151,6 +152,8 @@
           if (el && el.getBoundingClientRect().top <= window.innerHeight * 0.65) current = i;
         });
         navDots.forEach(function(d, i) { d.classList.toggle('active', i === current); });
+        var reached = firstSection && firstSection.getBoundingClientRect().top <= window.innerHeight * 0.65;
+        navEl.classList.toggle('is-visible', reached);
       }
       window.addEventListener('scroll', updateNav, { passive: true });
       navDots.forEach(function(dot) {
