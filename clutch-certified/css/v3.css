@@ -28,7 +28,6 @@
       --sans: 'CircularXX', -apple-system, sans-serif;
       --nav-pill: rgba(25,25,25,0.51);
       --coral: #FF464C;
-      --progress-bg: transparent;
       --near-black: #1E1E1E;
 
       /* ── TYPE SCALE ── */
@@ -65,9 +64,12 @@
       z-index: 100;
     }
     .progress-bar {
-      width: 100%;
-      height: 5px;
-      background: var(--progress-bg);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: rgba(255,255,255,0.2);
     }
     .progress-bar__fill {
       width: 0%;
@@ -76,6 +78,7 @@
       transition: width 0.1s linear;
     }
     .nav {
+      position: relative;
       background: transparent;
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
@@ -1205,7 +1208,7 @@
       align-items: center;
     }
     .section-nav__dots {
-      background: rgba(255,255,255,0.15);
+      background: rgba(0,0,0,0.3);
       border-radius: 100px;
       padding: 10px 0;
       display: flex;
@@ -1213,7 +1216,8 @@
       align-items: center;
       gap: 10px;
       transition: background 0.2s ease;
-      mix-blend-mode: difference;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
     }
     .section-nav__dots:hover {
       background: rgba(255,255,255,0.32);
@@ -1229,11 +1233,11 @@
       margin: 0 10px;
     }
     .section-nav__dot.active {
-      background: #fff;
+      background: var(--red);
       transform: scale(1.25);
     }
     .section-nav__dot:hover { background: #fff; }
-    .section-nav__dot.active:hover { background: #fff; }
+    .section-nav__dot.active:hover { background: var(--red); }
     .section-nav__dot::before {
       content: attr(data-label);
       position: absolute;

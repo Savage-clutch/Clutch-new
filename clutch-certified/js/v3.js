@@ -148,24 +148,9 @@
         var current = 0;
         navSections.forEach(function(id, i) {
           var el = document.getElementById(id);
-          if (el && el.getBoundingClientRect().top <= window.innerHeight * 0.5) current = i;
+          if (el && el.getBoundingClientRect().top <= window.innerHeight * 0.65) current = i;
         });
         navDots.forEach(function(d, i) { d.classList.toggle('active', i === current); });
-        // Toggle dark mode based on background color under the nav
-        var probe = document.elementFromPoint(window.innerWidth - 40, window.innerHeight / 2);
-        var isDark = false;
-        var el = probe;
-        while (el && el !== document.body) {
-          var bg = getComputedStyle(el).backgroundColor;
-          var m = bg.match(/\d+/g);
-          if (m && !(parseInt(m[0]) === 0 && parseInt(m[1]) === 0 && parseInt(m[2]) === 0 && (m[3] === '0' || bg.indexOf('rgba') === -1 && bg === 'rgba(0, 0, 0, 0)'))) {
-            var lum = (0.299 * parseInt(m[0]) + 0.587 * parseInt(m[1]) + 0.114 * parseInt(m[2])) / 255;
-            var alpha = m[3] !== undefined ? parseFloat(m[3]) : 1;
-            if (alpha > 0.1) { isDark = lum < 0.35; break; }
-          }
-          el = el.parentElement;
-        }
-        navEl.classList.toggle('dark', isDark);
       }
       window.addEventListener('scroll', updateNav, { passive: true });
       navDots.forEach(function(dot) {
