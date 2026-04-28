@@ -821,7 +821,7 @@
 
     /* ── STEP 3: LISTED ── */
     .listed {
-      background: #1F1F1F;
+      background: #222222;
       padding: 0 0 48px;
       position: relative;
       width: 100vw;
@@ -891,6 +891,13 @@
       width: 96%;
       pointer-events: none;
     }
+    .listed__video {
+      display: block;
+      width: 100%;
+      height: auto;
+      pointer-events: none;
+    }
+
     /* Scroll-driven car rotation */
     .listed__frames {
       position: relative;
@@ -927,7 +934,7 @@
       grid-template-columns: repeat(3, 1fr);
       border-top: 1px solid rgba(255,255,255,0.1);
       padding: 0 60px;
-      max-width: 1440px;
+      max-width: 1200px;
       margin-left: auto;
       margin-right: auto;
     }
@@ -948,7 +955,7 @@
       letter-spacing: -0.01em;
     }
     .listed__tag-number {
-      font-size: var(--text-xl);
+      font-size: clamp(36px, 4.5vw, 64px);
       font-weight: 700;
       color: #fff;
       letter-spacing: -0.04em;
@@ -964,7 +971,7 @@
     .listed__tag--photo {
       position: relative;
       min-height: 260px;
-      padding: 0;
+      padding: 52px 48px;
       overflow: hidden;
     }
     .listed__tag--photo img {
@@ -2136,7 +2143,8 @@
       top: 0; bottom: 0;
       background: #f5f5f7;
       border-radius: 16px;
-      box-shadow: 0 2px 16px rgba(255,70,76,.12);
+      border: 1px solid rgba(0,0,0,.08);
+      box-shadow: 0 4px 24px rgba(0,0,0,.08);
       pointer-events: none;
     }
     .vs__col-labels {

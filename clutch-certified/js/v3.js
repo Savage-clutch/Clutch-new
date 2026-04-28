@@ -517,9 +517,20 @@
         ldPhoto.style.opacity = '0';
         if (ldPhoto._t) clearTimeout(ldPhoto._t);
         ldPhoto._t = setTimeout(function() {
-          ldPhoto.src = catImages[ldActive];
-          ldPhoto.classList.toggle('is-rotated', ldActive === 0 || ldActive === 6);
-          ldPhoto.style.opacity = '1';
+          ldPhoto.onload = null;
+          var target = catImages[ldActive];
+          var rotated = ldActive === 0 || ldActive === 6;
+          function fadeIn() {
+            ldPhoto.classList.toggle('is-rotated', rotated);
+            ldPhoto.style.opacity = '1';
+          }
+          if (ldPhoto.src.endsWith(target) && ldPhoto.complete) {
+            fadeIn();
+          } else {
+            ldPhoto.onload = fadeIn;
+            ldPhoto.src = target;
+            if (ldPhoto.complete) { ldPhoto.onload = null; fadeIn(); }
+          }
         }, 180);
       }
 
@@ -859,42 +870,6 @@
       });
     })();
 
-    /* ── SCROLL-DRIVEN CAR ROTATION ── */
-    (function () {
-      var wrapper = document.getElementById('listed-frames');
-      if (!wrapper) return;
-      var frames = Array.from(wrapper.querySelectorAll('.listed__frame'));
-      var driver = document.getElementById('listed-scroll-driver');
-      var section = document.getElementById('v3-s-listed');
-      var COUNT = frames.length; // 57
-      var START_FRAME = 0;
-      var SWEEP = 56;
-      var activeIdx = -1;
-
-      function showFrame(idx) {
-        idx = ((idx % COUNT) + COUNT) % COUNT;
-        if (idx === activeIdx) return;
-        if (activeIdx >= 0) frames[activeIdx].style.opacity = 0;
-        frames[idx].style.opacity = 1;
-        activeIdx = idx;
-      }
-
-      showFrame(START_FRAME);
-
-      var rafPending = false;
-      window.addEventListener('scroll', function () {
-        if (rafPending) return;
-        rafPending = true;
-        requestAnimationFrame(function () {
-          rafPending = false;
-          if (!section) return;
-          var rect = section.getBoundingClientRect();
-          var raw = Math.max(0, Math.min(1, 1 - rect.top / window.innerHeight));
-          var progress = Math.max(0, Math.min(1, (raw - 0.4) / 0.6));
-          showFrame(Math.round(START_FRAME + (1 - progress) * SWEEP));
-        });
-      }, { passive: true });
-    })();
 
     /* ── SCROLL-DRIVEN FOOTER LIGHT-UP ── */
     (function () {
