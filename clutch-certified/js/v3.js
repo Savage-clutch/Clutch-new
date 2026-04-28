@@ -245,17 +245,16 @@
       var loaded = 0;
       var started = false;
 
-      // Preload frames — assets/rotating/Comp 1_00057.png … Comp 1_00119.png
-      var FRAME_START = 57;
-      var FRAME_COUNT = 63;
-      for (var i = 0; i < FRAME_COUNT; i++) {
+      // Preload frames
+      var base = 'assets/car-cert/car-moving/';
+      for (var i = 0; i < 130; i++) {
         (function(idx) {
           var img = new Image();
           img.onload = function() {
             loaded++;
             if (idx === 0 && loaded === 1) drawFrame(0);
           };
-          img.src = 'assets/rotating/' + encodeURIComponent('Comp 1_' + String(FRAME_START + idx).padStart(5,'0') + '.png');
+          img.src = base + encodeURIComponent('car-moving_' + String(idx).padStart(5,'0') + '.png');
           images[idx] = img;
         })(i);
       }
@@ -282,8 +281,8 @@
       function setDot(i) { dots.forEach(function(d,j){ d.classList.toggle('active', j===i); }); }
 
       var wrapping = false;
-      var loopCount = 0;
-      var LOOPS_PER_STEP = 3; // advance road test step every N full rotations
+      var testPausing = false;
+      var PAUSE_FRAME = 36;
 
       function showStep(i) {
         current = i;
@@ -291,7 +290,9 @@
         strip.style.transform = 'translateY(-' + i + 'em)';
       }
 
-      function advanceStep() {
+      function doTestTick() {
+        testPausing = true;
+        cancelAnimationFrame(rafId);
         var next = (current + 1) % 3;
         if (next === 0 && !wrapping) {
           wrapping = true;
@@ -305,11 +306,19 @@
               requestAnimationFrame(function() {
                 strip.style.transition = '';
                 wrapping = false;
+                testPausing = false;
+                lastTime = 0;
+                rafId = requestAnimationFrame(animate);
               });
             });
           }, 520);
         } else if (!wrapping) {
           showStep(next);
+          setTimeout(function() {
+            testPausing = false;
+            lastTime = 0;
+            rafId = requestAnimationFrame(animate);
+          }, 1500);
         }
       }
 
@@ -321,8 +330,9 @@
         frameIndex++;
         if (frameIndex >= images.length) {
           frameIndex = 0;
-          loopCount++;
-          if (loopCount % LOOPS_PER_STEP === 0) advanceStep();
+        }
+        if (!testPausing && frameIndex === PAUSE_FRAME) {
+          doTestTick();
         }
       }
 
