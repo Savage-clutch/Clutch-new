@@ -1460,16 +1460,12 @@
     .photo-carousel__btn:active { background: rgba(255,255,255,0.1); }
     .photo-carousel__btn:disabled { opacity: 0.32; cursor: default; pointer-events: none; }
     .photo-carousel__track-wrap {
-      overflow-x: scroll;
-      overflow-y: hidden;
-      scrollbar-width: none;
+      overflow: hidden;
       position: relative;
       cursor: grab;
       padding-left: calc(max(60px, (100vw - 1200px) / 2 + 60px));
       padding-right: calc(max(60px, (100vw - 1200px) / 2 + 60px));
-      scroll-padding-left: calc(max(60px, (100vw - 1200px) / 2 + 60px));
     }
-    .photo-carousel__track-wrap::-webkit-scrollbar { display: none; }
     .photo-carousel__track-wrap::after {
       content: '';
       position: absolute;

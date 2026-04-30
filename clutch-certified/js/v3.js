@@ -345,60 +345,68 @@
       var slides = Array.from(track.querySelectorAll('.photo-carousel__slide'));
       var count  = slides.length;
 
-      // Clone all slides for seamless loop
       slides.forEach(function(s) { track.appendChild(s.cloneNode(true)); });
 
-      var speed   = 1;
-      var paused  = true;
-      var started = false;
+      track.style.willChange = 'transform';
 
-      function init() {
-        var pad   = parseFloat(getComputedStyle(wrap).paddingLeft) || 0;
-        var last  = slides[count - 1];
-        var loopW = last.offsetLeft + last.offsetWidth - slides[0].offsetLeft + 12;
+      var PX_PER_SEC = 60;
+      var paused     = true;
+      var lastTime   = null;
+      var offset     = 0;
+      var loopW      = 0;
 
-        wrap.scrollLeft = 0;
-        wrap.classList.add('is-at-end');
+      function setOffset(val) {
+        offset = val;
+        track.style.transform = 'translateX(' + (-offset) + 'px)';
+      }
 
-        function tick() {
-          if (!paused) {
-            wrap.scrollLeft += speed;
-            if (wrap.scrollLeft >= pad + loopW) wrap.scrollLeft -= loopW;
+      function resume() { paused = false; lastTime = null; }
+
+      requestAnimationFrame(function() {
+        var last = slides[count - 1];
+        loopW = last.offsetLeft + last.offsetWidth + 12;
+        setOffset(0);
+
+        function tick(now) {
+          if (!paused && loopW > 0) {
+            var dt = lastTime ? Math.min((now - lastTime) / 1000, 0.1) : 0;
+            var next = offset + PX_PER_SEC * dt;
+            if (next >= loopW) next -= loopW;
+            setOffset(next);
           }
+          lastTime = now;
           requestAnimationFrame(tick);
         }
         requestAnimationFrame(tick);
-      }
-
-      requestAnimationFrame(init);
+      });
 
       new IntersectionObserver(function(entries) {
-        paused = !entries[0].isIntersecting;
+        if (entries[0].isIntersecting) resume(); else paused = true;
       }, { threshold: 0.2 }).observe(wrap);
 
       wrap.addEventListener('mouseenter', function() { paused = true; });
-      wrap.addEventListener('mouseleave', function() { paused = false; });
+      wrap.addEventListener('mouseleave', resume);
       wrap.addEventListener('touchstart',  function() { paused = true; }, { passive: true });
-      wrap.addEventListener('touchend',    function() { paused = false; });
+      wrap.addEventListener('touchend',    resume);
 
-      // Mouse drag to scroll
-      var dragX = null, dragScroll = 0;
+      var dragX = null, dragStart = 0;
       wrap.addEventListener('mousedown', function(e) {
         dragX = e.clientX;
-        dragScroll = wrap.scrollLeft;
+        dragStart = offset;
         document.body.style.cursor = 'grabbing';
         paused = true;
         e.preventDefault();
       });
       window.addEventListener('mousemove', function(e) {
         if (dragX === null) return;
-        wrap.scrollLeft = dragScroll - (e.clientX - dragX);
+        var next = (dragStart + (dragX - e.clientX) + loopW * 100) % loopW;
+        setOffset(next);
       });
       window.addEventListener('mouseup', function() {
         if (dragX === null) return;
         dragX = null;
         document.body.style.cursor = '';
-        paused = false;
+        resume();
       });
     })();
 
