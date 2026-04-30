@@ -561,12 +561,12 @@
         <div class="promise__card reveal">
           <img class="promise__card-icon" src="assets/heart.webp" alt="">
           <h3 class="promise__card-title">10-day love it<br>or return it</h3>
-          <p class="promise__card-body">Money-back guarantee. If it's not the right fit for you within 10 days or 750km, return or exchange, no questions asked.</p>
+          <p class="promise__card-body">Money-back guarantee. If it's not the right fit for you within 10 days or 750 km, return or exchange, no questions asked.</p>
         </div>
         <div class="promise__card reveal" style="transition-delay:0.2s">
           <img class="promise__card-icon" src="assets/shield.webp" alt="">
           <h3 class="promise__card-title">90-day<br>Warranty</h3>
-          <p class="promise__card-body">90-day or 6,000km comprehensive warranty for peace of mind.</p>
+          <p class="promise__card-body">90-day or 6,000 km comprehensive warranty for peace of mind.</p>
         </div>
         <div class="promise__card reveal" style="transition-delay:0.4s">
           <img class="promise__card-icon" src="assets/cc-badge.png" alt="Clutch Certified">
@@ -773,10 +773,6 @@
       el.querySelector('.faq__q').setAttribute('aria-expanded', 'true');
       requestAnimationFrame(function() {
         answer.style.height = answer.scrollHeight + 'px';
-      });
-      answer.addEventListener('transitionend', function onEnd() {
-        answer.style.height = '';
-        answer.removeEventListener('transitionend', onEnd);
       });
     }
 
