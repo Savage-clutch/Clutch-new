@@ -78,7 +78,7 @@
         }); });
       }
 
-      var velEl = document.getElementById('v3-vehicles');
+      var velEl = document.querySelector('#v3-vehicles');
       var section = document.getElementById('v3-stats');
       if (!velEl) return;
       var animated = false;

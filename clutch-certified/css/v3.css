@@ -289,6 +289,7 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      font-variant-numeric: tabular-nums;
     }
     .odometer__sep {
       height: 72px;
@@ -962,6 +963,8 @@
       letter-spacing: -0.04em;
       line-height: 1;
     }
+    .listed__tag-number--odo { display: flex; align-items: flex-start; }
+    .odo-plus { font-size: 0.5em; line-height: 1; margin-top: 0.1em; }
     .listed__tag-number .red { color: var(--red); }
     .listed__tag-sub {
       font-size: var(--text-body);
@@ -2427,6 +2430,7 @@
     padding: 0;
   }
   .listed__tag { padding: 32px 24px; }
+  .listed__tag-number { font-size: 48px; }
   .listed__tag:nth-child(3n) { border-right: 1px solid rgba(255,255,255,0.1); }
   .listed__tag:nth-child(even) { border-right: none; }
 
