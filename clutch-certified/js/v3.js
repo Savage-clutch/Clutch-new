@@ -79,22 +79,14 @@
       }
 
       var velEl = document.getElementById('v3-vehicles');
-      var dpEl  = document.getElementById('v3-datapoints');
       var section = document.getElementById('v3-stats');
-      if (!velEl || !dpEl) return;
-      var vehicles = TARGET_VEHICLES, datapoints = TARGET_DATAPOINTS, animated = false;
+      if (!velEl) return;
+      var animated = false;
       var velStrips = buildOdometer(velEl, TARGET_VEHICLES);
-      var dpStrips  = buildOdometer(dpEl,  TARGET_DATAPOINTS);
 
-      function startLiveTick() {
-        setTrans(velStrips, TICK_DUR, TICK_EASE); setTrans(dpStrips, TICK_DUR, TICK_EASE);
-        setInterval(function(){ var p=vehicles; vehicles+=1; tickTo(velStrips,p,vehicles); }, 2500);
-        setInterval(function(){ var p=datapoints; datapoints+=10; tickTo(dpStrips,p,datapoints); }, 1500);
-      }
       function runAnimation() {
         if (animated) return; animated = true;
         rollIn(velStrips, TARGET_VEHICLES, null);
-        setTimeout(function(){ rollIn(dpStrips, TARGET_DATAPOINTS, startLiveTick); }, 300);
       }
       if ('IntersectionObserver' in window && section) {
         var obs = new IntersectionObserver(function(entries){ if (entries[0].isIntersecting){ runAnimation(); obs.disconnect(); } }, { threshold: 0.25 });
