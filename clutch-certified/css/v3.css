@@ -1037,7 +1037,9 @@
     .promise__card:first-child { padding-left: 0; }
     .promise__card:last-child { border-right: none; }
     .promise__card svg { opacity: 0.7; }
-    .promise__card-icon { height: 40px; width: auto; opacity: 0.85; align-self: flex-start; }
+    .promise__card-icon { height: 40px; width: auto; opacity: 0.85; align-self: flex-start; transition: transform 0.3s ease; }
+    .promise__card:hover .promise__card-icon { transform: translateY(-4px); }
+    .promise__card-icon[src*="cc-badge"] { height: 45px; }
     .promise__card-title {
       font-size: 28px;
       font-weight: 700;
@@ -1872,6 +1874,16 @@
       width: 100%; aspect-ratio: 16/9;
       object-fit: contain; object-position: center center;
       display: block; transition: opacity .18s ease;
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%);
+      mask-image: linear-gradient(to right, transparent 0%, black 30%);
+    }
+    .ld-photo.ld-photo--fade-both {
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 5%, black 35%, black 65%, transparent 95%, transparent 100%);
+      mask-image: linear-gradient(to right, transparent 0%, transparent 5%, black 35%, black 65%, transparent 95%, transparent 100%);
+    }
+    .ld-photo.ld-photo--fade-right {
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 8%, black 40%);
+      mask-image: linear-gradient(to right, transparent 0%, transparent 8%, black 40%);
     }
     .ld-photo.is-rotated { transform: rotate(90deg); }
     .ld-cats {
@@ -2605,11 +2617,10 @@
   color: var(--ink);
   line-height: 1.4;
 }
-.faq__q svg { flex-shrink: 0; transition: transform 0.25s ease; }
+.faq__q svg { flex-shrink: 0; transition: transform 0.4s cubic-bezier(0.16,1,0.3,1); }
 .faq__item.is-open .faq__q svg { transform: rotate(180deg); }
-.faq__a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+.faq__a { height: 0; overflow: hidden; transition: height 0.4s cubic-bezier(0.16,1,0.3,1); }
 .faq__a-inner { padding: 0 0 20px; font-size: 15px; line-height: 1.65; color: #555; }
-.faq__item.is-open .faq__a { max-height: 400px; }
 
 @media (max-width: 768px) {
   .what-is { padding: 40px 20px; }

@@ -21,7 +21,7 @@
 
     // ── Odometer ───────────────────────────────────────────
     (function () {
-      var TARGET_VEHICLES   = 70000;
+      var TARGET_VEHICLES   = 100000;
       var TARGET_DATAPOINTS = 15000000;
       var DIGIT_H     = 72;
       var STAGGER_MS  = 70;
@@ -413,14 +413,14 @@
     // Layout D — 210-point inspection module
     (function() {
       var catImages = [
-        'assets/Body.webp',
-        'assets/Road test.webp',
-        'assets/Engine.webp',
-        'assets/Suspension-2.webp',
-        'assets/Steering.webp',
-        'assets/Lights.webp',
-        'assets/Underbody.webp',
-        'assets/Tires and Brakes.webp',
+        'assets/210/Body.png',
+        'assets/210/Road Test.png',
+        'assets/210/Engine.png',
+        'assets/210/Suspension.png',
+        'assets/210/Steerimg.png',
+        'assets/210/Lights.png',
+        'assets/210/Underbody.png',
+        'assets/210/Tyres.png',
       ];
       var CATS = [
         { name: 'Body',           pts: 21 },
@@ -510,9 +510,10 @@
         ldPhoto._t = setTimeout(function() {
           ldPhoto.onload = null;
           var target = catImages[ldActive];
-          var rotated = ldActive === 0 || ldActive === 6;
           function fadeIn() {
-            ldPhoto.classList.toggle('is-rotated', rotated);
+            ldPhoto.classList.remove('is-rotated');
+            ldPhoto.classList.toggle('ld-photo--fade-right', ldActive === 7);
+            ldPhoto.classList.toggle('ld-photo--fade-both', ldActive === 3);
             ldPhoto.style.opacity = '1';
           }
           if (ldPhoto.src.endsWith(target) && ldPhoto.complete) {
@@ -564,7 +565,7 @@
 
     // ── Lightbox ────────────────────────────────────────────
     (function () {
-      var imgs = Array.from(document.querySelectorAll('.photo-grid__img'));
+      var imgs = Array.from(document.querySelectorAll('.photo-grid__img, .photo-carousel__img'));
       if (!imgs.length) return;
 
       var lb = document.createElement('div');
