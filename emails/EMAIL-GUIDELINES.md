@@ -225,7 +225,7 @@ Quick reference for every section type. "Padding" is the value on the primary co
 | **Background** | `linear-gradient(to top,#FF1C24 0%,#FF464C 46.875%)` | `#ffffff` |
 | **Border** | none | `2px solid #FF464C` |
 | **Border-radius** | `99px` | `99px` |
-| **Shadow** | `0.6px 0.6px 2px rgba(126,7,11,0.32), inset 0px 1px 2px rgba(255,255,255,0.45)` | none |
+| **Shadow** | `inset 0px 1px 2px rgba(255,255,255,0.45)` | none |
 | **Font** | Poppins 17px 500 `#ffffff` `ls -0.2px` | Poppins 14px 500 `#FF464C` `ls -0.2px` |
 | **Padding** | `14px 44px` (std) · `14px 28px` (narrow) | `10px 28px` |
 | **VML arcsize** | `54%` | `54%` |
@@ -513,7 +513,7 @@ MSO VML fallback is required for Outlook on both button types.
 <v:textbox inset="0px,0px,0px,0px">
 <center dir="false" style="color:#ffffff;font-family:'Poppins',Arial,sans-serif;font-size:17px;font-weight:500">
 <![endif]-->
-<span style="background-color:#FF464C;background-image:linear-gradient(to top,#FF1C24 0%,#FF464C 46.875%);border-radius:99px;box-shadow:0.6px 0.6px 2px 0px rgba(126,7,11,0.32),inset 0px 1px 2px 0px rgba(255,255,255,0.45);color:#ffffff;display:inline-block;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:17px;font-weight:500;mso-border-alt:none;padding:14px 44px;text-align:center;word-break:keep-all;letter-spacing:-0.2px">Button text</span>
+<span style="background-color:#FF464C;background-image:linear-gradient(to top,#FF1C24 0%,#FF464C 46.875%);border-radius:99px;box-shadow:inset 0px 1px 2px 0px rgba(255,255,255,0.45);color:#ffffff;display:inline-block;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:17px;font-weight:500;mso-border-alt:none;padding:14px 44px;text-align:center;word-break:keep-all;letter-spacing:-0.2px">Button text</span>
 <!--[if mso]></center></v:textbox></v:roundrect><![endif]-->
 </a>
 ```
@@ -740,7 +740,7 @@ Drop this block into any email to surface the 3 Clutch purchase guarantees. Typi
 | Slot | Icon file | Label |
 |---|---|---|
 | 1 | `heart.webp` | 10 day return |
-| 2 | `shield.webp` | 90 day warranty |
+| 2 | `shield.webp` | 9/10 Satisfaction score |
 | 3 | `cc-badge.png` | 210 point inspection |
 
 - **Icon size:** `height="44"`, `style="display:block;height:44px;width:auto;border:0;margin:0 auto"`, `padding:0 0 12px` on wrapper `<td>`
@@ -769,7 +769,7 @@ Drop this block into any email to surface the 3 Clutch purchase guarantees. Typi
         <td style="width:34%;padding-left:8px;padding-right:8px;text-align:center">
           <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0"><tbody>
             <tr><td style="padding:0 0 12px;text-align:center"><img src="CDN_URL/shield.webp" height="44" style="display:block;height:44px;width:auto;border:0;margin:0 auto" alt=""></td></tr>
-            <tr><td style="text-align:center"><p style="margin:0;font-family:'Poppins',Arial,sans-serif;font-size:15px;font-weight:600;color:#191919;line-height:1.3">90 day<br>warranty</p></td></tr>
+            <tr><td style="text-align:center"><p style="margin:0;font-family:'Poppins',Arial,sans-serif;font-size:15px;font-weight:600;color:#191919;line-height:1.3">9/10<br>Satisfaction score</p></td></tr>
           </tbody></table>
         </td>
         <td style="width:33%;padding-left:8px;padding-right:16px;text-align:center">
