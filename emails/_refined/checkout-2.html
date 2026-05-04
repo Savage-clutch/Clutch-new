@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
+<head>
+  <title></title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <!--[if mso]>
+  <xml>
+    <w:WordDocument xmlns:w="urn:schemas-microsoft-com:office:word">
+      <w:DontUseAdvancedTypographyReadingMail/>
+    </w:WordDocument>
+    <o:OfficeDocumentSettings>
+      <o:PixelsPerInch>96</o:PixelsPerInch>
+      <o:AllowPNG/>
+    </o:OfficeDocumentSettings>
+  </xml>
+  <![endif]-->
+  <!--[if !mso]><!-->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" type="text/css">
+  <!--<![endif]-->
+  <!--
+  ==============================================
+    CLUTCH EMAIL STYLE TOKENS
+  ==============================================
+
+  COLORS
+  --color-text-primary:     #191919
+  --color-text-secondary:   #191919
+  --color-bg-page:          #f4f4f4
+  --color-bg-white:         #FFFFFF
+  --color-lavender:         #F1EDF8
+  --color-plum:             #48071D
+  --color-red-cta-top:      #FF464C
+  --color-red-cta-bottom:   #FF1C24
+  --color-stars:            #F5A623
+
+  TYPOGRAPHY
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif
+
+  hero-display:   600  36px  #191919  lh 1.15  ls -0.5px
+  headline:       600  32px  #191919  lh 1.15  ls -0.5px
+  h2:             600  22px  #191919  lh 1.2   ls -0.3px
+  h3:             600  15px  #191919  lh 1.3
+  body:           500  14px  #191919  lh 1.6
+  subtitle:       400  14px  #191919  lh 1.6   centered
+  label:          600  14px  #191919
+  button:         500  17px  #FFFFFF  ls -0.2px
+
+  COMPONENTS
+  button:         gradient(#FF1C24 → #FF464C), radius 99px,
+                  shadow: 0.6px 0.6px 2px rgba(126,7,11,0.32) + inset 0px 1px 2px rgba(255,255,255,0.45)
+                  padding: 14px 44px
+  card-lavender:  bg #F1EDF8, radius 16px, padding 40px 70px
+  icon-circle:    bg #48071D, 52×52px circle, white SVG icon 24px
+  number-circle:  bg #191919, 44×44px circle, white numeral, 16px 600
+  thumbnail:      radius 8px, display:block, height:auto, border:0
+  quote-card:     top #F7F7F7 + bottom #FF464C, radius 14px
+                  border-radius on each <td> individually — NOT on <table>, no overflow:hidden
+  ==============================================
+  -->
+  <style>
+    *{box-sizing:border-box}body{margin:0;padding:0}a[x-apple-data-detectors]{color:inherit!important;text-decoration:inherit!important}#MessageViewBody a{color:inherit;text-decoration:none}p{line-height:inherit}
+  </style>
+  <!--[if mso]><style>sup, sub { font-size: 100% !important; } sup { mso-text-raise:10% } sub { mso-text-raise:-10% }</style><![endif]-->
+</head>
+<body style="background-color:#f4f4f4;margin:0;padding:0;-webkit-text-size-adjust:none;text-size-adjust:none">
+
+<!-- PREHEADER — year-based financing calculation -->
+<div style="display:none;max-height:0;overflow:hidden;color:#f4f4f4;font-size:1px">{{#if total}}{{#unless (lt year 2014)}}{{#if (eq year 2014)}}Drive it away for as low as ${{numberFormat (math (math (math total "*" 0.8849557522) "+" 1500) "*" 0.00571) "0"}} weekly.{{/if}}{{#if (eq year 2015)}}Drive it away for as low as ${{numberFormat (math (math (math total "*" 0.8849557522) "+" 1500) "*" 0.00469) "0"}} weekly.{{/if}}{{#if (eq year 2016)}}Drive it away for as low as ${{numberFormat (math (math (math total "*" 0.8849557522) "+" 1500) "*" 0.00402) "0"}} weekly.{{/if}}{{#if (eq year 2017)}}Drive it away for as low as ${{numberFormat (math (math (math total "*" 0.8849557522) "+" 1500) "*" 0.00355) "0"}} weekly.{{/if}}{{#if (eq year 2018)}}Drive it away for as low as ${{numberFormat (math (math (math total "*" 0.8849557522) "+" 1500) "*" 0.00355) "0"}} weekly.{{/if}}{{#if (eq year 2019)}}Drive it away for as low as ${{numberFormat (math (math (math total "*" 0.8849557522) "+" 1500) "*" 0.00355) "0"}} weekly.{{/if}}{{#if (gt year 2019)}}Drive it away for as low as ${{numberFormat (math (math (math total "*" 0.8849557522) "+" 1500) "*" 0.00320) "0"}} weekly.{{/if}}{{/unless}}{{/if}}&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;</div>
+
+<!-- ══ OUTER WRAPPER ══════════════════════════════════════════════ -->
+<table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;background-color:#f4f4f4">
+  <tbody><tr><td style="font-size:0">
+
+<!-- ══ LOGO + CHAT NOW ═══════════════════════════════════════════ -->
+<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+  <tbody><tr><td>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;background-color:#ffffff;width:480px;margin:0 auto;border-radius:12px 12px 0 0" width="480">
+      <tbody><tr>
+        <td style="padding:32px 0 24px 32px;vertical-align:middle">
+          <a href="https://www.clutch.ca/" target="_blank">
+            <img src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/669d5713-9b6a-46bb-bd7e-c542cff6dd6a/3a0db20356b44930a73f8089f5820d2e/Clutch%20Logo%20Red.png"
+              width="110" style="display:block;height:auto;border:0" alt="Clutch" height="auto">
+          </a>
+        </td>
+        <td style="padding:32px 32px 24px 0;vertical-align:middle;text-align:right">
+          <a href="https://www.clutch.ca/vehicles/{{product_id}}/?openChat=true&amp;utm_term=intercom_checkoutabandon" target="_blank" style="color:#FF464C;text-decoration:none;">
+            <!--[if mso]>
+            <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word"
+              href="https://www.clutch.ca/vehicles/{{product_id}}/?openChat=true&utm_term=intercom_checkoutabandon"
+              style="height:38px;width:122px;v-text-anchor:middle;" arcsize="54%" fillcolor="#ffffff">
+            <v:stroke dashstyle="Solid" weight="2px" color="#FF464C"/>
+            <w:anchorlock/>
+            <v:textbox inset="0px,0px,0px,0px">
+            <center dir="false" style="color:#FF464C;font-family:'Poppins',Arial,sans-serif;font-size:14px;font-weight:500">
+            <![endif]-->
+            <span style="background-color:#ffffff;border:2px solid #FF464C;border-radius:99px;color:#FF464C;display:inline-block;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:500;line-height:1;mso-border-alt:none;padding:10px 28px;text-align:center;letter-spacing:-0.2px">Chat Now</span>
+            <!--[if mso]></center></v:textbox></v:roundrect><![endif]-->
+          </a>
+        </td>
+      </tr></tbody>
+    </table>
+  </td></tr></tbody>
+</table>
+
+<!-- ══ HERO IMAGE ════════════════════════════════════════════════ -->
+<!-- NOTE: placeholder — swap src when final hero asset is ready -->
+<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+  <tbody><tr><td>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;background-color:#ffffff;width:480px;margin:0 auto" width="480">
+      <tbody><tr><td style="padding:0;font-size:0;line-height:0">
+        <img src="../hero.png"
+          width="480" style="display:block;height:auto;max-height:260px;object-fit:cover;border:0;width:100%" alt="" height="auto">
+      </td></tr></tbody>
+    </table>
+  </td></tr></tbody>
+</table>
+
+<!-- ══ HEADLINE + FINANCING ══════════════════════════════════════ -->
+<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+  <tbody><tr><td>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;background-color:#ffffff;width:480px;margin:0 auto" width="480">
+      <tbody>
+      <tr><td style="padding:32px 40px 16px;text-align:center">
+        <p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:32px;font-weight:600;color:#191919;line-height:1.15;letter-spacing:-0.5px;text-align:center">Get it before it's gone</p>
+      </td></tr>
+      <tr><td style="padding:0 40px 8px;text-align:center">
+        <p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:500;color:#191919;line-height:1.6;text-align:center">We noticed you left your {{year}} {{make}} {{model}} behind.</p>
+      </td></tr>
+      {{#if total}}
+      {{#unless (lt year 2014)}}
+      <tr><td style="padding:0 40px 8px;text-align:center">
+        {{#if (eq year 2014)}}<p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:500;color:#191919;line-height:1.6;text-align:center">Drive it away for as low as ${{numberFormat (math (math (math total "*" 0.8849557522) "+" 1500) "*" 0.00571) "0"}} weekly.</p>{{/if}}
+        {{#if (eq year 2015)}}<p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:500;color:#191919;line-height:1.6;text-align:center">Drive it away for as low as ${{numberFormat (math (math (math total "*" 0.8849557522) "+" 1500) "*" 0.00469) "0"}} weekly.</p>{{/if}}
+        {{#if (eq year 2016)}}<p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:500;color:#191919;line-height:1.6;text-align:center">Drive it away for as low as ${{numberFormat (math (math (math total "*" 0.8849557522) "+" 1500) "*" 0.00402) "0"}} weekly.</p>{{/if}}
+        {{#if (eq year 2017)}}<p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:500;color:#191919;line-height:1.6;text-align:center">Drive it away for as low as ${{numberFormat (math (math (math total "*" 0.8849557522) "+" 1500) "*" 0.00355) "0"}} weekly.</p>{{/if}}
+        {{#if (eq year 2018)}}<p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:500;color:#191919;line-height:1.6;text-align:center">Drive it away for as low as ${{numberFormat (math (math (math total "*" 0.8849557522) "+" 1500) "*" 0.00355) "0"}} weekly.</p>{{/if}}
+        {{#if (eq year 2019)}}<p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:500;color:#191919;line-height:1.6;text-align:center">Drive it away for as low as ${{numberFormat (math (math (math total "*" 0.8849557522) "+" 1500) "*" 0.00355) "0"}} weekly.</p>{{/if}}
+        {{#if (gt year 2019)}}<p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:500;color:#191919;line-height:1.6;text-align:center">Drive it away for as low as ${{numberFormat (math (math (math total "*" 0.8849557522) "+" 1500) "*" 0.00320) "0"}} weekly.</p>{{/if}}
+      </td></tr>
+      {{/unless}}
+      {{/if}}
+      <tr><td style="padding:0 40px 32px;text-align:center">
+        <p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:500;color:#191919;line-height:1.6;text-align:center">Complete your checkout to get started.</p>
+      </td></tr>
+      </tbody>
+    </table>
+  </td></tr></tbody>
+</table>
+
+<!-- ══ VEHICLE CARD ═══════════════════════════════════════════════ -->
+<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+  <tbody><tr><td>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;background-color:#ffffff;width:480px;margin:0 auto" width="480">
+      <tbody>
+      <tr><td style="padding:0 40px 16px;text-align:center">
+        <a href="https://www.clutch.ca/vehicles/{{product_id}}" target="_blank">
+          <img src="{{products.0.image_url}}" width="400" style="display:block;height:auto;border:0;width:100%;border-radius:8px;max-width:400px;margin:0 auto" alt="{{year}} {{make}} {{model}}" height="auto">
+        </a>
+      </td></tr>
+      <tr><td style="padding:0 40px 4px;text-align:center">
+        <p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:22px;font-weight:600;color:#191919;line-height:1.2;letter-spacing:-0.3px">
+          <a href="https://www.clutch.ca/vehicles/{{product_id}}" target="_blank" style="text-decoration:none;color:#191919">{{year}} {{make}} {{model}}</a>
+        </p>
+      </td></tr>
+      {{#if total}}
+      {{#unless (lt year 2014)}}
+      <tr><td style="padding:0 40px 4px;text-align:center">
+        {{#if (eq year 2014)}}<p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:22px;font-weight:600;color:#191919;line-height:1.2">${{numberFormat (math (math (math total "*" 0.8849557522) "+" 1500) "*" 0.00571) "0"}}/week</p>{{/if}}
+        {{#if (eq year 2015)}}<p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:22px;font-weight:600;color:#191919;line-height:1.2">${{numberFormat (math (math (math total "*" 0.8849557522) "+" 1500) "*" 0.00469) "0"}}/week</p>{{/if}}
+        {{#if (eq year 2016)}}<p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:22px;font-weight:600;color:#191919;line-height:1.2">${{numberFormat (math (math (math total "*" 0.8849557522) "+" 1500) "*" 0.00402) "0"}}/week</p>{{/if}}
+        {{#if (eq year 2017)}}<p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:22px;font-weight:600;color:#191919;line-height:1.2">${{numberFormat (math (math (math total "*" 0.8849557522) "+" 1500) "*" 0.00355) "0"}}/week</p>{{/if}}
+        {{#if (eq year 2018)}}<p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:22px;font-weight:600;color:#191919;line-height:1.2">${{numberFormat (math (math (math total "*" 0.8849557522) "+" 1500) "*" 0.00355) "0"}}/week</p>{{/if}}
+        {{#if (eq year 2019)}}<p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:22px;font-weight:600;color:#191919;line-height:1.2">${{numberFormat (math (math (math total "*" 0.8849557522) "+" 1500) "*" 0.00355) "0"}}/week</p>{{/if}}
+        {{#if (gt year 2019)}}<p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:22px;font-weight:600;color:#191919;line-height:1.2">${{numberFormat (math (math (math total "*" 0.8849557522) "+" 1500) "*" 0.00320) "0"}}/week</p>{{/if}}
+      </td></tr>
+      {{/unless}}
+      {{/if}}
+      <tr><td style="padding:24px 40px 24px;text-align:center">
+        <a href="https://www.clutch.ca/vehicles/{{product_id}}" target="_blank" style="color:#ffffff;text-decoration:none;">
+          <!--[if mso]>
+          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word"
+            href="https://www.clutch.ca/vehicles/{{product_id}}"
+            style="height:52px;width:218px;v-text-anchor:middle;" arcsize="54%" fillcolor="#ff464c">
+          <v:stroke dashstyle="Solid" weight="0px" color="#ff464c"/>
+          <w:anchorlock/>
+          <v:textbox inset="0px,0px,0px,0px">
+          <center dir="false" style="color:#ffffff;font-family:'Poppins',Arial,sans-serif;font-size:17px;font-weight:500">
+          <![endif]-->
+          <span style="background-color:#FF464C;background-image:linear-gradient(to top,#FF1C24 0%,#FF464C 46.875%);border-radius:99px;box-shadow:0.6px 0.6px 2px 0px rgba(126,7,11,0.32),inset 0px 1px 2px 0px rgba(255,255,255,0.45);color:#ffffff;display:inline-block;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:17px;font-weight:500;mso-border-alt:none;padding:14px 44px;text-align:center;word-break:keep-all;letter-spacing:-0.2px">Return to checkout</span>
+          <!--[if mso]></center></v:textbox></v:roundrect><![endif]-->
+        </a>
+      </td></tr>
+      <!-- Trust line — Figma annotation -->
+      <tr><td style="padding:24px 40px 24px;text-align:center">
+        <p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:400;color:#191919;line-height:1.6;text-align:center">And if it's not the one, you have 10 days to return it.</p>
+      </td></tr>
+      </tbody>
+    </table>
+  </td></tr></tbody>
+</table>
+
+<!-- ══ CAR GRID ══════════════════════════════════════════════════ -->
+<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+  <tbody><tr><td>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;background-color:#ffffff;width:480px;margin:0 auto" width="480">
+      <tbody><tr><td style="padding:40px 40px 32px;text-align:center">
+
+        <p style="margin:0 0 24px;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:22px;font-weight:600;color:#191919;line-height:1.2;letter-spacing:-0.3px">Or check out these options</p>
+
+        {{#ifMatchesRegexStr province "[Nn]ova [Ss]cotia|[Nn]ew [Bb]runswick|[Pp]rince [Ee]dward [Ii]sland"}}
+        {{#catalogCollection "New Arrivals 4U - NS - Generic" as | cars |}}
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+          <tbody>
+          <tr>
+            <td width="50%" valign="top" style="padding:0 4px 0 0">
+              <table width="100%" border="0" cellpadding="4" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td><a href="{{[0].vdp_url}}" target="_blank" style="text-decoration:none;display:block"><img src="{{[0].photo_url}}" width="216" style="display:block;height:auto;max-height:150px;object-fit:cover;border:0;width:100%;border-radius:8px" alt="" height="auto"></a></td></tr></tbody>
+              </table>
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td style="padding:6px 0 16px;text-align:center"><p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:600;color:#191919"><a href="{{[0].vdp_url}}" target="_blank" style="text-decoration:none;color:#191919">{{[0].year}} {{[0].make.[1]}} {{[0].model.[1]}}</a></p></td></tr></tbody>
+              </table>
+            </td>
+            <td width="50%" valign="top" style="padding:0 0 0 4px">
+              <table width="100%" border="0" cellpadding="4" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td><a href="{{[1].vdp_url}}" target="_blank" style="text-decoration:none;display:block"><img src="{{[1].photo_url}}" width="216" style="display:block;height:auto;max-height:150px;object-fit:cover;border:0;width:100%;border-radius:8px" alt="" height="auto"></a></td></tr></tbody>
+              </table>
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td style="padding:6px 0 16px;text-align:center"><p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:600;color:#191919"><a href="{{[1].vdp_url}}" target="_blank" style="text-decoration:none;color:#191919">{{[1].year}} {{[1].make.[1]}} {{[1].model.[1]}}</a></p></td></tr></tbody>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td width="50%" valign="top" style="padding:0 4px 0 0">
+              <table width="100%" border="0" cellpadding="4" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td><a href="{{[2].vdp_url}}" target="_blank" style="text-decoration:none;display:block"><img src="{{[2].photo_url}}" width="216" style="display:block;height:auto;max-height:150px;object-fit:cover;border:0;width:100%;border-radius:8px" alt="" height="auto"></a></td></tr></tbody>
+              </table>
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td style="padding:6px 0 16px;text-align:center"><p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:600;color:#191919"><a href="{{[2].vdp_url}}" target="_blank" style="text-decoration:none;color:#191919">{{[2].year}} {{[2].make.[1]}} {{[2].model.[1]}}</a></p></td></tr></tbody>
+              </table>
+            </td>
+            <td width="50%" valign="top" style="padding:0 0 0 4px">
+              <table width="100%" border="0" cellpadding="4" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td><a href="{{[3].vdp_url}}" target="_blank" style="text-decoration:none;display:block"><img src="{{[3].photo_url}}" width="216" style="display:block;height:auto;max-height:150px;object-fit:cover;border:0;width:100%;border-radius:8px" alt="" height="auto"></a></td></tr></tbody>
+              </table>
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td style="padding:6px 0 16px;text-align:center"><p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:600;color:#191919"><a href="{{[3].vdp_url}}" target="_blank" style="text-decoration:none;color:#191919">{{[3].year}} {{[3].make.[1]}} {{[3].model.[1]}}</a></p></td></tr></tbody>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td width="50%" valign="top" style="padding:0 4px 0 0">
+              <table width="100%" border="0" cellpadding="4" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td><a href="{{[4].vdp_url}}" target="_blank" style="text-decoration:none;display:block"><img src="{{[4].photo_url}}" width="216" style="display:block;height:auto;max-height:150px;object-fit:cover;border:0;width:100%;border-radius:8px" alt="" height="auto"></a></td></tr></tbody>
+              </table>
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td style="padding:6px 0 16px;text-align:center"><p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:600;color:#191919"><a href="{{[4].vdp_url}}" target="_blank" style="text-decoration:none;color:#191919">{{[4].year}} {{[4].make.[1]}} {{[4].model.[1]}}</a></p></td></tr></tbody>
+              </table>
+            </td>
+            <td width="50%" valign="top" style="padding:0 0 0 4px">
+              <table width="100%" border="0" cellpadding="4" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td><a href="{{[5].vdp_url}}" target="_blank" style="text-decoration:none;display:block"><img src="{{[5].photo_url}}" width="216" style="display:block;height:auto;max-height:150px;object-fit:cover;border:0;width:100%;border-radius:8px" alt="" height="auto"></a></td></tr></tbody>
+              </table>
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td style="padding:6px 0 16px;text-align:center"><p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:600;color:#191919"><a href="{{[5].vdp_url}}" target="_blank" style="text-decoration:none;color:#191919">{{[5].year}} {{[5].make.[1]}} {{[5].model.[1]}}</a></p></td></tr></tbody>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td width="50%" valign="top" style="padding:0 4px 0 0">
+              <table width="100%" border="0" cellpadding="4" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td><a href="{{[6].vdp_url}}" target="_blank" style="text-decoration:none;display:block"><img src="{{[6].photo_url}}" width="216" style="display:block;height:auto;max-height:150px;object-fit:cover;border:0;width:100%;border-radius:8px" alt="" height="auto"></a></td></tr></tbody>
+              </table>
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td style="padding:6px 0 28px;text-align:center"><p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:600;color:#191919"><a href="{{[6].vdp_url}}" target="_blank" style="text-decoration:none;color:#191919">{{[6].year}} {{[6].make.[1]}} {{[6].model.[1]}}</a></p></td></tr></tbody>
+              </table>
+            </td>
+            <td width="50%" valign="top" style="padding:0 0 0 4px">
+              <table width="100%" border="0" cellpadding="4" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td><a href="{{[7].vdp_url}}" target="_blank" style="text-decoration:none;display:block"><img src="{{[7].photo_url}}" width="216" style="display:block;height:auto;max-height:150px;object-fit:cover;border:0;width:100%;border-radius:8px" alt="" height="auto"></a></td></tr></tbody>
+              </table>
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td style="padding:6px 0 28px;text-align:center"><p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:600;color:#191919"><a href="{{[7].vdp_url}}" target="_blank" style="text-decoration:none;color:#191919">{{[7].year}} {{[7].make.[1]}} {{[7].model.[1]}}</a></p></td></tr></tbody>
+              </table>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        {{/catalogCollection}}
+        {{else}}
+        {{#catalogCollection "New Arrivals 4U - Generic" as | cars |}}
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+          <tbody>
+          <tr>
+            <td width="50%" valign="top" style="padding:0 4px 0 0">
+              <table width="100%" border="0" cellpadding="4" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td><a href="{{[0].vdp_url}}" target="_blank" style="text-decoration:none;display:block"><img src="{{[0].photo_url}}" width="216" style="display:block;height:auto;max-height:150px;object-fit:cover;border:0;width:100%;border-radius:8px" alt="" height="auto"></a></td></tr></tbody>
+              </table>
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td style="padding:6px 0 16px;text-align:center"><p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:600;color:#191919"><a href="{{[0].vdp_url}}" target="_blank" style="text-decoration:none;color:#191919">{{[0].year}} {{[0].make.[1]}} {{[0].model.[1]}}</a></p></td></tr></tbody>
+              </table>
+            </td>
+            <td width="50%" valign="top" style="padding:0 0 0 4px">
+              <table width="100%" border="0" cellpadding="4" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td><a href="{{[1].vdp_url}}" target="_blank" style="text-decoration:none;display:block"><img src="{{[1].photo_url}}" width="216" style="display:block;height:auto;max-height:150px;object-fit:cover;border:0;width:100%;border-radius:8px" alt="" height="auto"></a></td></tr></tbody>
+              </table>
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td style="padding:6px 0 16px;text-align:center"><p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:600;color:#191919"><a href="{{[1].vdp_url}}" target="_blank" style="text-decoration:none;color:#191919">{{[1].year}} {{[1].make.[1]}} {{[1].model.[1]}}</a></p></td></tr></tbody>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td width="50%" valign="top" style="padding:0 4px 0 0">
+              <table width="100%" border="0" cellpadding="4" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td><a href="{{[2].vdp_url}}" target="_blank" style="text-decoration:none;display:block"><img src="{{[2].photo_url}}" width="216" style="display:block;height:auto;max-height:150px;object-fit:cover;border:0;width:100%;border-radius:8px" alt="" height="auto"></a></td></tr></tbody>
+              </table>
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td style="padding:6px 0 16px;text-align:center"><p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:600;color:#191919"><a href="{{[2].vdp_url}}" target="_blank" style="text-decoration:none;color:#191919">{{[2].year}} {{[2].make.[1]}} {{[2].model.[1]}}</a></p></td></tr></tbody>
+              </table>
+            </td>
+            <td width="50%" valign="top" style="padding:0 0 0 4px">
+              <table width="100%" border="0" cellpadding="4" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td><a href="{{[3].vdp_url}}" target="_blank" style="text-decoration:none;display:block"><img src="{{[3].photo_url}}" width="216" style="display:block;height:auto;max-height:150px;object-fit:cover;border:0;width:100%;border-radius:8px" alt="" height="auto"></a></td></tr></tbody>
+              </table>
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td style="padding:6px 0 16px;text-align:center"><p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:600;color:#191919"><a href="{{[3].vdp_url}}" target="_blank" style="text-decoration:none;color:#191919">{{[3].year}} {{[3].make.[1]}} {{[3].model.[1]}}</a></p></td></tr></tbody>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td width="50%" valign="top" style="padding:0 4px 0 0">
+              <table width="100%" border="0" cellpadding="4" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td><a href="{{[4].vdp_url}}" target="_blank" style="text-decoration:none;display:block"><img src="{{[4].photo_url}}" width="216" style="display:block;height:auto;max-height:150px;object-fit:cover;border:0;width:100%;border-radius:8px" alt="" height="auto"></a></td></tr></tbody>
+              </table>
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td style="padding:6px 0 16px;text-align:center"><p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:600;color:#191919"><a href="{{[4].vdp_url}}" target="_blank" style="text-decoration:none;color:#191919">{{[4].year}} {{[4].make.[1]}} {{[4].model.[1]}}</a></p></td></tr></tbody>
+              </table>
+            </td>
+            <td width="50%" valign="top" style="padding:0 0 0 4px">
+              <table width="100%" border="0" cellpadding="4" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td><a href="{{[5].vdp_url}}" target="_blank" style="text-decoration:none;display:block"><img src="{{[5].photo_url}}" width="216" style="display:block;height:auto;max-height:150px;object-fit:cover;border:0;width:100%;border-radius:8px" alt="" height="auto"></a></td></tr></tbody>
+              </table>
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td style="padding:6px 0 16px;text-align:center"><p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:600;color:#191919"><a href="{{[5].vdp_url}}" target="_blank" style="text-decoration:none;color:#191919">{{[5].year}} {{[5].make.[1]}} {{[5].model.[1]}}</a></p></td></tr></tbody>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td width="50%" valign="top" style="padding:0 4px 0 0">
+              <table width="100%" border="0" cellpadding="4" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td><a href="{{[6].vdp_url}}" target="_blank" style="text-decoration:none;display:block"><img src="{{[6].photo_url}}" width="216" style="display:block;height:auto;max-height:150px;object-fit:cover;border:0;width:100%;border-radius:8px" alt="" height="auto"></a></td></tr></tbody>
+              </table>
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td style="padding:6px 0 28px;text-align:center"><p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:600;color:#191919"><a href="{{[6].vdp_url}}" target="_blank" style="text-decoration:none;color:#191919">{{[6].year}} {{[6].make.[1]}} {{[6].model.[1]}}</a></p></td></tr></tbody>
+              </table>
+            </td>
+            <td width="50%" valign="top" style="padding:0 0 0 4px">
+              <table width="100%" border="0" cellpadding="4" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td><a href="{{[7].vdp_url}}" target="_blank" style="text-decoration:none;display:block"><img src="{{[7].photo_url}}" width="216" style="display:block;height:auto;max-height:150px;object-fit:cover;border:0;width:100%;border-radius:8px" alt="" height="auto"></a></td></tr></tbody>
+              </table>
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                <tbody><tr><td style="padding:6px 0 28px;text-align:center"><p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:600;color:#191919"><a href="{{[7].vdp_url}}" target="_blank" style="text-decoration:none;color:#191919">{{[7].year}} {{[7].make.[1]}} {{[7].model.[1]}}</a></p></td></tr></tbody>
+              </table>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        {{/catalogCollection}}
+        {{/ifMatchesRegexStr}}
+
+      </td></tr></tbody>
+    </table>
+  </td></tr></tbody>
+</table>
+
+<!-- ══ SHOP CARS BUTTON ══════════════════════════════════════════ -->
+<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+  <tbody><tr><td>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;background-color:#ffffff;width:480px;margin:0 auto" width="480">
+      <tbody><tr><td style="padding:24px 40px 24px;text-align:center">
+        <a href="https://www.clutch.ca/cars" target="_blank" style="color:#ffffff;text-decoration:none;">
+          <!--[if mso]>
+          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word"
+            href="https://www.clutch.ca/cars"
+            style="height:52px;width:152px;v-text-anchor:middle;" arcsize="54%" fillcolor="#ff464c">
+          <v:stroke dashstyle="Solid" weight="0px" color="#ff464c"/>
+          <w:anchorlock/>
+          <v:textbox inset="0px,0px,0px,0px">
+          <center dir="false" style="color:#ffffff;font-family:'Poppins',Arial,sans-serif;font-size:17px;font-weight:500">
+          <![endif]-->
+          <span style="background-color:#FF464C;background-image:linear-gradient(to top,#FF1C24 0%,#FF464C 46.875%);border-radius:99px;box-shadow:0.6px 0.6px 2px 0px rgba(126,7,11,0.32),inset 0px 1px 2px 0px rgba(255,255,255,0.45);color:#ffffff;display:inline-block;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:17px;font-weight:500;mso-border-alt:none;padding:14px 44px;text-align:center;word-break:keep-all;letter-spacing:-0.2px">Shop cars</span>
+          <!--[if mso]></center></v:textbox></v:roundrect><![endif]-->
+        </a>
+      </td></tr></tbody>
+    </table>
+  </td></tr></tbody>
+</table>
+
+<!-- ══ GOOGLE REVIEWS ════════════════════════════════════════════ -->
+<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+  <tbody><tr><td>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;background-color:#ffffff;width:480px;margin:0 auto" width="480">
+      <tbody>
+      <tr><td style="padding:40px 40px 16px;text-align:center">
+        <p style="margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:500;color:#191919;line-height:1.6;text-align:center">Join thousands of happy customers</p>
+      </td></tr>
+      <tr><td style="padding:24px 40px 24px;text-align:center">
+        <img src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/669d5713-9b6a-46bb-bd7e-c542cff6dd6a/3a0db20356b44930a73f8089f5820d2e/Clutch%20Google%20Reviews%20-%20Updated%20%5BMay%202025%5D.png"
+          width="210" style="display:block;height:auto;border:0;margin:0 auto" alt="4.8 stars on Google Reviews" height="auto">
+      </td></tr>
+      </tbody>
+    </table>
+  </td></tr></tbody>
+</table>
+
+<!-- ══ FOOTER IMAGE ══════════════════════════════════════════════ -->
+<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+  <tbody><tr><td>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;background-color:#ffffff;width:480px;margin:0 auto" width="480">
+      <tbody><tr><td style="padding:0;font-size:0;line-height:0">
+        <img src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/669d5713-9b6a-46bb-bd7e-c542cff6dd6a/3a0db20356b44930a73f8089f5820d2e/NBA%20banner.png"
+          width="480" style="display:block;height:auto;border:0;width:100%" alt="" height="auto">
+      </td></tr></tbody>
+    </table>
+  </td></tr></tbody>
+</table>
+
+<!-- ══ SOCIAL LINKS ══════════════════════════════════════════════ -->
+<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+  <tbody><tr><td>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;background-color:#ffffff;width:480px;margin:0 auto" width="480">
+      <tbody><tr><td style="padding:28px 32px 24px;text-align:center">
+
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/clutchcars/" target="_blank" style="text-decoration:none;display:inline-block;margin:0 6px">
+          <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;display:inline-table">
+            <tbody><tr><td width="36" height="36" style="background-color:#191919;border-radius:50%;width:36px;height:36px;text-align:center;vertical-align:middle">
+              <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white' width='18' height='18'%3E%3Cpath d='M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4c0 3.2-2.6 5.8-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2zm-.2 2C5.6 4 4 5.6 4 7.6v8.8C4 18.4 5.6 20 7.6 20h8.8c2 0 3.6-1.6 3.6-3.6V7.6C20 5.6 18.4 4 16.4 4H7.6zm9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25zM12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z'/%3E%3C/svg%3E"
+                width="18" height="18" style="display:block;margin:0 auto" alt="Instagram">
+            </td></tr></tbody>
+          </table>
+        </a>
+
+        <!-- Facebook -->
+        <a href="https://www.facebook.com/clutchcars/" target="_blank" style="text-decoration:none;display:inline-block;margin:0 6px">
+          <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;display:inline-table">
+            <tbody><tr><td width="36" height="36" style="background-color:#191919;border-radius:50%;width:36px;height:36px;text-align:center;vertical-align:middle;font-family:'Poppins',Arial,sans-serif;font-size:17px;font-weight:500;color:#ffffff;line-height:36px;mso-line-height-rule:exactly">
+              f
+            </td></tr></tbody>
+          </table>
+        </a>
+
+        <!-- TikTok -->
+        <a href="https://www.tiktok.com/@clutchcars" target="_blank" style="text-decoration:none;display:inline-block;margin:0 6px">
+          <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;display:inline-table">
+            <tbody><tr><td width="36" height="36" style="background-color:#191919;border-radius:50%;width:36px;height:36px;text-align:center;vertical-align:middle">
+              <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white' width='18' height='18'%3E%3Cpath d='M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z'/%3E%3C/svg%3E"
+                width="18" height="18" style="display:block;margin:0 auto" alt="TikTok">
+            </td></tr></tbody>
+          </table>
+        </a>
+
+        <!-- X -->
+        <a href="https://x.com/clutchcars" target="_blank" style="text-decoration:none;display:inline-block;margin:0 6px">
+          <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;display:inline-table">
+            <tbody><tr><td width="36" height="36" style="background-color:#191919;border-radius:50%;width:36px;height:36px;text-align:center;vertical-align:middle">
+              <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white' width='18' height='18'%3E%3Cpath d='M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.736-8.85L1.254 2.25H8.08l4.259 5.629 5.905-5.629zm-1.161 17.52h1.833L7.084 4.126H5.117z'/%3E%3C/svg%3E"
+                width="18" height="18" style="display:block;margin:0 auto" alt="X">
+            </td></tr></tbody>
+          </table>
+        </a>
+
+      </td></tr></tbody>
+    </table>
+  </td></tr></tbody>
+</table>
+
+<!-- ══ FOOTER ════════════════════════════════════════════════════ -->
+<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+  <tbody><tr><td>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;width:480px;margin:0 auto" width="480">
+      <tbody><tr>
+        <td style="background-color:#ffffff;border-radius:0 0 12px 12px;vertical-align:top">
+          <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;word-break:break-word">
+            <tbody><tr><td style="padding:0">
+              <div style="font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#191919;text-align:center">
+                <p style="margin:0">{{{ snippet "Email-Footer-Left-NHL" }}}</p>
+              </div>
+            </td></tr></tbody>
+          </table>
+        </td>
+      </tr></tbody>
+    </table>
+  </td></tr></tbody>
+</table>
+
+  </td></tr></tbody>
+</table>
+
+</body>
+</html>
