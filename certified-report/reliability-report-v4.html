@@ -28,7 +28,7 @@
   --shadow:    0 2px 16px rgba(0,0,0,.08), 0 1px 4px rgba(0,0,0,.04);
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: auto; }
 body {
   font-family: 'CircularXX', 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color: var(--body-ink);
@@ -37,21 +37,13 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── site header (v3 match) ──────────────────────────────────── */
-.site-header { position: fixed; top: 0; left: 0; right: 0; z-index: 300; }
-.progress-bar { width: 100%; height: 5px; background: rgba(255,255,255,.1); backdrop-filter: saturate(1.8) blur(24px); -webkit-backdrop-filter: saturate(1.8) blur(24px); }
-.progress-bar__fill { width: 0%; height: 100%; background: var(--red); transition: width .1s linear; }
+/* ── site header ─────────────────────────────────────────────── */
+.site-header { position: static; }
+.progress-bar { display: none; }
 .nav {
-  background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none;
-  border-bottom: 1px solid transparent; height: 72px;
+  background: rgba(0,0,0,.85);
+  border-bottom: 1px solid rgba(255,255,255,.1); height: 72px;
   display: flex; align-items: center; padding: 0 clamp(24px, 8%, 120px);
-  transition: background .4s ease, border-color .4s ease, backdrop-filter .4s ease;
-}
-.nav.is-scrolled {
-  background: rgba(0,0,0,.55);
-  backdrop-filter: saturate(1.8) blur(24px);
-  -webkit-backdrop-filter: saturate(1.8) blur(24px);
-  border-bottom: 1px solid rgba(255,255,255,.14);
 }
 .nav__logo { width: 100px; display: block; }
 .nav__pill {
@@ -104,40 +96,6 @@ body {
   .hero-banner__item:nth-child(2n) { border-right: none; }
 }
 
-/* ── right-side dot nav (v3 match) ───────────────────────────── */
-.section-nav {
-  position: fixed; right: 28px; top: 50%; transform: translateY(-50%);
-  z-index: 200; display: flex; flex-direction: column; align-items: center;
-  opacity: 0; pointer-events: none; transition: opacity .4s ease;
-}
-.section-nav.is-visible { opacity: 1; pointer-events: auto; }
-.section-nav__dots {
-  background: rgba(0,0,0,.3); border-radius: 100px; padding: 10px 0;
-  display: flex; flex-direction: column; align-items: center; gap: 10px;
-  transition: background .2s ease;
-  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-}
-.section-nav__dots:hover { background: rgba(0,0,0,.5); }
-.section-nav__dot {
-  position: relative; width: 8px; height: 8px; border-radius: 50%;
-  background: rgba(255,255,255,.5); cursor: pointer; margin: 0 10px;
-  transition: background .2s, transform .2s;
-}
-.section-nav__dot.active { background: var(--red); transform: scale(1.3); }
-.section-nav__dot:hover { background: #fff; }
-.section-nav__dot.active:hover { background: var(--red); }
-.section-nav__dot::before {
-  content: attr(data-label); position: absolute;
-  right: calc(100% + 14px); top: 50%;
-  transform: translateY(-50%) translateX(6px);
-  opacity: 0; transition: opacity 180ms ease, transform 180ms ease;
-  white-space: nowrap; background: rgba(17,17,17,.88);
-  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-  color: #fff; font-size: 11px; letter-spacing: -.01em;
-  padding: 5px 10px; border-radius: 8px; pointer-events: none;
-}
-.section-nav__dot:hover::before { opacity: 1; transform: translateY(-50%) translateX(0); }
-@media (max-width: 900px) { .section-nav { display: none; } }
 
 /* ── main layout ────────────────────────────────────────────── */
 .r-main { max-width: 980px; margin: 0 auto; padding: 52px 24px 96px; }
@@ -216,7 +174,6 @@ body {
 .s-split__lede {
   font-size: clamp(22px, 3vw, 32px); font-weight: 800;
   color: var(--ink); line-height: 1.15; letter-spacing: -.5px;
-  position: sticky; top: 96px;
 }
 .s-split__body p { margin-bottom: 14px; }
 .s-split__body p:last-child { margin-bottom: 0; }
@@ -541,7 +498,6 @@ body {
 
 <!-- ═══ SITE HEADER (v3) ═════════════════════════════════════ -->
 <header class="site-header">
-  <div class="progress-bar"><div class="progress-bar__fill" id="progress-fill"></div></div>
   <nav class="nav" id="main-nav">
     <img class="nav__logo" src="../clutch-certified/assets/logo-red.webp" alt="Clutch">
     <div class="nav__pill">
@@ -597,7 +553,7 @@ body {
     </div>
 
     <div class="tkw-card">
-      <div class="tkw-icon"><span class="material-symbols-rounded">warning</span></div>
+      <div class="tkw-icon"><span class="material-symbols-rounded">water_damage</span></div>
       <p class="tkw-body"><strong>Rust is the #1 cause of Canadian inspection failure — 48.5% of failing vehicles.</strong> More than engine failure or drivetrain issues combined.</p>
     </div>
 
@@ -690,7 +646,7 @@ body {
   <div class="viz">
     <div style="max-width:880px;margin:0 auto;">
       <h2 style="color:var(--ink);font-size:22px;font-weight:700;margin:0 0 4px;letter-spacing:-.3px;">The Clutch Certified Reliability Index</h2>
-      <p style="color:var(--plum);font-size:13.5px;margin:0 0 18px;font-weight:500;">25 brands ranked across 4 reliability dimensions · 25-brand average: 7.99</p>
+      <p style="color:var(--plum);font-size:13.5px;margin:0 0 18px;font-weight:500;">25 brands ranked across 4 reliability dimensions, with a market average of 7.99.</p>
       <div style="position:relative;height:720px;width:100%;">
         <canvas id="clutchMakeScorecard"></canvas>
       </div>
@@ -1413,48 +1369,77 @@ body {
     <div class="evc">
       <div class="evc-title">It's Not an EV Issue. It's a Tesla Issue.</div>
       <p class="evc-sub">Tesla and other EVs fail Clutch's standard at similar rates overall. The story isn't how often — it's where.</p>
-      <!-- overall fail rate -->
-      <div style="display:grid;grid-template-columns:auto 1fr 1fr;gap:10px 16px;align-items:center;background:#FAFAFA;border:1px solid var(--line);border-radius:10px;padding:16px 20px;margin-bottom:20px;">
-        <span style="font-size:11px;font-weight:700;color:var(--plum);text-transform:uppercase;letter-spacing:.4px;">0–3 yrs</span>
-        <div style="display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;">Tesla <span style="font-size:20px;font-weight:900;color:var(--plum);letter-spacing:-1px;">14.9%</span></div>
-        <div style="display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:var(--muted);">Other EVs <span style="font-size:20px;font-weight:900;color:var(--muted);letter-spacing:-1px;">14.6%</span></div>
-        <span style="font-size:11px;font-weight:700;color:var(--plum);text-transform:uppercase;letter-spacing:.4px;">4–6 yrs</span>
-        <div style="display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;">Tesla <span style="font-size:20px;font-weight:900;color:var(--plum);letter-spacing:-1px;">28.0%</span></div>
-        <div style="display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:var(--muted);">Other EVs <span style="font-size:20px;font-weight:900;color:var(--muted);letter-spacing:-1px;">23.8%</span></div>
-      </div>
-      <!-- wins / loses cards -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-        <div style="background:#D7F0E4;border-radius:12px;padding:22px 20px;">
-          <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#0F6940;margin:0 0 18px;">EV architecture — Tesla wins</p>
-          <p style="font-size:10.5px;color:#444;text-transform:uppercase;letter-spacing:.4px;font-weight:600;margin:0 0 2px;">Powertrain issues per 100</p>
-          <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:14px;">
-            <span style="font-size:44px;font-weight:900;color:#0F6940;letter-spacing:-2px;line-height:1;">0.22</span>
-            <span style="font-size:12.5px;color:#555;">vs 1.48 other EVs</span>
+      <!-- overall fail rate: horizontal bar rows -->
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:0 0 14px;">Overall fail rate by vehicle age</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px;">
+        <!-- 0-3 yrs -->
+        <div style="background:#FAFAFA;border:1px solid var(--line);border-radius:10px;padding:14px 16px;">
+          <p style="font-size:11px;font-weight:700;color:var(--plum);text-transform:uppercase;letter-spacing:.4px;margin:0 0 12px;">0–3 years</p>
+          <div style="display:grid;grid-template-columns:72px 1fr 46px;align-items:center;gap:8px;margin-bottom:8px;">
+            <span style="font-size:12px;font-weight:600;color:var(--ink);">Tesla</span>
+            <div style="background:#E8E8E8;height:10px;border-radius:3px;overflow:hidden;"><div style="width:53%;height:100%;background:#550E30;border-radius:3px;"></div></div>
+            <span style="font-size:13px;font-weight:800;color:var(--ink);text-align:right;">14.9%</span>
           </div>
-          <p style="font-size:10.5px;color:#444;text-transform:uppercase;letter-spacing:.4px;font-weight:600;margin:0 0 2px;">Electrical &amp; tech issues per 100</p>
-          <div style="display:flex;align-items:baseline;gap:8px;">
-            <span style="font-size:44px;font-weight:900;color:#0F6940;letter-spacing:-2px;line-height:1;">4.32</span>
-            <span style="font-size:12.5px;color:#555;">vs 5.42 other EVs</span>
+          <div style="display:grid;grid-template-columns:72px 1fr 46px;align-items:center;gap:8px;">
+            <span style="font-size:12px;font-weight:600;color:var(--muted);">Other EVs</span>
+            <div style="background:#E8E8E8;height:10px;border-radius:3px;overflow:hidden;"><div style="width:52%;height:100%;background:#C9C9C9;border-radius:3px;"></div></div>
+            <span style="font-size:13px;font-weight:800;color:var(--muted);text-align:right;">14.6%</span>
           </div>
         </div>
-        <div style="background:#FFF7ED;border-radius:12px;padding:22px 20px;">
-          <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#C2410C;margin:0 0 18px;">Build quality — Tesla loses</p>
-          <p style="font-size:10.5px;color:#444;text-transform:uppercase;letter-spacing:.4px;font-weight:600;margin:0 0 2px;">Brakes &amp; suspension issues per 100</p>
-          <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:14px;">
-            <span style="font-size:44px;font-weight:900;color:#C2410C;letter-spacing:-2px;line-height:1;">3.74</span>
-            <span style="font-size:12.5px;color:#555;">vs 1.97 other EVs</span>
+        <!-- 4-6 yrs -->
+        <div style="background:#FAFAFA;border:1px solid var(--line);border-radius:10px;padding:14px 16px;">
+          <p style="font-size:11px;font-weight:700;color:var(--plum);text-transform:uppercase;letter-spacing:.4px;margin:0 0 12px;">4–6 years</p>
+          <div style="display:grid;grid-template-columns:72px 1fr 46px;align-items:center;gap:8px;margin-bottom:8px;">
+            <span style="font-size:12px;font-weight:600;color:var(--ink);">Tesla</span>
+            <div style="background:#E8E8E8;height:10px;border-radius:3px;overflow:hidden;"><div style="width:100%;height:100%;background:#550E30;border-radius:3px;"></div></div>
+            <span style="font-size:13px;font-weight:800;color:var(--ink);text-align:right;">28.0%</span>
           </div>
-          <p style="font-size:10.5px;color:#444;text-transform:uppercase;letter-spacing:.4px;font-weight:600;margin:0 0 2px;">Body &amp; glass issues per 100</p>
-          <div style="display:flex;align-items:baseline;gap:8px;">
-            <span style="font-size:44px;font-weight:900;color:#C2410C;letter-spacing:-2px;line-height:1;">2.16</span>
-            <span style="font-size:12.5px;color:#555;">vs 0.74 other EVs</span>
+          <div style="display:grid;grid-template-columns:72px 1fr 46px;align-items:center;gap:8px;">
+            <span style="font-size:12px;font-weight:600;color:var(--muted);">Other EVs</span>
+            <div style="background:#E8E8E8;height:10px;border-radius:3px;overflow:hidden;"><div style="width:85%;height:100%;background:#C9C9C9;border-radius:3px;"></div></div>
+            <span style="font-size:13px;font-weight:800;color:var(--muted);text-align:right;">23.8%</span>
           </div>
         </div>
       </div>
-      <div class="conclusion" style="margin-top:16px;"><strong>The verdict:</strong> Tesla's overall fail rate sits within a few percentage points of the broader EV market. What separates Tesla isn't how often a vehicle fails — it's where. Tesla matches or beats other EVs on powertrain, electrical, and tech. Tesla runs 2–3× worse on brakes, suspension, body, and glass. The reliability pattern is build, not battery.</div>
+
+      <!-- issues per 100: grouped bar chart -->
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:0 0 10px;">Issues per 100 vehicles by category — lower is better</p>
+      <div style="display:flex;gap:16px;font-size:12px;color:var(--ink);margin-bottom:14px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:7px;"><span style="width:12px;height:12px;background:#550E30;border-radius:2px;display:inline-block;"></span>Tesla</div>
+        <div style="display:flex;align-items:center;gap:7px;"><span style="width:12px;height:12px;background:#C9C9C9;border-radius:2px;display:inline-block;"></span>Other EVs</div>
+      </div>
+      <div style="position:relative;height:260px;"><canvas id="teslaIssuesChart"></canvas></div>
+      <div class="conclusion" style="margin-top:20px;"><strong>The verdict:</strong> Tesla's overall fail rate sits within a few percentage points of the broader EV market. What separates Tesla isn't how often a vehicle fails — it's where. Tesla matches or beats other EVs on powertrain, electrical, and tech. Tesla runs 2–3× worse on brakes, suspension, body, and glass. The reliability pattern is build, not battery.</div>
     </div>
   </div>
 
+<script>
+(function(){
+  new Chart(document.getElementById('teslaIssuesChart'),{
+    type:'bar',
+    plugins:[ChartDataLabels],
+    data:{
+      labels:['Powertrain','Electrical & tech','Brakes & suspension','Body & glass'],
+      datasets:[
+        { label:'Tesla',     data:[0.22,4.32,3.74,2.16], backgroundColor:'#550E30', borderRadius:4, barPercentage:.7, categoryPercentage:.6 },
+        { label:'Other EVs', data:[1.48,5.42,1.97,0.74], backgroundColor:'#C9C9C9', borderRadius:4, barPercentage:.7, categoryPercentage:.6 }
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        datalabels:{ anchor:'end', align:'top', font:{size:11,weight:'700',family:'CircularXX,Poppins,sans-serif'}, color:'#444' }
+      },
+      scales:{
+        x:{ grid:{display:false}, ticks:{font:{size:12,family:'CircularXX,Poppins,sans-serif'}, color:'#666'} },
+        y:{ grid:{color:'#F0F0F0'}, ticks:{font:{size:11,family:'CircularXX,Poppins,sans-serif'}, color:'#999'}, max:7, beginAtZero:true }
+      },
+      layout:{ padding:{ top:20 } }
+    }
+  });
+})();
+</script>
 
   <div class="s-split">
     <div class="s-split__lede"><img src="assets/Tesla.svg" alt="Tesla" style="height:52px;width:auto;display:block;margin-bottom:14px;opacity:.85;">Tesla's EV architecture works. Tesla's factory doesn't.</div>
@@ -1531,60 +1516,8 @@ body {
 </main>
 
 <!-- ═══ DOT NAV (v3 right-side) ═════════════════════════════ -->
-<nav class="section-nav" id="section-nav">
-  <div class="section-nav__dots">
-    <div class="section-nav__dot active" data-target="rankings"   data-label="Brand Rankings"></div>
-    <div class="section-nav__dot"        data-target="lift"       data-label="Certified Lift"></div>
-    <div class="section-nav__dot"        data-target="rust"       data-label="What Fails"></div>
-    <div class="section-nav__dot"        data-target="mileage"    data-label="Mileage vs Brand"></div>
-    <div class="section-nav__dot"        data-target="hybrids"    data-label="Hybrids vs EV"></div>
-    <div class="section-nav__dot"        data-target="premium"    data-label="Luxury"></div>
-    <div class="section-nav__dot"        data-target="tesla"      data-label="Tesla"></div>
-  </div>
-</nav>
 
 <script>
-// ── progress bar + nav scrim ─────────────────────────────────
-(function(){
-  var fill = document.getElementById('progress-fill');
-  var nav  = document.getElementById('main-nav');
-  window.addEventListener('scroll', function(){
-    var scrolled = window.scrollY;
-    var total = document.documentElement.scrollHeight - window.innerHeight;
-    if(fill) fill.style.width = (scrolled / total * 100) + '%';
-    if(nav)  nav.classList.toggle('is-scrolled', scrolled > 40);
-  }, { passive: true });
-})();
-
-// ── dot nav ──────────────────────────────────────────────────
-(function(){
-  var sectionIds = ['rankings','lift','rust','mileage','hybrids','premium','tesla'];
-  var dots = document.querySelectorAll('.section-nav__dot');
-  var navEl = document.getElementById('section-nav');
-  var firstSection = document.getElementById('rankings');
-
-  function updateNav(){
-    var current = 0;
-    sectionIds.forEach(function(id, i){
-      var el = document.getElementById(id);
-      if(el && el.getBoundingClientRect().top <= window.innerHeight * 0.65) current = i;
-    });
-    dots.forEach(function(d, i){ d.classList.toggle('active', i === current); });
-    var reached = firstSection && firstSection.getBoundingClientRect().top <= window.innerHeight * 0.9;
-    navEl.classList.toggle('is-visible', reached);
-  }
-
-  window.addEventListener('scroll', updateNav, { passive: true });
-
-  dots.forEach(function(dot){
-    dot.addEventListener('click', function(){
-      var el = document.getElementById(dot.dataset.target);
-      if(!el) return;
-      var top = el.getBoundingClientRect().top + window.scrollY - 40;
-      window.scrollTo({ top: top, behavior: 'smooth' });
-    });
-  });
-})();
 </script>
 <script>
 (function(){
