@@ -125,6 +125,30 @@ a { color: var(--plum); text-decoration: none; }
   line-height: 1.65;
   text-wrap: pretty;
 }
+.hero__actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 28px;
+  background: transparent;
+  color: rgba(255,255,255,0.85);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 99px;
+  border: 1.5px solid rgba(255,255,255,0.35);
+  cursor: pointer;
+  transition: background var(--motion-standard), border-color var(--motion-standard), color var(--motion-standard);
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.6); color: #fff; }
 .btn {
   display: inline-flex;
   align-items: center;
@@ -528,7 +552,10 @@ a { color: var(--plum); text-decoration: none; }
   <img src="CC-Badge-rotation-ezgif.com-optimize (1).gif" alt="Clutch Certified" class="hero__badge">
   <h1 class="hero__title">What type of Clutch Certified car are you?</h1>
   <p class="hero__sub">5 questions. Surprisingly accurate. Takes under a minute.</p>
-  <button class="btn" onclick="startQuiz()">Take the quiz</button>
+  <div class="hero__actions">
+    <button class="btn" onclick="startQuiz()">Take the quiz</button>
+    <a href="https://www.clutch.ca/certified" target="_blank" class="btn-ghost">What's Clutch Certified?</a>
+  </div>
   <img src="CC-Fancy.jpg" alt="" class="hero__img" aria-hidden="true">
 </div>
 
