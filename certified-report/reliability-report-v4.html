@@ -279,6 +279,8 @@ body {
 }
 .tkw-body { font-size: 14px; line-height: 1.62; color: #3A3A3A; }
 .tkw-body strong { color: var(--plum); font-weight: 700; }
+a.tkw-card { text-decoration: none; transition: transform .15s, box-shadow .15s; }
+a.tkw-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(85,14,48,.1); opacity: 1; }
 @media (max-width: 680px) {
   .tkw-grid { grid-template-columns: 1fr 1fr; }
 }
@@ -545,9 +547,9 @@ body.layout--blog .r-blog-hero { display: block; }
 .r-blog-hero__inner {
   position: relative;
 }
-.r-blog-hero__picture { display: block; }
 .r-blog-hero__img {
-  width: 100%; height: auto; display: block;
+  width: 100%; display: block;
+  aspect-ratio: 21/9; object-fit: cover;
   border-radius: 12px;
 }
 .r-blog-hero__ab {
@@ -719,13 +721,10 @@ body.layout--blog .r-sidebar {
 <!-- ═══ BLOG HERO IMAGE (blog mode only) ═════════════════════ -->
 <div class="r-blog-hero">
   <div class="r-blog-hero__inner">
-    <picture class="r-blog-hero__picture" id="blogHeroPicture">
-      <source id="blogHeroSource" media="(min-width: 768px)" srcset="assets/Clutch-Reliability_Report-21_9.jpg">
-      <img class="r-blog-hero__img" id="blogHeroImg" src="assets/Clutch-Reliability_Report-16_9.jpg" alt="Clutch Certified Reliability Report">
-    </picture>
+    <img class="r-blog-hero__img" id="blogHeroImg" src="assets/Clutch-Reliability_Report-21_9.jpg" alt="Clutch Certified Reliability Report">
     <div class="r-blog-hero__ab" id="heroAbToggle">
       <button class="r-blog-hero__ab-btn active" data-desktop="assets/Clutch-Reliability_Report-21_9.jpg" data-mobile="assets/Clutch-Reliability_Report-16_9.jpg">A</button>
-      <button class="r-blog-hero__ab-btn" data-desktop="assets/Clutch-Reliability_Report-21_9-B.jpg" data-mobile="assets/Clutch-Reliability_Report-16_9-B.jpg">B</button>
+      <button class="r-blog-hero__ab-btn" data-desktop="assets/Clutch-Reliability_Report-21_9 - B.jpg" data-mobile="assets/Clutch-Reliability_Report-16_9 B.png">B</button>
     </div>
   </div>
 </div>
@@ -798,35 +797,35 @@ body.layout--blog .r-sidebar {
   <h2 class="section-title">Key Insights</h2>
   <div class="tkw-grid">
 
-    <div class="tkw-card">
+    <a class="tkw-card" href="#rankings">
       <div class="tkw-icon"><span class="material-symbols-rounded">leaderboard</span></div>
       <p class="tkw-body"><strong>Japanese brands dominate the top of the index.</strong> Lexus leads at 9.70, followed by Subaru, Toyota, Honda, and Acura.</p>
-    </div>
+    </a>
 
-    <div class="tkw-card">
+    <a class="tkw-card" href="#hybrids">
       <div class="tkw-icon"><span class="material-symbols-rounded">electric_bolt</span></div>
       <p class="tkw-body"><strong>Hybrids outperform both gas and pure electric vehicles in the first six years of ownership.</strong> The advantage narrows after year 7 as battery cells age.</p>
-    </div>
+    </a>
 
-    <div class="tkw-card">
+    <a class="tkw-card" href="#premium">
       <div class="tkw-icon"><span class="material-symbols-rounded">diamond</span></div>
       <p class="tkw-body"><strong>Premium price doesn't predict reliability.</strong> German luxury sits below the 25-brand average. Japanese luxury sweeps the top.</p>
-    </div>
+    </a>
 
-    <div class="tkw-card">
+    <a class="tkw-card" href="#rust">
       <div class="tkw-icon"><span class="material-symbols-rounded">water_damage</span></div>
       <p class="tkw-body"><strong>Rust is the #1 cause of Canadian inspection failure — 48.5% of failing vehicles.</strong> More than engine failure or drivetrain issues combined.</p>
-    </div>
+    </a>
 
-    <div class="tkw-card">
+    <a class="tkw-card" href="#mileage">
       <div class="tkw-icon"><span class="material-symbols-rounded">speed</span></div>
       <p class="tkw-body"><strong>Brand matters more than mileage.</strong> A Honda at 120,000 km clears Clutch's standard at the same rate as a Chevrolet at 60,000 km.</p>
-    </div>
+    </a>
 
-    <div class="tkw-card">
+    <a class="tkw-card" href="#lift">
       <div class="tkw-icon"><span class="material-symbols-rounded">verified</span></div>
       <p class="tkw-body"><strong>Clutch Certified raises every car's reliability score.</strong> With a market average of 7.99, Clutch Certified customers receive a 9.32, a +1.33-point lift from reconditioning.</p>
-    </div>
+    </a>
 
   </div>
 </div>
@@ -1803,16 +1802,25 @@ body.layout--blog .r-sidebar {
 <script>
 (function(){
   var abToggle = document.getElementById('heroAbToggle');
-  if (abToggle) {
-    abToggle.addEventListener('click', function(e){
-      var btn = e.target.closest('[data-desktop]');
-      if (!btn) return;
-      abToggle.querySelectorAll('.r-blog-hero__ab-btn').forEach(function(b){ b.classList.remove('active'); });
-      btn.classList.add('active');
-      document.getElementById('blogHeroSource').srcset = btn.dataset.desktop;
-      document.getElementById('blogHeroImg').src = btn.dataset.mobile;
-    });
+  if (!abToggle) return;
+  function pickSrc(btn) {
+    return window.innerWidth >= 768 ? btn.dataset.desktop : btn.dataset.mobile;
   }
+  abToggle.addEventListener('click', function(e){
+    var btn = e.target.closest('[data-desktop]');
+    if (!btn) return;
+    abToggle.querySelectorAll('.r-blog-hero__ab-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    document.getElementById('blogHeroImg').src = pickSrc(btn);
+  });
+  /* keep correct image on resize */
+  window.addEventListener('resize', function(){
+    var active = abToggle.querySelector('.r-blog-hero__ab-btn.active');
+    if (active) document.getElementById('blogHeroImg').src = pickSrc(active);
+  });
+  /* set correct initial src */
+  var initBtn = abToggle.querySelector('.r-blog-hero__ab-btn.active');
+  if (initBtn) document.getElementById('blogHeroImg').src = pickSrc(initBtn);
 })();
 
 (function(){
