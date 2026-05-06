@@ -60,38 +60,15 @@
     }
 
     /* ── coin ── */
-    .coin-wrap {
-      perspective: 1000px;
-    }
-
     .coin {
       width: 260px;
       height: 260px;
-      position: relative;
-      transform-style: preserve-3d;
-      transition: transform 1.5s cubic-bezier(0.33, 0, 0.2, 1);
-      cursor: pointer;
-      filter: drop-shadow(0 24px 48px rgba(0,0,0,0.5));
-    }
-    .coin:hover:not(.flipping) {
-      filter: drop-shadow(0 28px 56px rgba(0,0,0,0.6)) brightness(1.06);
-    }
-    .coin.flipping { cursor: default; }
-
-    .coin__face {
-      position: absolute;
-      inset: 0;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-    }
-    .coin__back { transform: rotateY(180deg); }
-
-    .coin__face img {
-      width: 100%;
-      height: 100%;
       object-fit: contain;
       display: block;
+      cursor: pointer;
+      filter: drop-shadow(0 24px 48px rgba(0,0,0,0.55));
     }
+    .coin:hover { filter: drop-shadow(0 28px 56px rgba(0,0,0,0.7)) brightness(1.06); }
 
     /* ── result ── */
     .result {
@@ -107,12 +84,9 @@
       line-height: 1;
       opacity: 0;
       transform: translateY(10px);
-      transition: opacity 0.35s ease, transform 0.35s ease;
+      transition: opacity 0.3s ease, transform 0.3s ease;
     }
-    .result__text.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .result__text.visible { opacity: 1; transform: translateY(0); }
     .result__text.heads { color: #fff; }
     .result__text.tails { color: var(--red); }
 
@@ -138,13 +112,8 @@
     .flip-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
     /* ── counters ── */
-    .counters {
-      display: flex;
-      gap: 48px;
-    }
-    .counter {
-      text-align: center;
-    }
+    .counters { display: flex; gap: 48px; }
+    .counter { text-align: center; }
     .counter__num {
       display: block;
       font-size: 32px;
@@ -165,7 +134,6 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .coin { transition-duration: 0.01ms !important; }
       .result__text { transition-duration: 0.01ms !important; }
     }
   </style>
@@ -187,16 +155,7 @@
 
 <main class="main">
 
-  <div class="coin-wrap">
-    <div class="coin" id="coin" onclick="flip()">
-      <div class="coin__face coin__front">
-        <img src="./cc-badge.png" alt="Heads">
-      </div>
-      <div class="coin__face coin__back">
-        <img src="./badge-back.png" alt="Tails">
-      </div>
-    </div>
-  </div>
+  <img class="coin" id="coin" src="./cc-badge.png" alt="Clutch Certified badge" onclick="flip()">
 
   <div class="result">
     <span class="result__text" id="resultText"></span>
@@ -218,10 +177,19 @@
 </main>
 
 <script>
-let rotation = 0;
 let flipping = false;
+let currentFace = 0; // 0 = heads (cc-badge), 1 = tails (badge-back)
 let heads = 0;
 let tails = 0;
+
+const FACES = ['./cc-badge.png', './badge-back.png'];
+
+function halfDuration(spinIndex, total) {
+  const p = spinIndex / total;
+  if (p < 0.25)      return 55 + p * 80;          // ramp up: 55–75ms
+  else if (p < 0.65) return 75;                    // fast middle: 75ms
+  else               return 75 + (p - 0.65) * 700; // slow landing: 75–315ms
+}
 
 function flip() {
   if (flipping) return;
@@ -232,35 +200,54 @@ function flip() {
   const label = document.getElementById('resultText');
 
   btn.disabled = true;
-  coin.classList.add('flipping');
   label.classList.remove('visible', 'heads', 'tails');
 
-  // spin a random number of half-rotations — wherever it stops is the result
-  const halfSpins = 12 + Math.floor(Math.random() * 9); // 12–20 half-rotations
-  rotation += halfSpins * 180;
+  const totalHalfSpins = 12 + Math.floor(Math.random() * 9); // 12–20
+  let spinsDone = 0;
 
-  coin.style.transform = `rotateY(${rotation}deg)`;
+  function doHalf() {
+    const dur = halfDuration(spinsDone, totalHalfSpins);
 
-  setTimeout(() => {
-    // even total half-rotations = front (heads), odd = back (tails)
-    const isHeads = (rotation / 180) % 2 === 0;
+    // squeeze to edge
+    coin.style.transition = `transform ${dur}ms ease-in`;
+    coin.style.transform  = 'scaleX(0)';
 
-    if (isHeads) {
-      heads++;
-      label.textContent = 'Heads';
-      label.className = 'result__text heads';
-      document.getElementById('headsCount').textContent = heads;
-    } else {
-      tails++;
-      label.textContent = 'Tails';
-      label.className = 'result__text tails';
-      document.getElementById('tailsCount').textContent = tails;
-    }
-    label.classList.add('visible');
-    btn.disabled = false;
-    coin.classList.remove('flipping');
-    flipping = false;
-  }, 1550);
+    setTimeout(() => {
+      // swap face at the invisible midpoint
+      currentFace = 1 - currentFace;
+      coin.src = FACES[currentFace];
+
+      // expand back out
+      coin.style.transition = `transform ${dur}ms ease-out`;
+      coin.style.transform  = 'scaleX(1)';
+      spinsDone++;
+
+      if (spinsDone < totalHalfSpins) {
+        setTimeout(doHalf, dur);
+      } else {
+        // landed — show result
+        setTimeout(() => {
+          const isHeads = currentFace === 0;
+          if (isHeads) {
+            heads++;
+            label.textContent = 'Heads';
+            label.className = 'result__text heads';
+            document.getElementById('headsCount').textContent = heads;
+          } else {
+            tails++;
+            label.textContent = 'Tails';
+            label.className = 'result__text tails';
+            document.getElementById('tailsCount').textContent = tails;
+          }
+          label.classList.add('visible');
+          btn.disabled = false;
+          flipping = false;
+        }, dur + 80);
+      }
+    }, dur);
+  }
+
+  doHalf();
 }
 </script>
 
