@@ -43,18 +43,27 @@ body {
 .site-header { position: static; }
 .progress-bar { display: none; }
 .nav {
-  background: rgba(0,0,0,.85);
-  border-bottom: 1px solid rgba(255,255,255,.1); height: 72px;
-  display: flex; align-items: center; padding: 0 clamp(24px, 8%, 120px);
+  background: #fff;
+  border-bottom: 1px solid #E8E8E8;
+  height: 58px;
+  display: flex; align-items: center;
+  padding: 0 clamp(20px, 6%, 80px);
 }
-.nav__logo { width: 100px; display: block; }
-.nav__pill {
-  margin-left: auto; background: rgba(25,25,25,.51); border-radius: 100px;
-  height: 45px; padding: 0 22px;
-  display: flex; align-items: center; justify-content: center;
+.nav__left { display: flex; align-items: center; gap: 7px; text-decoration: none; }
+.nav__logo { height: 50px; width: auto; display: block; }
+.nav__blog-label {
+  font-size: 17px; font-weight: 800; color: var(--ink);
+  letter-spacing: -.3px; line-height: 1;
 }
-.nav__pill a { color: #fff; text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: -.2px; white-space: nowrap; }
-@media (max-width: 640px) { .nav__pill { display: none; } }
+.nav__links {
+  margin-left: auto; display: flex; align-items: center; gap: 28px;
+}
+.nav__links a {
+  font-size: 13.5px; font-weight: 500; color: var(--ink);
+  text-decoration: none; white-space: nowrap; letter-spacing: -.1px;
+}
+.nav__links a:hover { opacity: .55; }
+@media (max-width: 740px) { .nav__links { display: none; } }
 
 /* ── hero ────────────────────────────────────────────────────── */
 .r-hero {
@@ -494,6 +503,181 @@ body {
 .evc .conclusion { background: var(--lavender); border-left: 4px solid var(--plum); padding: 15px 18px; font-size: 13.5px; line-height: 1.55; color: var(--ink); border-radius: 0; font-weight: 500; }
 .evc .conclusion strong { color: var(--plum); }
 @media (max-width: 600px) { .evc .panels { grid-template-columns: 1fr; } }
+
+/* ── blog-mode: hide dark hero + stats banner ────────────────── */
+body.layout--blog .r-hero,
+body.layout--blog .hero-banner { display: none; }
+
+/* ── blog header ─────────────────────────────────────────────── */
+.r-blog-header {
+  display: none;
+  background: var(--page);
+  text-align: center;
+  padding: 56px clamp(24px, 12%, 240px) 40px;
+}
+body.layout--blog .r-blog-header { display: block; }
+
+.r-blog-header__title {
+  font-size: clamp(32px, 4.5vw, 52px); font-weight: 800;
+  color: var(--ink); letter-spacing: -.8px; line-height: 1.08;
+  margin-bottom: 18px;
+}
+.r-blog-header__sub {
+  font-size: 16px; color: #444; line-height: 1.7;
+  max-width: 760px; margin: 0 auto 24px;
+}
+.r-blog-pills {
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; flex-wrap: wrap;
+}
+.r-blog-pill {
+  font-size: 12.5px; font-weight: 500; color: #333;
+  background: #E4E2DE; border-radius: 6px;
+  padding: 5px 14px; line-height: 1;
+}
+
+/* ── blog hero image ─────────────────────────────────────────── */
+.r-blog-hero {
+  display: none;
+}
+body.layout--blog .r-blog-hero { display: block; }
+
+.r-blog-hero__inner {
+  position: relative;
+}
+.r-blog-hero__picture { display: block; }
+.r-blog-hero__img {
+  width: 100%; height: auto; display: block;
+  border-radius: 12px;
+}
+.r-blog-hero__ab {
+  position: absolute; bottom: 14px; right: 14px;
+  background: rgba(0,0,0,.55); border-radius: 100px;
+  padding: 4px; display: flex; gap: 2px;
+  backdrop-filter: blur(6px);
+}
+.r-blog-hero__ab-btn {
+  padding: 5px 14px; border-radius: 100px; border: none;
+  cursor: pointer; font-size: 12px; font-weight: 700;
+  background: transparent; color: rgba(255,255,255,.7);
+  font-family: inherit; transition: all .15s;
+}
+.r-blog-hero__ab-btn.active { background: #fff; color: var(--ink); }
+
+/* ── blog takeaways + TOC wrapper ───────────────────────────── */
+.r-blog-top { display: none; margin-bottom: 36px; }
+body.layout--blog .r-blog-top { display: block; }
+
+/* TOC panel */
+.r-blog-toc {
+  background: #fff; border: 1px solid #E8E8E8;
+  border-radius: 12px; padding: 20px 22px 22px;
+}
+.r-blog-toc__label {
+  font-size: 10px; font-weight: 800; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--muted);
+  margin-bottom: 14px;
+}
+.r-blog-toc__groups {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 16px 24px;
+}
+.r-blog-toc__group-title {
+  font-size: 11px; font-weight: 800; letter-spacing: .3px;
+  text-transform: uppercase; color: var(--ink);
+  margin-bottom: 8px;
+}
+.r-blog-toc ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 5px; }
+.r-blog-toc ul li a {
+  font-size: 13px; color: var(--plum); text-decoration: none;
+  line-height: 1.4; display: block;
+}
+.r-blog-toc ul li a:hover { text-decoration: underline; opacity: 1; }
+@media (max-width: 640px) { .r-blog-toc__groups { grid-template-columns: 1fr; } }
+
+/* sidebar second input spacing */
+.r-sidebar__form { display: flex; flex-direction: column; gap: 0; }
+.r-sidebar__form .r-sidebar__input { margin-bottom: 10px; }
+.r-sidebar__form .r-sidebar__input:last-of-type { margin-bottom: 10px; }
+
+/* ── layout toggle ───────────────────────────────────────────── */
+.layout-toggle {
+  position: fixed; top: 68px; right: 20px; z-index: 9000;
+  background: #fff; border-radius: 100px; padding: 4px;
+  display: flex; gap: 2px;
+  box-shadow: 0 2px 20px rgba(0,0,0,.18);
+  border: 1px solid var(--line);
+}
+.layout-toggle__btn {
+  padding: 6px 16px; border-radius: 100px; border: none; cursor: pointer;
+  font-size: 11.5px; font-weight: 700; letter-spacing: .1px;
+  background: transparent; color: var(--muted); transition: all .18s;
+  font-family: inherit;
+}
+.layout-toggle__btn.active { background: var(--ink); color: #fff; }
+@media (max-width: 640px) { .layout-toggle { top: auto; bottom: 20px; right: 16px; } }
+
+/* ── blog two-column layout ──────────────────────────────────── */
+body.layout--blog .r-blog-header,
+body.layout--blog .r-main { max-width: 1300px; margin-left: auto; margin-right: auto; }
+body.layout--blog .r-blog-hero { max-width: 1300px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; background: transparent; }
+body.layout--blog .r-blog-hero .r-blog-hero__inner { background: #EAE3F4; border-radius: 12px; }
+body.layout--blog .r-main {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 44px;
+  align-items: start;
+  padding-top: 52px;
+  padding-bottom: 96px;
+}
+.r-sidebar { display: none; }
+body.layout--blog .r-sidebar {
+  display: block;
+  position: sticky; top: 32px;
+}
+/* widget card */
+.r-sidebar__widget {
+  background: #fff;
+  border: 1px solid #E5E5E5;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 8px rgba(0,0,0,.07);
+  padding: 22px 20px 24px;
+}
+/* clutch wordmark row */
+.r-sidebar__brand {
+  font-size: 20px; font-weight: 800;
+  color: var(--red); letter-spacing: -.5px;
+  margin-bottom: 10px; line-height: 1;
+}
+/* heading */
+.r-sidebar__title {
+  font-size: 15px; font-weight: 700; color: var(--ink);
+  line-height: 1.35; letter-spacing: -.1px;
+  margin-bottom: 16px;
+}
+/* input */
+.r-sidebar__input {
+  width: 100%; padding: 10px 12px;
+  border: 1.5px solid #D8D8D8; border-radius: 7px;
+  font-family: inherit; font-size: 14px; color: var(--ink);
+  background: #fff; outline: none; margin-bottom: 10px;
+  box-sizing: border-box;
+}
+.r-sidebar__input:focus { border-color: var(--plum); }
+/* green continue button matching screenshot */
+.r-sidebar__btn {
+  width: 100%; padding: 11px;
+  background: var(--red); color: #fff; border: none;
+  border-radius: 100px; font-family: inherit;
+  font-size: 14px; font-weight: 700; cursor: pointer;
+  transition: opacity .15s; letter-spacing: -.1px;
+}
+.r-sidebar__btn:hover { opacity: .88; }
+@media (max-width: 960px) {
+  body.layout--blog .r-main { grid-template-columns: 1fr; }
+  body.layout--blog .r-sidebar { position: static; }
+}
 </style>
 </head>
 <body>
@@ -501,12 +685,50 @@ body {
 <!-- ═══ SITE HEADER (v3) ═════════════════════════════════════ -->
 <header class="site-header">
   <nav class="nav" id="main-nav">
-    <img class="nav__logo" src="../clutch-certified/assets/logo-red.webp" alt="Clutch">
-    <div class="nav__pill">
-      <a href="https://www.clutch.ca/cars" target="_blank" rel="noopener">Shop Clutch Certified Cars</a>
+    <a class="nav__left" href="#">
+      <img class="nav__logo" src="../clutch-certified/assets/logo-red.webp" alt="Clutch">
+      <span class="nav__blog-label">Blog</span>
+    </a>
+    <div class="nav__links">
+      <a href="#">Blog</a>
+      <a href="#">Reviews</a>
+      <a href="#">Sell My Car</a>
+      <a href="#">Browse Cars</a>
+      <a href="#">About Us</a>
     </div>
   </nav>
 </header>
+
+<!-- ═══ LAYOUT TOGGLE ════════════════════════════════════════ -->
+<div class="layout-toggle" id="layoutToggle" role="group" aria-label="Switch layout">
+  <button class="layout-toggle__btn active" data-layout="current">Current</button>
+  <button class="layout-toggle__btn" data-layout="blog">Blog</button>
+</div>
+
+<!-- ═══ BLOG HEADER (blog mode only) ════════════════════════ -->
+<div class="r-blog-header">
+  <h1 class="r-blog-header__title">Clutch Certified<br>Reliability Report 2026</h1>
+  <p class="r-blog-header__sub">Canada's largest proprietary look at used-car reliability, built on the physical inspection of over 100,000 vehicles since 2017. Every brand score draws from four streams of first-party Clutch data: inspection outcomes, reconditioning records, 90-day warranty claims, and customer returns.</p>
+  <div class="r-blog-pills">
+    <span class="r-blog-pill">By Clutch</span>
+    <span class="r-blog-pill">May 6, 2026</span>
+    <span class="r-blog-pill">15 Minute Read</span>
+  </div>
+</div>
+
+<!-- ═══ BLOG HERO IMAGE (blog mode only) ═════════════════════ -->
+<div class="r-blog-hero">
+  <div class="r-blog-hero__inner">
+    <picture class="r-blog-hero__picture" id="blogHeroPicture">
+      <source id="blogHeroSource" media="(min-width: 768px)" srcset="assets/Clutch-Reliability_Report-21_9.jpg">
+      <img class="r-blog-hero__img" id="blogHeroImg" src="assets/Clutch-Reliability_Report-16_9.jpg" alt="Clutch Certified Reliability Report">
+    </picture>
+    <div class="r-blog-hero__ab" id="heroAbToggle">
+      <button class="r-blog-hero__ab-btn active" data-desktop="assets/Clutch-Reliability_Report-21_9.jpg" data-mobile="assets/Clutch-Reliability_Report-16_9.jpg">A</button>
+      <button class="r-blog-hero__ab-btn" data-desktop="assets/Clutch-Reliability_Report-21_9-B.jpg" data-mobile="assets/Clutch-Reliability_Report-16_9-B.jpg">B</button>
+    </div>
+  </div>
+</div>
 
 <!-- ═══ HERO ══════════════════════════════════════════════════ -->
 <header class="r-hero">
@@ -527,12 +749,49 @@ body {
 
 <!-- ═══ BODY ════════════════════════════════════════════════════ -->
 <main class="r-main">
+<div class="r-main-content">
+
+<!-- ── BLOG: takeaways + TOC (blog mode only) ────────────────── -->
+<div class="r-blog-top">
+
+  <div class="r-blog-toc">
+    <h3 class="r-blog-toc__label">Jump to a section</h3>
+    <div class="r-blog-toc__groups">
+      <div class="r-blog-toc__group">
+        <div class="r-blog-toc__group-title">Brand Rankings</div>
+        <ul>
+          <li><a href="#rankings">Which brands rank most reliable?</a></li>
+          <li><a href="#lift">How does Clutch Certified elevate reliability?</a></li>
+        </ul>
+      </div>
+      <div class="r-blog-toc__group">
+        <div class="r-blog-toc__group-title">Deep Dives</div>
+        <ul>
+          <li><a href="#rust">What's the #1 cause of inspection failure?</a></li>
+          <li><a href="#mileage">Does mileage predict reliability?</a></li>
+          <li><a href="#hybrids">Hybrids vs EVs vs gas</a></li>
+          <li><a href="#premium">Do premium brands deliver?</a></li>
+          <li><a href="#tesla">Is Tesla less reliable than other EVs?</a></li>
+        </ul>
+      </div>
+      <div class="r-blog-toc__group">
+        <div class="r-blog-toc__group-title">Models &amp; Outlook</div>
+        <ul>
+          <li><a href="#conclusion">What this means for buyers</a></li>
+          <li><a href="#methodology">How the index is calculated</a></li>
+          <li><a href="#faq">Frequently asked questions</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
 
 <!-- intro -->
-<p style="font-size:17px;margin-top:0;line-height:1.65;">
+<p style="font-size:15.5px;margin-top:0;line-height:1.65;">
   This is Canada's largest proprietary look at used-car reliability, built on the physical inspection of over 100,000 vehicles since 2017. Every brand score in this report draws from four streams of first-party Clutch data: 210-point inspection outcomes, reconditioning records, 90-day warranty claims, and customer returns.
 </p>
-<p style="font-size:17px;line-height:1.65;">Every vehicle Clutch considers for retail sale is measured against our 210-point standard, and roughly 50% don't pass. Those cars are routed to wholesale auctions. The 50% that pass are reconditioned, listed on <a href="https://www.clutch.ca" target="_blank" rel="noopener">clutch.ca</a>, and tracked through delivery, returns, and post-sale warranty claims. Nine years of that work tells us which used cars in Canada hold up best.</p>
+<p style="font-size:15.5px;line-height:1.65;">Every vehicle Clutch considers for retail sale is measured against our 210-point standard, and roughly 50% don't pass. Those cars are routed to wholesale auctions. The 50% that pass are reconditioned, listed on <a href="https://www.clutch.ca" target="_blank" rel="noopener">clutch.ca</a>, and tracked through delivery, returns, and post-sale warranty claims. Nine years of that work tells us which used cars in Canada hold up best.</p>
 
 <!-- key takeaways -->
 <div class="takeaways">
@@ -1520,11 +1779,56 @@ body {
   <a href="https://www.clutch.ca" class="btn">Browse Clutch Certified</a>
 </div>
 
+</div><!-- /r-main-content -->
+
+<!-- ═══ SIDEBAR ══════════════════════════════════════════════ -->
+<aside class="r-sidebar">
+  <div class="r-sidebar__widget">
+    <div class="r-sidebar__brand">clutch</div>
+    <div class="r-sidebar__title">Find out how much<br>your car is worth</div>
+    <form name="carcheckform" class="r-sidebar__form">
+      <input class="r-sidebar__input" type="text" name="plate" placeholder="Licence Plate">
+      <input class="r-sidebar__input" type="text" name="postal" placeholder="Postal Code">
+      <button class="r-sidebar__btn" type="submit">Continue</button>
+    </form>
+    <div class="r-sidebar__success" style="display:none;"></div>
+    <div class="r-sidebar__error" style="display:none;"></div>
+  </div>
+</aside>
+
 </main>
 
 <!-- ═══ DOT NAV (v3 right-side) ═════════════════════════════ -->
 
 <script>
+(function(){
+  var abToggle = document.getElementById('heroAbToggle');
+  if (abToggle) {
+    abToggle.addEventListener('click', function(e){
+      var btn = e.target.closest('[data-desktop]');
+      if (!btn) return;
+      abToggle.querySelectorAll('.r-blog-hero__ab-btn').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      document.getElementById('blogHeroSource').srcset = btn.dataset.desktop;
+      document.getElementById('blogHeroImg').src = btn.dataset.mobile;
+    });
+  }
+})();
+
+(function(){
+  var toggle = document.getElementById('layoutToggle');
+  toggle.addEventListener('click', function(e){
+    var btn = e.target.closest('[data-layout]');
+    if (!btn) return;
+    toggle.querySelectorAll('.layout-toggle__btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    if (btn.dataset.layout === 'blog') {
+      document.body.classList.add('layout--blog');
+    } else {
+      document.body.classList.remove('layout--blog');
+    }
+  });
+})();
 </script>
 <script>
 (function(){
