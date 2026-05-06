@@ -120,18 +120,13 @@ body {
 
 /* ── sections ───────────────────────────────────────────────── */
 .s-block { margin-top: 72px; scroll-margin-top: 24px; }
-.s-num {
-  display: inline-block; font-size: 10px; font-weight: 800;
-  letter-spacing: 1.6px; text-transform: uppercase;
-  color: var(--plum); background: var(--lavender);
-  padding: 4px 10px; border-radius: 4px; margin-bottom: 12px;
-}
+.s-num { display: none; }
 .s-block > h2 {
   font-size: clamp(24px, 3.5vw, 32px); font-weight: 800;
   color: var(--ink); letter-spacing: -.5px; line-height: 1.2;
   margin-bottom: 10px;
 }
-.s-rule { width: 40px; height: 3px; background: var(--red); border-radius: 2px; margin-bottom: 20px; }
+.s-rule { display: none; }
 .s-block > h3 {
   font-size: 18.5px; font-weight: 700; color: var(--ink);
   letter-spacing: -.2px; margin: 34px 0 10px;
@@ -266,7 +261,6 @@ body {
   border-radius: 14px;
   padding: 26px 22px 28px;
   display: flex; flex-direction: column; gap: 16px;
-  border: 1px solid rgba(85,14,48,.1);
 }
 .tkw-icon {
   width: 48px; height: 48px; border-radius: 50%;
