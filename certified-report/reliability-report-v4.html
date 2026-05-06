@@ -21,7 +21,7 @@
   --muted:     #666;
   --subtle:    #999;
   --line:      #E8E8E8;
-  --green:     #1A8754;
+  --green:     #549b5c;
   --page:      #F5F4F2;
   --card:      #FFFFFF;
   --shadow-sm: 0 1px 4px rgba(0,0,0,.06), 0 2px 10px rgba(0,0,0,.05);
@@ -899,7 +899,7 @@ body.layout--blog .r-sidebar {
         <canvas id="clutchMakeScorecard"></canvas>
       </div>
       <div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;font-size:12px;color:var(--ink);">
-        <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;background:#1A8754;border-radius:2px;display:inline-block;"></span>Top tier (9.0+)</div>
+        <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;background:#549b5c;border-radius:2px;display:inline-block;"></span>Top tier (9.0+)</div>
         <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;background:#550E30;border-radius:2px;display:inline-block;"></span>Above average (8.0–8.9)</div>
         <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;background:#8A8A8A;border-radius:2px;display:inline-block;"></span>Average (7.0–7.9)</div>
         <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;background:#F97316;border-radius:2px;display:inline-block;"></span>Below average (&lt;7.0)</div>
@@ -918,7 +918,7 @@ body.layout--blog .r-sidebar {
     {name:'Mercedes-Benz',score:7.27},{name:'Ford',score:7.14},{name:'Buick',score:6.92},{name:'Tesla',score:6.92},
     {name:'Dodge',score:6.65},{name:'BMW',score:6.63},{name:'Jeep',score:6.38},{name:'Infiniti',score:6.27},{name:'Ram',score:6.21}
   ];
-  function tierColor(s){ if(s>=9.0) return '#1A8754'; if(s>=8.0) return '#550E30'; if(s>=7.0) return '#8A8A8A'; return '#F97316'; }
+  function tierColor(s){ if(s>=9.0) return '#549b5c'; if(s>=8.0) return '#550E30'; if(s>=7.0) return '#8A8A8A'; return '#F97316'; }
   // Tooltip element for avg line hover
   const avgTip = document.createElement('div');
   avgTip.style.cssText = 'position:absolute;background:#191919;color:#fff;font-size:12px;font-weight:600;padding:6px 10px;border-radius:6px;pointer-events:none;opacity:0;transition:opacity .15s;white-space:nowrap;z-index:10;';
@@ -998,7 +998,7 @@ body.layout--blog .r-sidebar {
         <tbody></tbody>
       </table>
       <div class="legend" id="fpLegend">
-        <span class="item" data-grade="A+"><span class="grade" style="background:#1A8754;color:#fff;">A+</span>Exceptional</span>
+        <span class="item" data-grade="A+"><span class="grade" style="background:#549b5c;color:#fff;">A+</span>Exceptional</span>
         <span class="item" data-grade="A"><span class="grade" style="background:#7BB99F;color:#fff;">A</span>Strong</span>
         <span class="item" data-grade="B"><span class="grade" style="background:#E8E8E8;color:#191919;">B</span>Average</span>
         <span class="item" data-grade="C"><span class="grade" style="background:#FED7AA;color:#191919;">C</span>Below avg</span>
@@ -1045,8 +1045,8 @@ body.layout--blog .r-sidebar {
     {n:'Dodge',s:6.65},{n:'BMW',s:6.63},{n:'Jeep',s:6.38},{n:'Infiniti',s:6.27},{n:'Ram',s:6.21}
   ];
   const buckets=['Powertrain','Brakes & Steering','Electrical & Tech','Climate & Interior','Body & Glass'];
-  function gradeFor(z){ if(z<=-0.6) return {letter:'A+',bg:'#1A8754',fg:'#fff'}; if(z<=-0.2) return {letter:'A',bg:'#7BB99F',fg:'#fff'}; if(z<=0.4) return {letter:'B',bg:'#E8E8E8',fg:'#191919'}; if(z<=1.0) return {letter:'C',bg:'#FED7AA',fg:'#191919'}; return {letter:'D',bg:'#F97316',fg:'#fff'}; }
-  function tierBadge(s){ if(s>=9.0) return '#1A8754'; if(s>=8.0) return '#550E30'; if(s>=7.0) return '#8A8A8A'; return '#F97316'; }
+  function gradeFor(z){ if(z<=-0.6) return {letter:'A+',bg:'#549b5c',fg:'#fff'}; if(z<=-0.2) return {letter:'A',bg:'#7BB99F',fg:'#fff'}; if(z<=0.4) return {letter:'B',bg:'#E8E8E8',fg:'#191919'}; if(z<=1.0) return {letter:'C',bg:'#FED7AA',fg:'#191919'}; return {letter:'D',bg:'#F97316',fg:'#fff'}; }
+  function tierBadge(s){ if(s>=9.0) return '#549b5c'; if(s>=8.0) return '#550E30'; if(s>=7.0) return '#8A8A8A'; return '#F97316'; }
   const tbody=document.querySelector('#fpTbl tbody');
   makes.forEach(m=>{
     const md=data[m.n]; const tr=document.createElement('tr');
@@ -1103,8 +1103,8 @@ body.layout--blog .r-sidebar {
     <div id="dumbbellWrap" style="width:100%;overflow-x:auto;"></div>
     <div style="display:flex;gap:20px;justify-content:center;font-size:12px;color:var(--ink);margin-top:16px;flex-wrap:wrap;">
       <div style="display:flex;align-items:center;gap:7px;"><svg width="12" height="12"><circle cx="6" cy="6" r="5" fill="#C9C9C9" stroke="#999" stroke-width="1"/></svg>Brand's overall market score</div>
-      <div style="display:flex;align-items:center;gap:7px;"><svg width="12" height="12"><circle cx="6" cy="6" r="6" fill="#1A8754"/></svg>Clutch Certified score delivered to customer</div>
-      <div style="display:flex;align-items:center;gap:7px;"><svg width="26" height="12"><circle cx="5" cy="6" r="5" fill="#C9C9C9" stroke="#999" stroke-width="1"/><line x1="11" y1="6" x2="21" y2="6" stroke="#DDD" stroke-width="2.5"/><circle cx="21" cy="6" r="6" fill="#1A8754"/></svg>Gap = the lift</div>
+      <div style="display:flex;align-items:center;gap:7px;"><svg width="12" height="12"><circle cx="6" cy="6" r="6" fill="#549b5c"/></svg>Clutch Certified score delivered to customer</div>
+      <div style="display:flex;align-items:center;gap:7px;"><svg width="26" height="12"><circle cx="5" cy="6" r="5" fill="#C9C9C9" stroke="#999" stroke-width="1"/><line x1="11" y1="6" x2="21" y2="6" stroke="#DDD" stroke-width="2.5"/><circle cx="21" cy="6" r="6" fill="#549b5c"/></svg>Gap = the lift</div>
       <div style="display:flex;align-items:center;gap:7px;"><svg width="16" height="12"><line x1="8" y1="1" x2="8" y2="11" stroke="#AAA" stroke-width="1.5" stroke-dasharray="4,2"/></svg>25-brand average</div>
     </div>
   </div>
@@ -1237,13 +1237,13 @@ body.layout--blog .r-sidebar {
       // certified dot
       const d2 = document.createElementNS(ns,'circle');
       d2.setAttribute('cx',x2); d2.setAttribute('cy',y);
-      d2.setAttribute('r','6.5'); d2.setAttribute('fill','#1A8754');
+      d2.setAttribute('r','6.5'); d2.setAttribute('fill','#549b5c');
       svg.appendChild(d2);
 
       // certified + lift label
       const v2t = document.createElementNS(ns,'text');
       v2t.setAttribute('x',x2+11); v2t.setAttribute('y',y+4.5);
-      v2t.setAttribute('text-anchor','start'); v2t.setAttribute('fill','#1A8754');
+      v2t.setAttribute('text-anchor','start'); v2t.setAttribute('fill','#549b5c');
       v2t.setAttribute('font-size','11'); v2t.setAttribute('font-weight','700');
       v2t.textContent = `${d.customer.toFixed(2)}  +${d.lift.toFixed(2)}`;
       svg.appendChild(v2t);
@@ -1380,7 +1380,7 @@ body.layout--blog .r-sidebar {
 (function(){
   const labels=['0-40K km','40-60K','60-80K','80-100K','100-120K','120-150K'];
   const datasets=[
-    {label:'Honda',     data:[10.6,15.3,17.7,20.2,30.1,43.8], color:'#1A8754', width:4,  pointR:5},
+    {label:'Honda',     data:[10.6,15.3,17.7,20.2,30.1,43.8], color:'#549b5c', width:4,  pointR:5},
     {label:'Toyota',    data:[11.6,16.9,22.2,24.6,34.8,54.2], color:'#3B82C4', width:2,  pointR:3},
     {label:'Mazda',     data:[11.0,14.5,19.2,29.7,42.9,63.9], color:'#F59E0B', width:2,  pointR:3},
     {label:'Subaru',    data:[ 8.2,13.2,21.0,25.1,40.8,61.8], color:'#4FC3F7', width:2,  pointR:3},
@@ -1535,14 +1535,14 @@ body.layout--blog .r-sidebar {
         </div>
         <div class="make-col">
           <img src="assets/Lexus.svg" alt="Lexus" style="height:48px;width:auto;display:block;margin:0 auto 10px;opacity:.85;">
-          <div class="make-name" style="color:#1A8754;">Lexus</div>
-          <div class="make-score" style="background:#1A8754;">9.70 / 10</div>
+          <div class="make-name" style="color:#549b5c;">Lexus</div>
+          <div class="make-score" style="background:#549b5c;">9.70 / 10</div>
           <div class="metric"><div class="metric-label">Pre-sale repair vs 25-brand avg</div><div class="bar-wrap"><div class="bar good" style="width:31%;">+10%</div></div></div>
           <div class="metric"><div class="metric-label">Warranty repairs, 90 days</div><div class="bar-wrap"><div class="bar good" style="width:9%;">−6%</div></div></div>
           <div class="metric"><div class="metric-label">Vehicle-issue returns / 100 sold</div><div class="bar-wrap"><div class="bar good" style="width:32%;">0.64</div></div></div>
         </div>
       </div>
-      <div class="verdict"><span style="color:#F97316;font-weight:700;">BMW &amp; Mercedes well above average</span> on every measure, while <span style="color:#1A8754;font-weight:700;">Lexus runs at or below</span>.</div>
+      <div class="verdict"><span style="color:#F97316;font-weight:700;">BMW &amp; Mercedes well above average</span> on every measure, while <span style="color:#549b5c;font-weight:700;">Lexus runs at or below</span>.</div>
       <div class="note"><strong>The pattern repeats:</strong> On pre-sale repair cost, warranty repairs, and vehicle-issue returns, BMW and Mercedes land roughly 2× Lexus's burden. Lexus is the only luxury brand in the dataset that needs warranty repairs at or below the rate of mainstream Japanese brands.</div>
     </div>
   </div>
