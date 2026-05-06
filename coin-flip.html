@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clutch Certified — Coin flip</title>
+  <style>
+    @font-face {
+      font-family: 'CircularXX';
+      src: url('./fonts/CircularXX-Regular.woff2') format('woff2'),
+           url('./fonts/CircularXX-Regular.otf') format('opentype');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'CircularXX';
+      src: url('./fonts/CircularXX-Medium.woff2') format('woff2'),
+           url('./fonts/CircularXX-Medium.otf') format('opentype');
+      font-weight: 500;
+    }
+    @font-face {
+      font-family: 'CircularXX';
+      src: url('./fonts/CircularXX-Bold.woff2') format('woff2'),
+           url('./fonts/CircularXX-Bold.otf') format('opentype');
+      font-weight: 700;
+    }
+
+    :root {
+      --plum: #460B28;
+      --red:  #FF464C;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'CircularXX', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--plum);
+      color: #fff;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+    }
+
+    /* ── nav ── */
+    .nav {
+      padding: 28px clamp(20px, 6%, 80px);
+    }
+    .nav__logo { height: 18px; width: auto; display: block; }
+
+    /* ── main ── */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 44px;
+      padding: 20px 20px 72px;
+    }
+
+    /* ── coin ── */
+    .coin-wrap {
+      perspective: 1000px;
+    }
+
+    .coin {
+      width: 260px;
+      height: 260px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 1.5s cubic-bezier(0.33, 0, 0.2, 1);
+      cursor: pointer;
+      filter: drop-shadow(0 24px 48px rgba(0,0,0,0.5));
+    }
+    .coin:hover:not(.flipping) {
+      filter: drop-shadow(0 28px 56px rgba(0,0,0,0.6)) brightness(1.06);
+    }
+    .coin.flipping { cursor: default; }
+
+    .coin__face {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      overflow: hidden;
+    }
+    .coin__back { transform: rotateY(180deg); }
+
+    .coin__face img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 50%;
+    }
+
+    /* ── result ── */
+    .result {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .result__text {
+      font-size: clamp(40px, 8vw, 64px);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .result__text.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .result__text.heads { color: #fff; }
+    .result__text.tails { color: var(--red); }
+
+    /* ── flip button ── */
+    .flip-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px 52px;
+      background: #fff;
+      color: var(--plum);
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      border: none;
+      border-radius: 99px;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+    .flip-btn:hover:not(:disabled) { transform: translateY(-2px); }
+    .flip-btn:active:not(:disabled) { transform: scale(0.97); }
+    .flip-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* ── counters ── */
+    .counters {
+      display: flex;
+      gap: 48px;
+    }
+    .counter {
+      text-align: center;
+    }
+    .counter__num {
+      display: block;
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      line-height: 1;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 4px;
+    }
+    .counter__label {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.35);
+    }
+
+    @media (max-width: 400px) {
+      .coin { width: 210px; height: 210px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .coin { transition-duration: 0.01ms !important; }
+      .result__text { transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="./index.html">
+    <svg class="nav__logo" viewBox="0 0 100 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20.5083 23.9786H24.9932V0H20.5083V23.9786Z" fill="#fff"/>
+      <path d="M41.464 6.60867V16C41.464 19.0261 39.7394 20.2236 37.6028 20.2236C35.5854 20.2236 34.1945 19.0956 34.1945 16.7304V6.60867H29.7075V17.2869C29.7075 21.913 32.1618 24 36.2363 24C38.4972 24 40.4206 23.5031 41.464 21.9379V24H45.951V6.60867H41.464Z" fill="#fff"/>
+      <path d="M60.8776 10.7727V6.45962H56.9471V0H52.4602V6.45962H49.4341V10.7727H52.4602V18.0074C52.4602 22.7031 54.5819 24.5466 60.8776 23.8509V19.7814C58.3036 19.9205 56.9471 19.8857 56.9471 18.0074V10.7727H60.8776Z" fill="#fff"/>
+      <path d="M93.4186 6.12175C91.0882 6.12175 89.2795 6.99132 88.236 8.55653V0H83.749V24H88.236V14.6087C88.236 11.5826 89.8708 10.2957 92.0621 10.2957C94.0795 10.2957 95.5055 11.5131 95.5055 13.8783V24H99.9925V13.3217C99.9925 8.69566 97.1055 6.12175 93.4186 6.12175Z" fill="#fff"/>
+      <path d="M8.26709 19.4449C8.56206 19.4983 8.86853 19.5279 9.18506 19.528C9.48204 19.528 9.7704 19.5012 10.0483 19.4557L11.7173 23.6422C10.9251 23.8615 10.0875 23.9801 9.22021 23.9801C8.3157 23.9801 7.45262 23.8603 6.64209 23.6403L8.26709 19.4449ZM9.22021 5.61487C12.6289 5.61487 15.5851 7.42392 17.0112 10.1022L17.0083 10.1031L17.0054 10.0963L12.9595 12.0211C12.2032 10.7946 10.8122 10.0319 9.18506 10.0319C6.50698 10.032 4.5249 12.015 4.5249 14.7975C4.52491 16.5639 5.34438 18.0133 6.64111 18.8239L5.01318 23.027C1.99368 21.5441 0.0376035 18.4687 0.0375977 14.7975C0.0375977 9.61488 3.93326 5.61487 9.22021 5.61487ZM17.0386 19.5328C16.195 21.0267 14.9064 22.2404 13.3433 23.0201L11.6851 18.8629C12.2087 18.5449 12.6452 18.1211 12.9702 17.609L17.0386 19.5328Z" fill="#fff"/>
+      <path d="M72.6733 5.61487C76.082 5.61487 79.0383 7.42392 80.4644 10.1022H80.4634L80.4604 10.0953L76.4077 12.0123C75.6503 10.7908 74.2615 10.0319 72.6382 10.0319C69.9601 10.032 67.978 12.015 67.978 14.7975C67.978 17.5452 69.9601 19.5278 72.6382 19.528C74.2803 19.528 75.6617 18.8092 76.4233 17.61L80.4604 19.5192L80.4985 19.4381L80.5347 19.4586C79.039 22.1716 76.082 23.9801 72.6733 23.9801C67.3864 23.9801 63.4907 19.9801 63.4907 14.7975C63.4907 9.61488 67.3864 5.61487 72.6733 5.61487Z" fill="#fff"/>
+    </svg>
+  </a>
+</nav>
+
+<main class="main">
+
+  <div class="coin-wrap">
+    <div class="coin" id="coin" onclick="flip()">
+      <div class="coin__face coin__front">
+        <img src="./clutch-certified/assets/cc-badge.png" alt="Heads">
+      </div>
+      <div class="coin__face coin__back">
+        <img src="./badge-back.png" alt="Tails">
+      </div>
+    </div>
+  </div>
+
+  <div class="result">
+    <span class="result__text" id="resultText"></span>
+  </div>
+
+  <button class="flip-btn" id="flipBtn" onclick="flip()">Flip</button>
+
+  <div class="counters">
+    <div class="counter">
+      <span class="counter__num" id="headsCount">0</span>
+      <span class="counter__label">Heads</span>
+    </div>
+    <div class="counter">
+      <span class="counter__num" id="tailsCount">0</span>
+      <span class="counter__label">Tails</span>
+    </div>
+  </div>
+
+</main>
+
+<script>
+let rotation = 0;
+let flipping = false;
+let heads = 0;
+let tails = 0;
+
+function flip() {
+  if (flipping) return;
+  flipping = true;
+
+  const coin    = document.getElementById('coin');
+  const btn     = document.getElementById('flipBtn');
+  const label   = document.getElementById('resultText');
+
+  btn.disabled = true;
+  coin.classList.add('flipping');
+  label.classList.remove('visible', 'heads', 'tails');
+
+  const isHeads = Math.random() < 0.5;
+  const spins   = 6 + Math.floor(Math.random() * 5); // 6–10 full rotations
+
+  // compute delta so the coin always lands on the correct face
+  const currentMod = ((rotation % 360) + 360) % 360;
+  const targetMod  = isHeads ? 0 : 180;
+  const delta      = ((targetMod - currentMod) + 360) % 360;
+  rotation += spins * 360 + delta;
+
+  coin.style.transform = `rotateY(${rotation}deg)`;
+
+  setTimeout(() => {
+    if (isHeads) {
+      heads++;
+      label.textContent = 'Heads';
+      label.className = 'result__text heads';
+      document.getElementById('headsCount').textContent = heads;
+    } else {
+      tails++;
+      label.textContent = 'Tails';
+      label.className = 'result__text tails';
+      document.getElementById('tailsCount').textContent = tails;
+    }
+    label.classList.add('visible');
+    btn.disabled = false;
+    coin.classList.remove('flipping');
+    flipping = false;
+  }, 1550);
+}
+</script>
+
+</body>
+</html>
