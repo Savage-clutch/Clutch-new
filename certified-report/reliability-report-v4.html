@@ -271,7 +271,7 @@ body {
 .tkw-body { font-size: 14px; line-height: 1.62; color: #3A3A3A; }
 .tkw-body strong { color: var(--plum); font-weight: 700; }
 a.tkw-card { text-decoration: none; transition: transform .15s, box-shadow .15s; }
-a.tkw-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(85,14,48,.1); opacity: 1; }
+a.tkw-card:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,.08); opacity: 1; }
 @media (max-width: 680px) {
   .tkw-grid { grid-template-columns: 1fr 1fr; }
 }
@@ -591,12 +591,7 @@ body.layout--blog .r-blog-top { display: block; }
 
 /* ── layout toggle ───────────────────────────────────────────── */
 .layout-toggle {
-  display: none;
-  position: fixed; top: 68px; right: 20px; z-index: 9000;
-  background: #fff; border-radius: 100px; padding: 4px;
-  display: flex; gap: 2px;
-  box-shadow: 0 2px 20px rgba(0,0,0,.18);
-  border: 1px solid var(--line);
+  display: none !important;
 }
 .layout-toggle__btn {
   padding: 6px 16px; border-radius: 100px; border: none; cursor: pointer;
