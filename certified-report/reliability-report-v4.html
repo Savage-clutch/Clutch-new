@@ -604,6 +604,7 @@ body.layout--blog .r-blog-top { display: block; }
 
 /* ── layout toggle ───────────────────────────────────────────── */
 .layout-toggle {
+  display: none;
   position: fixed; top: 68px; right: 20px; z-index: 9000;
   background: #fff; border-radius: 100px; padding: 4px;
   display: flex; gap: 2px;
@@ -682,7 +683,7 @@ body.layout--blog .r-sidebar {
 }
 </style>
 </head>
-<body>
+<body class="layout--blog">
 
 <!-- ═══ SITE HEADER (v3) ═════════════════════════════════════ -->
 <header class="site-header">
@@ -703,8 +704,8 @@ body.layout--blog .r-sidebar {
 
 <!-- ═══ LAYOUT TOGGLE ════════════════════════════════════════ -->
 <div class="layout-toggle" id="layoutToggle" role="group" aria-label="Switch layout">
-  <button class="layout-toggle__btn active" data-layout="current">Current</button>
-  <button class="layout-toggle__btn" data-layout="blog">Blog</button>
+  <button class="layout-toggle__btn" data-layout="current">Current</button>
+  <button class="layout-toggle__btn active" data-layout="blog">Blog</button>
 </div>
 
 <!-- ═══ BLOG HEADER (blog mode only) ════════════════════════ -->
