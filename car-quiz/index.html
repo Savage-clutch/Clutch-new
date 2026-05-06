@@ -408,6 +408,9 @@ a { color: var(--plum); text-decoration: none; }
 
 .result {
   display: none;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 64px clamp(20px, 6%, 80px) 96px;
   animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .result.active { display: block; }
@@ -777,10 +780,10 @@ a { color: var(--plum); text-decoration: none; }
     </div>
   </div>
 
-  <!-- result -->
-  <div class="result" id="resultSection"></div>
-
 </div>
+
+<!-- result -->
+<div class="result" id="resultSection"></div>
 
 <script>
 const answers = {};
@@ -916,11 +919,8 @@ function showResult() {
     </div>
   `;
 
-  document.getElementById('q5').classList.remove('active');
+  document.getElementById('quizSection').style.display = 'none';
   section.classList.add('active');
-  document.getElementById('progressFill').style.width = '100%';
-  document.getElementById('progressCount').textContent = 'Done';
-  document.querySelector('.progress__label').textContent = 'Result';
 }
 
 function retakeQuiz() {
@@ -933,7 +933,7 @@ function retakeQuiz() {
   document.getElementById('q1').classList.add('active');
   document.getElementById('progressFill').style.width = '14.29%';
   document.getElementById('progressCount').textContent = '1 of 7';
-  document.querySelector('.progress__label').textContent = 'Your result';
+  document.getElementById('quizSection').style.display = 'block';
 }
 </script>
 </body>
