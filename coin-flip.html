@@ -230,26 +230,24 @@ function flip() {
   if (flipping) return;
   flipping = true;
 
-  const coin    = document.getElementById('coin');
-  const btn     = document.getElementById('flipBtn');
-  const label   = document.getElementById('resultText');
+  const coin  = document.getElementById('coin');
+  const btn   = document.getElementById('flipBtn');
+  const label = document.getElementById('resultText');
 
   btn.disabled = true;
   coin.classList.add('flipping');
   label.classList.remove('visible', 'heads', 'tails');
 
-  const isHeads = Math.random() < 0.5;
-  const spins   = 6 + Math.floor(Math.random() * 5); // 6–10 full rotations
-
-  // compute delta so the coin always lands on the correct face
-  const currentMod = ((rotation % 360) + 360) % 360;
-  const targetMod  = isHeads ? 0 : 180;
-  const delta      = ((targetMod - currentMod) + 360) % 360;
-  rotation += spins * 360 + delta;
+  // spin a random number of half-rotations — wherever it stops is the result
+  const halfSpins = 12 + Math.floor(Math.random() * 9); // 12–20 half-rotations
+  rotation += halfSpins * 180;
 
   coin.style.transform = `rotateY(${rotation}deg)`;
 
   setTimeout(() => {
+    // even total half-rotations = front (heads), odd = back (tails)
+    const isHeads = (rotation / 180) % 2 === 0;
+
     if (isHeads) {
       heads++;
       label.textContent = 'Heads';
