@@ -135,8 +135,7 @@ body {
 /* ── answer block ───────────────────────────────────────────── */
 .answer {
   font-size: 16.5px; line-height: 1.72; color: var(--ink);
-  background: var(--lavender); border-left: 4px solid var(--plum);
-  padding: 16px 20px; border-radius: 0; margin: 0 0 22px;
+  margin: 0 0 22px;
 }
 .answer strong { color: var(--plum); font-weight: 700; }
 
@@ -213,9 +212,7 @@ body {
 
 /* ── highlighted inline aside ────────────────────────────────── */
 .aside-fact {
-  background: var(--lavender); border-left: 3px solid var(--plum);
-  padding: 14px 18px; border-radius: 0;
-  margin: 20px 0; font-size: 14px; line-height: 1.55; color: var(--body-ink);
+  margin: 20px 0; font-size: 14px; line-height: 1.55; color: var(--muted);
 }
 .aside-fact strong { color: var(--plum); }
 
@@ -297,9 +294,7 @@ a.tkw-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(85,1
 
 /* ── citation ───────────────────────────────────────────────── */
 .citation {
-  border-left: 3px solid var(--plum); background: var(--lavender);
-  padding: 14px 18px; border-radius: 0;
-  font-size: 13.5px; color: var(--ink); margin: 20px 0; line-height: 1.55;
+  font-size: 13.5px; color: var(--muted); margin: 20px 0; line-height: 1.55;
 }
 .citation strong { font-size: 10.5px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; color: var(--plum); display: block; margin-bottom: 5px; }
 
@@ -335,8 +330,6 @@ a.tkw-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(85,1
 
 /* ── note block ─────────────────────────────────────────────── */
 .note-block {
-  background: var(--lavender); border-left: 3px solid var(--plum);
-  padding: 13px 18px; border-radius: 0;
   font-size: 13px; line-height: 1.55; color: var(--ink); margin: 18px 0;
 }
 .note-block strong { color: var(--plum); }
@@ -394,7 +387,7 @@ a.tkw-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(85,1
 .fp td.cell { transition: opacity .15s; }
 .fp td.cell.dimmed { opacity: .15; }
 .fp .legend .grade { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 19px; border-radius: 3px; font-weight: 700; font-size: 11.5px; }
-.fp .note { background: var(--lavender); border-left: 4px solid var(--plum); padding: 13px 18px; margin-top: 20px; font-size: 13px; line-height: 1.55; color: var(--ink); }
+.fp .note { margin-top: 16px; font-size: 13px; line-height: 1.55; color: var(--muted); }
 .fp .note strong { color: var(--plum); }
 
 /* Rust chart */
@@ -413,7 +406,7 @@ a.tkw-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(85,1
 .kc .bar.mods   { background: #A855F7; }
 .kc .bar.cos    { background: #F59E0B; }
 .kc .n { text-align: right; font-size: 11.5px; font-weight: 600; color: var(--ink); }
-.kc .note { background: var(--lavender); border-left: 4px solid var(--plum); padding: 13px 18px; margin-top: 22px; font-size: 13px; line-height: 1.55; color: var(--ink); }
+.kc .note { margin-top: 22px; font-size: 13px; line-height: 1.55; color: var(--muted); }
 .kc .note strong { color: var(--plum); }
 
 /* Mileage chart */
@@ -438,7 +431,7 @@ a.tkw-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(85,1
 .hyb .bar.hybrid   { background: var(--green); }
 .hyb .bar.gas      { background: #8A8A8A; }
 .hyb .bar.electric { background: var(--plum); }
-.hyb .note { background: var(--lavender); border-left: 4px solid var(--plum); padding: 13px 18px; font-size: 13.5px; line-height: 1.55; color: var(--ink); font-weight: 500; }
+.hyb .note { font-size: 13.5px; line-height: 1.55; color: var(--muted); }
 .hyb .note strong { color: var(--plum); }
 @media (max-width: 600px) { .hyb .panels { grid-template-columns: 1fr; } }
 
@@ -457,7 +450,7 @@ a.tkw-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(85,1
 .lux .bar.warn { background: #F97316; }
 .lux .bar.good { background: var(--green); }
 .lux .verdict { text-align: center; font-size: 14px; font-weight: 700; margin-top: 20px; padding: 8px; border-radius: 4px; }
-.lux .note { background: var(--lavender); border-left: 4px solid var(--plum); padding: 13px 18px; margin-top: 24px; font-size: 13px; line-height: 1.55; color: var(--ink); }
+.lux .note { margin-top: 24px; font-size: 13px; line-height: 1.55; color: var(--muted); }
 .lux .note strong { color: var(--plum); }
 @media (max-width: 600px) { .lux .chart { grid-template-columns: 1fr; } }
 
@@ -496,7 +489,7 @@ a.tkw-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(85,1
 .evc .verdict { text-align: center; font-size: 13.5px; font-weight: 700; margin-top: 12px; padding: 7px; border-radius: 4px; }
 .evc .panel.win .verdict { background: rgba(26,135,84,.18); color: #0F6940; }
 .evc .panel.lose .verdict { background: rgba(217,119,6,.15); color: #C2410C; }
-.evc .conclusion { background: var(--lavender); border-left: 4px solid var(--plum); padding: 15px 18px; font-size: 13.5px; line-height: 1.55; color: var(--ink); border-radius: 0; font-weight: 500; }
+.evc .conclusion { font-size: 13.5px; line-height: 1.55; color: var(--muted); }
 .evc .conclusion strong { color: var(--plum); }
 @media (max-width: 600px) { .evc .panels { grid-template-columns: 1fr; } }
 
@@ -716,10 +709,10 @@ body.layout--blog .r-sidebar {
 <!-- ═══ BLOG HERO IMAGE (blog mode only) ═════════════════════ -->
 <div class="r-blog-hero">
   <div class="r-blog-hero__inner">
-    <img class="r-blog-hero__img" id="blogHeroImg" src="assets/Clutch-Reliability_Report-21_9.jpg" alt="Clutch Certified Reliability Report">
+    <img class="r-blog-hero__img" id="blogHeroImg" src="assets/Clutch-Reliability_Report-21_9 - B.jpg" alt="Clutch Certified Reliability Report">
     <div class="r-blog-hero__ab" id="heroAbToggle">
-      <button class="r-blog-hero__ab-btn active" data-desktop="assets/Clutch-Reliability_Report-21_9.jpg" data-mobile="assets/Clutch-Reliability_Report-16_9.jpg">A</button>
-      <button class="r-blog-hero__ab-btn" data-desktop="assets/Clutch-Reliability_Report-21_9 - B.jpg" data-mobile="assets/Clutch-Reliability_Report-16_9 B.png">B</button>
+      <button class="r-blog-hero__ab-btn" data-desktop="assets/Clutch-Reliability_Report-21_9.jpg" data-mobile="assets/Clutch-Reliability_Report-16_9.jpg">A</button>
+      <button class="r-blog-hero__ab-btn active" data-desktop="assets/Clutch-Reliability_Report-21_9 - B.jpg" data-mobile="assets/Clutch-Reliability_Report-16_9 B.png">B</button>
     </div>
   </div>
 </div>
