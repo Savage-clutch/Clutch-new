@@ -60,15 +60,40 @@
     }
 
     /* ── coin ── */
+    .coin-wrap {
+      perspective: 700px;
+    }
+
     .coin {
       width: 260px;
       height: 260px;
+      position: relative;
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+
+    .coin-face {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
       display: block;
-      cursor: pointer;
-      filter: drop-shadow(0 24px 48px rgba(0,0,0,0.55));
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      will-change: transform;
+      filter: drop-shadow(0 20px 44px rgba(0,0,0,0.55));
+      transition: transform 1.8s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    .coin:hover { filter: drop-shadow(0 28px 56px rgba(0,0,0,0.7)) brightness(1.06); }
+    .coin-tails {
+      transform: rotateX(180deg);
+    }
+
+    @keyframes coin-toss {
+      0%   { transform: translateY(0); }
+      25%  { transform: translateY(-36px); }
+      100% { transform: translateY(0); }
+    }
 
     /* ── result ── */
     .result {
@@ -155,7 +180,12 @@
 
 <main class="main">
 
-  <img class="coin" id="coin" src="./cc-badge.png" alt="Clutch Certified badge" onclick="flip()">
+  <div class="coin-wrap">
+    <div class="coin" id="coin" onclick="flip()">
+      <img class="coin-face coin-heads" id="coinHeads" src="./cc-badge.png" alt="Heads">
+      <img class="coin-face coin-tails" id="coinTails" src="./badge-back.png" alt="Tails">
+    </div>
+  </div>
 
   <div class="result">
     <span class="result__text" id="resultText"></span>
@@ -177,77 +207,56 @@
 </main>
 
 <script>
+let headsRot = 0;
+let tailsRot = 180;
 let flipping = false;
-let currentFace = 0; // 0 = heads (cc-badge), 1 = tails (badge-back)
 let heads = 0;
 let tails = 0;
-
-const FACES = ['./cc-badge.png', './badge-back.png'];
-
-function halfDuration(spinIndex, total) {
-  const p = spinIndex / total;
-  if (p < 0.25)      return 55 + p * 80;          // ramp up: 55–75ms
-  else if (p < 0.65) return 75;                    // fast middle: 75ms
-  else               return 75 + (p - 0.65) * 700; // slow landing: 75–315ms
-}
 
 function flip() {
   if (flipping) return;
   flipping = true;
 
-  const coin  = document.getElementById('coin');
-  const btn   = document.getElementById('flipBtn');
-  const label = document.getElementById('resultText');
+  const coin     = document.getElementById('coin');
+  const headsEl  = document.getElementById('coinHeads');
+  const tailsEl  = document.getElementById('coinTails');
+  const btn      = document.getElementById('flipBtn');
+  const label    = document.getElementById('resultText');
 
   btn.disabled = true;
   label.classList.remove('visible', 'heads', 'tails');
 
-  const totalHalfSpins = 12 + Math.floor(Math.random() * 9); // 12–20
-  let spinsDone = 0;
+  // toss the coin up
+  coin.style.animation = 'none';
+  void coin.offsetHeight;
+  coin.style.animation = 'coin-toss 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards';
 
-  function doHalf() {
-    const dur = halfDuration(spinsDone, totalHalfSpins);
+  // random half-spins — wherever it lands is the result
+  const halfSpins = 12 + Math.floor(Math.random() * 9);
+  headsRot += halfSpins * 180;
+  tailsRot += halfSpins * 180;
 
-    // squeeze to edge
-    coin.style.transition = `transform ${dur}ms ease-in`;
-    coin.style.transform  = 'scaleX(0)';
+  headsEl.style.transform = `rotateX(${headsRot}deg)`;
+  tailsEl.style.transform  = `rotateX(${tailsRot}deg)`;
 
-    setTimeout(() => {
-      // swap face at the invisible midpoint
-      currentFace = 1 - currentFace;
-      coin.src = FACES[currentFace];
+  setTimeout(() => {
+    const isHeads = ((headsRot % 360) + 360) % 360 === 0;
 
-      // expand back out
-      coin.style.transition = `transform ${dur}ms ease-out`;
-      coin.style.transform  = 'scaleX(1)';
-      spinsDone++;
-
-      if (spinsDone < totalHalfSpins) {
-        setTimeout(doHalf, dur);
-      } else {
-        // landed — show result
-        setTimeout(() => {
-          const isHeads = currentFace === 0;
-          if (isHeads) {
-            heads++;
-            label.textContent = 'Heads';
-            label.className = 'result__text heads';
-            document.getElementById('headsCount').textContent = heads;
-          } else {
-            tails++;
-            label.textContent = 'Tails';
-            label.className = 'result__text tails';
-            document.getElementById('tailsCount').textContent = tails;
-          }
-          label.classList.add('visible');
-          btn.disabled = false;
-          flipping = false;
-        }, dur + 80);
-      }
-    }, dur);
-  }
-
-  doHalf();
+    if (isHeads) {
+      heads++;
+      label.textContent = 'Heads';
+      label.className = 'result__text heads';
+      document.getElementById('headsCount').textContent = heads;
+    } else {
+      tails++;
+      label.textContent = 'Tails';
+      label.className = 'result__text tails';
+      document.getElementById('tailsCount').textContent = tails;
+    }
+    label.classList.add('visible');
+    btn.disabled = false;
+    flipping = false;
+  }, 1950);
 }
 </script>
 
