@@ -12,7 +12,7 @@
 <style>
 /* ── tokens ─────────────────────────────────────────────────── */
 :root {
-  --plum:      #550E30;
+  --plum:      #460B28;
   --red:       #FF464C;
   --lavender:  #F1EDF8;
   --cherry:    #800040;
@@ -67,7 +67,7 @@ body {
 
 /* ── hero ────────────────────────────────────────────────────── */
 .r-hero {
-  background: linear-gradient(145deg, #1A0610 0%, #3B0A22 45%, #550E30 100%);
+  background: linear-gradient(145deg, #1A0610 0%, #3B0A22 45%, #460B28 100%);
   padding: 100px 24px 72px; text-align: center;
 }
 .r-hero__kicker {
@@ -900,10 +900,10 @@ body.layout--blog .r-sidebar {
       </div>
       <div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;font-size:12px;color:var(--ink);">
         <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;background:#549b5c;border-radius:2px;display:inline-block;"></span>Top tier (9.0+)</div>
-        <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;background:#550E30;border-radius:2px;display:inline-block;"></span>Above average (8.0–8.9)</div>
+        <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;background:#460B28;border-radius:2px;display:inline-block;"></span>Above average (8.0–8.9)</div>
         <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;background:#8A8A8A;border-radius:2px;display:inline-block;"></span>Average (7.0–7.9)</div>
         <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;background:#F97316;border-radius:2px;display:inline-block;"></span>Below average (&lt;7.0)</div>
-        <div style="display:flex;align-items:center;gap:6px;"><svg width="20" height="12" style="flex-shrink:0"><line x1="0" y1="6" x2="20" y2="6" stroke="#550E30" stroke-width="1.5" stroke-dasharray="5,3"/></svg><span style="color:var(--muted);">25-brand average</span></div>
+        <div style="display:flex;align-items:center;gap:6px;"><svg width="20" height="12" style="flex-shrink:0"><line x1="0" y1="6" x2="20" y2="6" stroke="#460B28" stroke-width="1.5" stroke-dasharray="5,3"/></svg><span style="color:var(--muted);">25-brand average</span></div>
       </div>
     </div>
   </div>
@@ -918,7 +918,7 @@ body.layout--blog .r-sidebar {
     {name:'Mercedes-Benz',score:7.27},{name:'Ford',score:7.14},{name:'Buick',score:6.92},{name:'Tesla',score:6.92},
     {name:'Dodge',score:6.65},{name:'BMW',score:6.63},{name:'Jeep',score:6.38},{name:'Infiniti',score:6.27},{name:'Ram',score:6.21}
   ];
-  function tierColor(s){ if(s>=9.0) return '#549b5c'; if(s>=8.0) return '#550E30'; if(s>=7.0) return '#8A8A8A'; return '#F97316'; }
+  function tierColor(s){ if(s>=9.0) return '#549b5c'; if(s>=8.0) return '#460B28'; if(s>=7.0) return '#8A8A8A'; return '#F97316'; }
   // Tooltip element for avg line hover
   const avgTip = document.createElement('div');
   avgTip.style.cssText = 'position:absolute;background:#191919;color:#fff;font-size:12px;font-weight:600;padding:6px 10px;border-radius:6px;pointer-events:none;opacity:0;transition:opacity .15s;white-space:nowrap;z-index:10;';
@@ -932,7 +932,7 @@ body.layout--blog .r-sidebar {
       const {ctx, scales:{x,y}} = chart;
       const xPx = x.getPixelForValue(7.99);
       ctx.save();
-      ctx.strokeStyle = '#550E30';
+      ctx.strokeStyle = '#460B28';
       ctx.lineWidth = 1.5;
       ctx.setLineDash([5,3]);
       ctx.beginPath(); ctx.moveTo(xPx, y.top); ctx.lineTo(xPx, y.bottom + 8); ctx.stroke();
@@ -1046,7 +1046,7 @@ body.layout--blog .r-sidebar {
   ];
   const buckets=['Powertrain','Brakes & Steering','Electrical & Tech','Climate & Interior','Body & Glass'];
   function gradeFor(z){ if(z<=-0.6) return {letter:'A+',bg:'#549b5c',fg:'#fff'}; if(z<=-0.2) return {letter:'A',bg:'#7BB99F',fg:'#fff'}; if(z<=0.4) return {letter:'B',bg:'#E8E8E8',fg:'#191919'}; if(z<=1.0) return {letter:'C',bg:'#FED7AA',fg:'#191919'}; return {letter:'D',bg:'#F97316',fg:'#fff'}; }
-  function tierBadge(s){ if(s>=9.0) return '#549b5c'; if(s>=8.0) return '#550E30'; if(s>=7.0) return '#8A8A8A'; return '#F97316'; }
+  function tierBadge(s){ if(s>=9.0) return '#549b5c'; if(s>=8.0) return '#460B28'; if(s>=7.0) return '#8A8A8A'; return '#F97316'; }
   const tbody=document.querySelector('#fpTbl tbody');
   makes.forEach(m=>{
     const md=data[m.n]; const tr=document.createElement('tr');
@@ -1178,7 +1178,7 @@ body.layout--blog .r-sidebar {
       const gt = document.createElementNS(ns,'text');
       gt.setAttribute('x',x); gt.setAttribute('y', MT-14);
       gt.setAttribute('text-anchor','middle');
-      gt.setAttribute('fill', isAvg ? '#550E30' : '#BBB');
+      gt.setAttribute('fill', isAvg ? '#460B28' : '#BBB');
       gt.setAttribute('font-size','11');
       gt.setAttribute('font-weight', isAvg ? '700' : '400');
       gt.textContent = v.toFixed(1);
@@ -1189,7 +1189,7 @@ body.layout--blog .r-sidebar {
     const al = document.createElementNS(ns,'text');
     al.setAttribute('x', ML+px(8)); al.setAttribute('y', MT-28);
     al.setAttribute('text-anchor','middle');
-    al.setAttribute('fill','#550E30');
+    al.setAttribute('fill','#460B28');
     al.setAttribute('font-size','10');
     al.setAttribute('font-weight','700');
     al.textContent='25-brand avg';
@@ -1429,7 +1429,7 @@ body.layout--blog .r-sidebar {
       <div class="brand-bar__identity"><img src="assets/Honda.svg" alt="Honda"><span class="brand-bar__name">Honda</span></div>
       <div class="brand-bar__stat" style="color:var(--plum);">10.6%</div>
     </div>
-    <div class="brand-bar" style="background:#550E30;color:#fff;">
+    <div class="brand-bar" style="background:#460B28;color:#fff;">
       <div class="brand-bar__identity"><img src="assets/Chevrolet.svg" alt="Chevrolet" style="filter:invert(1);"><span class="brand-bar__name">Chevrolet</span></div>
       <div class="brand-bar__stat">18.1%</div>
     </div>
@@ -1625,7 +1625,7 @@ body.layout--blog .r-sidebar {
           <p style="font-size:11px;font-weight:700;color:var(--plum);text-transform:uppercase;letter-spacing:.4px;margin:0 0 12px;">0–3 years</p>
           <div style="display:grid;grid-template-columns:72px 1fr 46px;align-items:center;gap:8px;margin-bottom:8px;">
             <span style="font-size:12px;font-weight:600;color:var(--ink);">Tesla</span>
-            <div style="background:#E8E8E8;height:10px;border-radius:3px;overflow:hidden;"><div style="width:53%;height:100%;background:#550E30;border-radius:3px;"></div></div>
+            <div style="background:#E8E8E8;height:10px;border-radius:3px;overflow:hidden;"><div style="width:53%;height:100%;background:#460B28;border-radius:3px;"></div></div>
             <span style="font-size:13px;font-weight:800;color:var(--ink);text-align:right;">14.9%</span>
           </div>
           <div style="display:grid;grid-template-columns:72px 1fr 46px;align-items:center;gap:8px;">
@@ -1639,7 +1639,7 @@ body.layout--blog .r-sidebar {
           <p style="font-size:11px;font-weight:700;color:var(--plum);text-transform:uppercase;letter-spacing:.4px;margin:0 0 12px;">4–6 years</p>
           <div style="display:grid;grid-template-columns:72px 1fr 46px;align-items:center;gap:8px;margin-bottom:8px;">
             <span style="font-size:12px;font-weight:600;color:var(--ink);">Tesla</span>
-            <div style="background:#E8E8E8;height:10px;border-radius:3px;overflow:hidden;"><div style="width:100%;height:100%;background:#550E30;border-radius:3px;"></div></div>
+            <div style="background:#E8E8E8;height:10px;border-radius:3px;overflow:hidden;"><div style="width:100%;height:100%;background:#460B28;border-radius:3px;"></div></div>
             <span style="font-size:13px;font-weight:800;color:var(--ink);text-align:right;">28.0%</span>
           </div>
           <div style="display:grid;grid-template-columns:72px 1fr 46px;align-items:center;gap:8px;">
@@ -1653,7 +1653,7 @@ body.layout--blog .r-sidebar {
       <!-- issues per 100: grouped bar chart -->
       <p style="font-size:13px;font-weight:700;color:var(--ink);margin:0 0 10px;">Issues per 100 vehicles by category — lower is better</p>
       <div style="display:flex;gap:16px;font-size:12px;color:var(--ink);margin-bottom:14px;flex-wrap:wrap;">
-        <div style="display:flex;align-items:center;gap:7px;"><span style="width:12px;height:12px;background:#550E30;border-radius:2px;display:inline-block;"></span>Tesla</div>
+        <div style="display:flex;align-items:center;gap:7px;"><span style="width:12px;height:12px;background:#460B28;border-radius:2px;display:inline-block;"></span>Tesla</div>
         <div style="display:flex;align-items:center;gap:7px;"><span style="width:12px;height:12px;background:#C9C9C9;border-radius:2px;display:inline-block;"></span>Other EVs</div>
       </div>
       <div style="position:relative;height:260px;"><canvas id="teslaIssuesChart"></canvas></div>
@@ -1669,7 +1669,7 @@ body.layout--blog .r-sidebar {
     data:{
       labels:['Powertrain','Electrical & tech','Brakes & suspension','Body & glass'],
       datasets:[
-        { label:'Tesla',     data:[0.22,4.32,3.74,2.16], backgroundColor:'#550E30', borderRadius:4, barPercentage:.7, categoryPercentage:.6 },
+        { label:'Tesla',     data:[0.22,4.32,3.74,2.16], backgroundColor:'#460B28', borderRadius:4, barPercentage:.7, categoryPercentage:.6 },
         { label:'Other EVs', data:[1.48,5.42,1.97,0.74], backgroundColor:'#C9C9C9', borderRadius:4, barPercentage:.7, categoryPercentage:.6 }
       ]
     },

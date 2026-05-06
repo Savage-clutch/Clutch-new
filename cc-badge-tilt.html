@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CC Badge — Tilt</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0a0a0a;
+      font-family: -apple-system, sans-serif;
+    }
+
+    .card-scene {
+      perspective: 800px;
+    }
+
+    .card {
+      position: relative;
+      width: 340px;
+      height: 340px;
+      transform-style: preserve-3d;
+      transition: transform 0.08s ease-out;
+      cursor: pointer;
+    }
+
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      border-radius: 24px;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* Glare overlay */
+    .card__glare {
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.28) 0%, transparent 70%);
+    }
+
+    .card:hover .card__glare {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card-scene">
+    <div class="card" id="card">
+      <img src="CC-Badge-mid.png" alt="Clutch Certified Badge" crossorigin="anonymous" id="badge-img">
+      <div class="card__glare" id="glare"></div>
+    </div>
+  </div>
+
+  <script>
+    const card  = document.getElementById('card');
+    const glare = document.getElementById('glare');
+    const img   = document.getElementById('badge-img');
+    const MAX_ROT = 18;
+
+    const offscreen = document.createElement('canvas');
+    const ctx = offscreen.getContext('2d', { willReadFrequently: true });
+    let ready = false;
+
+    function setupCanvas() {
+      offscreen.width  = img.naturalWidth;
+      offscreen.height = img.naturalHeight;
+      ctx.drawImage(img, 0, 0);
+      ready = true;
+    }
+
+    if (img.complete && img.naturalWidth) {
+      setupCanvas();
+    } else {
+      img.addEventListener('load', setupCanvas);
+    }
+
+    function isOverBadge(e) {
+      if (!ready) return false;
+      const rect = card.getBoundingClientRect();
+      const px = Math.floor(((e.clientX - rect.left) / rect.width)  * offscreen.width);
+      const py = Math.floor(((e.clientY - rect.top)  / rect.height) * offscreen.height);
+      return ctx.getImageData(px, py, 1, 1).data[3] > 10;
+    }
+
+    card.addEventListener('mousemove', function(e) {
+      if (!isOverBadge(e)) { reset(); return; }
+
+      const rect = card.getBoundingClientRect();
+      const cx = rect.left + rect.width  / 2;
+      const cy = rect.top  + rect.height / 2;
+      const dx = (e.clientX - cx) / (rect.width  / 2);
+      const dy = (e.clientY - cy) / (rect.height / 2);
+
+      card.style.transform = `rotateX(${-dy * MAX_ROT}deg) rotateY(${dx * MAX_ROT}deg)`;
+
+      const gx = 50 + dx * 35;
+      const gy = 50 + dy * 35;
+      glare.style.background = `radial-gradient(circle at ${gx}% ${gy}%, rgba(255,255,255,0.28) 0%, transparent 65%)`;
+      glare.style.opacity = '1';
+    });
+
+    card.addEventListener('mouseleave', reset);
+
+    function reset() {
+      card.style.transform = 'rotateX(0deg) rotateY(0deg)';
+      glare.style.opacity = '0';
+    }
+  </script>
+
+</body>
+</html>

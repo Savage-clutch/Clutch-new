@@ -30,7 +30,7 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
     --red: #FF464C;
-    --plum: #550E30;
+    --plum: #460B28;
     --lavender: #F1EDF8;
     --white: #FFFFFF;
     --soft-black: #191919;
@@ -584,7 +584,7 @@
 const COLORS = [
   // Primary
   { name: 'Clutch Red',       hex: '#FF464C', group: 'Primary',         cmyk: 'C:0 M:87 Y:67 K:0',    pms: '032 C' },
-  { name: 'Plum',             hex: '#550E30', group: 'Primary',         cmyk: 'C:47 M:96 Y:54 K:54',  pms: '690 C' },
+  { name: 'Plum',             hex: '#460B28', group: 'Primary',         cmyk: 'C:47 M:96 Y:54 K:54',  pms: '690 C' },
   { name: 'Plum (Background)',hex: '#460B28', group: 'Primary',         cmyk: 'C:52 M:97 Y:58 K:63',  pms: 'N/A' },
   { name: 'Lavender',         hex: '#F1EDF8', group: 'Primary',         cmyk: 'C:4 M:5 Y:0 K:0',      pms: '7443 C' },
   { name: 'White',            hex: '#FFFFFF', group: 'Primary',         cmyk: 'C:0 M:0 Y:0 K:0',      pms: 'N/A' },
@@ -676,7 +676,7 @@ function buildPalette() {
   // Small grid — columns ordered light to dark
   const PALETTE_COLUMNS = [
     { name: 'Red',      hexes: ['#F56B6E', '#FF464C', '#F43536', '#DF0C00', '#B00700'] },
-    { name: 'Plum',     hexes: ['#800040', '#550E30', '#460B28'] },
+    { name: 'Plum',     hexes: ['#800040', '#460B28', '#460B28'] },
     { name: 'Lavender', hexes: ['#F1EDF8', '#EBE1F8', '#E6D6F9'] },
     { name: 'Neutrals', hexes: ['#FFFFFF', '#F3F3F3', '#DCDCDC', '#BABABA', '#191919'] },
   ];
@@ -711,10 +711,10 @@ const APPROVED_PAIRS = {
     note: 'The brand at full volume. White leads all text. Plum as a single accent phrase creates hierarchy without adding a third color.',
     pairs: [
       { hex: '#FFFFFF', name: 'White',  use: 'Headlines · Body · Logo', role: 'primary' },
-      { hex: '#550E30', name: 'Plum',   use: 'Accent phrase — one line max', role: 'accent' },
+      { hex: '#460B28', name: 'Plum',   use: 'Accent phrase — one line max', role: 'accent' },
     ],
     previewHeadline: '#FFFFFF',
-    previewAccent:   '#550E30',
+    previewAccent:   '#460B28',
     previewSub:      '#FFFFFF',
   },
   '#460B28': {
@@ -732,23 +732,23 @@ const APPROVED_PAIRS = {
     name: 'Lavender',
     note: 'The calm pairing. Plum carries all text. Red is reserved for a single accent or CTA — never body copy.',
     pairs: [
-      { hex: '#550E30', name: 'Plum',       use: 'Headlines · Body', role: 'primary' },
+      { hex: '#460B28', name: 'Plum',       use: 'Headlines · Body', role: 'primary' },
       { hex: '#FF464C', name: 'Clutch Red', use: 'Display accent · CTA', role: 'accent' },
     ],
-    previewHeadline: '#550E30',
+    previewHeadline: '#460B28',
     previewAccent:   '#FF464C',
-    previewSub:      '#550E30',
+    previewSub:      '#460B28',
   },
   '#FFFFFF': {
     name: 'White',
     note: 'The product default. Plum for headlines and body. Red for CTAs and display accents only.',
     pairs: [
-      { hex: '#550E30', name: 'Plum',       use: 'Headlines · Body', role: 'primary' },
+      { hex: '#460B28', name: 'Plum',       use: 'Headlines · Body', role: 'primary' },
       { hex: '#FF464C', name: 'Clutch Red', use: 'Display accent · CTA · Logo', role: 'accent' },
     ],
-    previewHeadline: '#550E30',
+    previewHeadline: '#460B28',
     previewAccent:   '#FF464C',
-    previewSub:      '#550E30',
+    previewSub:      '#460B28',
   },
 };
 
@@ -833,14 +833,14 @@ const MARKETING_VARIANTS = [
     bg: '#FF464C',
     line1: { text: 'We buy your car.', color: '#FFFFFF' },
     line2: { text: 'We pick it up.', color: '#FFFFFF' },
-    line3: { text: 'You get paid.', color: '#550E30' },
+    line3: { text: 'You get paid.', color: '#460B28' },
     logo: '#FFFFFF',
     label: 'Clutch Red',
   },
   {
     bg: '#F1EDF8',
-    line1: { text: 'No haggle.', color: '#550E30' },
-    line2: { text: 'No hassle.', color: '#550E30' },
+    line1: { text: 'No haggle.', color: '#460B28' },
+    line2: { text: 'No hassle.', color: '#460B28' },
     line3: { text: 'No sketchy meetups.', color: '#FF464C' },
     logo: '#FF464C',
     label: 'Lavender',
@@ -855,8 +855,8 @@ const MARKETING_VARIANTS = [
   },
   {
     bg: '#F1EDF8',
-    line1: { text: 'We buy your car.', color: '#550E30' },
-    line2: { text: 'We pick it up.', color: '#550E30' },
+    line1: { text: 'We buy your car.', color: '#460B28' },
+    line2: { text: 'We pick it up.', color: '#460B28' },
     line3: { text: 'You get paid.', color: '#FF464C' },
     logo: '#FF464C',
     label: 'Lavender',
@@ -878,14 +878,14 @@ const BRAND_VARIANTS = [
     bg: '#FF464C',
     headline: '#FFFFFF',
     headlineText: 'Skip the lot,\nkeep your weekend.',
-    sub: '#550E30',
+    sub: '#460B28',
     subText: 'Buy your next car online.',
     logo: '#FFFFFF',
     label: 'Red bg · White headline · Plum accent',
   },
   {
     bg: '#F1EDF8',
-    headline: '#550E30',
+    headline: '#460B28',
     headlineText: 'Sell your car naked.\nOr in clothes.',
     sub: '#FF464C',
     subText: "We're easy.",
@@ -894,7 +894,7 @@ const BRAND_VARIANTS = [
   },
   {
     bg: '#F1EDF8',
-    headline: '#550E30',
+    headline: '#460B28',
     headlineText: 'Selling your car?\nGet paid in about',
     sub: '#FF464C',
     subText: '300 seconds.',
@@ -1017,7 +1017,7 @@ function buildAssets() {
         <div class="prod-card" style="background:${v.bg}">
           <div class="prod-img-wrap">
             <img class="prod-car-img" src="${v.carImg}" style="background:${v.carBg}">
-            <div class="prod-views"><svg width="12" height="14" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 0C6 0 9.5 4.5 9.5 8.5C9.5 10.433 7.933 12 6 12C4.067 12 2.5 10.433 2.5 8.5C2.5 7.2 3.1 6 3.6 5.2C3.6 5.2 3.8 6.5 4.8 7C4.8 4.5 5.5 1.5 6 0Z" fill="#FF464C"/><path d="M6 8C6 8 7.5 9.2 7.5 10.3C7.5 11.2 6.83 12 6 12C5.17 12 4.5 11.2 4.5 10.3C4.5 9.5 5.2 8.8 5.5 8.4C5.5 8.4 5.6 9 6 9.3C6 8.8 6 8.3 6 8Z" fill="#550E30"/></svg> 100+ views today</div>
+            <div class="prod-views"><svg width="12" height="14" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 0C6 0 9.5 4.5 9.5 8.5C9.5 10.433 7.933 12 6 12C4.067 12 2.5 10.433 2.5 8.5C2.5 7.2 3.1 6 3.6 5.2C3.6 5.2 3.8 6.5 4.8 7C4.8 4.5 5.5 1.5 6 0Z" fill="#FF464C"/><path d="M6 8C6 8 7.5 9.2 7.5 10.3C7.5 11.2 6.83 12 6 12C5.17 12 4.5 11.2 4.5 10.3C4.5 9.5 5.2 8.8 5.5 8.4C5.5 8.4 5.6 9 6 9.3C6 8.8 6 8.3 6 8Z" fill="#460B28"/></svg> 100+ views today</div>
             <div class="prod-like" style="color:${luminance(v.bg)>0.3?'#FF464C':'#fff'}" onclick="this.dataset.liked=this.dataset.liked==='1'?'0':'1';this.textContent=this.dataset.liked==='1'?'♥':'♡';this.style.color=this.dataset.liked==='1'?'#FF464C':'${luminance(v.bg)>0.3?'#FF464C':'#fff'}'" data-liked="0">♡</div>
           </div>
           <div class="prod-body">
@@ -1064,7 +1064,7 @@ function buildConcepts() {
   // 4. Strikethrough — Lavender
   grid.innerHTML += `
     <div class="concept-card concept-strike" style="background:#F1EDF8">
-      <div class="concept-strike-text" style="color:#550E30">That's <s>complicated.</s><br><span style="color:#FF464C">That's Clutch.</span></div>
+      <div class="concept-strike-text" style="color:#460B28">That's <s>complicated.</s><br><span style="color:#FF464C">That's Clutch.</span></div>
     </div>`;
 
   // Row 2
@@ -1122,7 +1122,7 @@ function buildConcepts() {
         <div class="concept-split-word" style="color:#fff">Sell<br><span style="color:#FF464C">fast.</span></div>
       </div>
       <div class="concept-split-bottom" style="background:#F1EDF8">
-        <div class="concept-split-word" style="color:#550E30">Buy<br><span style="color:#FF464C">easy.</span></div>
+        <div class="concept-split-word" style="color:#460B28">Buy<br><span style="color:#FF464C">easy.</span></div>
       </div>
     </div>`;
 
@@ -1131,16 +1131,16 @@ function buildConcepts() {
     <div class="concept-card concept-tag-card" style="background:#460B28">
       <div style="font-size:11px;color:#ffffff;opacity:0.4;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">UI Labels</div>
       <div class="concept-tag" style="background:#FF464C;color:#fff">Clutch Certified</div>
-      <div class="concept-tag" style="background:#F1EDF8;color:#550E30">New Price Drop</div>
-      <div class="concept-tag" style="background:#550E30;color:#F1EDF8">Top Pick</div>
+      <div class="concept-tag" style="background:#F1EDF8;color:#460B28">New Price Drop</div>
+      <div class="concept-tag" style="background:#460B28;color:#F1EDF8">Top Pick</div>
       <div class="concept-tag" style="background:#FFFFFF;color:#FF464C;border:1.5px solid #FF464C">Sale</div>
     </div>`;
 
   // 12. Lavender Mid use case — brand card
   grid.innerHTML += `
     <div class="concept-card concept-quote" style="background:#EBE1F8;aspect-ratio:4/2;grid-column:span 2;justify-content:flex-end;gap:0;padding:36px">
-      <div style="font-size:13px;font-weight:700;color:#550E30;opacity:.6;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px">Lavender Mid</div>
-      <div style="font-size:36px;font-weight:800;color:#550E30;line-height:1.15;letter-spacing:-1px">Sell your car naked.<br>Or in clothes.</div>
+      <div style="font-size:13px;font-weight:700;color:#460B28;opacity:.6;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px">Lavender Mid</div>
+      <div style="font-size:36px;font-weight:800;color:#460B28;line-height:1.15;letter-spacing:-1px">Sell your car naked.<br>Or in clothes.</div>
       <div style="font-size:36px;font-weight:800;color:#FF464C;line-height:1.15;letter-spacing:-1px;margin-bottom:auto">We're easy.</div>
       <img src="${LOGO_RED}" style="height:14px;object-fit:contain;object-position:left;margin-top:24px;opacity:.7">
     </div>`;
@@ -1148,8 +1148,8 @@ function buildConcepts() {
   // 13. Lavender use case — brand card
   grid.innerHTML += `
     <div class="concept-card concept-quote" style="background:#F1EDF8;aspect-ratio:4/2;grid-column:span 2;justify-content:flex-end;gap:0;padding:36px">
-      <div style="font-size:13px;font-weight:700;color:#550E30;opacity:.6;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px">Lavender</div>
-      <div style="font-size:36px;font-weight:800;color:#550E30;line-height:1.15;letter-spacing:-1px">Sell your car naked.<br>Or in clothes.</div>
+      <div style="font-size:13px;font-weight:700;color:#460B28;opacity:.6;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px">Lavender</div>
+      <div style="font-size:36px;font-weight:800;color:#460B28;line-height:1.15;letter-spacing:-1px">Sell your car naked.<br>Or in clothes.</div>
       <div style="font-size:36px;font-weight:800;color:#FF464C;line-height:1.15;letter-spacing:-1px;margin-bottom:auto">We're easy.</div>
       <img src="${LOGO_RED}" style="height:14px;object-fit:contain;object-position:left;margin-top:24px;opacity:.7">
     </div>`;
@@ -1157,7 +1157,7 @@ function buildConcepts() {
   // Row 4 — Full width palette strip
   const blocks = [
     { hex: '#460B28', name: 'Plum', sub: 'Background' },
-    { hex: '#550E30', name: 'Plum', sub: 'Text' },
+    { hex: '#460B28', name: 'Plum', sub: 'Text' },
     { hex: '#FF464C', name: 'Clutch Red', sub: 'Primary' },
     { hex: '#F43536', name: 'Red Shade 2', sub: 'Hover' },
     { hex: '#F1EDF8', name: 'Lavender', sub: 'Light BG' },

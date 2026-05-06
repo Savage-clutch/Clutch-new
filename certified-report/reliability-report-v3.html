@@ -18,7 +18,7 @@
      Clutch Brand System
      ========================================================================= */
   :root {
-    --plum: #550E30;
+    --plum: #460B28;
     --red: #FF464C;
     --lavender: #F1EDF8;
     --cherry: #800040;
@@ -172,14 +172,14 @@
 <div class="clutch-scorecard" style="max-width:880px;margin:0 auto;font-family:'CircularXX','Poppins',-apple-system,BlinkMacSystemFont,sans-serif;">
   <div style="text-align:center;margin-bottom:16px;">
     <h2 style="color:#191919;font-size:28px;font-weight:700;margin:0;letter-spacing:-0.3px;">The Clutch Certified Reliability Index</h2>
-    <p style="color:#550E30;font-size:15px;margin:6px 0 0;font-weight:500;">25 brands ranked across 4 reliability dimensions</p>
+    <p style="color:#460B28;font-size:15px;margin:6px 0 0;font-weight:500;">25 brands ranked across 4 reliability dimensions</p>
   </div>
   <div style="position:relative;height:720px;width:100%;">
     <canvas id="clutchMakeScorecard"></canvas>
   </div>
   <div style="margin-top:20px;display:flex;flex-wrap:wrap;gap:14px;justify-content:center;font-size:12px;color:#191919;">
     <div style="display:flex;align-items:center;gap:6px;"><span style="display:inline-block;width:12px;height:12px;background:#1A8754;border-radius:2px;"></span>Top tier (9.0+)</div>
-    <div style="display:flex;align-items:center;gap:6px;"><span style="display:inline-block;width:12px;height:12px;background:#550E30;border-radius:2px;"></span>Above average (8.0–8.9)</div>
+    <div style="display:flex;align-items:center;gap:6px;"><span style="display:inline-block;width:12px;height:12px;background:#460B28;border-radius:2px;"></span>Above average (8.0–8.9)</div>
     <div style="display:flex;align-items:center;gap:6px;"><span style="display:inline-block;width:12px;height:12px;background:#8A8A8A;border-radius:2px;"></span>Average (7.0–7.9)</div>
     <div style="display:flex;align-items:center;gap:6px;"><span style="display:inline-block;width:12px;height:12px;background:#FF464C;border-radius:2px;"></span>Below average (&lt;7.0)</div>
   </div>
@@ -194,7 +194,7 @@
     { name:'Mercedes-Benz', score:7.27 },{ name:'Ford', score:7.14 },{ name:'Buick', score:6.92 },{ name:'Tesla', score:6.92 },
     { name:'Dodge', score:6.65 },{ name:'BMW', score:6.63 },{ name:'Jeep', score:6.38 },{ name:'Infiniti', score:6.27 },{ name:'Ram', score:6.21 }
   ];
-  function tierColor(s){ if(s>=9.0) return '#1A8754'; if(s>=8.0) return '#550E30'; if(s>=7.0) return '#8A8A8A'; return '#FF464C'; }
+  function tierColor(s){ if(s>=9.0) return '#1A8754'; if(s>=8.0) return '#460B28'; if(s>=7.0) return '#8A8A8A'; return '#FF464C'; }
   new Chart(document.getElementById('clutchMakeScorecard').getContext('2d'), {
     type:'bar',
     data:{ labels: makes.map(m=>m.name), datasets:[{ data: makes.map(m=>m.score), backgroundColor: makes.map(m=>tierColor(m.score)), borderWidth:0, borderRadius:3, barPercentage:0.82 }]},
@@ -236,7 +236,7 @@
 <style>
   .fp { font-family:'CircularXX','Poppins',-apple-system,BlinkMacSystemFont,sans-serif; max-width:960px; margin:0 auto; padding: 8px 0; }
   .fp h2 { color:#191919; font-size:28px; font-weight:700; margin:0; text-align:center; letter-spacing:-0.3px; }
-  .fp .sub { color:#550E30; font-size:14px; margin:8px auto 20px; text-align:center; font-weight:500; max-width:720px; line-height:1.55; }
+  .fp .sub { color:#460B28; font-size:14px; margin:8px auto 20px; text-align:center; font-weight:500; max-width:720px; line-height:1.55; }
   .fp table { border-collapse: separate; border-spacing: 0; width: 100%; table-layout: fixed; }
   .fp th { padding: 10px 8px; font-weight:700; color:#191919; font-size:12px; border-bottom:2px solid #191919; text-transform: uppercase; letter-spacing: 0.3px; }
   .fp th.make { text-align:left; width: 180px; padding-left:14px; }
@@ -248,8 +248,8 @@
   .fp .legend { display:flex; align-items:center; justify-content:center; gap:10px; margin-top:22px; font-size:12px; color:#191919; flex-wrap:wrap; }
   .fp .legend .item { display:inline-flex; align-items:center; gap:6px; padding:3px 10px 3px 6px; border-radius: 14px; background:#FAFAFA; border:1px solid #EDEDED; }
   .fp .legend .grade { display:inline-flex; align-items:center; justify-content:center; width:24px; height:20px; border-radius:3px; font-weight:700; font-size:12px; letter-spacing: -0.2px; }
-  .fp .note { background:#F1EDF8; border-left:4px solid #550E30; padding:14px 20px; margin-top:22px; font-size:13px; line-height:1.55; color:#191919; border-radius:4px; }
-  .fp .note strong { color:#550E30; }
+  .fp .note { background:#F1EDF8; border-left:4px solid #460B28; padding:14px 20px; margin-top:22px; font-size:13px; line-height:1.55; color:#191919; border-radius:4px; }
+  .fp .note strong { color:#460B28; }
   .fp .inputs { margin-top:10px; padding:10px 16px; background:#FAFAFA; border:1px solid #EDEDED; border-radius:6px; font-size:12px; line-height:1.5; color:#555; text-align:center; }
   .fp .inputs strong { color:#191919; }
 </style>
@@ -316,7 +316,7 @@
   ];
   const buckets = ['Powertrain','Brakes & Steering','Electrical & Tech','Climate & Interior','Body & Glass'];
   function gradeFor(z){ if(z<=-0.6) return {letter:'A+', bg:'#1A8754', fg:'#fff'}; if(z<=-0.2) return {letter:'A', bg:'#7BB99F', fg:'#fff'}; if(z<=0.4) return {letter:'B', bg:'#E8E8E8', fg:'#191919'}; if(z<=1.0) return {letter:'C', bg:'#F2A5A8', fg:'#191919'}; return {letter:'D', bg:'#FF464C', fg:'#fff'}; }
-  function tierBadge(s){ if(s>=9.0) return '#1A8754'; if(s>=8.0) return '#550E30'; if(s>=7.0) return '#8A8A8A'; return '#FF464C'; }
+  function tierBadge(s){ if(s>=9.0) return '#1A8754'; if(s>=8.0) return '#460B28'; if(s>=7.0) return '#8A8A8A'; return '#FF464C'; }
   const tbody = document.querySelector('#fpTbl tbody');
   makes.forEach(m => {
     const md = data[m.n]; const tr = document.createElement('tr');
@@ -352,10 +352,10 @@
 <div class="clutch-lift" style="max-width:900px;margin:0 auto;font-family:'CircularXX','Poppins',-apple-system,BlinkMacSystemFont,sans-serif;">
   <div style="text-align:center;margin-bottom:20px;">
     <h2 style="color:#191919;font-size:28px;font-weight:700;margin:0;letter-spacing:-0.3px;">How Clutch Certified Elevates Every Car</h2>
-    <p style="color:#550E30;font-size:15px;margin:8px 0 0;font-weight:500;line-height:1.5;max-width:780px;margin-left:auto;margin-right:auto;">Before any car gets listed on clutch.ca, roughly 50% of what Clutch buys fails our 210-point inspection and is sent to wholesale auctions for other dealers. From the cars that pass, we invest over $2,000 per vehicle in reconditioning before listing. The Clutch Certified score is for the vehicles we actually sell, not every used car of that brand on the road.</p>
+    <p style="color:#460B28;font-size:15px;margin:8px 0 0;font-weight:500;line-height:1.5;max-width:780px;margin-left:auto;margin-right:auto;">Before any car gets listed on clutch.ca, roughly 50% of what Clutch buys fails our 210-point inspection and is sent to wholesale auctions for other dealers. From the cars that pass, we invest over $2,000 per vehicle in reconditioning before listing. The Clutch Certified score is for the vehicles we actually sell, not every used car of that brand on the road.</p>
   </div>
   <div style="position:relative;height:820px;width:100%;"><canvas id="clutchLiftChart"></canvas></div>
-  <div style="margin-top:16px;padding:14px 20px;background:#F1EDF8;border-left:4px solid #550E30;font-size:13px;line-height:1.55;color:#191919;border-radius:4px;"><strong style="color:#550E30;">How to read:</strong> Grey bar = the brand's overall reliability profile. Green bar = the reliability of the cars Clutch actually delivers to customers. The gap between them is the Clutch Certified lift.</div>
+  <div style="margin-top:16px;padding:14px 20px;background:#F1EDF8;border-left:4px solid #460B28;font-size:13px;line-height:1.55;color:#191919;border-radius:4px;"><strong style="color:#460B28;">How to read:</strong> Grey bar = the brand's overall reliability profile. Green bar = the reliability of the cars Clutch actually delivers to customers. The gap between them is the Clutch Certified lift.</div>
 </div>
 <script>
 (function(){
@@ -413,13 +413,13 @@
   .kc .bar { height:100%; border-radius:4px; display:flex; align-items:center; justify-content:flex-end; padding-right:10px; color:#fff; font-weight:700; font-size:16px; }
   .kc .bar.rust { background:#8B4513; }
   .kc .bar.engine { background:#FF464C; }
-  .kc .bar.drive { background:#550E30; }
+  .kc .bar.drive { background:#460B28; }
   .kc .bar.leaks { background:#3B82C4; }
   .kc .bar.mods { background:#A855F7; }
   .kc .bar.cos { background:#F59E0B; }
   .kc .n { text-align:right; font-size:12px; font-weight:600; color:#191919; }
-  .kc .note { background:#F1EDF8; border-left:4px solid #550E30; padding:14px 20px; margin-top:24px; font-size:13px; line-height:1.55; color:#191919; border-radius:4px; }
-  .kc .note strong { color:#550E30; }
+  .kc .note { background:#F1EDF8; border-left:4px solid #460B28; padding:14px 20px; margin-top:24px; font-size:13px; line-height:1.55; color:#191919; border-radius:4px; }
+  .kc .note strong { color:#460B28; }
 </style>
 <div class="kc">
   <h2>What Kills Cars in Canada?</h2>
@@ -503,7 +503,7 @@
   .hyb .sub { color:#666; font-size:14px; margin:6px auto 28px; text-align:center; font-weight:500; max-width:680px; line-height:1.5; }
   .hyb .panels { display:grid; grid-template-columns: 1fr 1fr; gap:28px; margin-bottom:20px; }
   .hyb .panel-title { font-size:16px; font-weight:700; color:#191919; margin:0 0 14px; text-align:center; }
-  .hyb .panel-title .age-tag { color:#550E30; font-weight:800; }
+  .hyb .panel-title .age-tag { color:#460B28; font-weight:800; }
   .hyb .row { display:grid; grid-template-columns: 90px 1fr 58px; gap:10px; align-items:center; margin:12px 0; }
   .hyb .ft-name { font-weight:700; font-size:14px; color:#191919; }
   .hyb .ft-sub  { display:block; font-size:10px; color:#666; font-weight:500; margin-top:1px; }
@@ -511,9 +511,9 @@
   .hyb .bar { height:100%; border-radius:4px; display:flex; align-items:center; justify-content:flex-end; padding-right:10px; color:#fff; font-weight:700; font-size:15px; }
   .hyb .bar.hybrid { background:#1A8754; }
   .hyb .bar.gas { background:#8A8A8A; }
-  .hyb .bar.electric { background:#550E30; }
-  .hyb .note { background:#F1EDF8; border-left:4px solid #550E30; padding:14px 20px; margin-top:8px; font-size:14px; line-height:1.55; color:#191919; border-radius:4px; font-weight:500; }
-  .hyb .note strong { color:#550E30; }
+  .hyb .bar.electric { background:#460B28; }
+  .hyb .note { background:#F1EDF8; border-left:4px solid #460B28; padding:14px 20px; margin-top:8px; font-size:14px; line-height:1.55; color:#191919; border-radius:4px; font-weight:500; }
+  .hyb .note strong { color:#460B28; }
 </style>
 <div class="hyb">
   <h2>Hybrids Beat Gas <em>and</em> Electric</h2>
@@ -551,7 +551,7 @@
 <style>
   .lux { font-family:'CircularXX','Poppins',-apple-system,BlinkMacSystemFont,sans-serif; max-width:800px; margin:0 auto; }
   .lux h2 { color:#191919; font-size:30px; font-weight:700; margin:0; text-align:center; letter-spacing:-0.3px; }
-  .lux .sub { color:#550E30; font-size:15px; margin:8px auto 32px; text-align:center; font-weight:500; max-width:620px; line-height:1.5; }
+  .lux .sub { color:#460B28; font-size:15px; margin:8px auto 32px; text-align:center; font-weight:500; max-width:620px; line-height:1.5; }
   .lux .chart { display:grid; grid-template-columns: 1fr 1fr 1fr; gap:24px; margin-bottom:28px; }
   .lux .make-col { text-align:center; }
   .lux .make-name { font-size:20px; font-weight:700; margin:0 0 4px; }
@@ -565,8 +565,8 @@
   .lux .verdict { display:block; text-align:center; font-size:24px; font-weight:700; margin-top:24px; }
   .lux .verdict .mult { color:#FF464C; }
   .lux .verdict .bench { color:#1A8754; }
-  .lux .note { background:#F1EDF8; border-left:4px solid #550E30; padding:14px 20px; margin-top:28px; font-size:13px; line-height:1.55; color:#191919; border-radius:4px; }
-  .lux .note strong { color:#550E30; }
+  .lux .note { background:#F1EDF8; border-left:4px solid #460B28; padding:14px 20px; margin-top:28px; font-size:13px; line-height:1.55; color:#191919; border-radius:4px; }
+  .lux .note strong { color:#460B28; }
 </style>
 <div class="lux">
   <h2>Premium Price, Premium Problems</h2>
@@ -643,11 +643,11 @@
 <style>
   .evc { font-family:'CircularXX','Poppins',-apple-system,BlinkMacSystemFont,sans-serif; max-width:820px; margin:0 auto; }
   .evc h2 { color:#191919; font-size:30px; font-weight:700; margin:0; text-align:center; letter-spacing:-0.3px; }
-  .evc .sub { color:#550E30; font-size:15px; margin:8px auto 24px; text-align:center; font-weight:500; max-width:680px; line-height:1.5; }
+  .evc .sub { color:#460B28; font-size:15px; margin:8px auto 24px; text-align:center; font-weight:500; max-width:680px; line-height:1.5; }
   .evc .section-h { font-size:14px; font-weight:700; color:#191919; text-transform:uppercase; letter-spacing:0.5px; margin:24px 0 12px; text-align:center; }
   .evc .overall { background:#FAFAFA; border:1px solid #EDEDED; border-radius:10px; padding:18px 22px; margin-bottom:24px; }
   .evc .overall-row { display:grid; grid-template-columns:80px 1fr 1fr; align-items:center; gap:16px; margin:10px 0; }
-  .evc .age-tag { font-size:12px; font-weight:700; color:#550E30; text-transform:uppercase; letter-spacing:0.4px; }
+  .evc .age-tag { font-size:12px; font-weight:700; color:#460B28; text-transform:uppercase; letter-spacing:0.4px; }
   .evc .group { display:grid; grid-template-columns:90px 1fr 56px; gap:8px; align-items:center; font-size:12px; }
   .evc .group .name { font-weight:700; color:#191919; }
   .evc .group .name.tesla { color:#212121; }
@@ -670,14 +670,14 @@
   .evc .bars .label { font-weight:600; color:#191919; }
   .evc .bar-wrap { background:rgba(255,255,255,0.55); height:18px; border-radius:3px; overflow:hidden; }
   .evc .bar { height:100%; border-radius:3px; }
-  .evc .bar.tesla { background:#550E30; }
+  .evc .bar.tesla { background:#460B28; }
   .evc .bar.other { background:#8A8A8A; }
   .evc .bar-value { text-align:right; font-weight:700; font-size:12px; color:#191919; font-variant-numeric:tabular-nums; }
   .evc .verdict { text-align:center; font-size:14px; font-weight:700; margin-top:14px; padding:8px; border-radius:4px; }
   .evc .panel.win .verdict { background:rgba(26,135,84,0.18); color:#0F6940; }
   .evc .panel.lose .verdict { background:rgba(255,70,76,0.18); color:#B92B30; }
-  .evc .conclusion { background:#F1EDF8; border-left:4px solid #550E30; padding:16px 20px; font-size:14px; line-height:1.55; color:#191919; border-radius:4px; font-weight:500; }
-  .evc .conclusion strong { color:#550E30; }
+  .evc .conclusion { background:#F1EDF8; border-left:4px solid #460B28; padding:16px 20px; font-size:14px; line-height:1.55; color:#191919; border-radius:4px; font-weight:500; }
+  .evc .conclusion strong { color:#460B28; }
 </style>
 <div class="evc">
   <h2>It's Not an EV Issue. It's a Tesla Issue.</h2>
@@ -703,12 +703,12 @@
       <div class="panel-sub">Powertrain, electrical &amp; tech systems — where any EV should outperform ICE.</div>
       <div class="metric">
         <div class="metric-label">Powertrain issues per 100 purchased</div>
-        <div class="bars"><span class="label" style="color:#550E30;">Tesla</span><div class="bar-wrap"><div class="bar tesla" style="width:15%;"></div></div><span class="bar-value">0.22</span></div>
+        <div class="bars"><span class="label" style="color:#460B28;">Tesla</span><div class="bar-wrap"><div class="bar tesla" style="width:15%;"></div></div><span class="bar-value">0.22</span></div>
         <div class="bars"><span class="label" style="color:#8A8A8A;">Other EVs</span><div class="bar-wrap"><div class="bar other" style="width:100%;"></div></div><span class="bar-value">1.48</span></div>
       </div>
       <div class="metric">
         <div class="metric-label">Electrical / tech issues per 100 purchased</div>
-        <div class="bars"><span class="label" style="color:#550E30;">Tesla</span><div class="bar-wrap"><div class="bar tesla" style="width:80%;"></div></div><span class="bar-value">4.32</span></div>
+        <div class="bars"><span class="label" style="color:#460B28;">Tesla</span><div class="bar-wrap"><div class="bar tesla" style="width:80%;"></div></div><span class="bar-value">4.32</span></div>
         <div class="bars"><span class="label" style="color:#8A8A8A;">Other EVs</span><div class="bar-wrap"><div class="bar other" style="width:100%;"></div></div><span class="bar-value">5.42</span></div>
       </div>
       <div class="verdict">Tesla matches or beats other EVs</div>
@@ -718,12 +718,12 @@
       <div class="panel-sub">Brakes &amp; suspension, body &amp; glass — physical assembly, not EV architecture.</div>
       <div class="metric">
         <div class="metric-label">Brakes &amp; suspension issues per 100 purchased</div>
-        <div class="bars"><span class="label" style="color:#550E30;">Tesla</span><div class="bar-wrap"><div class="bar tesla" style="width:100%;"></div></div><span class="bar-value">3.74</span></div>
+        <div class="bars"><span class="label" style="color:#460B28;">Tesla</span><div class="bar-wrap"><div class="bar tesla" style="width:100%;"></div></div><span class="bar-value">3.74</span></div>
         <div class="bars"><span class="label" style="color:#8A8A8A;">Other EVs</span><div class="bar-wrap"><div class="bar other" style="width:53%;"></div></div><span class="bar-value">1.97</span></div>
       </div>
       <div class="metric">
         <div class="metric-label">Body &amp; glass issues per 100 purchased</div>
-        <div class="bars"><span class="label" style="color:#550E30;">Tesla</span><div class="bar-wrap"><div class="bar tesla" style="width:100%;"></div></div><span class="bar-value">2.16</span></div>
+        <div class="bars"><span class="label" style="color:#460B28;">Tesla</span><div class="bar-wrap"><div class="bar tesla" style="width:100%;"></div></div><span class="bar-value">2.16</span></div>
         <div class="bars"><span class="label" style="color:#8A8A8A;">Other EVs</span><div class="bar-wrap"><div class="bar other" style="width:34%;"></div></div><span class="bar-value">0.74</span></div>
       </div>
       <div class="verdict">Tesla 2–3× worse than other EVs</div>

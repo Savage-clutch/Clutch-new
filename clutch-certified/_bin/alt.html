@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clutch Certified — Alt</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'CircularXX';
+      src: url('../fonts/CircularXX-Regular.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+    }
+  </style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #FF3B3B;
+      --white: #ffffff;
+      --dim: rgba(255,255,255,0.45);
+      --rule: rgba(255,255,255,0.1);
+      --mono: 'Space Mono', 'Courier New', monospace;
+      --sans: 'CircularXX', -apple-system, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: #000;
+      color: var(--white);
+      font-family: var(--sans);
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 48px;
+      mix-blend-mode: normal;
+    }
+    .nav__logo {
+      height: 20px;
+      display: block;
+      filter: brightness(0) invert(1);
+    }
+    .nav__link {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--dim);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+    .nav__link:hover { color: var(--white); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .hero__video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.55;
+    }
+    .hero__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%);
+    }
+    .hero__content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+    .hero__eyebrow {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .hero__headline {
+      font-size: clamp(56px, 8vw, 120px);
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      margin-bottom: 32px;
+    }
+    .hero__sub {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--dim);
+      letter-spacing: 0.08em;
+    }
+    .hero__scroll {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .hero__scroll-line {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+      animation: scroll-line 1.8s ease-in-out infinite;
+    }
+    @keyframes scroll-line {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(0.6); }
+    }
+
+    /* ── RULE ── */
+    .rule {
+      width: 100%;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    /* ── STATS ── */
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      border-bottom: 1px solid var(--rule);
+    }
+    .stat {
+      padding: 72px 60px;
+      border-right: 1px solid var(--rule);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .stat:last-child { border-right: none; }
+    .stat__number {
+      font-size: clamp(48px, 5vw, 80px);
+      font-weight: 400;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+    .stat__number span { color: var(--red); }
+    .stat__label {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--dim);
+      letter-spacing: 0.08em;
+      line-height: 1.6;
+    }
+
+    /* ── FULL BLEED IMAGE ── */
+    .full-bleed {
+      width: 100%;
+      display: block;
+      aspect-ratio: 16/7;
+      object-fit: cover;
+      object-position: center 30%;
+    }
+
+    /* ── SPLIT BLOCK ── */
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 640px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .split--flip { direction: rtl; }
+    .split--flip > * { direction: ltr; }
+    .split__text {
+      padding: 100px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 32px;
+      border-right: 1px solid var(--rule);
+    }
+    .split--flip .split__text { border-right: none; border-left: 1px solid var(--rule); }
+    .split__img {
+      overflow: hidden;
+    }
+    .split__img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 8s ease;
+    }
+    .split__img:hover img { transform: scale(1.04); }
+
+    .section-tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--red);
+      text-transform: uppercase;
+    }
+    .section-headline {
+      font-size: clamp(32px, 3.5vw, 52px);
+      font-weight: 400;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+    .section-body {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--dim);
+      line-height: 1.75;
+      max-width: 400px;
+    }
+
+    /* ── SPEC SHEET ── */
+    .spec-section {
+      padding: 100px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .spec-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 60px;
+    }
+    .spec-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 64px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .spec-header__title {
+      font-size: clamp(28px, 3vw, 44px);
+      font-weight: 400;
+      letter-spacing: -0.03em;
+    }
+    .spec-header__count {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--dim);
+      letter-spacing: 0.1em;
+    }
+    .spec-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+    .spec-category {
+      padding: 40px 0;
+      padding-right: 48px;
+      border-right: 1px solid var(--rule);
+      padding-left: 0;
+    }
+    .spec-category:nth-child(3n) { border-right: none; padding-right: 0; }
+    .spec-category:nth-child(n+4) { border-top: 1px solid var(--rule); }
+    .spec-category { padding-left: 0; }
+    .spec-category:nth-child(3n+2) { padding-left: 48px; }
+    .spec-category:nth-child(3n) { padding-left: 48px; }
+    .spec-cat__label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .spec-cat__name {
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .spec-cat__items {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .spec-cat__items li {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--dim);
+      letter-spacing: 0.02em;
+      padding-left: 12px;
+      position: relative;
+    }
+    .spec-cat__items li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: rgba(255,255,255,0.2);
+    }
+
+    /* ── FULL BLEED VIDEO ── */
+    .video-block {
+      position: relative;
+      aspect-ratio: 16/7;
+      overflow: hidden;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+    .video-block__video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 1;
+    }
+    .video-block__caption {
+      position: absolute;
+      bottom: 48px;
+      left: 60px;
+      right: 60px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+    .video-block__text {
+      font-size: clamp(28px, 3.5vw, 48px);
+      font-weight: 400;
+      letter-spacing: -0.03em;
+      max-width: 600px;
+      line-height: 1.1;
+    }
+    .video-block__tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--dim);
+      letter-spacing: 0.1em;
+    }
+
+    /* ── BADGE SECTION ── */
+    .badge-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 160px 60px;
+      text-align: center;
+      gap: 48px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .badge-section__badge {
+      width: 120px;
+      height: 120px;
+    }
+    .badge-section__headline {
+      font-size: clamp(32px, 4vw, 60px);
+      font-weight: 400;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      max-width: 700px;
+    }
+    .badge-section__sub {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--dim);
+      letter-spacing: 0.08em;
+      max-width: 480px;
+      line-height: 1.8;
+    }
+
+    /* ── FINAL CTA ── */
+    .final {
+      padding: 120px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--rule);
+    }
+    .final__headline {
+      font-size: clamp(32px, 4vw, 56px);
+      font-weight: 400;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+    .final__link {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--white);
+      text-decoration: none;
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      padding-bottom: 4px;
+      transition: border-color 0.2s, gap 0.2s;
+      flex-shrink: 0;
+    }
+    .final__link:hover { border-color: var(--white); gap: 18px; }
+    .final__link svg { transition: transform 0.2s; }
+    .final__link:hover svg { transform: translateX(4px); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 40px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    footer img { height: 16px; filter: brightness(0) invert(1); opacity: 0.4; }
+    footer span {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.1em;
+    }
+
+    /* ── FADE IN ON SCROLL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <img class="nav__logo" src="assets/logo-red.png" alt="Clutch">
+    <a class="nav__link" href="https://www.clutch.ca/cars" target="_blank" rel="noopener">Browse certified cars →</a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <video class="hero__video" src="assets/car-side.mp4" autoplay loop muted playsinline></video>
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+      <p class="hero__eyebrow">Certified Standard</p>
+      <h1 class="hero__headline">Clutch Certified.</h1>
+      <p class="hero__sub">Not every car makes it.</p>
+    </div>
+    <div class="hero__scroll">
+      <div class="hero__scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat reveal">
+      <div class="stat__number">70,000<span>+</span></div>
+      <div class="stat__label">Vehicles inspected<br>to date</div>
+    </div>
+    <div class="stat reveal" style="transition-delay:0.1s">
+      <div class="stat__number">210</div>
+      <div class="stat__label">Point inspection<br>checklist</div>
+    </div>
+    <div class="stat reveal" style="transition-delay:0.2s">
+      <div class="stat__number">22</div>
+      <div class="stat__label">Certified mechanics<br>per vehicle</div>
+    </div>
+  </div>
+
+
+  <!-- Split: Inspection -->
+  <div class="split">
+    <div class="split__text reveal">
+      <span class="section-tag">Step 01 — Inspect</span>
+      <h2 class="section-headline">210 points.<br>No exceptions.</h2>
+      <p class="section-body">Every Clutch Certified vehicle is evaluated against a 210-point checklist by our certified mechanics. Structural, mechanical, electrical — everything is documented. If it doesn't pass, it doesn't move forward.</p>
+    </div>
+    <div class="split__img">
+      <img src="assets/Engine.webp" alt="Engine inspection">
+    </div>
+  </div>
+
+  <!-- Spec sheet -->
+  <section class="spec-section">
+    <div class="spec-inner">
+      <div class="spec-header reveal">
+        <h2 class="spec-header__title">Inspection categories</h2>
+        <span class="spec-header__count">210 checkpoints / 6 categories</span>
+      </div>
+      <div class="spec-grid">
+        <div class="spec-category reveal">
+          <p class="spec-cat__label">01</p>
+          <p class="spec-cat__name">Engine & Drivetrain</p>
+          <ul class="spec-cat__items">
+            <li>Engine oil & fluid levels</li>
+            <li>Coolant & hoses</li>
+            <li>Belts & timing</li>
+            <li>Transmission condition</li>
+            <li>Differential & axles</li>
+            <li>Exhaust system</li>
+          </ul>
+        </div>
+        <div class="spec-category reveal" style="transition-delay:0.08s">
+          <p class="spec-cat__label">02</p>
+          <p class="spec-cat__name">Brakes & Suspension</p>
+          <ul class="spec-cat__items">
+            <li>Brake pad thickness</li>
+            <li>Rotor condition</li>
+            <li>Brake lines & fluid</li>
+            <li>Shocks & struts</li>
+            <li>Control arms & bushings</li>
+            <li>Wheel bearings</li>
+          </ul>
+        </div>
+        <div class="spec-category reveal" style="transition-delay:0.16s">
+          <p class="spec-cat__label">03</p>
+          <p class="spec-cat__name">Electrical & HVAC</p>
+          <ul class="spec-cat__items">
+            <li>Battery & charging system</li>
+            <li>All lights & signals</li>
+            <li>Heating & A/C</li>
+            <li>Windows & locks</li>
+            <li>OBD diagnostics</li>
+            <li>Infotainment & cameras</li>
+          </ul>
+        </div>
+        <div class="spec-category reveal" style="transition-delay:0.0s">
+          <p class="spec-cat__label">04</p>
+          <p class="spec-cat__name">Body & Frame</p>
+          <ul class="spec-cat__items">
+            <li>Panel alignment</li>
+            <li>Paint condition</li>
+            <li>Glass & seals</li>
+            <li>Frame integrity</li>
+            <li>Rust & corrosion check</li>
+            <li>Door & trunk operation</li>
+          </ul>
+        </div>
+        <div class="spec-category reveal" style="transition-delay:0.08s">
+          <p class="spec-cat__label">05</p>
+          <p class="spec-cat__name">Underbody</p>
+          <ul class="spec-cat__items">
+            <li>Subframe & crossmembers</li>
+            <li>Steering rack & linkage</li>
+            <li>CV joints & boots</li>
+            <li>Fuel lines & tank</li>
+            <li>Exhaust mounts</li>
+            <li>Underbody coating</li>
+          </ul>
+        </div>
+        <div class="spec-category reveal" style="transition-delay:0.16s">
+          <p class="spec-cat__label">06</p>
+          <p class="spec-cat__name">Road Test</p>
+          <ul class="spec-cat__items">
+            <li>Cold & warm start</li>
+            <li>Acceleration & braking</li>
+            <li>Steering response</li>
+            <li>Transmission shift quality</li>
+            <li>NVH evaluation</li>
+            <li>Up to 3 mechanic sign-offs</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Road test video -->
+  <div class="video-block">
+    <video class="video-block__video" src="assets/car-side-2.mp4" autoplay loop muted playsinline></video>
+    <div class="video-block__caption">
+      <p class="video-block__text reveal">Up to three mechanic-led road tests. Each one signed off independently.</p>
+      <span class="video-block__tag">Step 02 — Road Test</span>
+    </div>
+  </div>
+
+  <!-- Split: Reconditioning -->
+  <div class="split split--flip">
+    <div class="split__text reveal">
+      <span class="section-tag">Step 02 — Recondition</span>
+      <h2 class="section-headline">Fixed before<br>it's listed.</h2>
+      <p class="section-body">Whatever the inspection flags, gets fixed. Brakes, suspension, glass, tires, detailing — every Clutch Certified vehicle is reconditioned to standard before it ever reaches a customer.</p>
+    </div>
+    <div class="split__img">
+      <img src="assets/detailing-photo.webp" alt="Reconditioning">
+    </div>
+  </div>
+
+  <!-- Split: Stored -->
+  <div class="split">
+    <div class="split__text reveal">
+      <span class="section-tag">Step 03 — Listed</span>
+      <h2 class="section-headline">Stored, photographed,<br>ready.</h2>
+      <p class="section-body">Every certified vehicle is safely stored at our facility, photographed from every angle, and listed with full transparency — so you know exactly what you're getting.</p>
+    </div>
+    <div class="split__img">
+      <img src="assets/garage.png" alt="Clutch facility">
+    </div>
+  </div>
+
+  <!-- Badge -->
+  <div class="badge-section">
+    <img class="badge-section__badge" src="assets/3D_C-Fast.gif" alt="Clutch Certified">
+    <h2 class="badge-section__headline reveal">Only the cars that pass earn this badge.</h2>
+    <p class="badge-section__sub reveal" style="transition-delay:0.1s">Our mechanics personally sign off. The badge is earned — not assigned. It means the vehicle has been inspected, reconditioned, and cleared at every checkpoint.</p>
+  </div>
+
+  <!-- Final CTA -->
+  <div class="final">
+    <h2 class="final__headline reveal">See every car<br>that made it.</h2>
+    <a class="final__link" href="https://www.clutch.ca/cars" target="_blank" rel="noopener">
+      Browse certified cars
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <img src="assets/logo-red.png" alt="Clutch">
+    <span>© 2025 Clutch Technologies Inc.</span>
+  </footer>
+
+  <script>
+    // Reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

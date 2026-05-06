@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signature Preview — Superhuman Simulator</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #1a1a1a; }
+
+  /* ── TOGGLE BAR ── */
+  .toggle-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 20px;
+    background: #111;
+    border-bottom: 1px solid #2a2a2a;
+  }
+  .toggle-bar span { font-size: 12px; color: #666; }
+  .device-btn {
+    background: none;
+    border: 1px solid #444;
+    color: #aaa;
+    padding: 5px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .device-btn.active { background: #333; border-color: #666; color: #fff; }
+  .device-btn:hover:not(.active) { border-color: #555; color: #ccc; }
+  .sep { width: 1px; height: 16px; background: #333; }
+
+  /* ── DESKTOP SHELL ── */
+  .desktop-shell {
+    display: flex;
+    height: calc(100vh - 41px);
+  }
+
+  /* sidebar */
+  .sh-sidebar {
+    width: 220px;
+    background: #111;
+    border-right: 1px solid #222;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 0;
+    flex-shrink: 0;
+  }
+  .sh-sidebar-logo {
+    padding: 0 18px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sh-sidebar-logo svg { color: #fff; }
+  .sh-sidebar-logo span { font-size: 14px; font-weight: 600; color: #fff; letter-spacing: 0.3px; }
+  .sh-nav-item {
+    padding: 7px 18px;
+    font-size: 13px;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: default;
+  }
+  .sh-nav-item.active { color: #fff; background: rgba(255,255,255,0.06); }
+  .sh-nav-item .badge {
+    margin-left: auto;
+    background: #e74c3c;
+    color: #fff;
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+
+  /* list pane */
+  .sh-list {
+    width: 280px;
+    background: #161616;
+    border-right: 1px solid #222;
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+  .sh-list-header {
+    padding: 14px 16px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    color: #444;
+    text-transform: uppercase;
+    border-bottom: 1px solid #1f1f1f;
+  }
+  .sh-email-row {
+    padding: 12px 16px;
+    border-bottom: 1px solid #1f1f1f;
+    cursor: default;
+  }
+  .sh-email-row.active { background: rgba(255,255,255,0.05); }
+  .sh-email-row-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 3px;
+  }
+  .sh-email-sender { font-size: 13px; color: #ccc; font-weight: 500; }
+  .sh-email-time { font-size: 11px; color: #444; }
+  .sh-email-subject { font-size: 12px; color: #777; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sh-email-row.active .sh-email-sender { color: #fff; }
+  .sh-email-row.active .sh-email-subject { color: #999; }
+
+  /* detail pane */
+  .sh-detail {
+    flex: 1;
+    background: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .sh-detail-header {
+    padding: 20px 32px 16px;
+    border-bottom: 1px solid #222;
+  }
+  .sh-detail-subject { font-size: 20px; color: #fff; font-weight: 500; margin-bottom: 4px; }
+  .sh-detail-meta { font-size: 12px; color: #555; }
+  .sh-detail-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 32px;
+  }
+  .sh-message {
+    background: #222;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+  .sh-message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #2a2a2a;
+  }
+  .sh-sender-name { font-size: 14px; color: #ddd; font-weight: 500; }
+  .sh-message-time { font-size: 12px; color: #555; }
+  .sh-message-body {
+    font-size: 14px;
+    color: #aaa;
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+  .sh-sig-divider {
+    border: none;
+    border-top: 1px solid #333;
+    margin: 16px 0;
+  }
+  .sh-actions {
+    display: flex;
+    gap: 8px;
+    padding: 14px 32px;
+    border-top: 1px solid #222;
+  }
+  .sh-action-btn {
+    background: #2a2a2a;
+    border: 1px solid #333;
+    color: #aaa;
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: default;
+  }
+
+  /* ── MOBILE SHELL ── */
+  .mobile-shell {
+    display: none;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 0;
+    height: calc(100vh - 41px);
+    overflow-y: auto;
+  }
+  .iphone-frame {
+    width: 390px;
+    background: #1c1c1e;
+    border-radius: 48px;
+    overflow: hidden;
+    box-shadow: 0 0 0 10px #2a2a2a, 0 30px 80px rgba(0,0,0,0.8);
+    position: relative;
+  }
+  .iphone-status {
+    padding: 14px 28px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1c1c1e;
+  }
+  .iphone-status-time { font-size: 15px; font-weight: 600; color: #fff; }
+  .iphone-status-icons { display: flex; gap: 5px; align-items: center; color: #fff; font-size: 12px; }
+  .m-nav-bar {
+    background: #1c1c1e;
+    padding: 8px 16px 4px;
+    border-bottom: 1px solid #2a2a2a;
+  }
+  .m-nav-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .m-back { font-size: 14px; color: #6b8cff; }
+  .m-nav-actions { display: flex; gap: 16px; align-items: center; }
+  .m-nav-actions svg { color: #6b8cff; }
+  .m-sender-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    background: #1c1c1e;
+  }
+  .m-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4a9eff, #6b8cff);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 600; color: #fff; flex-shrink: 0;
+  }
+  .m-sender-info { flex: 1; }
+  .m-sender-name { font-size: 14px; font-weight: 600; color: #fff; }
+  .m-sender-role { font-size: 12px; color: #888; }
+  .m-email-content {
+    padding: 12px 16px;
+    background: #1c1c1e;
+  }
+  .m-subject { font-size: 18px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+  .m-preview { font-size: 13px; color: #888; margin-bottom: 12px; }
+  .m-from-line { font-size: 12px; color: #666; margin-bottom: 14px; }
+  .m-body-text { font-size: 14px; color: #999; line-height: 1.6; margin-bottom: 16px; }
+  .m-sig-wrap {
+    background: #fff;
+    border-radius: 10px;
+    padding: 16px;
+    margin: 0 0 12px;
+  }
+  .m-divider { border: none; border-top: 1px solid #2a2a2a; margin: 10px 0; }
+  .m-actions {
+    display: flex;
+    gap: 8px;
+    padding: 12px 16px;
+    background: #1c1c1e;
+    border-top: 1px solid #2a2a2a;
+  }
+  .m-action-btn {
+    flex: 1;
+    background: #2a2a2a;
+    border: 1px solid #333;
+    color: #aaa;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    text-align: center;
+    cursor: default;
+  }
+  .m-home-indicator {
+    height: 34px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 8px;
+    background: #1c1c1e;
+  }
+  .m-home-bar {
+    width: 120px; height: 5px;
+    background: #fff;
+    border-radius: 3px;
+    opacity: 0.3;
+  }
+</style>
+</head>
+<body>
+
+<div class="toggle-bar">
+  <span>Superhuman Preview</span>
+  <div class="sep"></div>
+  <button class="device-btn active" id="btnDesktop" onclick="setView('desktop')">Desktop</button>
+  <button class="device-btn" id="btnMobile" onclick="setView('mobile')">Mobile</button>
+</div>
+
+<!-- DESKTOP -->
+<div class="desktop-shell" id="desktopShell">
+  <div class="sh-sidebar">
+    <div class="sh-sidebar-logo">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      <span>Superhuman</span>
+    </div>
+    <div class="sh-nav-item active">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Inbox
+      <span class="badge">3</span>
+    </div>
+    <div class="sh-nav-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      Sent
+    </div>
+    <div class="sh-nav-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Drafts
+    </div>
+  </div>
+
+  <div class="sh-list">
+    <div class="sh-list-header">Inbox</div>
+    <div class="sh-email-row active">
+      <div class="sh-email-row-top">
+        <span class="sh-email-sender" id="d-list-sender">First Last</span>
+        <span class="sh-email-time">Now</span>
+      </div>
+      <div class="sh-email-subject">test signature</div>
+    </div>
+    <div class="sh-email-row">
+      <div class="sh-email-row-top">
+        <span class="sh-email-sender">Sarah Chen</span>
+        <span class="sh-email-time">2h</span>
+      </div>
+      <div class="sh-email-subject">Q2 campaign brief — ready for review</div>
+    </div>
+    <div class="sh-email-row">
+      <div class="sh-email-row-top">
+        <span class="sh-email-sender">Dev Team</span>
+        <span class="sh-email-time">Yesterday</span>
+      </div>
+      <div class="sh-email-subject">Deploy complete ✓</div>
+    </div>
+  </div>
+
+  <div class="sh-detail">
+    <div class="sh-detail-header">
+      <div class="sh-detail-subject">test signature</div>
+      <div class="sh-detail-meta" id="d-detail-meta">First Last tests email signature</div>
+    </div>
+    <div class="sh-detail-body">
+      <div class="sh-message">
+        <div class="sh-message-header">
+          <span class="sh-sender-name" id="d-msg-sender">First Last</span>
+          <span class="sh-message-time">Today at 6:41 PM</span>
+        </div>
+        <div class="sh-message-body">Hi team,<br><br>Testing my new email signature — let me know if anything looks off.</div>
+        <hr class="sh-sig-divider">
+        <div id="desktopSigMount"></div>
+      </div>
+    </div>
+    <div class="sh-actions">
+      <div class="sh-action-btn">Reply</div>
+      <div class="sh-action-btn">Reply All</div>
+      <div class="sh-action-btn">Forward</div>
+    </div>
+  </div>
+</div>
+
+<!-- MOBILE -->
+<div class="mobile-shell" id="mobileShell">
+  <div class="iphone-frame">
+    <div class="iphone-status">
+      <span class="iphone-status-time">6:42</span>
+      <div class="iphone-status-icons">
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2.5" width="3" height="9.5" rx="1"/><rect x="8" y="0.5" width="3" height="11.5" rx="1"/><rect x="12" y="0" width="3.5" height="12" rx="1" opacity="0.3"/></svg>
+        <svg width="15" height="11" viewBox="0 0 15 11" fill="currentColor"><path d="M7.5 2.2C9.8 2.2 11.9 3.1 13.4 4.6L15 3C13.1 1.1 10.4 0 7.5 0S1.9 1.1 0 3l1.6 1.6C3.1 3.1 5.2 2.2 7.5 2.2zm0 3.3c1.4 0 2.6.5 3.5 1.4L12.5 5.5C11.2 4.2 9.4 3.4 7.5 3.4S3.8 4.2 2.5 5.5L4 6.9C4.9 6 6.1 5.5 7.5 5.5zm0 3.3c.8 0 1.5.3 2 .8L11 8a5.1 5.1 0 0 0-3.5-1.4c-1.3 0-2.6.5-3.5 1.4l1.5 1.4c.5-.5 1.2-.8 2-.8zm0 2.2a1.1 1.1 0 1 0 0-2.2 1.1 1.1 0 0 0 0 2.2z"/></svg>
+        <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0" y="1" width="22" height="10" rx="2" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/><rect x="23" y="3.5" width="2" height="5" rx="1" opacity="0.4"/><rect x="1" y="2" width="13" height="8" rx="1" opacity="0.9"/></svg>
+      </div>
+    </div>
+
+    <div class="m-nav-bar">
+      <div class="m-nav-top">
+        <span class="m-back">‹ Inbox</span>
+        <div class="m-nav-actions">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="m-sender-row">
+      <div class="m-avatar" id="m-avatar">FL</div>
+      <div class="m-sender-info">
+        <div class="m-sender-name" id="m-sender-name">First Last</div>
+        <div class="m-sender-role" id="m-sender-role">Job Title at Clutch</div>
+      </div>
+    </div>
+
+    <div class="m-email-content">
+      <div class="m-subject">test signature</div>
+      <div class="m-preview" id="m-preview">First Last tests email signature »</div>
+      <div class="m-from-line" id="m-from-line">First Last · 6:41PM</div>
+      <div class="m-body-text">Hi team,<br><br>Testing my new email signature.</div>
+      <div class="m-sig-wrap">
+        <div id="mobileSigMount"></div>
+      </div>
+    </div>
+
+    <div class="m-actions">
+      <div class="m-action-btn">⭐</div>
+      <div class="m-action-btn">🕐</div>
+      <div class="m-action-btn">✓</div>
+      <div class="m-action-btn">Reply All ›</div>
+    </div>
+
+    <div class="m-home-indicator"><div class="m-home-bar"></div></div>
+  </div>
+</div>
+
+<script>
+  // ── Build sig HTML (same logic as generator) ──────────────────
+  function buildSig(name, title, phone, email) {
+    return `<table cellpadding="0" cellspacing="0" border="0" bgcolor="ffffff" style="font-family:Arial,Helvetica,sans-serif;color:#000000;background-color:#ffffff;">
+  <tr>
+    <td style="padding-right:6px;vertical-align:middle;">
+      <img src="https://i.imgur.com/RTNSMBt.png" width="115" alt="Clutch" style="display:block;">
+    </td>
+    <td style="width:1px;padding:0;background-color:#e6e6e6;"></td>
+    <td style="padding-left:18px;padding-top:10px;padding-bottom:10px;vertical-align:middle;">
+      <div style="font-size:16px;font-weight:700;color:#000000;line-height:1.2;">${name}</div>
+      <div style="font-size:13px;font-weight:400;color:#000000;margin-top:1px;line-height:1.15;">${title}</div>
+      <div style="height:10px;"></div>
+      <div style="font-size:11px;color:#777777;line-height:1.5;">${phone}</div>
+      <div style="font-size:11px;color:#777777;line-height:1.5;margin-bottom:8px;">
+        <a href="mailto:${email}" style="color:#777777;text-decoration:none;">${email}</a>
+      </div>
+      <div style="font-size:11px;color:#777777;line-height:1.5;margin-bottom:8px;">
+        <a href="#" style="color:#777777;text-decoration:none;">LinkedIn</a>
+        <span style="padding:0 5px;color:#bbbbbb;">|</span>
+        <a href="#" style="color:#777777;text-decoration:none;">FB</a>
+        <span style="padding:0 5px;color:#bbbbbb;">|</span>
+        <a href="#" style="color:#777777;text-decoration:none;">IG</a>
+        <span style="padding:0 5px;color:#bbbbbb;">|</span>
+        <a href="#" style="color:#777777;text-decoration:none;">YT</a>
+      </div>
+      <img src="https://i.imgur.com/KUXzoFI.png" alt="Official Partner of the NBA" width="50" style="display:block;">
+    </td>
+  </tr>
+</table>`;
+  }
+
+  function updatePreviews() {
+    const name  = document.getElementById('previewName').value.trim()  || 'First Last';
+    const title = document.getElementById('previewTitle').value.trim() || 'Job Title';
+    const phone = document.getElementById('previewPhone').value.trim() || '(000) 000-0000';
+    const email = document.getElementById('previewEmail').value.trim() || 'name@clutch.ca';
+
+    const sig = buildSig(name, title, phone, email);
+    document.getElementById('desktopSigMount').innerHTML = sig;
+    document.getElementById('mobileSigMount').innerHTML  = sig;
+
+    // Update chrome labels
+    const initials = name.split(' ').map(w => w[0]).filter(Boolean).slice(0,2).join('').toUpperCase() || 'FL';
+    document.getElementById('d-list-sender').textContent  = name;
+    document.getElementById('d-msg-sender').textContent   = name;
+    document.getElementById('d-detail-meta').textContent  = `${name} tests email signature`;
+    document.getElementById('m-avatar').textContent       = initials;
+    document.getElementById('m-sender-name').textContent  = name;
+    document.getElementById('m-sender-role').textContent  = `${title} at Clutch`;
+    document.getElementById('m-preview').textContent      = `${name} tests email signature »`;
+    document.getElementById('m-from-line').textContent    = `${name} · 6:41PM`;
+  }
+
+  function setView(v) {
+    document.getElementById('desktopShell').style.display = v === 'desktop' ? 'flex'   : 'none';
+    document.getElementById('mobileShell').style.display  = v === 'mobile'  ? 'flex'   : 'none';
+    document.getElementById('btnDesktop').classList.toggle('active', v === 'desktop');
+    document.getElementById('btnMobile').classList.toggle('active', v === 'mobile');
+  }
+
+  updatePreviews();
+</script>
+
+<!-- Floating input bar -->
+<div style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111;border:1px solid #333;border-radius:12px;padding:12px 16px;display:flex;gap:10px;align-items:center;z-index:100;box-shadow:0 8px 32px rgba(0,0,0,0.6);">
+  <input id="previewName"  oninput="updatePreviews()" placeholder="Full Name"   style="background:#222;border:1px solid #333;color:#fff;padding:6px 10px;border-radius:6px;font-size:12px;width:120px;outline:none;">
+  <input id="previewTitle" oninput="updatePreviews()" placeholder="Job Title"   style="background:#222;border:1px solid #333;color:#fff;padding:6px 10px;border-radius:6px;font-size:12px;width:130px;outline:none;">
+  <input id="previewPhone" oninput="updatePreviews()" placeholder="Phone"       style="background:#222;border:1px solid #333;color:#fff;padding:6px 10px;border-radius:6px;font-size:12px;width:110px;outline:none;">
+  <input id="previewEmail" oninput="updatePreviews()" placeholder="Email"       style="background:#222;border:1px solid #333;color:#fff;padding:6px 10px;border-radius:6px;font-size:12px;width:140px;outline:none;">
+</div>
+
+</body>
+</html>
