@@ -125,6 +125,7 @@ body {
 
 /* ── sections ───────────────────────────────────────────────── */
 .s-block { margin-top: 72px; scroll-margin-top: 24px; }
+.s-sep { border: none; border-top: 1px solid rgba(0,0,0,.09); margin: 72px 0 0; }
 .s-num { display: none; }
 .s-block > h2 {
   font-size: clamp(24px, 3.5vw, 32px); font-weight: 800;
@@ -980,7 +981,7 @@ body.layout--blog .r-sidebar {
 
     <a class="tkw-card" href="#hybrids">
       <div class="tkw-icon"><span class="material-symbols-rounded">electric_bolt</span></div>
-      <p class="tkw-body"><strong>The "EV reliability problem" is mostly a Tesla problem.</strong> Tesla files post-sale warranty claims at 1.5x the rate of non-Tesla EVs, and the gap is uniformly in physical assembly &mdash; body panels, HVAC, brakes, suspension &mdash; not in EV technology. Non-Tesla EVs file claims at roughly hybrid rates.</p>
+      <p class="tkw-body"><strong>The "EV reliability problem" is mostly a Tesla problem.</strong> Tesla files post-sale warranty claims at 1.5x the rate of non-Tesla EVs, and the gap is uniformly in physical assembly: body panels, HVAC, brakes, suspension. Non-Tesla EVs file claims at roughly hybrid rates.</p>
     </a>
 
     <a class="tkw-card" href="#premium">
@@ -1286,6 +1287,8 @@ body.layout--blog .r-sidebar {
 
 </section>
 
+<hr class="s-sep">
+
 <!-- ── SECTION: Certified Lift ───────────────────────────────── -->
 <section class="s-block" id="lift">
   <span class="s-num">04 — The Clutch Effect</span>
@@ -1482,67 +1485,46 @@ body.layout--blog .r-sidebar {
   </div>
 </section>
 
-<!-- ── SECTION: Rust ──────────────────────────────────────────── -->
-<section class="s-block" id="rust">
-  <span class="s-num">05 — What Fails</span>
-  <h2>What's the #1 reason Canadian used cars fail inspection?</h2>
-  <div class="s-rule"></div>
-  <p><strong>Rust is Canada's leading cause of used-car failure.</strong> Nearly half of vehicles that fail our inspection show rust or corrosion (48.5%). That's more than engine failure (40.8%), and nearly triple fluid leaks (16.5%).</p>
-
-
-  <!-- V17 Rust Chart -->
-  <div class="viz" style="padding:0;overflow:hidden;">
-    <div style="padding:24px 28px 16px;">
-      <div style="font-size:clamp(24px,4vw,36px);font-weight:900;color:var(--ink);letter-spacing:-.5px;line-height:1.1;margin-bottom:6px;">What Kills Cars in Canada?</div>
-      <p style="margin:0;font-size:13.5px;color:var(--muted);font-weight:500;">The top reasons vehicles fail Clutch's 210-point inspection.</p>
-    </div>
-    <div class="brand-bars" style="border-radius:0;margin:0;">
-      <div class="brand-bar" style="background:#3A0918;color:#fff;">
-        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">water_damage</span><div><span class="brand-bar__name">Rust / Corrosion</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Frame rot, subframe corrosion, perforated body panels</div></div></div>
-        <div class="brand-bar__stat">48.5%</div>
-      </div>
-      <div class="brand-bar" style="background:#54102A;color:#fff;">
-        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">settings</span><div><span class="brand-bar__name">Engine Failure</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Knock, oil burning, piston rings, rod bearing, head gasket</div></div></div>
-        <div class="brand-bar__stat">40.8%</div>
-      </div>
-      <div class="brand-bar" style="background:#761A3D;color:#fff;">
-        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">rotate_right</span><div><span class="brand-bar__name">Drivetrain / Trans</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Differential binding, transmission whine, CVT failure</div></div></div>
-        <div class="brand-bar__stat">29.7%</div>
-      </div>
-      <div class="brand-bar" style="background:#8A2250;color:#fff;">
-        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">water_drop</span><div><span class="brand-bar__name">Fluid Leaks</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Oil pan, rear main seal, timing cover, coolant</div></div></div>
-        <div class="brand-bar__stat">16.5%</div>
-      </div>
-      <div class="brand-bar" style="background:#A83060;color:#fff;">
-        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">tune</span><div><span class="brand-bar__name">Aftermarket Mods</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Tuned ECU, aftermarket exhaust, lowered suspension. Instant wholesale.</div></div></div>
-        <div class="brand-bar__stat">16.2%</div>
-      </div>
-      <div class="brand-bar" style="background:#C4557A;color:#fff;">
-        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">format_paint</span><div><span class="brand-bar__name">Cosmetic Beyond Repair</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Paint peeling, full repaint needed, body damage beyond PDR</div></div></div>
-        <div class="brand-bar__stat">15.5%</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="s-split">
-    <div class="s-split__lede">Canadian winters don't care what badge is on the hood. Road salt is the biggest threat to a used car in Canada.</div>
-    <div class="s-split__body">
-      <p>The issues are specific: perforated frames, rotted subframes, bubbled rocker panels, corroded wheel wells, and structural rust that can't be safely welded. These aren't cosmetic problems. A rusted-through frame rail is a safety hazard.</p>
-      <p>Rust doesn't hit every brand equally. Ram (64%), Dodge (62%), Chevrolet (56%), Subaru (56%), and Tesla (57%) show the highest rust rates among vehicles that fail our inspection. But every brand on the list has a meaningful rust problem. Road salt, freeze-thaw cycles, and a five-month winter season do more damage per kilometre than the mechanical systems themselves.</p>
-      <p>Lack of routine maintenance is the multiplier on most rust failures. A vehicle that gets washed regularly and has its underbody treated holds up much better than one that doesn't, even in the same climate. Maintenance habits matter as much as where a car was driven.</p>
-      <p><strong>What this means for buyers:</strong> mileage and age are useful proxies for rust risk, but neither is a hard rule. Climate exposure and maintenance history matter as much. Cars driven in salt-belt provinces, stored outdoors, or never undercoated can be structurally compromised in ways the odometer doesn't show. Routine maintenance is the most actionable factor an owner can control: regular underbody washing through winter, prompt repair of stone-chip damage to paint and undercoating, and indoor storage when possible all slow the corrosion process. Underbody inspections, which Clutch performs on every vehicle as part of the 210-point standard, are often the deciding factor.</p>
-    </div>
-  </div>
-</section>
+<hr class="s-sep">
 
 <!-- ── SECTION: Mileage ──────────────────────────────────────── -->
 <section class="s-block" id="mileage">
-  <span class="s-num">06 — Mileage vs Brand</span>
+  <span class="s-num">05 — Mileage vs Brand</span>
   <h2>Which brands hold up at high mileage?</h2>
   <div class="s-rule"></div>
   <p><strong>When it comes to vehicle longevity, Japanese brands stay roadworthy at much higher mileage than their American, German, and Korean competitors.</strong> By 100,000 km, the average American car fails Clutch's inspection 60% more often than the average Japanese car. German cars fail 39% more often than Japanese; Korean cars fail 24% more often. A Honda at 120,000 km holds up at the same rate as a Chevrolet at 60,000 km, twice the distance for the same outcome.</p>
 
-  <!-- V11b Mileage Chart -->
+  <!-- V11c Country Aggregate Chart -->
+  <div class="viz">
+    <div class="mc">
+      <div class="mc-title">Country of Origin: How Brands Age With Mileage</div>
+      <p class="mc-sub">Volume-weighted inspection failure rate, all brands grouped by country of origin (mainstream + luxury combined).</p>
+      <div class="chart-wrap"><canvas id="mcGroupChart"></canvas></div>
+      <p class="attrib">Source: Clutch Certified Reliability Report 2026 · <a href="https://www.clutch.ca/reliability" target="_blank" rel="noopener">clutch.ca/reliability</a></p>
+    </div>
+  </div>
+<script>
+(function(){
+  const labels=['0-40K km','40-60K','60-80K','80-100K','100-120K','120-150K'];
+  const datasets=[
+    {label:'Japanese', data:[11.2,16.2,21.2,26.9,37.5,57.1], color:'#1A8754', width:4, pointR:5},
+    {label:'Korean',   data:[11.8,16.3,25.1,33.3,50.3,71.9], color:'#FF464C', width:4, pointR:5},
+    {label:'German',   data:[12.5,18.7,26.9,37.4,51.5,70.5], color:'#A855F7', width:4, pointR:5},
+    {label:'US',       data:[17.5,23.0,30.8,43.4,57.2,73.4], color:'#3A0C1E', width:4, pointR:5}
+  ];
+  new Chart(document.getElementById('mcGroupChart').getContext('2d'),{
+    type:'line',
+    data:{labels, datasets:datasets.map(d=>({label:d.label, data:d.data, borderColor:d.color, backgroundColor:d.color, borderWidth:d.width, pointRadius:d.pointR, pointHoverRadius:d.pointR+2, pointBackgroundColor:d.color, tension:.3}))},
+    options:{responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom', labels:{font:{size:13,weight:'600'}, boxWidth:14, boxHeight:14, padding:18, usePointStyle:true, pointStyle:'circle'}},
+        tooltip:{backgroundColor:'#191919', padding:10, callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y.toFixed(1)}% fail rate`}}},
+      scales:{x:{grid:{display:false}, title:{display:true, text:'Odometer at Inspection', font:{size:13,weight:'700'}, color:'#191919', padding:{top:8}}, ticks:{font:{size:12,weight:'500'}, color:'#191919'}},
+              y:{min:0, max:90, grid:{color:'#F0F0F0'}, title:{display:true, text:"% That Fail Clutch's Standard", font:{size:13,weight:'700'}, color:'#191919'}, ticks:{font:{size:11}, color:'#888', callback:v=>v+'%', stepSize:10}}}}
+  });
+})();
+</script>
+
+  <!-- V11b Brand Detail Chart -->
   <div class="viz">
     <div class="mc">
       <div class="mc-title">Inspection Failure Rate by Mileage and Brand</div>
@@ -1598,28 +1580,70 @@ body.layout--blog .r-sidebar {
 })();
 </script>
 
-  <p style="font-size:13px;color:var(--muted);font-weight:600;letter-spacing:.4px;text-transform:uppercase;margin:0 0 10px;">Failure Rate by Mileage</p>
-  <div class="brand-bars">
-    <div class="brand-bar" style="background:#F1EDF8;color:#191919;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:16px;">
-      <div class="brand-bar__identity"><img src="assets/Honda.svg" alt="Honda"><span class="brand-bar__name">Honda</span></div>
-      <div style="font-size:13px;font-weight:600;color:var(--muted);white-space:nowrap;">120–150K km</div>
-      <div class="brand-bar__stat" style="color:var(--plum);">43.8%</div>
-    </div>
-    <div class="brand-bar" style="background:#460B28;color:#fff;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:16px;">
-      <div class="brand-bar__identity"><img src="assets/Chevrolet.svg" alt="Chevrolet" style="filter:invert(1);"><span class="brand-bar__name">Chevrolet</span></div>
-      <div style="font-size:13px;font-weight:600;color:rgba(255,255,255,.5);white-space:nowrap;">60–80K km</div>
-      <div class="brand-bar__stat">40.8%</div>
-    </div>
-  </div>
-
   <div class="s-split">
-    <div class="s-split__lede">A higher-mileage Honda outperforms a lower-mileage Chevrolet at every band.</div>
+    <div class="s-split__lede">Japanese cars outlast American, German, and Korean cars at every mileage band.</div>
     <div class="s-split__body">
       <p>The pattern holds across every mileage band. Honda runs roughly half the fail rate of Chevrolet at every measurement point: 10.6% vs 18.1% at 0-40K, 30.1% vs 67.7% at 100-120K, 43.8% vs 79.1% at 120-150K. Hyundai sits between the two but its curve climbs faster than Honda's, reaching 72.8% at the highest mileage band. The curves don't stay parallel; reliable brands age more gracefully than unreliable ones.</p>
       <p><strong>What this means for buyers:</strong> brand is a stronger predictor than mileage. A higher-mileage Japanese car clears Clutch's filter at the same rate as a lower-mileage American or German one. Brand choice should lead the decision; mileage is a secondary filter within a brand.</p>
     </div>
   </div>
 </section>
+
+<div class="s-sep"></div>
+
+<!-- ── SECTION: Rust ──────────────────────────────────────────── -->
+<section class="s-block" id="rust">
+  <span class="s-num">06 — What Fails</span>
+  <h2>What's the #1 reason Canadian used cars fail inspection?</h2>
+  <div class="s-rule"></div>
+  <p><strong>Rust is Canada's leading cause of used-car failure.</strong> Nearly half of vehicles that fail our inspection show rust or corrosion (48.5%). That's more than engine failure (40.8%), and nearly triple fluid leaks (16.5%).</p>
+
+  <!-- V17 Rust Chart -->
+  <div class="viz" style="padding:0;overflow:hidden;">
+    <div style="padding:24px 28px 16px;">
+      <div style="font-size:clamp(24px,4vw,36px);font-weight:900;color:var(--ink);letter-spacing:-.5px;line-height:1.1;margin-bottom:6px;">What Kills Cars in Canada?</div>
+      <p style="margin:0;font-size:13.5px;color:var(--muted);font-weight:500;">The top reasons vehicles fail Clutch's 210-point inspection.</p>
+    </div>
+    <div class="brand-bars" style="border-radius:0;margin:0;">
+      <div class="brand-bar" style="background:#3A0918;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">water_damage</span><div><span class="brand-bar__name">Rust / Corrosion</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Frame rot, subframe corrosion, perforated body panels</div></div></div>
+        <div class="brand-bar__stat">48.5%</div>
+      </div>
+      <div class="brand-bar" style="background:#54102A;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">settings</span><div><span class="brand-bar__name">Engine Failure</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Knock, oil burning, piston rings, rod bearing, head gasket</div></div></div>
+        <div class="brand-bar__stat">40.8%</div>
+      </div>
+      <div class="brand-bar" style="background:#761A3D;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">rotate_right</span><div><span class="brand-bar__name">Drivetrain / Trans</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Differential binding, transmission whine, CVT failure</div></div></div>
+        <div class="brand-bar__stat">29.7%</div>
+      </div>
+      <div class="brand-bar" style="background:#8A2250;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">water_drop</span><div><span class="brand-bar__name">Fluid Leaks</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Oil pan, rear main seal, timing cover, coolant</div></div></div>
+        <div class="brand-bar__stat">16.5%</div>
+      </div>
+      <div class="brand-bar" style="background:#A83060;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">tune</span><div><span class="brand-bar__name">Aftermarket Mods</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Tuned ECU, aftermarket exhaust, lowered suspension. Instant wholesale.</div></div></div>
+        <div class="brand-bar__stat">16.2%</div>
+      </div>
+      <div class="brand-bar" style="background:#C4557A;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">format_paint</span><div><span class="brand-bar__name">Cosmetic Beyond Repair</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Paint peeling, full repaint needed, body damage beyond PDR</div></div></div>
+        <div class="brand-bar__stat">15.5%</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="s-split">
+    <div class="s-split__lede">Canadian winters don't care what badge is on the hood. Road salt is the biggest threat to a used car in Canada.</div>
+    <div class="s-split__body">
+      <p>The issues are specific: perforated frames, rotted subframes, bubbled rocker panels, corroded wheel wells, and structural rust that can't be safely welded. These aren't cosmetic problems. A rusted-through frame rail is a safety hazard.</p>
+      <p>Rust doesn't hit every brand equally. Ram (64%), Dodge (62%), Chevrolet (56%), Subaru (56%), and Tesla (57%) show the highest rust rates among vehicles that fail our inspection. But every brand on the list has a meaningful rust problem. Road salt, freeze-thaw cycles, and a five-month winter season do more damage per kilometre than the mechanical systems themselves.</p>
+      <p>Lack of routine maintenance is the multiplier on most rust failures. A vehicle that gets washed regularly and has its underbody treated holds up much better than one that doesn't, even in the same climate. Maintenance habits matter as much as where a car was driven.</p>
+      <p><strong>What this means for buyers:</strong> mileage and age are useful proxies for rust risk, but neither is a hard rule. Climate exposure and maintenance history matter as much. Cars driven in salt-belt provinces, stored outdoors, or never undercoated can be structurally compromised in ways the odometer doesn't show. Routine maintenance is the most actionable factor an owner can control: regular underbody washing through winter, prompt repair of stone-chip damage to paint and undercoating, and indoor storage when possible all slow the corrosion process. Underbody inspections, which Clutch performs on every vehicle as part of the 210-point standard, are often the deciding factor.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="s-sep">
 
 <!-- ── SECTION: Hybrids ──────────────────────────────────────── -->
 <section class="s-block" id="hybrids">
@@ -1678,6 +1702,8 @@ body.layout--blog .r-sidebar {
   <p><strong>What this means for buyers:</strong> if reliability is the priority and you're shopping used in the 0–6 year window, hybrids deserve more weight than the new-EV conversation suggests. Toyota RAV4 Hybrid and Corolla Hybrid rank in the top 10 models overall in this dataset.</p>
 </section>
 
+<hr class="s-sep">
+
 <!-- ── SECTION: Tesla ─────────────────────────────────────────── -->
 <section class="s-block" id="tesla">
   <span class="s-num">08 — Tesla &amp; EVs</span>
@@ -1696,10 +1722,10 @@ body.layout--blog .r-sidebar {
           <div class="tsla-cat-head">
             <span class="tsla-cat-name">Brakes &amp; Suspension</span>
           </div>
-          <div class="row"><span class="ft-name">Gas</span><div class="bar-wrap"><div class="bar gas" style="width:79%;">2.95</div></div></div>
-          <div class="row"><span class="ft-name">Hybrid</span><div class="bar-wrap"><div class="bar hybrid" style="width:50%;">1.88</div></div></div>
-          <div class="row"><span class="ft-name">Tesla</span><div class="bar-wrap"><div class="bar tesla" style="width:100%;">3.74</div></div></div>
-          <div class="row"><span class="ft-name">Non-Tesla EV</span><div class="bar-wrap"><div class="bar ev" style="width:53%;">1.97</div></div></div>
+          <div class="row"><span class="ft-name">Gas</span><div class="bar-wrap"><div class="bar gas" style="width:85%;">2.95</div></div></div>
+          <div class="row"><span class="ft-name">Hybrid</span><div class="bar-wrap"><div class="bar hybrid" style="width:54%;">1.88</div></div></div>
+          <div class="row"><span class="ft-name">Tesla</span><div class="bar-wrap"><div class="bar tesla" style="width:100%;">3.45</div></div></div>
+          <div class="row"><span class="ft-name">Non-Tesla EV</span><div class="bar-wrap"><div class="bar ev" style="width:62%;">2.15</div></div></div>
         </div>
 
         <div>
@@ -1739,7 +1765,7 @@ body.layout--blog .r-sidebar {
   <div class="s-split">
     <div class="s-split__lede">Tesla's EV architecture works. Tesla's factory doesn't.</div>
     <div class="s-split__body">
-      <p>The pattern goes beyond "Tesla worse than other EVs." On the four categories that map to physical assembly (body panels and interior, HVAC, brakes and suspension, electrical wiring), Tesla files claims at the highest rate of any powertrain. Higher than gas. Higher than hybrid. Higher than non-Tesla EVs. These aren't EV-specific failures. They're manufacturing-consistency issues that show up on early Model 3 and Model Y production years, and that NHTSA has documented in multiple suspension-related recalls.</p>
+      <p>The pattern goes beyond "Tesla worse than other EVs." On the four categories that map to physical assembly (body panels and interior, HVAC, brakes and suspension, electrical wiring), Tesla files claims at the highest rate of any fuel type. Higher than gas. Higher than hybrid. Higher than non-Tesla EVs. These aren't EV-specific failures. They're manufacturing-consistency issues that show up on early Model 3 and Model Y production years, and that NHTSA has documented in multiple suspension-related recalls.</p>
       <p>The biggest Tesla-specific pattern is suspension — control arms and components that frequently need premature replacement, typically $1,000–$2,000 per affected vehicle.</p>
     </div>
   </div>
@@ -1776,9 +1802,11 @@ body.layout--blog .r-sidebar {
   </div>
 
   <p>So where does Tesla win? On powertrain reliability. An EV drivetrain has far fewer moving parts than a gas engine and transmission, and the data reflects that across all EVs. Tesla's powertrain claim rate is 6.7x lower than gas, 3x lower than hybrid, and roughly half the non-Tesla EV rate. The EV architecture works. The car wrapped around it has a quality problem.</p>
-  <p>The non-Tesla EV column is the quiet finding. Across every category, non-Tesla EVs file claims at lower rates than gas. Their total post-sale claim rate of 7.5 per 100 is the lowest of any powertrain in our dataset, beating both gas (10.3) and hybrid (8.0).</p>
+  <p>The non-Tesla EV column is the quiet finding. Across every category, non-Tesla EVs file claims at lower rates than gas. Their total post-sale claim rate of 7.5 per 100 is the lowest of any fuel type in our dataset, beating both gas (10.3) and hybrid (8.0).</p>
   <p><strong>What this means for buyers:</strong> a used EV doesn't have to be a worse bet than a used gas or hybrid. Non-Tesla EVs file warranty claims less often than gas vehicles in the same window. The "EV reliability problem" most buyers have heard about is, in our data, a Tesla manufacturing-consistency problem, not a problem with electric vehicles in general.</p>
 </section>
+
+<hr class="s-sep">
 
 <!-- ── SECTION: Premium ──────────────────────────────────────── -->
 <section class="s-block" id="premium">
@@ -1895,6 +1923,8 @@ body.layout--blog .r-sidebar {
   </div>
 </section>
 
+<hr class="s-sep">
+
 <!-- ── SECTION: Conclusion ───────────────────────────────────── -->
 <section class="s-block" id="conclusion">
 
@@ -1946,7 +1976,7 @@ body.layout--blog .r-sidebar {
   </div>
   <div class="faq__item">
     <button class="faq__q" aria-expanded="false">How does fuel type affect reliability?<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    <div class="faq__a"><p class="faq__a-inner">Hybrids and gas track each other closely on inspection failure through the first six years (10.6% vs 10.7% at 0-3 years; 21.5% vs 22.3% at 4-6 years). EVs run higher in the same window (15.3% at 0-3 years, 25.3% at 4-6). But the EV pool is 78% Tesla, and once Tesla is separated out, non-Tesla EVs file post-sale warranty claims at roughly hybrid rates. The "EV reliability problem" most buyers have heard about is, in our data, mostly a Tesla manufacturing-consistency story &mdash; concentrated in body panels, HVAC, brakes, and suspension &mdash; not a problem with EV technology in general.</p></div>
+    <div class="faq__a"><p class="faq__a-inner">Hybrids and gas track each other closely on inspection failure through the first six years (10.6% vs 10.7% at 0-3 years; 21.5% vs 22.3% at 4-6 years). EVs run higher in the same window (15.3% at 0-3 years, 25.3% at 4-6). But the EV pool is 78% Tesla, and once Tesla is separated out, non-Tesla EVs file post-sale warranty claims at roughly hybrid rates. The "EV reliability problem" most buyers have heard about is, in our data, mostly a Tesla manufacturing-consistency story concentrated in body panels, HVAC, brakes, and suspension. It isn't a problem with EV technology in general.</p></div>
   </div>
   <div class="faq__item">
     <button class="faq__q" aria-expanded="false">What does Clutch Certified cover?<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
