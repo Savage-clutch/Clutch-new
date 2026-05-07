@@ -1676,27 +1676,6 @@ body.layout--blog .r-sidebar {
   <div class="s-rule"></div>
   <p>Hybrids and gas vehicles fail Clutch's 210-point inspection at almost identical rates in the first six years (10.6% vs 10.7% at 0-3 years; 21.5% vs 22.3% at 4-6 years). EVs trail by 4 to 5 percentage points. But 78% of the EV pool is Tesla, and once Tesla is split out, the gap is almost entirely Tesla. The reason isn't EV technology. It's manufacturing.</p>
 
-  <div class="stat-row" style="grid-template-columns:1fr 1fr 1fr;">
-    <div class="stat-card">
-      <div class="stat-card__data">
-        <div class="stat-card__n">10.6%</div>
-        <div class="stat-card__l">Hybrid fail rate<br>0–3 years old</div>
-      </div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-card__data">
-        <div class="stat-card__n">10.7%</div>
-        <div class="stat-card__l">Gas fail rate<br>0–3 years old</div>
-      </div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-card__data">
-        <div class="stat-card__n">15.3%</div>
-        <div class="stat-card__l">EV fail rate<br>0–3 years old</div>
-      </div>
-    </div>
-  </div>
-
   <!-- V12 Hybrid Chart -->
   <div class="viz">
     <div class="hyb">
@@ -1716,14 +1695,25 @@ body.layout--blog .r-sidebar {
           <div class="row"><div class="ft-name">Electric<span class="ft-sub">battery only</span></div><div class="bar-wrap"><div class="bar electric" style="width:100%;">25.3%</div></div></div>
         </div>
       </div>
-      <div class="note"><strong>How to read it:</strong> Hybrids and gas run roughly even at 0-3 and 4-6 years. EVs trail at both. By 7-10 years, hybrids and EVs both outlast gas, but EV samples thin out. The interesting question is what's driving the EV gap in the early years.</div>
+      <div class="note"><strong>How to read it:</strong> The interesting question is what's driving the EV gap in the early years.</div>
     </div>
   </div>
 
   <p>Hybrids and gas track each other closely on inspection failure for the first six years. EVs run 4 to 5 percentage points higher in the same window. That aggregate EV figure hides something specific: most of the gap is one brand.</p>
 
-  <p>By 7–10 years, hybrid battery cells age and the gap to gasoline narrows. Toyota RAV4 Hybrid at 7–10 years fails our standard at essentially the same rate as the gas RAV4. The strongest hybrid case in the used market is squarely in the 0–6 year window.</p>
-  <p><strong>What this means for buyers:</strong> if reliability is the priority and you're shopping used in the 0–6 year window, hybrids deserve more weight than the new-EV conversation suggests. Toyota RAV4 Hybrid and Corolla Hybrid rank in the top 10 models overall in this dataset.</p>
+  <h3 id="ev-gap-tesla">The EV gap is a Tesla gap</h3>
+  <p>Tesla makes up 78% of the EVs Clutch acquires. Once Tesla is separated from non-Tesla EVs, the post-sale picture changes sharply. Tesla files paid warranty claims at 11.5 per 100 vehicles sold. Non-Tesla EVs file at 7.5 per 100, the lowest claim rate of any fuel type in our dataset.</p>
+  <table class="data-tbl" style="max-width:540px;">
+    <thead><tr><th>Fuel type</th><th>Paid claims per 100 sold (90-day)</th></tr></thead>
+    <tbody>
+      <tr><td>Non-Tesla EV</td><td>7.5</td></tr>
+      <tr><td>Hybrid</td><td>8.0</td></tr>
+      <tr><td>Gas</td><td>10.3</td></tr>
+      <tr><td>Tesla</td><td style="color:#B92B30;">11.5</td></tr>
+    </tbody>
+  </table>
+  <p>The "EV reliability problem" is, in the data, mostly a Tesla problem. The more telling question is which categories drive that gap, and how Tesla compares to gas and hybrid in each one.</p>
+
 </section>
 
 <hr class="s-sep">
@@ -1839,57 +1829,76 @@ body.layout--blog .r-sidebar {
   <div class="s-rule"></div>
   <p><strong>No. Premium brands are, on average, less reliable than mainstream brands.</strong> Six of the nine premium brands in the Clutch Certified Reliability Index sit below the 25-brand average. Warranty repairs on premium vehicles cost 89% more than on mainstream vehicles in the first 90 days of ownership, and Clutch invests 13% more reconditioning premium vehicles to retail standard. Two luxury brands buck this pattern: Lexus and Acura, both built on the engineering culture of Toyota and Honda, the most reliability-focused parent companies in the industry.</p>
 
-  <h3>Where premium vehicles cost the most to repair under warranty</h3>
-  <p>Average paid warranty repair cost on premium vehicles in the first 90 days, expressed as the relative premium over mainstream. The figure combines how often claims occur and what each claim costs to fix.</p>
-  <div class="brand-bars">
-    <div class="brand-bar" style="background:#3A0918;color:#fff;">
-      <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">directions_car</span><div><span class="brand-bar__name">Body &amp; Interior</span></div></div>
-      <div class="brand-bar__stat">+114%</div>
+  <div class="viz" style="padding:0;overflow:hidden;">
+    <div style="padding:24px 28px 16px;">
+      <div style="font-size:clamp(20px,3vw,28px);font-weight:900;color:var(--ink);letter-spacing:-.4px;line-height:1.1;margin-bottom:6px;">Where Premium Vehicles Cost the Most to Repair</div>
+      <p style="margin:0;font-size:13.5px;color:var(--muted);font-weight:500;">Average warranty repair cost premium over mainstream, in the first 90 days. Combines claim frequency and cost per claim.</p>
     </div>
-    <div class="brand-bar" style="background:#54102A;color:#fff;">
-      <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">electric_bolt</span><div><span class="brand-bar__name">Electrical</span></div></div>
-      <div class="brand-bar__stat">+107%</div>
-    </div>
-    <div class="brand-bar" style="background:#761A3D;color:#fff;">
-      <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">album</span><div><span class="brand-bar__name">Brakes &amp; Suspension</span></div></div>
-      <div class="brand-bar__stat">+103%</div>
-    </div>
-    <div class="brand-bar" style="background:#8A2250;color:#fff;">
-      <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">ac_unit</span><div><span class="brand-bar__name">HVAC</span></div></div>
-      <div class="brand-bar__stat">+88%</div>
-    </div>
-    <div class="brand-bar" style="background:#A83060;color:#fff;">
-      <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">shield</span><div><span class="brand-bar__name">Safety / Driver-Assist</span></div></div>
-      <div class="brand-bar__stat">+80%</div>
-    </div>
-    <div class="brand-bar" style="background:#C4557A;color:#fff;">
-      <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">settings</span><div><span class="brand-bar__name">Powertrain</span></div></div>
-      <div class="brand-bar__stat">+69%</div>
+    <div class="brand-bars" style="margin:0;border-radius:0;">
+      <div class="brand-bar" style="background:#3A0918;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">directions_car</span><div><span class="brand-bar__name">Body &amp; Interior</span></div></div>
+        <div class="brand-bar__stat">+114%</div>
+      </div>
+      <div class="brand-bar" style="background:#54102A;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">electric_bolt</span><div><span class="brand-bar__name">Electrical</span></div></div>
+        <div class="brand-bar__stat">+107%</div>
+      </div>
+      <div class="brand-bar" style="background:#761A3D;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">album</span><div><span class="brand-bar__name">Brakes &amp; Suspension</span></div></div>
+        <div class="brand-bar__stat">+103%</div>
+      </div>
+      <div class="brand-bar" style="background:#8A2250;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">ac_unit</span><div><span class="brand-bar__name">HVAC</span></div></div>
+        <div class="brand-bar__stat">+88%</div>
+      </div>
+      <div class="brand-bar" style="background:#A83060;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">shield</span><div><span class="brand-bar__name">Safety / Driver-Assist</span></div></div>
+        <div class="brand-bar__stat">+80%</div>
+      </div>
+      <div class="brand-bar" style="background:#C4557A;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">settings</span><div><span class="brand-bar__name">Powertrain</span></div></div>
+        <div class="brand-bar__stat">+69%</div>
+      </div>
+      <div class="brand-bar" style="background:#191919;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">calculate</span><div><span class="brand-bar__name">All categories</span></div></div>
+        <div class="brand-bar__stat">+89%</div>
+      </div>
     </div>
   </div>
   <p>Premium vehicles generate higher warranty repair costs in every issue category, and the gap roughly doubles once cost is layered on top of frequency. Body and interior repairs run 114% more expensive on premium; electrical 107% more; brakes and suspension 103% more. Premium parts cost more, premium labour costs more, and premium vehicles need warranty work more often. The compounding pushes total warranty repair cost on premium to nearly twice the mainstream figure.</p>
 
-  <h3>Where premium vehicles cost the most to recondition</h3>
-  <p>Average pre-sale reconditioning spend per retail vehicle, expressed as the relative premium over mainstream.</p>
-  <div class="brand-bars">
-    <div class="brand-bar" style="background:#3A0918;color:#fff;">
-      <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">window</span><div><span class="brand-bar__name">Glass</span></div></div>
-      <div class="brand-bar__stat">+39%</div>
+  <div class="viz" style="padding:0;overflow:hidden;">
+    <div style="padding:24px 28px 16px;">
+      <div style="font-size:clamp(20px,3vw,28px);font-weight:900;color:var(--ink);letter-spacing:-.4px;line-height:1.1;margin-bottom:6px;">Where Premium Vehicles Cost the Most to Recondition</div>
+      <p style="margin:0;font-size:13.5px;color:var(--muted);font-weight:500;">Average pre-sale reconditioning spend per retail vehicle, expressed as the relative premium over mainstream.</p>
     </div>
-    <div class="brand-bar" style="background:#54102A;color:#fff;">
-      <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">album</span><div><span class="brand-bar__name">Tires &amp; Wheels</span></div></div>
-      <div class="brand-bar__stat">+36%</div>
-    </div>
-    <div class="brand-bar" style="background:#761A3D;color:#fff;">
-      <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">build</span><div><span class="brand-bar__name">Mechanical</span></div></div>
-      <div class="brand-bar__stat">+20%</div>
-    </div>
-    <div class="brand-bar" style="background:#F0E6EC;color:#191919;">
-      <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">format_paint</span><div><span class="brand-bar__name">Body / Cosmetic</span></div></div>
-      <div class="brand-bar__stat" style="color:var(--plum);">&minus;23%</div>
+    <div class="brand-bars" style="margin:0;border-radius:0;">
+      <div class="brand-bar" style="background:#3A0918;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">window</span><div><span class="brand-bar__name">Glass</span></div></div>
+        <div class="brand-bar__stat">+39%</div>
+      </div>
+      <div class="brand-bar" style="background:#54102A;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">album</span><div><span class="brand-bar__name">Tires &amp; Wheels</span></div></div>
+        <div class="brand-bar__stat">+36%</div>
+      </div>
+      <div class="brand-bar" style="background:#761A3D;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">build</span><div><span class="brand-bar__name">Mechanical</span></div></div>
+        <div class="brand-bar__stat">+20%</div>
+      </div>
+      <div class="brand-bar" style="background:#F0E6EC;color:#191919;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">format_paint</span><div><span class="brand-bar__name">Body / Cosmetic</span></div></div>
+        <div class="brand-bar__stat" style="color:var(--plum);">&minus;23%</div>
+      </div>
+      <div class="brand-bar" style="background:#191919;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">calculate</span><div><span class="brand-bar__name">Total recon spend</span></div></div>
+        <div class="brand-bar__stat">+13%</div>
+      </div>
     </div>
   </div>
   <p>Premium vehicles cost more to bring up to the Clutch Certified standard in three of four meaningful categories. Glass runs 39% more (larger windshields, panoramic roofs). Tires and wheels run 36% more (larger and more performance-spec). Mechanical work runs 20% more (more complex engines and transmissions). Body and cosmetic is the one place premium runs lower, because the mainstream pool includes the rust-heavy Stellantis truck contingent that needs heavy body work and pulls the mainstream average up.</p>
+
+  <h3>The German luxury cluster: a case in point</h3>
+  <p>BMW, Mercedes-Benz, and Audi all sit below the 25-brand index average despite premium new-car pricing. Lexus and Acura sit in the top five. The pattern visible in the brand-pair comparison below repeats across every measure: pre-sale repair cost, warranty claim rate, and vehicle-issue returns.</p>
 
   <!-- V6 Luxury Chart -->
   <div class="viz">
