@@ -981,7 +981,7 @@ body.layout--blog .r-sidebar {
 
     <a class="tkw-card" href="#hybrids">
       <div class="tkw-icon"><span class="material-symbols-rounded">electric_bolt</span></div>
-      <p class="tkw-body"><strong>The "EV reliability problem" is mostly a Tesla problem.</strong> Tesla files post-sale warranty claims at 1.5x the rate of non-Tesla EVs, and the gap is uniformly in physical assembly: body panels, HVAC, brakes, suspension. Non-Tesla EVs file claims at roughly hybrid rates.</p>
+      <p class="tkw-body"><strong>The "EV reliability problem" is mostly a Tesla problem.</strong> Tesla files post-sale warranty claims at 1.5x the rate of non-Tesla EVs, and the gap is uniformly in physical assembly: body panels, HVAC, brakes, suspension.</p>
     </a>
 
     <a class="tkw-card" href="#premium">
@@ -1299,7 +1299,7 @@ body.layout--blog .r-sidebar {
   <!-- V23 — DUMBBELL CHART -->
   <div class="viz">
     <h2 style="font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-.3px;margin:0 0 8px;">How Clutch Certified Elevates Every Car</h2>
-    <p style="color:#550E30;font-size:15px;margin:0 0 16px;font-weight:500;line-height:1.5;">Before any car gets listed on clutch.ca, roughly 50% of what Clutch buys fails our 210-point inspection and is sent to wholesale auctions. From the cars that pass, we invest over $2,000 per vehicle in reconditioning before listing. The Clutch Certified score reflects the vehicles we actually sell — not every used car of that brand on the road.</p>
+    <p style="color:var(--ink);font-size:15px;margin:0 0 16px;font-weight:400;line-height:1.5;">Before any car gets listed on clutch.ca, roughly 50% of what Clutch buys fails our 210-point inspection and is sent to wholesale auctions. From the cars that pass, we invest over $2,000 per vehicle in reconditioning before listing. The Clutch Certified score reflects the vehicles we actually sell — not every used car of that brand on the road.</p>
     <div id="dumbbellWrap" style="width:100%;overflow-x:auto;"></div>
     <div style="display:flex;gap:20px;justify-content:center;font-size:12px;color:var(--ink);margin-top:16px;flex-wrap:wrap;">
       <div style="display:flex;align-items:center;gap:7px;"><svg width="12" height="12"><circle cx="6" cy="6" r="5" fill="#C9C9C9" stroke="#999" stroke-width="1"/></svg>Brand's overall market score</div>
@@ -1458,12 +1458,16 @@ body.layout--blog .r-sidebar {
 })();
 </script>
 
-  <div class="viz" style="margin-top:24px;">
-    <div style="margin-bottom:16px;">
-      <div style="font-size:clamp(18px,2.5vw,22px);font-weight:800;color:var(--ink);letter-spacing:-.3px;margin-bottom:8px;">Where Clutch does the most work</div>
-      <p style="margin:0;font-size:15px;color:var(--ink-700);line-height:1.6;"><strong>The brands with the biggest lift are also where Clutch Certified does the most work relative to buying off the open market.</strong> A used Dodge or Ram bought through Clutch passes through a filter and a reconditioning process that the same vehicle wouldn't see on a private sale or an as-is dealer lot. Buyers shopping these brands benefit most from the Certified process — the lift relative to the open market is largest there.</p>
+  <div style="margin-top:24px;margin-bottom:16px;">
+    <div style="font-size:clamp(18px,2.5vw,22px);font-weight:800;color:var(--ink);letter-spacing:-.3px;margin-bottom:8px;">Where Clutch does the most work</div>
+    <p style="margin:0;font-size:15px;color:var(--ink-700);line-height:1.6;"><strong>The brands with the biggest lift are also where Clutch Certified does the most work relative to buying off the open market.</strong> A used Dodge or Ram bought through Clutch passes through a filter and a reconditioning process that the same vehicle wouldn't see on a private sale or an as-is dealer lot. Buyers shopping these brands benefit most from the Certified process — the lift relative to the open market is largest there.</p>
+  </div>
+  <div class="viz" style="margin-top:0;padding:0;overflow:hidden;">
+    <div style="padding:24px 28px 16px;">
+      <div style="font-size:clamp(24px,4vw,36px);font-weight:900;color:var(--ink);letter-spacing:-.5px;line-height:1.1;margin-bottom:6px;">Brands With the Biggest Lift</div>
+      <p style="margin:0;font-size:13.5px;color:var(--muted);font-weight:500;">Reliability score improvement from market average to Clutch Certified, by brand.</p>
     </div>
-    <div class="brand-bars" style="margin:0;">
+    <div class="brand-bars" style="margin:0;border-radius:0;">
       <div class="brand-bar" style="background:#3A0918;color:#fff;">
         <div class="brand-bar__identity"><img src="assets/Dodge.svg" alt="Dodge" style="filter:invert(1);height:20px;"><span class="brand-bar__name">Dodge</span></div>
         <div class="brand-bar__stat">+2.97</div>
@@ -1481,7 +1485,7 @@ body.layout--blog .r-sidebar {
         <div class="brand-bar__stat">+2.22</div>
       </div>
     </div>
-    <p style="font-size:12px;color:var(--muted);margin:12px 0 0;">Lift = difference between brand's market reliability score and Clutch Certified score delivered to customer.</p>
+    <p style="font-size:12px;color:var(--muted);margin:0;padding:12px 28px 20px;">Lift = difference between brand's market reliability score and Clutch Certified score delivered to customer.</p>
   </div>
 </section>
 
@@ -1512,15 +1516,36 @@ body.layout--blog .r-sidebar {
     {label:'German',   data:[12.5,18.7,26.9,37.4,51.5,70.5], color:'#A855F7', width:4, pointR:5},
     {label:'US',       data:[17.5,23.0,30.8,43.4,57.2,73.4], color:'#3A0C1E', width:4, pointR:5}
   ];
-  new Chart(document.getElementById('mcGroupChart').getContext('2d'),{
+  const mcGroupChart = new Chart(document.getElementById('mcGroupChart').getContext('2d'),{
     type:'line',
     data:{labels, datasets:datasets.map(d=>({label:d.label, data:d.data, borderColor:d.color, backgroundColor:d.color, borderWidth:d.width, pointRadius:d.pointR, pointHoverRadius:d.pointR+2, pointBackgroundColor:d.color, tension:.3}))},
     options:{responsive:true, maintainAspectRatio:false,
-      plugins:{legend:{position:'bottom', labels:{font:{size:13,weight:'600'}, boxWidth:14, boxHeight:14, padding:18, usePointStyle:true, pointStyle:'circle'}},
+      plugins:{legend:{position:'bottom', display:true,
+        onClick(e, legendItem, legend){
+          const chart = legend.chart;
+          const idx = legendItem.datasetIndex;
+          const active = chart._activeHighlight;
+          if(active === idx){ chart._activeHighlight = null; }
+          else { chart._activeHighlight = idx; }
+          chart.data.datasets.forEach((ds, i) => {
+            const orig = chart._origColors[i];
+            if(chart._activeHighlight === null){
+              ds.borderColor = orig; ds.backgroundColor = orig; ds.borderWidth = datasets[i].width; ds.pointRadius = datasets[i].pointR;
+            } else if(i === chart._activeHighlight){
+              ds.borderColor = orig; ds.backgroundColor = orig; ds.borderWidth = datasets[i].width + 1; ds.pointRadius = datasets[i].pointR + 1;
+            } else {
+              ds.borderColor = 'rgba(180,180,180,.35)'; ds.backgroundColor = 'rgba(180,180,180,.35)'; ds.borderWidth = 1.5; ds.pointRadius = 2;
+            }
+          });
+          chart.update();
+        },
+        labels:{font:{size:13,weight:'600'}, boxWidth:14, boxHeight:14, padding:18, usePointStyle:true, pointStyle:'circle'}},
         tooltip:{backgroundColor:'#191919', padding:10, callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y.toFixed(1)}% fail rate`}}},
       scales:{x:{grid:{display:false}, title:{display:true, text:'Odometer at Inspection', font:{size:13,weight:'700'}, color:'#191919', padding:{top:8}}, ticks:{font:{size:12,weight:'500'}, color:'#191919'}},
               y:{min:0, max:90, grid:{color:'#F0F0F0'}, title:{display:true, text:"% That Fail Clutch's Standard", font:{size:13,weight:'700'}, color:'#191919'}, ticks:{font:{size:11}, color:'#888', callback:v=>v+'%', stepSize:10}}}}
   });
+  mcGroupChart._origColors = datasets.map(d => d.color);
+  mcGroupChart._activeHighlight = null;
 })();
 </script>
 
@@ -1633,7 +1658,7 @@ body.layout--blog .r-sidebar {
   </div>
 
   <div class="s-split">
-    <div class="s-split__lede">Canadian winters don't care what badge is on the hood. Road salt is the biggest threat to a used car in Canada.</div>
+    <div class="s-split__lede">In Canada, the road does more damage than the drivetrain.</div>
     <div class="s-split__body">
       <p>The issues are specific: perforated frames, rotted subframes, bubbled rocker panels, corroded wheel wells, and structural rust that can't be safely welded. These aren't cosmetic problems. A rusted-through frame rail is a safety hazard.</p>
       <p>Rust doesn't hit every brand equally. Ram (64%), Dodge (62%), Chevrolet (56%), Subaru (56%), and Tesla (57%) show the highest rust rates among vehicles that fail our inspection. But every brand on the list has a meaningful rust problem. Road salt, freeze-thaw cycles, and a five-month winter season do more damage per kilometre than the mechanical systems themselves.</p>
@@ -1933,10 +1958,12 @@ body.layout--blog .r-sidebar {
   <p>Nine years and 100,000+ inspected used cars give the Canadian market its first proprietary reliability picture, built on physical inspection and post-sale outcomes rather than owner surveys.</p>
   <p>The patterns are clear: Japanese brands sweep the top of the index, premium brands underperform mainstream brands on average with Lexus and Acura the only exceptions, the EV reliability gap most buyers have heard about is mostly a Tesla manufacturing-consistency problem rather than an EV-technology problem, and brand matters more than mileage at every age band.</p>
   <p>But every car Clutch sells has already cleared the 210-point standard, been reconditioned to spec, and is backed by our 10-day return policy. The process raises the average reliability score across all 25 brands from 7.99 to 9.32. That's a +1.33-point lift. <strong>Only the cars that pass our 210-point inspection make it to <a href="https://www.clutch.ca" target="_blank" rel="noopener">clutch.ca</a>, and each one gets $2,000+ of reconditioning before sale. That's why a Clutch Certified car is measurably more reliable than the brand it belongs to.</strong></p>
-  <div class="stat-callout">
-    <img src="assets/cc-badge.png" alt="Clutch Certified" class="stat-callout__deco" style="height:96px;width:auto;font-size:unset;">
-    <div class="stat-callout__n">9.32</div>
-    <div class="stat-callout__ctx"><strong>Average Clutch Certified score across all 25 brands</strong><br>up from a market average of 7.99. A +1.33-point lift from inspection, reconditioning, and the Clutch Certified standard.</div>
+  <div class="stat-callout" style="text-align:left;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;padding:36px 40px;">
+    <img src="assets/cc-badge.png" alt="Clutch Certified" style="height:160px;width:auto;display:block;margin:0;">
+    <div>
+      <div style="font-size:clamp(20px,3vw,26px);font-weight:800;color:#fff;letter-spacing:-.4px;line-height:1.2;margin-bottom:10px;">Clutch delivers a +1.33-point reliability lift across every brand it carries.</div>
+      <div style="font-size:15px;color:rgba(255,255,255,.65);line-height:1.55;">The Clutch reconditioning process delivers a +1.33-point lift on average, moving the market average of 7.99 to Clutch Certified 9.32.</div>
+    </div>
   </div>
 </section>
 
