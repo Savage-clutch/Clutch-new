@@ -463,7 +463,7 @@ a.tkw-card:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0
 /* Luxury chart */
 .lux { font-family: inherit; max-width: 1080px; margin: 0 auto; }
 .lux .lux-title { color: var(--ink); font-size: 22px; font-weight: 700; margin: 0 0 4px; letter-spacing: -.3px; }
-.lux .lux-sub { color: var(--plum); font-size: 13.5px; margin: 0 0 28px; font-weight: 500; line-height: 1.5; max-width: 620px; }
+.lux .lux-sub { color: var(--ink); font-size: 13.5px; margin: 0 0 28px; font-weight: 500; line-height: 1.5; max-width: 620px; }
 .lux .chart { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 22px; margin-bottom: 24px; }
 .lux .make-col { text-align: center; }
 .lux .make-name { font-size: 19px; font-weight: 700; margin: 0 0 4px; }
@@ -1918,8 +1918,8 @@ body.layout--blog .r-sidebar {
         <div class="make-col">
           <span class="origin-tag">German</span>
           <img src="assets/Mercedes.svg" alt="Mercedes-Benz" style="height:48px;width:auto;display:block;margin:0 auto 10px;opacity:.85;">
-          <div class="make-name" style="color:#8A8A8A;">Mercedes-Benz</div>
-          <div class="make-score" style="background:#8A8A8A;">7.27 / 10</div>
+          <div class="make-name" style="color:#F97316;">Mercedes-Benz</div>
+          <div class="make-score" style="background:#F97316;">7.27 / 10</div>
           <div class="metric"><div class="metric-label">Pre-sale repair vs 25-brand avg</div><div class="bar-wrap"><div class="bar warn" style="width:100%;">+32%</div></div></div>
           <div class="metric"><div class="metric-label">Warranty repairs, 90 days vs avg</div><div class="bar-wrap"><div class="bar warn" style="width:96%;">+65%</div></div></div>
           <div class="metric"><div class="metric-label">Vehicle-issue returns / 100 sold</div><div class="bar-wrap"><div class="bar warn" style="width:78%;">1.55</div></div></div>
@@ -1948,64 +1948,8 @@ body.layout--blog .r-sidebar {
     </div>
   </div>
 
-  <h3>How much does each brand cost to recondition?</h3>
-  <p>What it takes to bring each car to the Clutch Certified standard, expressed relative to the average across all 25 brands.</p>
-  <p>German luxury vehicles arrive needing roughly 30% more reconditioning investment than the 25-brand average. That happens before the customer has driven a single kilometre.</p>
-  <div class="brand-bars">
-    <div class="brand-bar" style="background:#3A0918;color:#fff;">
-      <div class="brand-bar__identity"><img src="assets/Mercedes.svg" alt="Mercedes-Benz" style="filter:invert(1);"><span class="brand-bar__name">Mercedes-Benz</span></div>
-      <div class="brand-bar__stat">+32%</div>
-    </div>
-    <div class="brand-bar" style="background:#54102A;color:#fff;">
-      <div class="brand-bar__identity"><img src="assets/BMW.svg" alt="BMW" style="filter:invert(1);"><span class="brand-bar__name">BMW</span></div>
-      <div class="brand-bar__stat">+31%</div>
-    </div>
-    <div class="brand-bar" style="background:#761A3D;color:#fff;">
-      <div class="brand-bar__identity"><img src="assets/Audi.svg" alt="Audi" style="filter:invert(1);"><span class="brand-bar__name">Audi</span></div>
-      <div class="brand-bar__stat">+23%</div>
-    </div>
-    <div class="brand-bar" style="background:#A83060;color:#fff;">
-      <div class="brand-bar__identity"><img src="assets/Lexus.svg" alt="Lexus" style="filter:invert(1);"><span class="brand-bar__name">Lexus</span></div>
-      <div class="brand-bar__stat">+10%</div>
-    </div>
-    <div class="brand-bar" style="background:#F0E6EC;color:#191919;">
-      <div class="brand-bar__identity"><img src="assets/AcurA.svg" alt="Acura"><span class="brand-bar__name">Acura</span></div>
-      <div class="brand-bar__stat" style="color:var(--plum);">−3%</div>
-    </div>
-  </div>
-
-  <h3>How often do these brands need warranty repairs?</h3>
-  <p>How often each brand needs a warranty-covered repair in the first 90 days of ownership, relative to our 25-brand average:</p>
-  <div class="brand-bars">
-    <div class="brand-bar" style="background:#3A0918;color:#fff;">
-      <div class="brand-bar__identity"><img src="assets/BMW.svg" alt="BMW" style="filter:invert(1);"><span class="brand-bar__name">BMW</span></div>
-      <div class="brand-bar__stat">+68%</div>
-    </div>
-    <div class="brand-bar" style="background:#54102A;color:#fff;">
-      <div class="brand-bar__identity"><img src="assets/Mercedes.svg" alt="Mercedes-Benz" style="filter:invert(1);"><span class="brand-bar__name">Mercedes-Benz</span></div>
-      <div class="brand-bar__stat">+65%</div>
-    </div>
-    <div class="brand-bar" style="background:#8A2250;color:#fff;">
-      <div class="brand-bar__identity"><img src="assets/Audi.svg" alt="Audi" style="filter:invert(1);"><span class="brand-bar__name">Audi</span></div>
-      <div class="brand-bar__stat">+12%</div>
-    </div>
-    <div class="brand-bar" style="background:#D4B5C4;color:#191919;">
-      <div class="brand-bar__identity"><img src="assets/AcurA.svg" alt="Acura"><span class="brand-bar__name">Acura</span></div>
-      <div class="brand-bar__stat" style="color:var(--plum);">−2%</div>
-    </div>
-    <div class="brand-bar" style="background:#F0E6EC;color:#191919;">
-      <div class="brand-bar__identity"><img src="assets/Lexus.svg" alt="Lexus"><span class="brand-bar__name">Lexus</span></div>
-      <div class="brand-bar__stat" style="color:var(--plum);">−6%</div>
-    </div>
-  </div>
-
-  <div class="s-split">
-    <div class="s-split__lede">Lexus is the only luxury brand that repairs at the rate of mainstream Japanese cars.</div>
-    <div class="s-split__body">
-      <p>BMW and Mercedes-Benz vehicles need warranty-covered repairs at roughly 1.7× the rate of Lexus in the first 90 days. Lexus is the only luxury brand in our dataset that lands at or below the rate of mainstream Japanese brands.</p>
-      <p><strong>What this means for buyers:</strong> repairs on German luxury run more expensive long term than on mainstream or Japanese-luxury equivalents. Premium parts and specialist labour mean ongoing ownership costs more on BMW or Mercedes than on Lexus, Acura, or Honda. Japanese luxury is the exception: Lexus and Acura deliver premium fit and finish with mainstream Japanese reliability.</p>
-    </div>
-  </div>
+  <p>Lexus and Acura are the rare exceptions, and the reason is upstream. Toyota and Honda apply exceptional engineering standards focused on reliability across their entire lineups, which their luxury siblings inherit. Every other premium brand in our dataset carries a measurable reliability gap that doesn't disappear with the badge.</p>
+  <p><strong>What this means for buyers:</strong> the premium price tag rarely buys premium reliability. If you're shopping luxury used and want the lowest expected ownership costs, Lexus and Acura are in a category of their own. Every other premium brand averages higher repair costs and more reconditioning needs than its mainstream counterparts. The premium you pay at purchase is often paid again in the shop.</p>
 </section>
 
 <hr class="s-sep">
