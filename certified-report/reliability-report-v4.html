@@ -1291,7 +1291,8 @@ body.layout--blog .r-sidebar {
     <div class="s-split__lede">The brands with the biggest lift are where Clutch does the most work.</div>
     <div class="s-split__body">
       <p>Jeep, GMC, and Tesla all gain more than 2 points. These are the brands where reconditioning is heaviest — the vehicles arrive needing the most work to reach the Clutch Certified standard, and they get it before any customer sees them.</p>
-      <p>The lift is smallest on brands already at the top. Lexus, MINI, and the Japanese top tier gain 0.1 to 0.2 points. There's less room to go up. The process confirms what's already clean rather than fixing what's broken.</p>
+      <p>Dodge goes from 6.65 to 9.61 (+2.97). Ram goes from 6.21 to 8.83 (+2.63). These are among the largest lifts in the dataset.</p>
+      <p>The lift is smallest on brands already at the top. Lexus, MINI, Subaru, and the Japanese top tier gain 0.1 to 0.2 points. There's less room to go up. The process confirms what's already clean rather than fixing what's broken.</p>
     </div>
   </div>
 </section>
@@ -1361,7 +1362,7 @@ body.layout--blog .r-sidebar {
       <div class="brand-bar__stat">56%</div>
     </div>
   </div>
-  <p style="font-size:13px;color:var(--muted);margin:10px 0 24px;">Rust doesn't hit every brand equally. Ram (64%), Dodge (62%), Chevrolet (56%), Subaru (56%), and Tesla (57%) show the highest rust rates among vehicles that fail our inspection. But every brand on the list has a meaningful rust problem. Road salt, freeze-thaw cycles, and a five-month winter season do more damage per kilometre than the mechanical systems themselves.</p>
+  <p style="font-size:13px;color:var(--muted);margin:10px 0 24px;">Rust doesn't hit every brand equally. Ram (64%), Dodge (62%), Tesla (57%), Chevrolet (56%), and Subaru (56%) show the highest rust rates among vehicles that fail our inspection. But every brand on the list has a meaningful rust problem. Road salt, freeze-thaw cycles, and a five-month winter season do more damage per kilometre than the mechanical systems themselves.</p>
 
   <div class="prose-2col">
     <p>The issues are specific: perforated frames, rotted subframes, bubbled rocker panels, corroded wheel wells, and structural rust that can't be safely welded. These aren't cosmetic problems. A rusted-through frame rail is a safety hazard. Lack of routine maintenance is the multiplier on most rust failures. A vehicle that gets washed regularly and has its underbody treated holds up much better than one that doesn't, even in the same climate. Maintenance habits matter as much as where a car was driven.</p>
@@ -1550,8 +1551,16 @@ body.layout--blog .r-sidebar {
           <div class="metric"><div class="metric-label">Warranty repairs, 90 days</div><div class="bar-wrap"><div class="bar good" style="width:9%;">−6%</div></div></div>
           <div class="metric"><div class="metric-label">Vehicle-issue returns / 100 sold</div><div class="bar-wrap"><div class="bar good" style="width:32%;">0.64</div></div></div>
         </div>
+        <div class="make-col">
+          <img src="assets/AcurA.svg" alt="Acura" style="height:48px;width:auto;display:block;margin:0 auto 10px;opacity:.85;">
+          <div class="make-name" style="color:#549b5c;">Acura</div>
+          <div class="make-score" style="background:#549b5c;">9.59 / 10</div>
+          <div class="metric"><div class="metric-label">Pre-sale repair vs 25-brand avg</div><div class="bar-wrap"><div class="bar good" style="width:9%;">−3%</div></div></div>
+          <div class="metric"><div class="metric-label">Warranty repairs, 90 days</div><div class="bar-wrap"><div class="bar good" style="width:6%;">−2%</div></div></div>
+          <div class="metric"><div class="metric-label">Vehicle-issue returns / 100 sold</div><div class="bar-wrap"><div class="bar good" style="width:20%;">0.40</div></div></div>
+        </div>
       </div>
-      <div class="verdict"><span style="color:#F97316;font-weight:700;">BMW &amp; Mercedes well above average</span> on every measure, while <span style="color:#549b5c;font-weight:700;">Lexus runs at or below</span>.</div>
+      <div class="verdict"><span style="color:#F97316;font-weight:700;">BMW &amp; Mercedes well above average</span> on every measure, while <span style="color:#549b5c;font-weight:700;">Lexus and Acura run at or below</span>.</div>
       <div class="note"><strong>The pattern repeats:</strong> On pre-sale repair cost, warranty repairs, and vehicle-issue returns, BMW and Mercedes land roughly 2× Lexus's burden. Lexus is the only luxury brand in the dataset that needs warranty repairs at or below the rate of mainstream Japanese brands.</div>
     </div>
   </div>
@@ -1705,8 +1714,12 @@ body.layout--blog .r-sidebar {
       <p>The biggest Tesla-specific pattern is suspension — control arms and components that frequently need premature replacement, typically $1,000–$2,000 per affected vehicle.</p>
       <p>The pattern: Tesla files claims at higher rates than gas, hybrid, and non-Tesla EVs on every category that maps to physical assembly: body panels, interior fit, HVAC, brakes, suspension, electrical wiring. Tesla beats every other powertrain on engine and drivetrain. Non-Tesla EVs file claims at lower rates than gas across the board. The reliability gap isn't EV technology. It's Tesla manufacturing consistency.</p>
       <p>The pattern goes beyond "Tesla worse than other EVs." On the four categories that map to physical assembly (body panels and interior, HVAC, brakes and suspension, electrical wiring), Tesla files claims at the highest rate of any powertrain. Higher than gas. Higher than hybrid. Higher than non-Tesla EVs. These aren't EV-specific failures. They're manufacturing-consistency issues that show up on early Model 3 and Model Y production years, and that NHTSA has documented in multiple suspension-related recalls.</p>
+      <p>So where does Tesla win? On powertrain reliability. An EV drivetrain has far fewer moving parts than a gas engine and transmission, and the data reflects that across all EVs. Tesla's powertrain claim rate is 6.7× lower than gas, 3× lower than hybrid, and roughly half the non-Tesla EV rate. The EV architecture works. The car wrapped around it has a quality problem.</p>
+      <p>The non-Tesla EV column is the quiet finding. Across every category, non-Tesla EVs file claims at lower rates than gas. Their total post-sale claim rate of 7.5 per 100 is the lowest of any powertrain in our dataset, beating both gas (10.3) and hybrid (8.0).</p>
     </div>
   </div>
+  <p class="citation-capsule" style="background:#FAFAFA; border-left:4px solid #550E30; padding:14px 20px; margin:20px 0; font-size:14px; line-height:1.55; color:#191919; font-style:italic;">Across roughly 20,800 retail-sold vehicles in Clutch's dataset, non-Tesla EVs filed paid warranty claims at 7.5 per 100, gas at 10.3, hybrid at 8.0, and Tesla at 11.5. The post-sale gap commonly attributed to EV technology is concentrated in one brand and in physical-build categories that have nothing to do with electric drivetrains.</p>
+  <p><strong>What this means for buyers:</strong> a used EV doesn't have to be a worse bet than a used gas or hybrid. Non-Tesla EVs file warranty claims less often than gas vehicles in the same window. The "EV reliability problem" most buyers have heard about is, in our data, a Tesla manufacturing-consistency problem, not a problem with electric vehicles in general.</p>
 </section>
 
 <!-- ── SECTION: Conclusion ───────────────────────────────────── -->
