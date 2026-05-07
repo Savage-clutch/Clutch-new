@@ -539,19 +539,6 @@ body.layout--blog .r-blog-hero { display: block; }
   aspect-ratio: 21/9; object-fit: cover;
   border-radius: 12px;
 }
-.r-blog-hero__ab {
-  position: absolute; bottom: 14px; right: 14px;
-  background: rgba(0,0,0,.55); border-radius: 100px;
-  padding: 4px; display: flex; gap: 2px;
-  backdrop-filter: blur(6px);
-}
-.r-blog-hero__ab-btn {
-  padding: 5px 14px; border-radius: 100px; border: none;
-  cursor: pointer; font-size: 12px; font-weight: 700;
-  background: transparent; color: rgba(255,255,255,.7);
-  font-family: inherit; transition: all .15s;
-}
-.r-blog-hero__ab-btn.active { background: #fff; color: var(--ink); }
 
 /* ── blog takeaways + TOC wrapper ───────────────────────────── */
 .r-blog-top { display: none; margin-bottom: 36px; }
@@ -704,11 +691,10 @@ body.layout--blog .r-sidebar {
 <!-- ═══ BLOG HERO IMAGE (blog mode only) ═════════════════════ -->
 <div class="r-blog-hero">
   <div class="r-blog-hero__inner">
-    <img class="r-blog-hero__img" id="blogHeroImg" src="assets/Clutch-Reliability_Report-21_9 - B.jpg" alt="Clutch Certified Reliability Report">
-    <div class="r-blog-hero__ab" id="heroAbToggle">
-      <button class="r-blog-hero__ab-btn" data-desktop="assets/Clutch-Reliability_Report-21_9.jpg" data-mobile="assets/Clutch-Reliability_Report-16_9.jpg">A</button>
-      <button class="r-blog-hero__ab-btn active" data-desktop="assets/Clutch-Reliability_Report-21_9 - B.jpg" data-mobile="assets/Clutch-Reliability_Report-16_9 B.png">B</button>
-    </div>
+    <picture>
+      <source media="(max-width:767px)" srcset="assets/Clutch-Reliability_Report-16_9 B.png">
+      <img class="r-blog-hero__img" src="assets/Clutch-Reliability_Report-21_9 - B.jpg" alt="Clutch Certified Reliability Report">
+    </picture>
   </div>
 </div>
 
@@ -1806,28 +1792,6 @@ body.layout--blog .r-sidebar {
 <!-- ═══ DOT NAV (v3 right-side) ═════════════════════════════ -->
 
 <script>
-(function(){
-  var abToggle = document.getElementById('heroAbToggle');
-  if (!abToggle) return;
-  function pickSrc(btn) {
-    return window.innerWidth >= 768 ? btn.dataset.desktop : btn.dataset.mobile;
-  }
-  abToggle.addEventListener('click', function(e){
-    var btn = e.target.closest('[data-desktop]');
-    if (!btn) return;
-    abToggle.querySelectorAll('.r-blog-hero__ab-btn').forEach(function(b){ b.classList.remove('active'); });
-    btn.classList.add('active');
-    document.getElementById('blogHeroImg').src = pickSrc(btn);
-  });
-  /* keep correct image on resize */
-  window.addEventListener('resize', function(){
-    var active = abToggle.querySelector('.r-blog-hero__ab-btn.active');
-    if (active) document.getElementById('blogHeroImg').src = pickSrc(active);
-  });
-  /* set correct initial src */
-  var initBtn = abToggle.querySelector('.r-blog-hero__ab-btn.active');
-  if (initBtn) document.getElementById('blogHeroImg').src = pickSrc(initBtn);
-})();
 
 (function(){
   var toggle = document.getElementById('layoutToggle');
