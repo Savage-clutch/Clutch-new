@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Clutch Certified Reliability Report</title>
-<meta name="description" content="Clutch evaluated 100,000+ Canadian used cars against our 210-point standard. The most reliable used-car brands and fuel types, plus what the data says about EV, hybrid, and luxury reliability.">
+<meta name="description" content="Clutch evaluated 100,000+ Canadian used cars against our 210-point standard. The most reliable used-car brands, powertrains, and models, plus what the data says about EV, hybrid, and luxury reliability.">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@40,400,0,0" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
@@ -131,6 +131,8 @@ body {
   font-size: 18.5px; font-weight: 700; color: var(--ink);
   letter-spacing: -.2px; margin: 34px 0 10px;
 }
+.s-block > p { margin-bottom: 14px; }
+.s-block > p:last-child { margin-bottom: 0; }
 
 /* ── answer block ───────────────────────────────────────────── */
 .answer {
@@ -373,7 +375,7 @@ a.tkw-card:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0
 .fp h2 { color: var(--ink); font-size: 22px; font-weight: 700; margin: 0 0 4px; letter-spacing: -.3px; }
 .fp .fp-sub { color: var(--plum); font-size: 13.5px; margin: 0 0 20px; font-weight: 500; line-height: 1.5; }
 .fp table { border-collapse: separate; border-spacing: 0; width: 100%; table-layout: fixed; }
-.fp th { padding: 9px 8px; font-weight: 700; color: var(--ink); font-size: 11.5px; border-bottom: 2px solid var(--ink); text-transform: uppercase; letter-spacing: .3px; }
+.fp th { padding: 9px 8px; font-weight: 700; color: var(--ink); font-size: 11.5px; border-bottom: 2px solid var(--line); text-transform: uppercase; letter-spacing: .3px; }
 .fp th.make { text-align: left; width: 175px; padding-left: 14px; }
 .fp th.cat { text-align: center; }
 .fp td { padding: 0; }
@@ -381,12 +383,12 @@ a.tkw-card:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0
 .fp td.cell { text-align: center; font-weight: 700; font-size: 14px; height: 38px; border: 2px solid #fff; font-variant-numeric: tabular-nums; letter-spacing: -.2px; }
 .fp .badge { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 10.5px; font-weight: 700; color: #fff; margin-left: 7px; vertical-align: middle; }
 .fp .legend { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 20px; font-size: 12px; color: var(--ink); flex-wrap: wrap; }
-.fp .legend .item { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 6px; border-radius: 14px; background: #FAFAFA; border: 1px solid var(--line); cursor: pointer; user-select: none; transition: border-color .15s, box-shadow .15s; }
+.fp .legend .item { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 6px; border-radius: 6px; background: #FAFAFA; border: 1px solid var(--line); cursor: pointer; user-select: none; transition: border-color .15s, box-shadow .15s; }
 .fp .legend .item:hover { border-color: var(--plum); }
 .fp .legend .item.active { border-color: var(--plum); box-shadow: 0 0 0 2px var(--plum); }
 .fp td.cell { transition: opacity .15s; }
 .fp td.cell.dimmed { opacity: .15; }
-.fp .legend .grade { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 19px; border-radius: 3px; font-weight: 700; font-size: 11.5px; }
+.fp .legend .grade { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 19px; border-radius: 2px; font-weight: 700; font-size: 11.5px; }
 .fp .note { margin-top: 16px; font-size: 13px; line-height: 1.55; color: var(--muted); }
 .fp .note strong { color: var(--plum); }
 
@@ -435,6 +437,23 @@ a.tkw-card:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0
 .hyb .note strong { color: var(--plum); }
 @media (max-width: 600px) { .hyb .panels { grid-template-columns: 1fr; } }
 
+/* Tesla chart */
+.tsla .hyb-title { color: var(--ink); font-size: 22px; font-weight: 700; margin: 0 0 4px; letter-spacing: -.3px; }
+.tsla .hyb-sub { color: var(--muted); font-size: 13.5px; margin: 0 0 26px; font-weight: 500; line-height: 1.5; }
+.tsla-cats { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.tsla-cat-head { display: flex; justify-content: space-between; align-items: baseline; margin: 0 0 12px; }
+.tsla-cat-name { font-size: 14px; font-weight: 700; color: var(--ink); }
+.tsla-badge { font-size: 10px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase; }
+.tsla .row { display: grid; grid-template-columns: 108px 1fr; gap: 8px; align-items: center; margin: 9px 0; }
+.tsla .ft-name { font-weight: 600; font-size: 12px; color: var(--ink); }
+.tsla .bar-wrap { background: #F0F0F0; height: 32px; border-radius: 4px; overflow: hidden; }
+.tsla .bar { height: 100%; border-radius: 4px; display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; color: #fff; font-weight: 700; font-size: 13px; }
+.tsla .bar.gas     { background: #8A8A8A; }
+.tsla .bar.hybrid  { background: var(--green); }
+.tsla .bar.tesla   { background: var(--red); }
+.tsla .bar.ev      { background: var(--plum); }
+@media (max-width: 640px) { .tsla-cats { grid-template-columns: 1fr; } }
+
 /* Luxury chart */
 .lux { font-family: inherit; max-width: 1080px; margin: 0 auto; }
 .lux .lux-title { color: var(--ink); font-size: 22px; font-weight: 700; margin: 0 0 4px; letter-spacing: -.3px; }
@@ -449,6 +468,7 @@ a.tkw-card:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0
 .lux .bar { height: 100%; display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; color: #fff; font-weight: 700; font-size: 15px; border-radius: 4px; min-width: fit-content; min-width: -webkit-fit-content; padding-left: 10px; }
 .lux .bar.warn { background: #F97316; }
 .lux .bar.good { background: var(--green); }
+.lux .origin-tag { display: block; font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
 .lux .verdict { text-align: center; font-size: 14px; font-weight: 700; margin-top: 20px; padding: 8px; border-radius: 4px; color: var(--ink); }
 .lux .note { margin-top: 24px; font-size: 13px; line-height: 1.55; color: var(--muted); }
 .lux .note strong { color: var(--plum); }
@@ -739,8 +759,8 @@ body.layout--blog .r-sidebar {
           <li><a href="#rust">What's the #1 cause of inspection failure?</a></li>
           <li><a href="#mileage">Does mileage predict reliability?</a></li>
           <li><a href="#hybrids">Hybrids vs EVs vs gas</a></li>
-          <li><a href="#premium">Do premium brands deliver?</a></li>
           <li><a href="#tesla">Is Tesla less reliable than other EVs?</a></li>
+          <li><a href="#premium">Do premium brands deliver?</a></li>
         </ul>
       </div>
       <div class="r-blog-toc__group">
@@ -758,7 +778,7 @@ body.layout--blog .r-sidebar {
 
 <!-- intro -->
 <p style="font-size:15.5px;margin-top:0;line-height:1.65;">
-  This is Canada's largest proprietary look at used-car reliability, built on the physical inspection of over 100,000 vehicles since 2017. Every brand score in this report draws from four streams of first-party Clutch data: 210-point inspection outcomes, reconditioning records, 90-day warranty claims, and customer returns.
+  <strong>This is Canada's largest proprietary look at used-car reliability, built on the physical inspection of over 100,000 vehicles since 2017.</strong> Every brand score in this report draws from four streams of first-party Clutch data: 210-point inspection outcomes, reconditioning records, 90-day warranty claims, and customer returns.
 </p>
 <p style="font-size:15.5px;line-height:1.65;">Every vehicle Clutch considers for retail sale is measured against our 210-point standard, and roughly 50% don't pass. Those cars are sent to wholesale auctions and sold to other dealers. The 50% that do pass are reconditioned, listed on <a href="https://www.clutch.ca" target="_blank" rel="noopener">clutch.ca</a>, and tracked through delivery, returns, and post-sale warranty claims. Nine years of that work tells us which used cars in Canada hold up best.</p>
 
@@ -774,7 +794,7 @@ body.layout--blog .r-sidebar {
 
     <a class="tkw-card" href="#hybrids">
       <div class="tkw-icon"><span class="material-symbols-rounded">electric_bolt</span></div>
-      <p class="tkw-body"><strong>The "EV reliability problem" is mostly a Tesla problem.</strong> Tesla files post-sale warranty claims at 1.5x the rate of non-Tesla EVs, and the gap is uniformly in physical assembly: body panels, HVAC, brakes, suspension. Non-Tesla EVs file claims at roughly hybrid rates.</p>
+      <p class="tkw-body"><strong>The "EV reliability problem" is mostly a Tesla problem.</strong> Tesla files post-sale warranty claims at 1.5x the rate of non-Tesla EVs, and the gap is uniformly in physical assembly &mdash; body panels, HVAC, brakes, suspension &mdash; not in EV technology. Non-Tesla EVs file claims at roughly hybrid rates.</p>
     </a>
 
     <a class="tkw-card" href="#premium">
@@ -784,7 +804,7 @@ body.layout--blog .r-sidebar {
 
     <a class="tkw-card" href="#rust">
       <div class="tkw-icon"><span class="material-symbols-rounded">water_damage</span></div>
-      <p class="tkw-body"><strong>Rust is the #1 cause of Canadian inspection failure,</strong> beating engine and drivetrain issues.</p>
+      <p class="tkw-body"><strong>Rust is the #1 cause</strong> of Canadian inspection failure, beating engine and drivetrain issues.</p>
     </a>
 
     <a class="tkw-card" href="#mileage">
@@ -846,8 +866,8 @@ body.layout--blog .r-sidebar {
   <div class="s-split">
     <div class="s-split__lede">The same process that sells cars generates the data behind this report.</div>
     <div class="s-split__body">
-      <p>Every vehicle Clutch buys is checked against 210 items across 9 systems before it can reach a customer. Since October 2017, that's covered more than 100,000 vehicles. Vehicles that clear inspection enter reconditioning. That's our pre-sale repair process: mechanical work, cosmetic fixes, glass, and standard prep. Clutch invests <strong>over $2,000</strong> per vehicle on average, combining parts, technician labour, and shop overhead. The mix of what each brand needs in reconditioning is one of the strongest reliability signals in the dataset.</p>
-      <p><strong>Roughly half of the used vehicles Clutch buys never reach a customer.</strong> Those cars are sold to other dealerships through wholesale auctions instead of being listed on clutch.ca. Vehicles that don't meet the Clutch Certified standard get sent to wholesale for various reasons: major mechanical issues, damage to multiple body panels, smoke or pet odours, branded titles, or vehicles 11+ years old or over 150,000 km.</p>
+      <p>Every vehicle Clutch buys is checked against 210 items across 9 systems before it can reach a customer. Since October 2017, that's covered more than 100,000 vehicles. Vehicles that clear inspection enter reconditioning. That's our pre-sale repair process: mechanical work, cosmetic fixes, glass, and standard prep. Clutch invests <strong>over $2,000</strong> per vehicle on average, combining parts, technician labour, and shop overhead. The mix of what each brand needs is one of the strongest indicators in our dataset. The warranty claim data behind the index comes from Clutch's 90-day warranty product. Every claim is categorized by system, so we can see exactly where each brand has issues after delivery.</p>
+      <p><strong>Roughly half of the used vehicles Clutch buys never reach a customer.</strong> Those cars are sold to other dealerships through wholesale auctions instead of being listed on <a href="https://www.clutch.ca" target="_blank" rel="noopener">clutch.ca</a>. Vehicles that don't meet the Clutch Certified standard get sent to wholesale for various reasons: major mechanical issues, damage to multiple body panels, smoke or pet odours, branded titles, or vehicles 11+ years old or over 150,000 km. That filter alone removes the bottom of the used-car market before a single car is listed for sale.</p>
       <p>Once sold, the customer has 10 days to return the car for any reason. Some returns are about the car itself: a problem the customer caught in the first ten days that our pre-sale process missed. Roughly 1 in 100 retail-sold vehicles is returned for a vehicle issue, a low rate that reflects how much filtering happens before delivery. Those car-related returns feed the return dimension of the index.</p>
     </div>
   </div>
@@ -961,14 +981,16 @@ body.layout--blog .r-sidebar {
   <div class="s-split">
     <div class="s-split__lede"><img src="assets/Lexus.svg" alt="Lexus" style="height:56px;width:auto;display:block;margin-bottom:16px;opacity:.85;">Lexus leads because its worst pillar is better than most brands' best.</div>
     <div class="s-split__body">
+      <p>Lexus tops the index at 9.70 because its weakest pillar is still excellent.</p>
       <p>Every other top-tier brand has at least one pillar that drops to "good" rather than great: Subaru's inspection-pass rate, Honda's customer-return rate, Acura and MINI on warranty rates near the 25-brand average. Lexus is the only brand in the dataset where all four pillars sit firmly in the top quartile. The shared trait across the top tier is no weak pillar. These brands arrive at Clutch in cleaner condition, need less reconditioning, and generate fewer post-sale issues. Japanese brands collectively file 90-day warranty claims at roughly 30% below the 25-brand average, and at less than half the rate of the German luxury and Stellantis clusters at the bottom.</p>
-      <p>Above the average line: Nissan (8.71), Kia (8.56), Hyundai (8.55), and Mitsubishi (8.20). Chevrolet (7.99) sits right on it. Hyundai and Kia stand out here. Hyundai and Kia's old reputation for unreliable engines traces to the 2011-2019 Theta II 2.0L and 2.4L. Today's lineup runs different architecture.</p>
-      <p>Nissan's middle-of-the-index position carries its own legacy issue: CVT transmission problems affected most of Nissan's lineup from 2010 through 2019, with the worst concentration in 2013-2018 model years. Newer Nissan models on revised CVT designs perform better, but the historical wave is still present in the used market.</p>
-      <p>Just below average: Volkswagen (7.77), GMC (7.71), Audi (7.58), and Ford (7.14). Each has its own weak spot, not a systemic problem.</p>
-      <p><strong>Stellantis.</strong> Jeep (6.38), Dodge (6.65), and Ram (6.21) share a parent company and share a reliability profile: higher inspection failure rates at intake, higher repair costs, and a dominant pattern of rust, drivetrain wear, and body-system issues.</p>
-      <p><strong>German luxury.</strong> BMW (6.63), Mercedes-Benz (7.27), and Audi (7.58) all score below the 25-brand average. The three share a profile: elevated engine, electrical, and cooling claims; higher pre-sale repair costs; and warranty rates that run roughly 2× the Japanese top tier. Tesla (6.92), Infiniti (6.27), Buick (6.92), and Volvo (7.35) round out the below-average tier, each with its own profile.</p>
     </div>
   </div>
+  <p>Above the average line: Nissan (8.71), Kia (8.56), Hyundai (8.55), and Mitsubishi (8.20). Chevrolet (7.99) sits right on it. Hyundai and Kia stand out here. Hyundai and Kia's old reputation for unreliable engines traces to the 2011-2019 Theta II 2.0L and 2.4L. Today's lineup runs different architecture.</p>
+  <p>Nissan's middle-of-the-index position carries its own legacy issue: CVT transmission problems affected most of Nissan's lineup from 2010 through 2019, with the worst concentration in 2013-2018 model years. Newer Nissan models on revised CVT designs perform better, but the historical wave is still present in the used market. Just below average: Volkswagen (7.77), GMC (7.71), Audi (7.58), and Ford (7.14). Each has its own weak spot, not a systemic problem.</p>
+  <p>Below the 25-brand average sit eleven brands. Two clusters tell most of the story.</p>
+  <p><strong>Stellantis.</strong> Jeep (6.38), Dodge (6.65), and Ram (6.21) share a parent company and share a reliability profile: higher inspection failure rates at intake, higher repair costs, and a dominant pattern of rust, drivetrain wear, and body-system issues.</p>
+  <p><strong>German luxury.</strong> BMW (6.63), Mercedes-Benz (7.27), and Audi (7.58) all score below the 25-brand average. The three share a profile: elevated engine, electrical, and cooling claims; higher pre-sale repair costs; and warranty rates that run roughly 2× the Japanese top tier.</p>
+  <p>Tesla (6.92), Infiniti (6.27), Buick (6.92), and Volvo (7.35) round out the below-average tier, each with its own profile.</p>
 
   <!-- Do all brands fail the same way -->
   <div class="section-inner" style="padding-bottom:24px;">
@@ -1101,7 +1123,7 @@ body.layout--blog .r-sidebar {
     <div style="display:flex;gap:20px;justify-content:center;font-size:12px;color:var(--ink);margin-top:16px;flex-wrap:wrap;">
       <div style="display:flex;align-items:center;gap:7px;"><svg width="12" height="12"><circle cx="6" cy="6" r="5" fill="#C9C9C9" stroke="#999" stroke-width="1"/></svg>Brand's overall market score</div>
       <div style="display:flex;align-items:center;gap:7px;"><svg width="12" height="12"><circle cx="6" cy="6" r="6" fill="#549b5c"/></svg>Clutch Certified score delivered to customer</div>
-      <div style="display:flex;align-items:center;gap:7px;"><svg width="26" height="12"><circle cx="5" cy="6" r="5" fill="#C9C9C9" stroke="#999" stroke-width="1"/><line x1="11" y1="6" x2="21" y2="6" stroke="#DDD" stroke-width="2.5"/><circle cx="21" cy="6" r="6" fill="#549b5c"/></svg>Gap = the lift</div>
+      <div style="display:flex;align-items:center;gap:7px;"><svg width="30" height="12"><circle cx="6" cy="6" r="5" fill="#C9C9C9" stroke="#999" stroke-width="1"/><line x1="12" y1="6" x2="23" y2="6" stroke="#DDD" stroke-width="2.5"/><circle cx="24" cy="6" r="6" fill="#549b5c"/></svg>Gap = the lift</div>
       <div style="display:flex;align-items:center;gap:7px;"><svg width="16" height="12"><line x1="8" y1="1" x2="8" y2="11" stroke="#AAA" stroke-width="1.5" stroke-dasharray="4,2"/></svg>25-brand average</div>
     </div>
   </div>
@@ -1279,8 +1301,8 @@ body.layout--blog .r-sidebar {
     <div class="s-split__body">
       <p>The lift is largest on brands that start lowest. Dodge goes from 6.65 to 9.61 (+2.97). Ram goes from 6.21 to 8.83 (+2.63). Jeep, GMC, and Tesla all gain more than 2 points. These are the brands where Clutch's reconditioning does the heaviest work to reach the Clutch Certified standard.</p>
       <p>The lift is smallest on brands already at the top. Lexus, MINI, Subaru, and the Japanese top tier gain 0.1 to 0.2 points. There's less room to go up. The process confirms what's already clean rather than fixing what's broken.</p>
-      <p><strong>The brands with the biggest lift are also where Clutch Certified does the most work relative to buying off the open market.</strong> A used Dodge or Ram bought through Clutch passes through a filter and a reconditioning process that the same vehicle wouldn't see on a private sale or an as-is dealer lot. Buyers shopping the Stellantis truck lineup or other lower-tier brands benefit most from the Certified process, because the lift relative to the open market is largest there.</p>
-      <p>Either way, the story is the same: <strong>only the cars that pass our 210-point inspection make it to clutch.ca, and each one gets $2,000+ of reconditioning before sale. That's why a Clutch Certified car is measurably more reliable than the brand it belongs to.</strong></p>
+      <p><strong>The brands with the biggest lift are also where Clutch Certified does the most work relative to buying off the open market.</strong> A used Dodge or Ram bought through Clutch passes through a filter and a reconditioning process that the same vehicle wouldn't see on a private sale or an as-is dealer lot. Buyers shopping the Stellantis truck lineup or higher-mileage Tesla inventory benefit most from the Certified process, because the lift relative to the open market is largest there.</p>
+      <p>Either way, the story is the same: <strong>only the cars that pass our 210-point inspection make it to <a href="https://www.clutch.ca" target="_blank" rel="noopener">clutch.ca</a>, and each one gets $2,000+ of reconditioning before sale. That's why a Clutch Certified car is measurably more reliable than the brand it belongs to.</strong></p>
     </div>
   </div>
 </section>
@@ -1317,7 +1339,7 @@ body.layout--blog .r-sidebar {
         <div class="brand-bar__stat">16.5%</div>
       </div>
       <div class="brand-bar" style="background:#A83060;color:#fff;">
-        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">tune</span><div><span class="brand-bar__name">Aftermarket Mods</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Tuned ECU, aftermarket exhaust, lowered suspension</div></div></div>
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">tune</span><div><span class="brand-bar__name">Aftermarket Mods</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Tuned ECU, aftermarket exhaust, lowered suspension. Instant wholesale.</div></div></div>
         <div class="brand-bar__stat">16.2%</div>
       </div>
       <div class="brand-bar" style="background:#C4557A;color:#fff;">
@@ -1327,34 +1349,13 @@ body.layout--blog .r-sidebar {
     </div>
   </div>
 
-  <p style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin:24px 0 8px;">Highest rust rates among failing vehicles</p>
-  <div class="brand-bars">
-    <div class="brand-bar" style="background:#3A0918;color:#fff;">
-      <div class="brand-bar__identity"><img src="assets/Ram.svg" alt="Ram" style="filter:invert(1);"><span class="brand-bar__name">Ram</span></div>
-      <div class="brand-bar__stat">64%</div>
+  <div class="s-split">
+    <div class="s-split__lede">Rust doesn't hit every brand equally — but every brand has a meaningful rust problem.</div>
+    <div class="s-split__body">
+      <p>Ram (64%), Dodge (62%), Tesla (57%), Chevrolet (56%), and Subaru (56%) show the highest rust rates among vehicles that fail our inspection. Road salt, freeze-thaw cycles, and a five-month winter season do more damage per kilometre than the mechanical systems themselves.</p>
+      <p>The issues are specific: perforated frames, rotted subframes, bubbled rocker panels, corroded wheel wells, and structural rust that can't be safely welded. These aren't cosmetic problems. A rusted-through frame rail is a safety hazard. Lack of routine maintenance is the multiplier on most rust failures. A vehicle that gets washed regularly and has its underbody treated holds up much better than one that doesn't, even in the same climate. Maintenance habits matter as much as where a car was driven.</p>
+      <p><strong>What this means for buyers:</strong> mileage and age are useful proxies for rust risk, but neither is a hard rule. Climate exposure and maintenance history matter as much. Cars driven in salt-belt provinces, stored outdoors, or never undercoated can be structurally compromised in ways the odometer doesn't show. Underbody inspections, which Clutch performs on every vehicle as part of the 210-point standard, are often the deciding factor.</p>
     </div>
-    <div class="brand-bar" style="background:#54102A;color:#fff;">
-      <div class="brand-bar__identity"><img src="assets/Dodge.svg" alt="Dodge" style="filter:invert(1);height:20px;"><span class="brand-bar__name">Dodge</span></div>
-      <div class="brand-bar__stat">62%</div>
-    </div>
-    <div class="brand-bar" style="background:#761A3D;color:#fff;">
-      <div class="brand-bar__identity"><img src="assets/Tesla.svg" alt="Tesla" style="filter:invert(1);"><span class="brand-bar__name">Tesla</span></div>
-      <div class="brand-bar__stat">57%</div>
-    </div>
-    <div class="brand-bar" style="background:#8A2250;color:#fff;">
-      <div class="brand-bar__identity"><img src="assets/Chevrolet.svg" alt="Chevrolet" style="filter:invert(1);"><span class="brand-bar__name">Chevrolet</span></div>
-      <div class="brand-bar__stat">56%</div>
-    </div>
-    <div class="brand-bar" style="background:#A83060;color:#fff;">
-      <div class="brand-bar__identity"><img src="assets/Subaru.svg" alt="Subaru" style="filter:invert(1);"><span class="brand-bar__name">Subaru</span></div>
-      <div class="brand-bar__stat">56%</div>
-    </div>
-  </div>
-  <p style="font-size:13px;color:var(--muted);margin:10px 0 24px;">Rust doesn't hit every brand equally. Ram (64%), Dodge (62%), Chevrolet (56%), Subaru (56%), and Tesla (57%) show the highest rust rates among vehicles that fail our inspection. But every brand on the list has a meaningful rust problem. Road salt, freeze-thaw cycles, and a five-month winter season do more damage per kilometre than the mechanical systems themselves.</p>
-
-  <div class="prose-2col">
-    <p>The issues are specific: perforated frames, rotted subframes, bubbled rocker panels, corroded wheel wells, and structural rust that can't be safely welded. These aren't cosmetic problems. A rusted-through frame rail is a safety hazard. Lack of routine maintenance is the multiplier on most rust failures. A vehicle that gets washed regularly and has its underbody treated holds up much better than one that doesn't, even in the same climate. Maintenance habits matter as much as where a car was driven.</p>
-    <p><strong>What this means for buyers:</strong> mileage and age are useful proxies for rust risk, but neither is a hard rule. Climate exposure and maintenance history matter as much. Cars driven in salt-belt provinces, stored outdoors, or never undercoated can be structurally compromised in ways the odometer doesn't show. Routine maintenance is the most actionable factor an owner can control: regular underbody washing through winter, prompt repair of stone-chip damage to paint and undercoating, and indoor storage when possible all slow the corrosion process. Underbody inspections, which Clutch performs on every vehicle as part of the 210-point standard, are often the deciding factor.</p>
   </div>
 </section>
 
@@ -1421,15 +1422,17 @@ body.layout--blog .r-sidebar {
 })();
 </script>
 
-  <p style="font-size:13px;color:var(--muted);font-weight:600;letter-spacing:.4px;text-transform:uppercase;margin:0 0 10px;">Fail rate at 0–40K km</p>
+  <p style="font-size:13px;color:var(--muted);font-weight:600;letter-spacing:.4px;text-transform:uppercase;margin:0 0 10px;">Failure Rate by Mileage</p>
   <div class="brand-bars">
-    <div class="brand-bar" style="background:#F1EDF8;color:#191919;">
+    <div class="brand-bar" style="background:#F1EDF8;color:#191919;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:16px;">
       <div class="brand-bar__identity"><img src="assets/Honda.svg" alt="Honda"><span class="brand-bar__name">Honda</span></div>
-      <div class="brand-bar__stat" style="color:var(--plum);">10.6%</div>
+      <div style="font-size:13px;font-weight:600;color:var(--muted);white-space:nowrap;">120–150K km</div>
+      <div class="brand-bar__stat" style="color:var(--plum);">43.8%</div>
     </div>
-    <div class="brand-bar" style="background:#460B28;color:#fff;">
+    <div class="brand-bar" style="background:#460B28;color:#fff;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:16px;">
       <div class="brand-bar__identity"><img src="assets/Chevrolet.svg" alt="Chevrolet" style="filter:invert(1);"><span class="brand-bar__name">Chevrolet</span></div>
-      <div class="brand-bar__stat">18.1%</div>
+      <div style="font-size:13px;font-weight:600;color:rgba(255,255,255,.5);white-space:nowrap;">60–80K km</div>
+      <div class="brand-bar__stat">40.8%</div>
     </div>
   </div>
 
@@ -1437,7 +1440,7 @@ body.layout--blog .r-sidebar {
     <div class="s-split__lede">A higher-mileage Honda outperforms a lower-mileage Chevrolet at every band.</div>
     <div class="s-split__body">
       <p>The pattern holds across every mileage band. Honda runs roughly half the fail rate of Chevrolet at every measurement point: 10.6% vs 18.1% at 0-40K, 30.1% vs 67.7% at 100-120K, 43.8% vs 79.1% at 120-150K. Hyundai sits between the two but its curve climbs faster than Honda's, reaching 72.8% at the highest mileage band. The curves don't stay parallel; reliable brands age more gracefully than unreliable ones.</p>
-      <p><strong>What this means for buyers:</strong> brand is a stronger predictor than mileage. A higher-mileage Japanese car clears Clutch's filter at the same rate as a lower-mileage American or German one. Brand choice should lead the decision; mileage is a secondary filter within a brand.</p>
+      <p><strong>What this means for buyers:</strong> brand is a stronger predictor than mileage. A higher-mileage Honda, Toyota, or Subaru clears Clutch's filter at the same rate as a lower-mileage American or Korean car. Brand choice should lead the decision; mileage is a secondary filter within a brand.</p>
     </div>
   </div>
 </section>
@@ -1495,18 +1498,115 @@ body.layout--blog .r-sidebar {
 
   <p>Hybrids and gas track each other closely on inspection failure for the first six years. EVs run 4 to 5 percentage points higher in the same window. That aggregate EV figure hides something specific: most of the gap is one brand.</p>
 
-  <div class="s-split">
-    <div class="s-split__lede">The hybrid advantage has an age window of 0 to 6 years.</div>
-    <div class="s-split__body">
-      <p>By 7–10 years, hybrid battery cells age and the gap to gasoline narrows. Toyota RAV4 Hybrid at 7–10 years fails our standard at essentially the same rate as the gas RAV4. The strongest hybrid case in the used market is squarely in the 0–6 year window.</p>
-      <p><strong>What this means for buyers:</strong> if reliability is the priority and you're shopping used in the 0–6 year window, hybrids deserve more weight than the new-EV conversation suggests. Toyota RAV4 Hybrid and Corolla Hybrid rank in the top 10 models overall in this dataset.</p>
+  <p>By 7–10 years, hybrid battery cells age and the gap to gasoline narrows. Toyota RAV4 Hybrid at 7–10 years fails our standard at essentially the same rate as the gas RAV4. The strongest hybrid case in the used market is squarely in the 0–6 year window.</p>
+  <p><strong>What this means for buyers:</strong> if reliability is the priority and you're shopping used in the 0–6 year window, hybrids deserve more weight than the new-EV conversation suggests. Toyota RAV4 Hybrid and Corolla Hybrid rank in the top 10 models overall in this dataset.</p>
+</section>
+
+<!-- ── SECTION: Tesla ─────────────────────────────────────────── -->
+<section class="s-block" id="tesla">
+  <span class="s-num">08 — Tesla &amp; EVs</span>
+  <h2>Is Tesla less reliable than other EVs?</h2>
+  <div class="s-rule"></div>
+  <p>EVs carry a reliability reputation problem. Most of that reputation belongs to one brand. Tesla makes up 78% of the EVs Clutch acquires, and its post-sale claim rate of 11.5 per 100 vehicles pulls the aggregate EV number up. Separate Tesla out, and non-Tesla EVs file at 7.5 per 100 — the lowest of any powertrain in our dataset. Lower than gas (10.3). Lower than hybrid (8.0). The EV reliability problem, in the data, is a Tesla problem.</p>
+
+  <!-- WEAKNESSES -->
+  <div class="viz">
+    <div class="tsla">
+      <div class="hyb-title">Tesla Weaknesses</div>
+      <p class="hyb-sub">Issues per 100 vehicles sold — lower is better</p>
+      <div class="tsla-cats">
+
+        <div>
+          <div class="tsla-cat-head">
+            <span class="tsla-cat-name">Brakes &amp; Suspension</span>
+          </div>
+          <div class="row"><span class="ft-name">Gas</span><div class="bar-wrap"><div class="bar gas" style="width:79%;">2.95</div></div></div>
+          <div class="row"><span class="ft-name">Hybrid</span><div class="bar-wrap"><div class="bar hybrid" style="width:50%;">1.88</div></div></div>
+          <div class="row"><span class="ft-name">Tesla</span><div class="bar-wrap"><div class="bar tesla" style="width:100%;">3.74</div></div></div>
+          <div class="row"><span class="ft-name">Non-Tesla EV</span><div class="bar-wrap"><div class="bar ev" style="width:53%;">1.97</div></div></div>
+        </div>
+
+        <div>
+          <div class="tsla-cat-head">
+            <span class="tsla-cat-name">Electrical</span>
+          </div>
+          <div class="row"><span class="ft-name">Gas</span><div class="bar-wrap"><div class="bar gas" style="width:55%;">1.90</div></div></div>
+          <div class="row"><span class="ft-name">Hybrid</span><div class="bar-wrap"><div class="bar hybrid" style="width:54%;">1.88</div></div></div>
+          <div class="row"><span class="ft-name">Tesla</span><div class="bar-wrap"><div class="bar tesla" style="width:100%;">3.45</div></div></div>
+          <div class="row"><span class="ft-name">Non-Tesla EV</span><div class="bar-wrap"><div class="bar ev" style="width:62%;">2.15</div></div></div>
+        </div>
+
+        <div>
+          <div class="tsla-cat-head">
+            <span class="tsla-cat-name">Body &amp; Interior</span>
+          </div>
+          <div class="row"><span class="ft-name">Gas</span><div class="bar-wrap"><div class="bar gas" style="width:54%;">1.23</div></div></div>
+          <div class="row"><span class="ft-name">Hybrid</span><div class="bar-wrap"><div class="bar hybrid" style="width:67%;">1.52</div></div></div>
+          <div class="row"><span class="ft-name">Tesla</span><div class="bar-wrap"><div class="bar tesla" style="width:100%;">2.26</div></div></div>
+          <div class="row"><span class="ft-name">Non-Tesla EV</span><div class="bar-wrap"><div class="bar ev" style="width:24%;">0.54</div></div></div>
+        </div>
+
+        <div>
+          <div class="tsla-cat-head">
+            <span class="tsla-cat-name">HVAC</span>
+          </div>
+          <div class="row"><span class="ft-name">Gas</span><div class="bar-wrap"><div class="bar gas" style="width:37%;">0.49</div></div></div>
+          <div class="row"><span class="ft-name">Hybrid</span><div class="bar-wrap"><div class="bar hybrid" style="width:14%;">0.18</div></div></div>
+          <div class="row"><span class="ft-name">Tesla</span><div class="bar-wrap"><div class="bar tesla" style="width:100%;">1.31</div></div></div>
+          <div class="row"><span class="ft-name">Non-Tesla EV</span><div class="bar-wrap"><div class="bar ev" style="width:41%;">0.54</div></div></div>
+        </div>
+
+      </div>
     </div>
   </div>
+
+  <div class="s-split">
+    <div class="s-split__lede">Tesla's EV architecture works. Tesla's factory doesn't.</div>
+    <div class="s-split__body">
+      <p>The pattern goes beyond "Tesla worse than other EVs." On the four categories that map to physical assembly (body panels and interior, HVAC, brakes and suspension, electrical wiring), Tesla files claims at the highest rate of any fuel type. Higher than gas. Higher than hybrid. Higher than non-Tesla EVs. These aren't EV-specific failures. They're manufacturing-consistency issues that show up on early Model 3 and Model Y production years, and that NHTSA has documented in multiple suspension-related recalls.</p>
+      <p>The biggest Tesla-specific pattern is suspension — control arms and components that frequently need premature replacement, typically $1,000–$2,000 per affected vehicle.</p>
+    </div>
+  </div>
+
+  <!-- STRENGTHS -->
+  <div class="viz">
+    <div class="tsla">
+      <div class="hyb-title">Tesla Strengths</div>
+      <p class="hyb-sub">Issues per 100 vehicles sold — lower is better</p>
+      <div class="tsla-cats">
+
+        <div>
+          <div class="tsla-cat-head">
+            <span class="tsla-cat-name">Powertrain</span>
+          </div>
+          <div class="row"><span class="ft-name">Gas</span><div class="bar-wrap"><div class="bar gas" style="width:100%;">3.24</div></div></div>
+          <div class="row"><span class="ft-name">Hybrid</span><div class="bar-wrap"><div class="bar hybrid" style="width:44%;">1.43</div></div></div>
+          <div class="row"><span class="ft-name">Tesla</span><div class="bar-wrap"><div class="bar tesla" style="width:15%;">0.48</div></div></div>
+          <div class="row"><span class="ft-name">Non-Tesla EV</span><div class="bar-wrap"><div class="bar ev" style="width:33%;">1.08</div></div></div>
+        </div>
+
+        <div>
+          <div class="tsla-cat-head">
+            <span class="tsla-cat-name">Safety / Driver-Assist</span>
+          </div>
+          <div class="row"><span class="ft-name">Gas</span><div class="bar-wrap"><div class="bar gas" style="width:41%;">0.44</div></div></div>
+          <div class="row"><span class="ft-name">Hybrid</span><div class="bar-wrap"><div class="bar hybrid" style="width:99%;">1.07</div></div></div>
+          <div class="row"><span class="ft-name">Tesla</span><div class="bar-wrap"><div class="bar tesla" style="width:56%;">0.60</div></div></div>
+          <div class="row"><span class="ft-name">Non-Tesla EV</span><div class="bar-wrap"><div class="bar ev" style="width:100%;">1.08</div></div></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <p>So where does Tesla win? On powertrain reliability. An EV drivetrain has far fewer moving parts than a gas engine and transmission, and the data reflects that across all EVs. Tesla's powertrain claim rate is 6.7x lower than gas, 3x lower than hybrid, and roughly half the non-Tesla EV rate. The EV architecture works. The car wrapped around it has a quality problem.</p>
+  <p>The non-Tesla EV column is the quiet finding. Across every category, non-Tesla EVs file claims at lower rates than gas. Their total post-sale claim rate of 7.5 per 100 is the lowest of any powertrain in our dataset, beating both gas (10.3) and hybrid (8.0).</p>
+  <p><strong>What this means for buyers:</strong> a used EV doesn't have to be a worse bet than a used gas or hybrid. Non-Tesla EVs file warranty claims less often than gas vehicles in the same window. The "EV reliability problem" most buyers have heard about is, in our data, a Tesla manufacturing-consistency problem, not a problem with electric vehicles in general.</p>
 </section>
 
 <!-- ── SECTION: Premium ──────────────────────────────────────── -->
 <section class="s-block" id="premium">
-  <span class="s-num">08 — Luxury</span>
+  <span class="s-num">09 — Luxury</span>
   <h2>Do premium brands deliver premium reliability?</h2>
   <div class="s-rule"></div>
   <p><strong>Premium price doesn't predict premium reliability. Country of origin does.</strong> German luxury brands BMW, Mercedes-Benz, and Audi all sit in the bottom third of the Clutch Certified Reliability Index, despite their premium new-car pricing. The top five spots all belong to Japanese brands, two luxury (Lexus, Acura) and three mainstream (Subaru, Toyota, Honda).</p>
@@ -1518,6 +1618,7 @@ body.layout--blog .r-sidebar {
       <p class="lux-sub">German luxury runs well above the 25-brand average on every pillar Clutch measures. Japanese luxury runs at or below. The badge isn't doing the work. Country of origin is.</p>
       <div class="chart">
         <div class="make-col">
+          <span class="origin-tag">German</span>
           <img src="assets/BMW.svg" alt="BMW" style="height:48px;width:auto;display:block;margin:0 auto 10px;opacity:.85;">
           <div class="make-name" style="color:#F97316;">BMW</div>
           <div class="make-score" style="background:#F97316;">6.63 / 10</div>
@@ -1526,6 +1627,7 @@ body.layout--blog .r-sidebar {
           <div class="metric"><div class="metric-label">Vehicle-issue returns / 100 sold</div><div class="bar-wrap"><div class="bar warn" style="width:100%;">1.99</div></div></div>
         </div>
         <div class="make-col">
+          <span class="origin-tag">German</span>
           <img src="assets/Mercedes.svg" alt="Mercedes-Benz" style="height:48px;width:auto;display:block;margin:0 auto 10px;opacity:.85;">
           <div class="make-name" style="color:#8A8A8A;">Mercedes-Benz</div>
           <div class="make-score" style="background:#8A8A8A;">7.27 / 10</div>
@@ -1534,6 +1636,7 @@ body.layout--blog .r-sidebar {
           <div class="metric"><div class="metric-label">Vehicle-issue returns / 100 sold</div><div class="bar-wrap"><div class="bar warn" style="width:78%;">1.55</div></div></div>
         </div>
         <div class="make-col">
+          <span class="origin-tag">Japanese</span>
           <img src="assets/Lexus.svg" alt="Lexus" style="height:48px;width:auto;display:block;margin:0 auto 10px;opacity:.85;">
           <div class="make-name" style="color:#549b5c;">Lexus</div>
           <div class="make-score" style="background:#549b5c;">9.70 / 10</div>
@@ -1542,6 +1645,7 @@ body.layout--blog .r-sidebar {
           <div class="metric"><div class="metric-label">Vehicle-issue returns / 100 sold</div><div class="bar-wrap"><div class="bar good" style="width:32%;">0.64</div></div></div>
         </div>
         <div class="make-col">
+          <span class="origin-tag">Japanese</span>
           <img src="assets/AcurA.svg" alt="Acura" style="height:48px;width:auto;display:block;margin:0 auto 10px;opacity:.85;">
           <div class="make-name" style="color:#549b5c;">Acura</div>
           <div class="make-score" style="background:#549b5c;">9.59 / 10</div>
@@ -1550,13 +1654,14 @@ body.layout--blog .r-sidebar {
           <div class="metric"><div class="metric-label">Vehicle-issue returns / 100 sold</div><div class="bar-wrap"><div class="bar good" style="width:20%;">0.40</div></div></div>
         </div>
       </div>
-      <div class="verdict">German luxury runs well above average on every measure, while Japanese luxury runs at or below.</div>
+      <div class="verdict">German luxury runs well above average, while Japanese luxury runs at or below.</div>
       <div class="note"><strong>The pattern repeats across all three measures:</strong> pre-sale repair cost, warranty claim rate, and vehicle-issue returns. BMW and Mercedes land well above average on every dimension. Lexus and Acura sit at or below average on every dimension. Country of origin tracks reliability more cleanly than price tag does.</div>
     </div>
   </div>
 
   <h3>How much does each brand cost to recondition?</h3>
   <p>What it takes to bring each car to the Clutch Certified standard, expressed relative to the average across all 25 brands.</p>
+  <p>German luxury vehicles arrive needing roughly 30% more reconditioning investment than the 25-brand average. That happens before the customer has driven a single kilometre.</p>
   <div class="brand-bars">
     <div class="brand-bar" style="background:#3A0918;color:#fff;">
       <div class="brand-bar__identity"><img src="assets/Mercedes.svg" alt="Mercedes-Benz" style="filter:invert(1);"><span class="brand-bar__name">Mercedes-Benz</span></div>
@@ -1581,6 +1686,7 @@ body.layout--blog .r-sidebar {
   </div>
 
   <h3>How often do these brands need warranty repairs?</h3>
+  <p>How often each brand needs a warranty-covered repair in the first 90 days of ownership, relative to our 25-brand average:</p>
   <div class="brand-bars">
     <div class="brand-bar" style="background:#3A0918;color:#fff;">
       <div class="brand-bar__identity"><img src="assets/BMW.svg" alt="BMW" style="filter:invert(1);"><span class="brand-bar__name">BMW</span></div>
@@ -1613,105 +1719,6 @@ body.layout--blog .r-sidebar {
   </div>
 </section>
 
-<!-- ── SECTION: Tesla ─────────────────────────────────────────── -->
-<section class="s-block" id="tesla">
-  <span class="s-num">09 — Tesla &amp; EVs</span>
-  <h2>Is Tesla less reliable than other EVs?</h2>
-  <div class="s-rule"></div>
-  <p>Tesla makes up 78% of the EVs Clutch acquires. Once Tesla is separated from non-Tesla EVs, the post-sale picture changes sharply. Tesla files paid warranty claims at 11.5 per 100 vehicles sold. Non-Tesla EVs file at 7.5 per 100, the lowest claim rate of any powertrain in our dataset.</p>
-
-  <!-- V7b Tesla EV Chart -->
-  <div class="viz">
-    <div class="evc">
-      <div class="evc-title">Where Tesla Differs From Everyone Else</div>
-      <p class="evc-sub">Paid warranty claims per 100 vehicles sold, opened within 90 days of sale, by issue category and powertrain. Same-claim definition across all four powertrains.</p>
-      <!-- overall fail rate: horizontal bar rows -->
-      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:0 0 14px;">Overall fail rate by vehicle age</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px;">
-        <!-- 0-3 yrs -->
-        <div style="background:#FAFAFA;border:1px solid var(--line);border-radius:10px;padding:14px 16px;">
-          <p style="font-size:11px;font-weight:700;color:var(--plum);text-transform:uppercase;letter-spacing:.4px;margin:0 0 12px;">0–3 years</p>
-          <div style="display:grid;grid-template-columns:72px 1fr 46px;align-items:center;gap:8px;margin-bottom:8px;">
-            <span style="font-size:12px;font-weight:600;color:var(--ink);">Tesla</span>
-            <div style="background:#E8E8E8;height:10px;border-radius:3px;overflow:hidden;"><div style="width:53%;height:100%;background:#460B28;border-radius:3px;"></div></div>
-            <span style="font-size:13px;font-weight:800;color:var(--ink);text-align:right;">14.9%</span>
-          </div>
-          <div style="display:grid;grid-template-columns:72px 1fr 46px;align-items:center;gap:8px;">
-            <span style="font-size:12px;font-weight:600;color:var(--muted);">Other EVs</span>
-            <div style="background:#E8E8E8;height:10px;border-radius:3px;overflow:hidden;"><div style="width:52%;height:100%;background:#C9C9C9;border-radius:3px;"></div></div>
-            <span style="font-size:13px;font-weight:800;color:var(--muted);text-align:right;">14.6%</span>
-          </div>
-        </div>
-        <!-- 4-6 yrs -->
-        <div style="background:#FAFAFA;border:1px solid var(--line);border-radius:10px;padding:14px 16px;">
-          <p style="font-size:11px;font-weight:700;color:var(--plum);text-transform:uppercase;letter-spacing:.4px;margin:0 0 12px;">4–6 years</p>
-          <div style="display:grid;grid-template-columns:72px 1fr 46px;align-items:center;gap:8px;margin-bottom:8px;">
-            <span style="font-size:12px;font-weight:600;color:var(--ink);">Tesla</span>
-            <div style="background:#E8E8E8;height:10px;border-radius:3px;overflow:hidden;"><div style="width:100%;height:100%;background:#460B28;border-radius:3px;"></div></div>
-            <span style="font-size:13px;font-weight:800;color:var(--ink);text-align:right;">28.0%</span>
-          </div>
-          <div style="display:grid;grid-template-columns:72px 1fr 46px;align-items:center;gap:8px;">
-            <span style="font-size:12px;font-weight:600;color:var(--muted);">Other EVs</span>
-            <div style="background:#E8E8E8;height:10px;border-radius:3px;overflow:hidden;"><div style="width:85%;height:100%;background:#C9C9C9;border-radius:3px;"></div></div>
-            <span style="font-size:13px;font-weight:800;color:var(--muted);text-align:right;">23.8%</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- issues per 100: grouped bar chart -->
-      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:0 0 10px;">Issues per 100 vehicles by category — lower is better</p>
-      <div style="display:flex;gap:16px;font-size:12px;color:var(--ink);margin-bottom:14px;flex-wrap:wrap;">
-        <div style="display:flex;align-items:center;gap:7px;"><span style="width:12px;height:12px;background:#460B28;border-radius:2px;display:inline-block;"></span>Tesla</div>
-        <div style="display:flex;align-items:center;gap:7px;"><span style="width:12px;height:12px;background:#C9C9C9;border-radius:2px;display:inline-block;"></span>Other EVs</div>
-      </div>
-      <div style="position:relative;height:260px;"><canvas id="teslaIssuesChart"></canvas></div>
-      <div class="conclusion" style="margin-top:20px;"><strong>The "EV reliability problem" is, in the data, mostly a Tesla problem.</strong> The more telling question is which categories drive that gap, and how Tesla compares to gas and hybrid in each one.</div>
-    </div>
-  </div>
-
-<script>
-(function(){
-  new Chart(document.getElementById('teslaIssuesChart'),{
-    type:'bar',
-    plugins:[ChartDataLabels],
-    data:{
-      labels:['Powertrain','Electrical & tech','Brakes & suspension','Body & glass'],
-      datasets:[
-        { label:'Tesla',     data:[0.22,4.32,3.74,2.16], backgroundColor:'#460B28', borderRadius:4, barPercentage:.7, categoryPercentage:.6 },
-        { label:'Other EVs', data:[1.48,5.42,1.97,0.74], backgroundColor:'#C9C9C9', borderRadius:4, barPercentage:.7, categoryPercentage:.6 }
-      ]
-    },
-    options:{
-      responsive:true, maintainAspectRatio:false,
-      plugins:{
-        legend:{display:false},
-        datalabels:{ anchor:'end', align:'top', font:{size:11,weight:'700',family:'CircularXX,Poppins,sans-serif'}, color:'#444' }
-      },
-      scales:{
-        x:{ grid:{display:false}, ticks:{font:{size:12,family:'CircularXX,Poppins,sans-serif'}, color:'#666'} },
-        y:{ grid:{color:'#F0F0F0'}, ticks:{font:{size:11,family:'CircularXX,Poppins,sans-serif'}, color:'#999'}, max:7, beginAtZero:true }
-      },
-      layout:{ padding:{ top:20 } }
-    }
-  });
-})();
-</script>
-
-  <div class="s-split">
-    <div class="s-split__lede"><img src="assets/Tesla.svg" alt="Tesla" style="height:52px;width:auto;display:block;margin-bottom:14px;opacity:.85;">Tesla's EV architecture works. Tesla's factory doesn't.</div>
-    <div class="s-split__body">
-      <p>Powertrain and electrical issues run well below the other-EV average. Where Tesla is dramatically worse is physical build: brakes, suspension, panel gaps, door alignment, and glass. Pre-sale repair cost for brakes and suspension alone runs roughly 2× the other-EV average.</p>
-      <p>The biggest Tesla-specific pattern is suspension — control arms and components that frequently need premature replacement, typically $1,000–$2,000 per affected vehicle.</p>
-      <p>The pattern: Tesla files claims at higher rates than gas, hybrid, and non-Tesla EVs on every category that maps to physical assembly: body panels, interior fit, HVAC, brakes, suspension, electrical wiring. Tesla beats every other powertrain on engine and drivetrain. Non-Tesla EVs file claims at lower rates than gas across the board. The reliability gap isn't EV technology. It's Tesla manufacturing consistency.</p>
-      <p>The pattern goes beyond "Tesla worse than other EVs." On the four categories that map to physical assembly (body panels and interior, HVAC, brakes and suspension, electrical wiring), Tesla files claims at the highest rate of any powertrain. Higher than gas. Higher than hybrid. Higher than non-Tesla EVs. These aren't EV-specific failures. They're manufacturing-consistency issues that show up on early Model 3 and Model Y production years, and that NHTSA has documented in multiple suspension-related recalls.</p>
-      <p>So where does Tesla win? On powertrain reliability. An EV drivetrain has far fewer moving parts than a gas engine and transmission, and the data reflects that across all EVs. Tesla's powertrain claim rate is 6.7x lower than gas, 3x lower than hybrid, and roughly half the non-Tesla EV rate. The EV architecture works. The car wrapped around it has a quality problem.</p>
-      <p>The non-Tesla EV column is the quiet finding. Across every category, non-Tesla EVs file claims at lower rates than gas. Their total post-sale claim rate of 7.5 per 100 is the lowest of any powertrain in our dataset, beating both gas (10.3) and hybrid (8.0).</p>
-    </div>
-  </div>
-  <p class="citation-capsule" style="background:#FAFAFA; border-left:4px solid #550E30; padding:14px 20px; margin:20px 0; font-size:14px; line-height:1.55; color:#191919; font-style:italic;">Across roughly 20,800 retail-sold vehicles in Clutch's dataset, non-Tesla EVs filed paid warranty claims at 7.5 per 100, gas at 10.3, hybrid at 8.0, and Tesla at 11.5. The post-sale gap commonly attributed to EV technology is concentrated in one brand and in physical-build categories that have nothing to do with electric drivetrains.</p>
-  <p><strong>What this means for buyers:</strong> a used EV doesn't have to be a worse bet than a used gas or hybrid. Non-Tesla EVs file warranty claims less often than gas vehicles in the same window. The "EV reliability problem" most buyers have heard about is, in our data, a Tesla manufacturing-consistency problem, not a problem with electric vehicles in general.</p>
-</section>
-
 <!-- ── SECTION: Conclusion ───────────────────────────────────── -->
 <section class="s-block" id="conclusion">
 
@@ -1719,7 +1726,7 @@ body.layout--blog .r-sidebar {
   <div class="s-rule"></div>
   <p>Nine years and 100,000+ inspected used cars give the Canadian market its first proprietary reliability picture, built on physical inspection and post-sale outcomes rather than owner surveys.</p>
   <p>The patterns are clear: Japanese brands sweep the top of the index, German luxury and Stellantis cluster at the bottom, the EV reliability gap most buyers have heard about is mostly a Tesla manufacturing-consistency problem rather than an EV-technology problem, and brand matters more than mileage at every age band.</p>
-  <p>But every car Clutch sells has already cleared the 210-point standard, been reconditioned to spec, and is backed by our 10-day return policy. The process raises the average reliability score across all 25 brands from 7.99 to 9.32. That's a +1.33-point lift. <strong>Only the cars that pass our 210-point inspection make it to clutch.ca, and each one gets $2,000+ of reconditioning before sale. That's why a Clutch Certified car is measurably more reliable than the brand it belongs to.</strong></p>
+  <p>But every car Clutch sells has already cleared the 210-point standard, been reconditioned to spec, and is backed by our 10-day return policy. The process raises the average reliability score across all 25 brands from 7.99 to 9.32. That's a +1.33-point lift. <strong>Only the cars that pass our 210-point inspection make it to <a href="https://www.clutch.ca" target="_blank" rel="noopener">clutch.ca</a>, and each one gets $2,000+ of reconditioning before sale. That's why a Clutch Certified car is measurably more reliable than the brand it belongs to.</strong></p>
   <div class="stat-callout">
     <img src="assets/cc-badge.png" alt="Clutch Certified" class="stat-callout__deco" style="height:96px;width:auto;font-size:unset;">
     <div class="stat-callout__n">9.32</div>
@@ -1733,6 +1740,7 @@ body.layout--blog .r-sidebar {
   <h2>How is the Clutch Certified Reliability Index calculated?</h2>
   <div class="s-rule"></div>
   <p class="answer"><strong>The index blends four pillars into a single composite reliability score for each brand.</strong> Warranty claim activity carries the largest weight (35%) because it measures what actually breaks after the car reaches a customer. Pre-sale pillars (210-point inspection and reconditioning) and post-sale pillars (90-day warranty claims and 10-day returns) are balanced 50/50.</p>
+  <p>The warranty claim data comes from Clutch's 90-day warranty product, which we've offered for years and which customers can extend at purchase.</p>
   <p>All measurements are normalized within age buckets (0-3, 4-6, and 7-10 years) so older vehicles aren't penalized for their age, then volume-weighted across a brand's retail population. A brand must have meaningful volume in at least two age buckets to be rated. Twenty-five brands meet that threshold.</p>
   <p>Full methodology, data sources, and calculations are published in a companion document available to media and research partners on request.</p>
 </section>
@@ -1759,7 +1767,7 @@ body.layout--blog .r-sidebar {
   </div>
   <div class="faq__item">
     <button class="faq__q" aria-expanded="false">How does fuel type affect reliability?<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    <div class="faq__a"><p class="faq__a-inner">Hybrids and gas track each other closely on inspection failure through the first six years (10.6% vs 10.7% at 0-3 years; 21.5% vs 22.3% at 4-6 years). EVs run higher in the same window (15.3% at 0-3 years, 25.3% at 4-6). But the EV pool is 78% Tesla, and once Tesla is separated out, non-Tesla EVs file post-sale warranty claims at roughly hybrid rates. The "EV reliability problem" most buyers have heard about is, in our data, mostly a Tesla manufacturing-consistency story concentrated in body panels, HVAC, brakes, and suspension. It isn't a problem with EV technology in general.</p></div>
+    <div class="faq__a"><p class="faq__a-inner">Hybrids and gas track each other closely on inspection failure through the first six years (10.6% vs 10.7% at 0-3 years; 21.5% vs 22.3% at 4-6 years). EVs run higher in the same window (15.3% at 0-3 years, 25.3% at 4-6). But the EV pool is 78% Tesla, and once Tesla is separated out, non-Tesla EVs file post-sale warranty claims at roughly hybrid rates. The "EV reliability problem" most buyers have heard about is, in our data, mostly a Tesla manufacturing-consistency story &mdash; concentrated in body panels, HVAC, brakes, and suspension &mdash; not a problem with EV technology in general.</p></div>
   </div>
   <div class="faq__item">
     <button class="faq__q" aria-expanded="false">What does Clutch Certified cover?<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
