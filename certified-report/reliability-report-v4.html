@@ -6,6 +6,11 @@
 <title>Clutch Certified Reliability Report</title>
 <meta name="description" content="Clutch evaluated 100,000+ Canadian used cars against our 210-point standard. The most reliable used-car brands, powertrains, and models, plus what the data says about EV, hybrid, and luxury reliability.">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@40,400,0,0" rel="stylesheet">
+<style>
+@font-face { font-family: 'CircularXX'; src: url('../fonts/CircularXX-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'CircularXX'; src: url('../fonts/CircularXX-Medium.woff2') format('woff2'); font-weight: 500 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'CircularXX'; src: url('../fonts/CircularXX-Bold.woff2') format('woff2'); font-weight: 700 900; font-style: normal; font-display: swap; }
+</style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
 <script src="https://hypothes.is/embed.js" async></script>
@@ -671,6 +676,152 @@ body.layout--blog .r-sidebar {
   body.layout--blog .r-main { grid-template-columns: 1fr; }
   body.layout--blog .r-sidebar { position: static; }
 }
+
+/* ── PRINT STYLES ────────────────────────────────────────────── */
+@media print {
+  @page { size: 8.5in 11in; margin: 0.65in 0.55in; }
+
+  /* reset backgrounds */
+  *, *::before, *::after { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  html, body { background: #fff !important; }
+  .r-blog-hero__inner, body.layout--blog .r-blog-hero { background: #fff !important; }
+
+  /* single-column, no sidebar */
+  body.layout--blog .r-main { grid-template-columns: 1fr !important; gap: 0 !important; padding-top: 28px !important; padding-bottom: 0 !important; }
+  .r-main-content { max-width: 100% !important; }
+
+  /* s-split: stable 2-column grid, keep together across pages */
+  .s-split { display: grid !important; grid-template-columns: 36% 1fr !important; gap: 0 5% !important; align-items: start !important; break-inside: avoid; page-break-inside: avoid; }
+  .s-split__lede { font-size: clamp(18px, 2.5vw, 24px); }
+
+  /* prevent orphan/widow lines in all body copy */
+  p, li { orphans: 3; widows: 3; }
+
+  /* hide web-only chrome */
+  .site-header,
+  .r-blog-hero,
+  .r-blog-top,
+  .r-sidebar,
+  .layout-toggle,
+  #faq,
+  .cta,
+  .r-footer,
+  footer,
+  a[href="#top"],
+  iframe,
+  hypothesis-adder,
+  hypothesis-sidebar,
+  .annotator-frame,
+  #hypothesisContainer { display: none !important; }
+
+  /* kill any fixed/absolute overlays (hypothesis toolbar etc.) */
+  body > iframe,
+  body > div[class*="hypothesis"],
+  body > div[id*="hypothesis"] { display: none !important; }
+
+  /* show print-only cover + TOC */
+  #pdf-cover { display: flex !important; }
+  #pdf-toc { display: block !important; }
+
+  /* section spacing */
+  .s-block { margin-top: 44px; }
+
+  /* page break rules */
+  h2, h3, .hyb-title, .lux-title, .fp h2, .tsla .hyb-title { break-after: avoid; page-break-after: avoid; }
+  .viz { break-inside: avoid; page-break-inside: avoid; }
+  .stat-row, .pillars, .stat-callout { break-inside: avoid; page-break-inside: avoid; }
+  .tsla-cats { break-inside: avoid; page-break-inside: avoid; }
+
+  /* for large vizs that truly won't fit, push to fresh page */
+  .viz.print-break-before { break-before: page; page-break-before: always; }
+
+  /* reduce viz padding in print */
+  .viz { padding: 18px !important; margin: 16px 0 !important; }
+
+  /* reliability index chart — fill full page */
+  #scorecard-viz { padding: 20px 20px 16px !important; border-radius: 0 !important; box-shadow: none !important; background: #fff !important; margin: 0 !important; }
+  #scorecard-inner { max-width: 100% !important; margin: 0 !important; display: flex; flex-direction: column; height: 100%; }
+  #scorecard-sub { display: none !important; }
+  #scorecard-wrap { flex: 1; height: calc(11in - 1.3in - 80px) !important; }
+
+  /* stat cards — light grey fill so they're visible on white */
+  .stat-card { background: #F0F0F0 !important; }
+
+  /* stat callout — reduce oversized number */
+  .stat-callout { padding: 28px 32px 24px !important; }
+  .stat-callout__deco { font-size: 32px !important; margin-bottom: 10px !important; }
+  .stat-callout__n { font-size: 64px !important; letter-spacing: -3px !important; }
+  .stat-callout__ctx { font-size: 14px !important; margin-top: 10px !important; }
+
+  /* body text slightly larger for print */
+  .r-main p, .r-main li { font-size: 17px !important; line-height: 1.75 !important; }
+
+  /* link colours — no underline clutter */
+  a { color: var(--ink) !important; text-decoration: none !important; }
+}
+
+/* Cover + TOC elements (hidden on screen) */
+#pdf-cover {
+  display: none;
+  break-after: page; page-break-after: always;
+  min-height: calc(11in - 1.3in);
+  display: none;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+#pdf-cover .cover-eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: .7px; text-transform: uppercase;
+  color: var(--red); margin-bottom: 16px;
+}
+#pdf-cover .cover-title {
+  font-size: 56px; font-weight: 900; color: var(--ink); letter-spacing: -2px;
+  line-height: 1; margin-bottom: 10px;
+}
+#pdf-cover .cover-sub {
+  font-size: 18px; color: var(--muted); font-weight: 400; line-height: 1.5;
+  max-width: 480px; margin-bottom: 48px;
+}
+#pdf-cover .cover-meta {
+  font-size: 12px; color: var(--muted); border-top: 1px solid var(--line);
+  padding-top: 16px; display: flex; gap: 32px;
+}
+#pdf-cover .cover-meta strong { color: var(--ink); display: block; font-size: 13px; margin-bottom: 2px; }
+
+#pdf-toc {
+  display: none;
+  break-before: page; page-break-before: always;
+  break-after: page; page-break-after: always;
+  padding: 0;
+}
+#pdf-toc .toc-eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: .7px; text-transform: uppercase;
+  color: var(--red); margin-bottom: 28px;
+}
+#pdf-toc .toc-title {
+  font-size: 38px; font-weight: 900; color: var(--ink); letter-spacing: -1px;
+  line-height: 1.1; margin-bottom: 6px;
+}
+#pdf-toc .toc-sub {
+  font-size: 14px; color: var(--muted); margin-bottom: 48px; font-weight: 400;
+}
+#pdf-toc .toc-list {
+  list-style: none; padding: 0; margin: 0; border-top: 1.5px solid var(--ink);
+}
+#pdf-toc .toc-list li {
+  display: flex; align-items: baseline; gap: 12px;
+  padding: 13px 0; border-bottom: 1px solid var(--line);
+}
+#pdf-toc .toc-list li .toc-num {
+  font-size: 11px; font-weight: 700; color: var(--muted); width: 24px; flex-shrink: 0;
+  letter-spacing: .3px;
+}
+#pdf-toc .toc-list li .toc-label {
+  font-size: 15px; font-weight: 600; color: var(--ink); flex: 1;
+}
+#pdf-toc .toc-list li .toc-section {
+  font-size: 11.5px; font-weight: 500; color: var(--muted); text-align: right;
+  white-space: nowrap;
+}
 </style>
 </head>
 <body class="layout--blog">
@@ -740,6 +891,40 @@ body.layout--blog .r-sidebar {
 <main class="r-main">
 <div class="r-main-content">
 
+<!-- ── PDF COVER PAGE (print only) ──────────────────────────── -->
+<div id="pdf-cover">
+  <div>
+    <div class="cover-eyebrow">Clutch Certified</div>
+    <div class="cover-title">Reliability<br>Report</div>
+    <p class="cover-sub">Canada's largest proprietary look at used-car reliability, built on 100,000+ vehicle inspections since 2017.</p>
+    <div class="cover-meta">
+      <div><strong>Published</strong>April 2026</div>
+      <div><strong>Dataset</strong>100,000+ vehicles · 25 brands</div>
+      <div><strong>Source</strong>clutch.ca</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PDF TABLE OF CONTENTS (print only) ────────────────────── -->
+<div id="pdf-toc">
+  <div class="toc-eyebrow">Clutch Certified · 2026</div>
+  <div class="toc-title">Reliability Report</div>
+  <p class="toc-sub">Canada's largest proprietary look at used-car reliability, built on 100,000+ vehicle inspections since 2017.</p>
+  <ol class="toc-list">
+    <li><span class="toc-num">01</span><span class="toc-label">How does our data compare to other reliability sources?</span><span class="toc-section">Methodology</span></li>
+    <li><span class="toc-num">02</span><span class="toc-label">What is Clutch Certified?</span><span class="toc-section">Process</span></li>
+    <li><span class="toc-num">03</span><span class="toc-label">Which used-car brands rank most reliable in Canada?</span><span class="toc-section">Brand Rankings</span></li>
+    <li><span class="toc-num">04</span><span class="toc-label">How does Clutch Certified improve a car's reliability score?</span><span class="toc-section">Certified Lift</span></li>
+    <li><span class="toc-num">05</span><span class="toc-label">What is the #1 cause of used-car failure?</span><span class="toc-section">Rust</span></li>
+    <li><span class="toc-num">06</span><span class="toc-label">Does mileage predict reliability?</span><span class="toc-section">Mileage</span></li>
+    <li><span class="toc-num">07</span><span class="toc-label">How does fuel type affect reliability?</span><span class="toc-section">Fuel Type</span></li>
+    <li><span class="toc-num">08</span><span class="toc-label">Is Tesla less reliable than other EVs?</span><span class="toc-section">Tesla &amp; EVs</span></li>
+    <li><span class="toc-num">09</span><span class="toc-label">Do premium brands deliver on reliability?</span><span class="toc-section">Premium &amp; Luxury</span></li>
+    <li><span class="toc-num">10</span><span class="toc-label">What this means for buyers</span><span class="toc-section">Conclusion</span></li>
+    <li><span class="toc-num">11</span><span class="toc-label">How the index is calculated</span><span class="toc-section">Methodology</span></li>
+  </ol>
+</div>
+
 <!-- ── BLOG: takeaways + TOC (blog mode only) ────────────────── -->
 <div class="r-blog-top">
 
@@ -777,6 +962,7 @@ body.layout--blog .r-sidebar {
 </div>
 
 <!-- intro -->
+<h2 style="font-size:clamp(20px,3vw,28px);font-weight:800;color:var(--ink);letter-spacing:-.4px;line-height:1.2;margin-bottom:16px;">Canada's largest proprietary look at used-car reliability, built on 100,000+ vehicle inspections since 2017.</h2>
 <p style="font-size:15.5px;margin-top:0;line-height:1.65;">
   <strong>This is Canada's largest proprietary look at used-car reliability, built on the physical inspection of over 100,000 vehicles since 2017.</strong> Every brand score in this report draws from four streams of first-party Clutch data: 210-point inspection outcomes, reconditioning records, 90-day warranty claims, and customer returns.
 </p>
@@ -868,9 +1054,9 @@ body.layout--blog .r-sidebar {
     <div class="s-split__body">
       <p>Every vehicle Clutch buys is checked against 210 items across 9 systems before it can reach a customer. Since October 2017, that's covered more than 100,000 vehicles. Vehicles that clear inspection enter reconditioning. That's our pre-sale repair process: mechanical work, cosmetic fixes, glass, and standard prep. Clutch invests <strong>over $2,000</strong> per vehicle on average, combining parts, technician labour, and shop overhead. The mix of what each brand needs is one of the strongest indicators in our dataset. The warranty claim data behind the index comes from Clutch's 90-day warranty product. Every claim is categorized by system, so we can see exactly where each brand has issues after delivery.</p>
       <p><strong>Roughly half of the used vehicles Clutch buys never reach a customer.</strong> Those cars are sold to other dealerships through wholesale auctions instead of being listed on <a href="https://www.clutch.ca" target="_blank" rel="noopener">clutch.ca</a>. Vehicles that don't meet the Clutch Certified standard get sent to wholesale for various reasons: major mechanical issues, damage to multiple body panels, smoke or pet odours, branded titles, or vehicles 11+ years old or over 150,000 km. That filter alone removes the bottom of the used-car market before a single car is listed for sale.</p>
-      <p>Once sold, the customer has 10 days to return the car for any reason. Some returns are about the car itself: a problem the customer caught in the first ten days that our pre-sale process missed. Roughly 1 in 100 retail-sold vehicles is returned for a vehicle issue, a low rate that reflects how much filtering happens before delivery. Those car-related returns feed the return dimension of the index.</p>
     </div>
   </div>
+  <p>Once sold, the customer has 10 days to return the car for any reason. Some returns are about the car itself: a problem the customer caught in the first ten days that our pre-sale process missed. Roughly 1 in 100 retail-sold vehicles is returned for a vehicle issue, a low rate that reflects how much filtering happens before delivery. Those car-related returns feed the return dimension of the index.</p>
 </section>
 
 <!-- ── SECTION: Rankings ─────────────────────────────────────── -->
@@ -898,14 +1084,14 @@ body.layout--blog .r-sidebar {
   </div>
 
   <!-- V1 Brand Ranking Chart -->
-  <div class="viz">
-    <div style="max-width:880px;margin:0 auto;">
-      <h2 style="color:var(--ink);font-size:22px;font-weight:700;margin:0 0 4px;letter-spacing:-.3px;">The Clutch Certified Reliability Index</h2>
-      <p style="color:var(--plum);font-size:13.5px;margin:0 0 18px;font-weight:500;">25 brands ranked across 4 reliability dimensions</p>
-      <div style="position:relative;height:720px;width:100%;">
+  <div id="scorecard-viz" class="viz" style="break-before: page; page-break-before: always;">
+    <div id="scorecard-inner" style="max-width:880px;margin:0 auto;">
+      <h2 id="scorecard-heading" style="color:var(--ink);font-size:22px;font-weight:700;margin:0 0 4px;letter-spacing:-.3px;">The Clutch Certified Reliability Index</h2>
+      <p id="scorecard-sub" style="color:var(--plum);font-size:13.5px;margin:0 0 18px;font-weight:500;">25 brands ranked across 4 reliability dimensions</p>
+      <div id="scorecard-wrap" style="position:relative;height:720px;width:100%;">
         <canvas id="clutchMakeScorecard"></canvas>
       </div>
-      <div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;font-size:12px;color:var(--ink);">
+      <div id="scorecard-legend" style="margin-top:16px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;font-size:12px;color:var(--ink);">
         <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;background:#549b5c;border-radius:2px;display:inline-block;"></span>Top tier (9.0+)</div>
         <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;background:#460B28;border-radius:2px;display:inline-block;"></span>Above average (8.0–8.9)</div>
         <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;background:#8A8A8A;border-radius:2px;display:inline-block;"></span>Average (7.0–7.9)</div>
@@ -1277,22 +1463,26 @@ body.layout--blog .r-sidebar {
 })();
 </script>
 
-  <p style="font-size:13px;color:var(--muted);font-weight:600;letter-spacing:.4px;text-transform:uppercase;margin:0 0 10px;">Biggest lift</p>
-  <div class="brand-bars">
-    <div class="brand-bar" style="background:#3A0918;color:#fff;">
-      <div class="brand-bar__identity"><img src="assets/Dodge.svg" alt="Dodge" style="filter:invert(1);height:20px;"><span class="brand-bar__name">Dodge</span></div>
-      <div class="brand-bar__stat">+2.97</div>
-    </div>
-    <div class="brand-bar" style="background:#6B1A3A;color:#fff;">
-      <div class="brand-bar__identity"><img src="assets/Ram.svg" alt="Ram" style="filter:invert(1);"><span class="brand-bar__name">Ram</span></div>
-      <div class="brand-bar__stat">+2.63</div>
+  <div style="break-inside: avoid; page-break-inside: avoid;">
+    <p style="font-size:13px;color:var(--muted);font-weight:600;letter-spacing:.4px;text-transform:uppercase;margin:0 0 10px;">Biggest lift</p>
+    <div class="brand-bars">
+      <div class="brand-bar" style="background:#3A0918;color:#fff;">
+        <div class="brand-bar__identity"><img src="assets/Dodge.svg" alt="Dodge" style="filter:invert(1);height:20px;"><span class="brand-bar__name">Dodge</span></div>
+        <div class="brand-bar__stat">+2.97</div>
+      </div>
+      <div class="brand-bar" style="background:#6B1A3A;color:#fff;">
+        <div class="brand-bar__identity"><img src="assets/Ram.svg" alt="Ram" style="filter:invert(1);"><span class="brand-bar__name">Ram</span></div>
+        <div class="brand-bar__stat">+2.63</div>
+      </div>
     </div>
   </div>
-  <p style="font-size:13px;color:var(--muted);font-weight:600;letter-spacing:.4px;text-transform:uppercase;margin:16px 0 10px;">Smallest lift</p>
-  <div class="brand-bars">
-    <div class="brand-bar" style="background:#F0E6EC;color:#191919;">
-      <div class="brand-bar__identity"><img src="assets/Lexus.svg" alt="Lexus"><span class="brand-bar__name">Lexus</span></div>
-      <div class="brand-bar__stat" style="color:var(--plum);">+0.13</div>
+  <div style="break-inside: avoid; page-break-inside: avoid;">
+    <p style="font-size:13px;color:var(--muted);font-weight:600;letter-spacing:.4px;text-transform:uppercase;margin:16px 0 10px;">Smallest lift</p>
+    <div class="brand-bars">
+      <div class="brand-bar" style="background:#F0E6EC;color:#191919;">
+        <div class="brand-bar__identity"><img src="assets/Lexus.svg" alt="Lexus"><span class="brand-bar__name">Lexus</span></div>
+        <div class="brand-bar__stat" style="color:var(--plum);">+0.13</div>
+      </div>
     </div>
   </div>
 
