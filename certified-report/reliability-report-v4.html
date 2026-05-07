@@ -1706,22 +1706,28 @@ body.layout--blog .r-sidebar {
 
   <h3 id="ev-gap-tesla">The EV gap is a Tesla gap</h3>
   <p>Tesla makes up 78% of the EVs Clutch acquires. Once Tesla is separated from non-Tesla EVs, the post-sale picture changes sharply. Tesla files paid warranty claims at 11.5 per 100 vehicles sold. Non-Tesla EVs file at 7.5 per 100, the lowest claim rate of any fuel type in our dataset.</p>
-  <div class="brand-bars">
-    <div class="brand-bar" style="background:#F0E6EC;color:#191919;">
-      <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">electric_car</span><div><span class="brand-bar__name">Non-Tesla EV</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Warranty claims per 100 sold (90-day)</div></div></div>
-      <div class="brand-bar__stat" style="color:var(--plum);">7.5</div>
+  <div class="viz" style="margin-top:0;padding:0;overflow:hidden;">
+    <div style="padding:24px 28px 16px;">
+      <div style="font-size:clamp(24px,4vw,36px);font-weight:900;color:var(--ink);letter-spacing:-.5px;line-height:1.1;margin-bottom:6px;">The EV Gap Is a Tesla Gap</div>
+      <p style="margin:0;font-size:13.5px;color:var(--muted);font-weight:500;">Paid warranty claims per 100 vehicles sold (90-day window), by fuel type. Lower is better.</p>
     </div>
-    <div class="brand-bar" style="background:#A83060;color:#fff;">
-      <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">local_gas_station</span><div><span class="brand-bar__name">Hybrid</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Warranty claims per 100 sold (90-day)</div></div></div>
-      <div class="brand-bar__stat">8.0</div>
-    </div>
-    <div class="brand-bar" style="background:#761A3D;color:#fff;">
-      <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">local_gas_station</span><div><span class="brand-bar__name">Gas</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Warranty claims per 100 sold (90-day)</div></div></div>
-      <div class="brand-bar__stat">10.3</div>
-    </div>
-    <div class="brand-bar" style="background:#3A0918;color:#fff;">
-      <div class="brand-bar__identity"><img src="assets/Tesla.svg" alt="Tesla" style="filter:invert(1);height:20px;"><div><span class="brand-bar__name">Tesla</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Warranty claims per 100 sold (90-day)</div></div></div>
-      <div class="brand-bar__stat">11.5</div>
+    <div class="brand-bars" style="margin:0;border-radius:0;">
+      <div class="brand-bar" style="background:#F0E6EC;color:#191919;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">electric_car</span><div><span class="brand-bar__name">Non-Tesla EV</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Warranty claims per 100 sold (90-day)</div></div></div>
+        <div class="brand-bar__stat" style="color:var(--plum);">7.5</div>
+      </div>
+      <div class="brand-bar" style="background:#A83060;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">local_gas_station</span><div><span class="brand-bar__name">Hybrid</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Warranty claims per 100 sold (90-day)</div></div></div>
+        <div class="brand-bar__stat">8.0</div>
+      </div>
+      <div class="brand-bar" style="background:#761A3D;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">local_gas_station</span><div><span class="brand-bar__name">Gas</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Warranty claims per 100 sold (90-day)</div></div></div>
+        <div class="brand-bar__stat">10.3</div>
+      </div>
+      <div class="brand-bar" style="background:#3A0918;color:#fff;">
+        <div class="brand-bar__identity"><img src="assets/Tesla.svg" alt="Tesla" style="filter:invert(1);height:20px;"><div><span class="brand-bar__name">Tesla</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Warranty claims per 100 sold (90-day)</div></div></div>
+        <div class="brand-bar__stat">11.5</div>
+      </div>
     </div>
   </div>
   <p>The "EV reliability problem" is, in the data, mostly a Tesla problem. The more telling question is which categories drive that gap, and how Tesla compares to gas and hybrid in each one.</p>
@@ -1738,8 +1744,6 @@ body.layout--blog .r-sidebar {
   <!-- WEAKNESSES -->
   <div class="viz">
     <div class="tsla">
-      <div class="hyb-title">Tesla Weaknesses</div>
-      <p class="hyb-sub">Issues per 100 vehicles sold — lower is better</p>
       <div class="tsla-cats">
 
         <div>
@@ -1825,6 +1829,8 @@ body.layout--blog .r-sidebar {
     </div>
   </div>
 
+  <p><strong>The pattern:</strong> Tesla files claims at higher rates than gas, hybrid, and non-Tesla EVs on every category that maps to physical assembly: body panels, interior fit, HVAC, brakes, suspension, electrical wiring. Tesla beats every other fuel type on powertrain. Non-Tesla EVs file claims at lower rates than gas across the board. The reliability gap isn't EV technology. It's Tesla manufacturing consistency.</p>
+
   <p>So where does Tesla win? On powertrain reliability. An EV drivetrain has far fewer moving parts than a gas engine and transmission, and the data reflects that across all EVs. Tesla's powertrain claim rate is 6.7x lower than gas, 3x lower than hybrid, and roughly half the non-Tesla EV rate. The EV architecture works. The car wrapped around it has a quality problem.</p>
   <p>The non-Tesla EV column is the quiet finding. Across every category, non-Tesla EVs file claims at lower rates than gas. Their total post-sale claim rate of 7.5 per 100 is the lowest of any fuel type in our dataset, beating both gas (10.3) and hybrid (8.0).</p>
   <p><strong>What this means for buyers:</strong> a used EV doesn't have to be a worse bet than a used gas or hybrid. Non-Tesla EVs file warranty claims less often than gas vehicles in the same window. The "EV reliability problem" most buyers have heard about is, in our data, a Tesla manufacturing-consistency problem, not a problem with electric vehicles in general.</p>
@@ -1841,7 +1847,7 @@ body.layout--blog .r-sidebar {
 
   <div class="viz" style="padding:0;overflow:hidden;">
     <div style="padding:24px 28px 16px;">
-      <div style="font-size:clamp(20px,3vw,28px);font-weight:900;color:var(--ink);letter-spacing:-.4px;line-height:1.1;margin-bottom:6px;">Where Premium Vehicles Cost the Most to Repair</div>
+      <div style="font-size:clamp(20px,3vw,28px);font-weight:900;color:var(--ink);letter-spacing:-.4px;line-height:1.1;margin-bottom:6px;">Where Premium Vehicles Cost the Most to Repair Under Warranty</div>
       <p style="margin:0;font-size:13.5px;color:var(--muted);font-weight:500;">Average warranty repair cost premium over mainstream, in the first 90 days. Combines claim frequency and cost per claim.</p>
     </div>
     <div class="brand-bars" style="margin:0;border-radius:0;">
