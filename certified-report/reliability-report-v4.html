@@ -680,7 +680,7 @@ body.layout--blog .r-sidebar {
 
 /* ── PRINT STYLES ────────────────────────────────────────────── */
 @media print {
-  @page { size: 8.5in 11in; margin: 0.65in 0.55in; }
+  @page { size: 8.5in 11in; margin: 0.9in 0 0.75in; }
 
   /* reset backgrounds */
   *, *::before, *::after { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -691,6 +691,9 @@ body.layout--blog .r-sidebar {
   body.layout--blog .r-main { grid-template-columns: 1fr !important; gap: 0 !important; padding-top: 28px !important; padding-bottom: 0 !important; }
   .r-main-content { max-width: 100% !important; }
 
+  /* horizontal indentation via padding (no @page horizontal margins to avoid clipping) */
+  .r-main { padding-left: 0.55in !important; padding-right: 0.55in !important; }
+
   /* s-split: stable 2-column grid, keep together across pages */
   .s-split { display: grid !important; grid-template-columns: 36% 1fr !important; gap: 0 5% !important; align-items: start !important; break-inside: avoid; page-break-inside: avoid; }
   .s-split__lede { font-size: clamp(18px, 2.5vw, 24px); }
@@ -700,6 +703,8 @@ body.layout--blog .r-sidebar {
 
   /* hide web-only chrome */
   .site-header,
+  .r-hero, .hero-banner,
+  .r-blog-header,
   .r-blog-hero,
   .r-blog-top,
   .r-sidebar,
@@ -721,14 +726,50 @@ body.layout--blog .r-sidebar {
   body > div[id*="hypothesis"] { display: none !important; }
 
   /* show print-only cover + TOC */
-  #pdf-cover { display: flex !important; }
+  @page :first { margin: 0; }
+  #pdf-cover {
+    display: block !important;
+    margin: -52px -0.55in 0 !important;
+    width: 8.5in !important;
+    height: 11in !important;
+    padding: 0 !important;
+    overflow: hidden;
+    background: #0f0f0f !important;
+  }
   #pdf-toc { display: block !important; }
+
+  /* back cover — generated as separate PDF in Puppeteer, hidden here */
+  #pdf-backcover { display: none !important; }
+
+  /* Tesla cats viz — keep with preceding paragraph, no break before */
+  #tsla-cats-viz { break-before: avoid !important; page-break-before: avoid !important; }
+
+  /* dumbbell viz — force fresh page, strip card, hide screen-only copy of title/body */
+  #lift-viz { break-before: page !important; page-break-before: always !important; background: transparent !important; padding: 0 !important; border: none !important; box-shadow: none !important; }
+  #lift-viz > h2, #lift-viz > p { display: none !important; }
+  #dumbbellWrap svg { height: 700px !important; }
 
   /* section spacing */
   .s-block { margin-top: 44px; }
+  #conclusion { margin-top: 0 !important; }
 
   /* page break rules */
-  h2, h3, .hyb-title, .lux-title, .fp h2, .tsla .hyb-title { break-after: avoid; page-break-after: avoid; }
+  h2, h3, h4,
+  .hyb-title, .lux-title, .fp h2, .tsla .hyb-title,
+  .s-num, .s-split__lede,
+  .brand-bars__label {
+    break-after: avoid; page-break-after: avoid;
+    break-inside: avoid; page-break-inside: avoid;
+  }
+
+  /* keep heading bound to the content that follows */
+  h2 + p, h2 + div, h2 + ul, h2 + .viz, h2 + .s-rule,
+  h3 + p, h3 + div, h3 + ul, h3 + .viz, h3 + .s-rule,
+  .s-num + h2,
+  .s-rule { break-after: avoid; page-break-after: avoid; }
+  .s-rule + p, .s-rule + div, .s-rule + ul, .s-rule + .viz,
+  .s-split__lede + .s-split__body { break-before: avoid; page-break-before: avoid; }
+
   .viz { break-inside: avoid; page-break-inside: avoid; }
   .stat-row, .pillars, .stat-callout { break-inside: avoid; page-break-inside: avoid; }
   .tsla-cats { break-inside: avoid; page-break-inside: avoid; }
@@ -740,10 +781,9 @@ body.layout--blog .r-sidebar {
   .viz { padding: 18px !important; margin: 16px 0 !important; }
 
   /* reliability index chart — fill full page */
-  #scorecard-viz { padding: 20px 20px 16px !important; border-radius: 0 !important; box-shadow: none !important; background: #fff !important; margin: 0 !important; }
-  #scorecard-inner { max-width: 100% !important; margin: 0 !important; display: flex; flex-direction: column; height: 100%; }
-  #scorecard-sub { display: none !important; }
-  #scorecard-wrap { flex: 1; height: calc(11in - 1.3in - 80px) !important; }
+  #scorecard-viz { padding: 0 !important; border: none !important; border-radius: 0 !important; box-shadow: none !important; background: transparent !important; margin: 0 !important; }
+  #scorecard-inner { max-width: 100% !important; margin: 0 !important; display: block !important; }
+  #scorecard-wrap { height: 760px !important; }
 
   /* stat cards — light grey fill so they're visible on white */
   .stat-card { background: #F0F0F0 !important; }
@@ -894,22 +934,12 @@ body.layout--blog .r-sidebar {
 
 <!-- ── PDF COVER PAGE (print only) ──────────────────────────── -->
 <div id="pdf-cover">
-  <div>
-    <div class="cover-eyebrow">Clutch Certified</div>
-    <div class="cover-title">Reliability<br>Report</div>
-    <p class="cover-sub">Canada's largest proprietary look at used-car reliability, built on 100,000+ vehicle inspections since 2017.</p>
-    <div class="cover-meta">
-      <div><strong>Published</strong>April 2026</div>
-      <div><strong>Dataset</strong>100,000+ vehicles · 25 brands</div>
-      <div><strong>Source</strong>clutch.ca</div>
-    </div>
-  </div>
+  <img src="cover.png" alt="Clutch Certified Reliability Report 2026" style="width:100%;height:100%;object-fit:cover;display:block;">
 </div>
 
 <!-- ── PDF TABLE OF CONTENTS (print only) ────────────────────── -->
 <div id="pdf-toc">
-  <div class="toc-eyebrow">Clutch Certified · 2026</div>
-  <div class="toc-title">Reliability Report</div>
+  <div class="toc-title">Table of Contents</div>
   <p class="toc-sub">Canada's largest proprietary look at used-car reliability, built on 100,000+ vehicle inspections since 2017.</p>
   <ol class="toc-list">
     <li><span class="toc-num">01</span><span class="toc-label">How does our data compare to other reliability sources?</span><span class="toc-section">Methodology</span></li>
@@ -1022,7 +1052,7 @@ body.layout--blog .r-sidebar {
   <div class="s-rule"></div>
   <p><strong>Clutch Certified is the standard every car on <a href="https://www.clutch.ca" target="_blank" rel="noopener">clutch.ca</a> is held to: a 210-point inspection, reconditioning to standard, and a 10-day return window.</strong> The same operational process generates four pillars of first-party reliability data that feed the index in this report.</p>
 
-  <div style="margin:20px 0 28px;">
+  <div style="margin:20px 0 28px;break-inside:avoid;page-break-inside:avoid;">
 
     <div style="display:flex;border-radius:10px;overflow:hidden;height:86px;">
       <div style="width:30%;background:#460B28;padding:14px 16px;display:flex;flex-direction:column;justify-content:space-between;">
@@ -1050,13 +1080,8 @@ body.layout--blog .r-sidebar {
     </div>
   </div>
 
-  <div class="s-split">
-    <div class="s-split__lede">The same process that sells cars generates the data behind this report.</div>
-    <div class="s-split__body">
-      <p>Every vehicle Clutch buys is checked against 210 items across 9 systems before it can reach a customer. Since October 2017, that's covered more than 100,000 vehicles. Vehicles that clear inspection enter reconditioning. That's our pre-sale repair process: mechanical work, cosmetic fixes, glass, and standard prep. Clutch invests <strong>over $2,000</strong> per vehicle on average, combining parts, technician labour, and shop overhead. The mix of what each brand needs is one of the strongest indicators in our dataset. The warranty claim data behind the index comes from Clutch's 90-day warranty product. Every claim is categorized by system, so we can see exactly where each brand has issues after delivery.</p>
-      <p><strong>Roughly half of the used vehicles Clutch buys never reach a customer.</strong> Those cars are sold to other dealerships through wholesale auctions instead of being listed on <a href="https://www.clutch.ca" target="_blank" rel="noopener">clutch.ca</a>. Vehicles that don't meet the Clutch Certified standard get sent to wholesale for various reasons: major mechanical issues, damage to multiple body panels, smoke or pet odours, branded titles, or vehicles 11+ years old or over 150,000 km. That filter alone removes the bottom of the used-car market before a single car is listed for sale.</p>
-    </div>
-  </div>
+  <p>Every vehicle Clutch buys is checked against 210 items across 9 systems before it can reach a customer. Since October 2017, that's covered more than 100,000 vehicles. Vehicles that clear inspection enter reconditioning. That's our pre-sale repair process: mechanical work, cosmetic fixes, glass, and standard prep. Clutch invests <strong>over $2,000</strong> per vehicle on average, combining parts, technician labour, and shop overhead. The mix of what each brand needs is one of the strongest indicators in our dataset. The warranty claim data behind the index comes from Clutch's 90-day warranty product. Every claim is categorized by system, so we can see exactly where each brand has issues after delivery.</p>
+  <p><strong>Roughly half of the used vehicles Clutch buys never reach a customer.</strong> Those cars are sold to other dealerships through wholesale auctions instead of being listed on <a href="https://www.clutch.ca" target="_blank" rel="noopener">clutch.ca</a>. Vehicles that don't meet the Clutch Certified standard get sent to wholesale for various reasons: major mechanical issues, damage to multiple body panels, smoke or pet odours, branded titles, or vehicles 11+ years old or over 150,000 km. That filter alone removes the bottom of the used-car market before a single car is listed for sale.</p>
   <p>Once sold, the customer has 10 days to return the car for any reason. Some returns are about the car itself: a problem the customer caught in the first ten days that our pre-sale process missed. Roughly 1 in 100 retail-sold vehicles is returned for a vehicle issue, a low rate that reflects how much filtering happens before delivery. Those car-related returns feed the return dimension of the index.</p>
 </section>
 
@@ -1085,7 +1110,7 @@ body.layout--blog .r-sidebar {
   </div>
 
   <!-- V1 Brand Ranking Chart -->
-  <div id="scorecard-viz" class="viz" style="break-before: page; page-break-before: always;">
+  <div id="scorecard-viz" class="viz" style="break-before: page; page-break-before: always; break-after: page; page-break-after: always;">
     <div id="scorecard-inner" style="max-width:880px;margin:0 auto;">
       <h2 id="scorecard-heading" style="color:var(--ink);font-size:22px;font-weight:700;margin:0 0 4px;letter-spacing:-.3px;">The Clutch Certified Reliability Index</h2>
       <p id="scorecard-sub" style="color:var(--plum);font-size:13.5px;margin:0 0 18px;font-weight:500;">25 brands ranked across 4 reliability dimensions</p>
@@ -1297,7 +1322,7 @@ body.layout--blog .r-sidebar {
   <p><strong>Clutch's process raises the average reliability score across the 25 brands we measured from 7.99 to 9.32, a +1.33-point lift driven entirely by what we filter out at intake and what we fix in reconditioning.</strong> Every brand in the index gets a measurable lift; the brands that need the most filtering get the biggest one. The lift is largest on brands that arrive with the most issues, and smallest on brands already strong at intake.</p>
 
   <!-- V23 — DUMBBELL CHART -->
-  <div class="viz">
+  <div class="viz" id="lift-viz">
     <h2 style="font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-.3px;margin:0 0 8px;">How Clutch Certified Elevates Every Car</h2>
     <p style="color:var(--ink);font-size:15px;margin:0 0 16px;font-weight:400;line-height:1.5;">Before any car gets listed on clutch.ca, roughly 50% of what Clutch buys fails our 210-point inspection and is sent to wholesale auctions. From the cars that pass, we invest over $2,000 per vehicle in reconditioning before listing. The Clutch Certified score reflects the vehicles we actually sell — not every used car of that brand on the road.</p>
     <div id="dumbbellWrap" style="width:100%;overflow-x:auto;"></div>
@@ -1466,7 +1491,7 @@ body.layout--blog .r-sidebar {
     <p style="margin:0;font-size:15px;color:var(--ink-700);line-height:1.6;"><strong>The brands with the biggest lift are also where Clutch Certified does the most work relative to buying off the open market.</strong> A used Dodge or Ram bought through Clutch passes through a filter and a reconditioning process that the same vehicle wouldn't see on a private sale or an as-is dealer lot. Buyers shopping these brands benefit most from the Certified process — the lift relative to the open market is largest there.</p>
   </div>
   <div class="viz" style="margin-top:0;padding:0;overflow:hidden;">
-    <div style="padding:24px 28px 16px;">
+    <div style="padding:24px 28px 16px;background:#F5F5F5;border-radius:14px 14px 0 0;">
       <div style="font-size:clamp(24px,4vw,36px);font-weight:900;color:var(--ink);letter-spacing:-.5px;line-height:1.1;margin-bottom:6px;">Brands With the Biggest Lift</div>
       <p style="margin:0;font-size:13.5px;color:var(--muted);font-weight:500;">Reliability score improvement from market average to Clutch Certified, by brand.</p>
     </div>
@@ -1607,13 +1632,8 @@ body.layout--blog .r-sidebar {
 })();
 </script>
 
-  <div class="s-split">
-    <div class="s-split__lede">Japanese cars outlast American, German, and Korean cars at every mileage band.</div>
-    <div class="s-split__body">
-      <p>The pattern holds across every mileage band. Honda runs roughly half the fail rate of Chevrolet at every measurement point: 10.6% vs 18.1% at 0-40K, 30.1% vs 67.7% at 100-120K, 43.8% vs 79.1% at 120-150K. Hyundai sits between the two but its curve climbs faster than Honda's, reaching 72.8% at the highest mileage band. The curves don't stay parallel; reliable brands age more gracefully than unreliable ones.</p>
-      <p><strong>What this means for buyers:</strong> brand is a stronger predictor than mileage. A higher-mileage Japanese car clears Clutch's filter at the same rate as a lower-mileage American or German one. Brand choice should lead the decision; mileage is a secondary filter within a brand.</p>
-    </div>
-  </div>
+  <p>The pattern holds across every mileage band. Honda runs roughly half the fail rate of Chevrolet at every measurement point: 10.6% vs 18.1% at 0-40K, 30.1% vs 67.7% at 100-120K, 43.8% vs 79.1% at 120-150K. Hyundai sits between the two but its curve climbs faster than Honda's, reaching 72.8% at the highest mileage band. The curves don't stay parallel; reliable brands age more gracefully than unreliable ones.</p>
+  <p><strong>What this means for buyers:</strong> brand is a stronger predictor than mileage. A higher-mileage Japanese car clears Clutch's filter at the same rate as a lower-mileage American or German one. Brand choice should lead the decision; mileage is a secondary filter within a brand.</p>
 </section>
 
 <div class="s-sep"></div>
@@ -1627,7 +1647,7 @@ body.layout--blog .r-sidebar {
 
   <!-- V17 Rust Chart -->
   <div class="viz" style="padding:0;overflow:hidden;">
-    <div style="padding:24px 28px 16px;">
+    <div style="padding:24px 28px 16px;background:#F5F5F5;border-radius:14px 14px 0 0;">
       <div style="font-size:clamp(24px,4vw,36px);font-weight:900;color:var(--ink);letter-spacing:-.5px;line-height:1.1;margin-bottom:6px;">What Kills Cars in Canada?</div>
       <p style="margin:0;font-size:13.5px;color:var(--muted);font-weight:500;">The top reasons vehicles fail Clutch's 210-point inspection.</p>
     </div>
@@ -1659,15 +1679,10 @@ body.layout--blog .r-sidebar {
     </div>
   </div>
 
-  <div class="s-split">
-    <div class="s-split__lede">The Canadian climate is the biggest threat to a used car.</div>
-    <div class="s-split__body">
-      <p>The issues are specific: perforated frames, rotted subframes, bubbled rocker panels, corroded wheel wells, and structural rust that can't be safely welded. These aren't cosmetic problems. A rusted-through frame rail is a safety hazard.</p>
-      <p>Rust doesn't hit every brand equally. Ram (64%), Dodge (62%), Chevrolet (56%), Subaru (56%), and Tesla (57%) show the highest rust rates among vehicles that fail our inspection. But every brand on the list has a meaningful rust problem. Road salt, freeze-thaw cycles, and a five-month winter season do more damage per kilometre than the mechanical systems themselves.</p>
-      <p>Lack of routine maintenance is the multiplier on most rust failures. A vehicle that gets washed regularly and has its underbody treated holds up much better than one that doesn't, even in the same climate. Maintenance habits matter as much as where a car was driven.</p>
-      <p><strong>What this means for buyers:</strong> mileage and age are useful proxies for rust risk, but neither is a hard rule. Climate exposure and maintenance history matter as much. Cars driven in salt-belt provinces, stored outdoors, or never undercoated can be structurally compromised in ways the odometer doesn't show. Routine maintenance is the most actionable factor an owner can control: regular underbody washing through winter, prompt repair of stone-chip damage to paint and undercoating, and indoor storage when possible all slow the corrosion process. Underbody inspections, which Clutch performs on every vehicle as part of the 210-point standard, are often the deciding factor.</p>
-    </div>
-  </div>
+  <p>The issues are specific: perforated frames, rotted subframes, bubbled rocker panels, corroded wheel wells, and structural rust that can't be safely welded. These aren't cosmetic problems. A rusted-through frame rail is a safety hazard.</p>
+  <p>Rust doesn't hit every brand equally. Ram (64%), Dodge (62%), Chevrolet (56%), Subaru (56%), and Tesla (57%) show the highest rust rates among vehicles that fail our inspection. But every brand on the list has a meaningful rust problem. Road salt, freeze-thaw cycles, and a five-month winter season do more damage per kilometre than the mechanical systems themselves.</p>
+  <p>Lack of routine maintenance is the multiplier on most rust failures. A vehicle that gets washed regularly and has its underbody treated holds up much better than one that doesn't, even in the same climate. Maintenance habits matter as much as where a car was driven.</p>
+  <p><strong>What this means for buyers:</strong> mileage and age are useful proxies for rust risk, but neither is a hard rule. Climate exposure and maintenance history matter as much. Cars driven in salt-belt provinces, stored outdoors, or never undercoated can be structurally compromised in ways the odometer doesn't show. Routine maintenance is the most actionable factor an owner can control: regular underbody washing through winter, prompt repair of stone-chip damage to paint and undercoating, and indoor storage when possible all slow the corrosion process. Underbody inspections, which Clutch performs on every vehicle as part of the 210-point standard, are often the deciding factor.</p>
 </section>
 
 <hr class="s-sep">
@@ -1707,7 +1722,7 @@ body.layout--blog .r-sidebar {
   <h3 id="ev-gap-tesla">The EV gap is a Tesla gap</h3>
   <p>Tesla makes up 78% of the EVs Clutch acquires. Once Tesla is separated from non-Tesla EVs, the post-sale picture changes sharply. Tesla files paid warranty claims at 11.5 per 100 vehicles sold. Non-Tesla EVs file at 7.5 per 100, the lowest claim rate of any fuel type in our dataset.</p>
   <div class="viz" style="margin-top:0;padding:0;overflow:hidden;">
-    <div style="padding:24px 28px 16px;">
+    <div style="padding:24px 28px 16px;background:#F5F5F5;border-radius:14px 14px 0 0;">
       <div style="font-size:clamp(24px,4vw,36px);font-weight:900;color:var(--ink);letter-spacing:-.5px;line-height:1.1;margin-bottom:6px;">The EV Gap Is a Tesla Gap</div>
       <p style="margin:0;font-size:13.5px;color:var(--muted);font-weight:500;">Paid warranty claims per 100 vehicles sold (90-day window), by fuel type. Lower is better.</p>
     </div>
@@ -1739,10 +1754,10 @@ body.layout--blog .r-sidebar {
   <span class="s-num">08 — Tesla &amp; EVs</span>
   <h2>Where Tesla Differs From the Rest</h2>
   <div class="s-rule"></div>
-  <p>EVs carry a reliability reputation problem. Most of that reputation belongs to one brand. Tesla makes up 78% of the EVs Clutch acquires, and its post-sale claim rate of 11.5 per 100 vehicles pulls the aggregate EV number up. Separate Tesla out, and non-Tesla EVs file at 7.5 per 100 — the lowest of any powertrain in our dataset. Lower than gas (10.3). Lower than hybrid (8.0). The EV reliability problem, in the data, is a Tesla problem.</p>
+  <p style="break-inside:avoid;page-break-inside:avoid;">EVs carry a reliability reputation problem. Most of that reputation belongs to one brand. Tesla makes up 78% of the EVs Clutch acquires, and its post-sale claim rate of 11.5 per 100 vehicles pulls the aggregate EV number up. Separate Tesla out, and non-Tesla EVs file at 7.5 per 100 — the lowest of any powertrain in our dataset. Lower than gas (10.3). Lower than hybrid (8.0). The EV reliability problem, in the data, is a Tesla problem.</p>
 
   <!-- WEAKNESSES -->
-  <div class="viz">
+  <div class="viz" id="tsla-cats-viz">
     <div class="tsla">
       <div class="tsla-cats">
 
@@ -1846,7 +1861,7 @@ body.layout--blog .r-sidebar {
   <p><strong>No. Premium brands are, on average, less reliable than mainstream brands.</strong> Six of the nine premium brands in the Clutch Certified Reliability Index sit below the 25-brand average. Warranty repairs on premium vehicles cost 89% more than on mainstream vehicles in the first 90 days of ownership, and Clutch invests 13% more reconditioning premium vehicles to retail standard. Two luxury brands buck this pattern: Lexus and Acura, both built on the engineering culture of Toyota and Honda, the most reliability-focused parent companies in the industry.</p>
 
   <div class="viz" style="padding:0;overflow:hidden;">
-    <div style="padding:24px 28px 16px;">
+    <div style="padding:24px 28px 16px;background:#F5F5F5;border-radius:14px 14px 0 0;">
       <div style="font-size:clamp(20px,3vw,28px);font-weight:900;color:var(--ink);letter-spacing:-.4px;line-height:1.1;margin-bottom:6px;">Where Premium Vehicles Cost the Most to Repair Under Warranty</div>
       <p style="margin:0;font-size:13.5px;color:var(--muted);font-weight:500;">Average warranty repair cost premium over mainstream, in the first 90 days. Combines claim frequency and cost per claim.</p>
     </div>
@@ -1884,7 +1899,7 @@ body.layout--blog .r-sidebar {
   <p>Premium vehicles generate higher warranty repair costs in every issue category, and the gap roughly doubles once cost is layered on top of frequency. Body and interior repairs run 114% more expensive on premium; electrical 107% more; brakes and suspension 103% more. Premium parts cost more, premium labour costs more, and premium vehicles need warranty work more often. The compounding pushes total warranty repair cost on premium to nearly twice the mainstream figure.</p>
 
   <div class="viz" style="padding:0;overflow:hidden;">
-    <div style="padding:24px 28px 16px;">
+    <div style="padding:24px 28px 16px;background:#F5F5F5;border-radius:14px 14px 0 0;">
       <div style="font-size:clamp(20px,3vw,28px);font-weight:900;color:var(--ink);letter-spacing:-.4px;line-height:1.1;margin-bottom:6px;">Where Premium Vehicles Cost the Most to Recondition</div>
       <p style="margin:0;font-size:13.5px;color:var(--muted);font-weight:500;">Average pre-sale reconditioning spend per retail vehicle, expressed as the relative premium over mainstream.</p>
     </div>
@@ -1970,7 +1985,7 @@ body.layout--blog .r-sidebar {
 <hr class="s-sep">
 
 <!-- ── SECTION: Conclusion ───────────────────────────────────── -->
-<section class="s-block" id="conclusion">
+<section class="s-block" id="conclusion" style="break-before:page;page-break-before:always;">
 
   <h2>Conclusion</h2>
   <div class="s-rule"></div>
@@ -2038,6 +2053,9 @@ body.layout--blog .r-sidebar {
 </div>
 
 </div><!-- /r-main-content -->
+
+<!-- ── PDF BACK COVER (print only) ───────────────────────────── -->
+<div id="pdf-backcover"></div>
 
 <!-- ═══ SIDEBAR ══════════════════════════════════════════════ -->
 <aside class="r-sidebar">
