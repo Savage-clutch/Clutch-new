@@ -1,0 +1,1574 @@
+<!-- Clutch Certified Reliability Report Embed -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@40,400,0,0" rel="stylesheet">
+
+<style>
+
+@font-face { font-family: 'CircularXX'; src: url('https://raw.githubusercontent.com/Savage-clutch/Clutch-new/main/fonts/CircularXX-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'CircularXX'; src: url('https://raw.githubusercontent.com/Savage-clutch/Clutch-new/main/fonts/CircularXX-Medium.woff2') format('woff2'); font-weight: 500 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'CircularXX'; src: url('https://raw.githubusercontent.com/Savage-clutch/Clutch-new/main/fonts/CircularXX-Bold.woff2') format('woff2'); font-weight: 700 900; font-style: normal; font-display: swap; }
+
+
+/* ── Wrapper tokens + base ── */
+.cr-report {
+  --plum:      #460B28;
+  --red:       #FF464C;
+  --lavender:  #F1EDF8;
+  --cherry:    #800040;
+  --ink:       #111111;
+  --body-ink:  #2A2A2A;
+  --muted:     #666;
+  --subtle:    #999;
+  --line:      #E8E8E8;
+  --green:     #549b5c;
+  --page:      #F5F4F2;
+  --card:      #FFFFFF;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.06), 0 2px 10px rgba(0,0,0,.05);
+  --shadow:    0 2px 16px rgba(0,0,0,.08), 0 1px 4px rgba(0,0,0,.04);
+
+  font-family: 'CircularXX', 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--body-ink);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 24px 96px;
+  box-sizing: border-box;
+}
+.cr-report *, .cr-report *::before, .cr-report *::after { box-sizing: border-box; }
+.cr-report a { color: var(--plum); text-decoration: none; }
+.cr-report a:hover { opacity: .75; }
+
+/* hide web-only layout chrome */
+.cr-report .r-blog-top,
+.cr-report .r-blog-header,
+.cr-report #pdf-cover,
+.cr-report #pdf-toc { display: none !important; }
+
+
+/* ── tokens ─────────────────────────────────────────────────── */:root {
+  --plum:      #460B28;
+  --red:       #FF464C;
+  --lavender:  #F1EDF8;
+  --cherry:    #800040;
+  --ink:       #111111;
+  --body-ink:  #2A2A2A;
+  --muted:     #666;
+  --subtle:    #999;
+  --line:      #E8E8E8;
+  --green:     #549b5c;
+  --page:      #F5F4F2;
+  --card:      #FFFFFF;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.06), 0 2px 10px rgba(0,0,0,.05);
+  --shadow:    0 2px 16px rgba(0,0,0,.08), 0 1px 4px rgba(0,0,0,.04);
+}.cr-report *, .cr-report *::before, .cr-report *::after { box-sizing: border-box; margin: 0; padding: 0; }.cr-report a { color: var(--plum); text-decoration: none; }a:hover { opacity: .75; }.cr-report html { scroll-behavior: auto; }.cr-report body {
+  font-family: 'CircularXX', 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--body-ink);
+  background: var(--page);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── site header ─────────────────────────────────────────────── */.site-header { position: static; }.progress-bar { display: none; }.cr-report .nav {
+  background: #fff;
+  border-bottom: 1px solid #E8E8E8;
+  height: 76px;
+  display: flex; align-items: center;
+  padding: 0 clamp(20px, 6%, 80px);
+}.nav__left { display: flex; align-items: center; gap: 7px; text-decoration: none; }.nav__logo { height: 44px; width: auto; display: block; }.nav__blog-label {
+  font-size: 17px; font-weight: 800; color: var(--ink);
+  letter-spacing: -.3px; line-height: 1;
+}.nav__links {
+  margin-left: auto; display: flex; align-items: center; gap: 28px;
+}.nav__links a {
+  font-size: 13.5px; font-weight: 500; color: var(--ink);
+  text-decoration: none; white-space: nowrap; letter-spacing: -.1px;
+}.nav__links a:hover { opacity: .55; }
+@media (max-width: 740px) {.nav__links { display: none; } }
+
+/* ── hero ────────────────────────────────────────────────────── */.r-hero {
+  background: linear-gradient(145deg, #1A0610 0%, #3B0A22 45%, #460B28 100%);
+  padding: 100px 24px 72px; text-align: center;
+}.r-hero__kicker {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 10.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  color: rgba(255,255,255,.55);
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14);
+  padding: 5px 14px; border-radius: 20px; margin-bottom: 22px;
+}.r-hero h1 {
+  font-size: clamp(36px, 6vw, 62px); font-weight: 800;
+  letter-spacing: -1.5px; line-height: 1.08; color: #fff;
+  max-width: 780px; margin: 0 auto 16px;
+}.r-hero__sub {
+  font-size: 16px; color: rgba(255,255,255,.65);
+  max-width: 540px; margin: 0 auto 0; line-height: 1.65;
+}
+@media (max-width: 600px) {.r-hero h1 { letter-spacing: -.8px; } }
+
+/* ── hero stat banner ────────────────────────────────────────── */.hero-banner { background: var(--ink); border-bottom: 1px solid rgba(255,255,255,.08); }.hero-banner__inner {
+  max-width: 980px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+}.hero-banner__item {
+  padding: 24px 20px; text-align: center;
+  border-right: 1px solid rgba(255,255,255,.08);
+}.hero-banner__item:last-child { border-right: none; }.hero-banner__n { font-size: 28px; font-weight: 800; color: #fff; letter-spacing: -.8px; line-height: 1; }.hero-banner__l { font-size: 10.5px; color: rgba(255,255,255,.45); text-transform: uppercase; letter-spacing: .5px; margin-top: 5px; font-weight: 600; }
+@media (max-width: 600px) {.hero-banner__inner { grid-template-columns: 1fr 1fr; }.hero-banner__item { border-bottom: 1px solid rgba(255,255,255,.08); }.hero-banner__item:nth-child(2n) { border-right: none; }
+}
+
+
+/* ── main layout ────────────────────────────────────────────── */.cr-report .r-main { max-width: 980px; margin: 0 auto; padding: 52px 24px 96px; }
+
+/* ── typography ─────────────────────────────────────────────── */.cr-report .r-main p { font-size: 15.5px; line-height: 1.75; color: #3A3A3A; margin-bottom: 16px; }.cr-report .r-main p strong { color: var(--ink); font-weight: 700; }.cr-report .r-main p em { font-style: italic; }.cr-report .r-main ul, .cr-report .r-main ol { margin: 10px 0 16px; padding-left: 22px; }.cr-report .r-main li { font-size: 15.5px; line-height: 1.7; margin-bottom: 6px; color: #3A3A3A; }
+
+/* ── sections ───────────────────────────────────────────────── */.cr-report .s-block { margin-top: 72px; scroll-margin-top: 24px; }.cr-report .s-sep { border: none; border-top: 1px solid rgba(0,0,0,.09); margin: 72px 0 0; }.cr-report .s-num { display: none; }.cr-report .s-block > h2 {
+  font-size: clamp(24px, 3.5vw, 32px); font-weight: 800;
+  color: var(--ink); letter-spacing: -.5px; line-height: 1.2;
+  margin-bottom: 10px;
+}.cr-report .s-rule { display: none; }.cr-report .s-block > h3 {
+  font-size: 18.5px; font-weight: 700; color: var(--ink);
+  letter-spacing: -.2px; margin: 34px 0 10px;
+}.cr-report .s-block > p { margin-bottom: 14px; }.cr-report .s-block > p:last-child { margin-bottom: 0; }
+
+/* ── answer block ───────────────────────────────────────────── */.cr-report .answer {
+  font-size: 16.5px; line-height: 1.72; color: var(--ink);
+  margin: 0 0 22px;
+}.cr-report .answer strong { color: var(--plum); font-weight: 700; }
+
+/* ── stat callout ───────────────────────────────────────────── */.cr-report .stat-callout {
+  background: #460B28;
+  border-radius: 16px; padding: 48px 32px 44px;
+  text-align: center; margin: 28px 0 36px; color: #fff;
+}.cr-report .stat-callout__rule { display: none; }.cr-report .stat-callout__deco {
+  display: block; font-size: 48px; line-height: 1;
+  color: rgba(255,255,255,.9); margin: 0 auto 16px;
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+  width: fit-content;
+}.cr-report .stat-callout__n {
+  font-size: clamp(76px, 14vw, 124px); font-weight: 900;
+  letter-spacing: -8px; line-height: 1; color: #fff;
+  font-variant-numeric: tabular-nums;
+}.cr-report .stat-callout__ctx {
+  font-size: 16px; color: rgba(255,255,255,.68); line-height: 1.5;
+  margin-top: 18px; max-width: 520px; margin-left: auto; margin-right: auto;
+}.cr-report .stat-callout__ctx strong { color: #fff; }
+@media (max-width: 500px) {.cr-report .stat-callout__n { font-size: clamp(56px, 16vw, 76px); letter-spacing: -2px; } }
+
+/* ── brand mark on stat-pair cards ──────────────────────────── */.cr-report .stat-pair__brand { margin-bottom: 10px; line-height: 1; }.cr-report .stat-pair__brand img { height: 48px; width: auto; display: block; }
+
+/* ── lede color emphasis (no italic) ────────────────────────── */.cr-report .lede-em { color: var(--plum); font-weight: 900; }
+
+/* ── editorial 2-col split ──────────────────────────────────── */.cr-report .s-split {
+  display: grid; grid-template-columns: 1fr 1.15fr;
+  gap: 28px 52px; align-items: start; margin: 20px 0 32px;
+}.cr-report .s-split__lede {
+  font-size: clamp(22px, 3vw, 32px); font-weight: 800;
+  color: var(--ink); line-height: 1.15; letter-spacing: -.5px;
+}.cr-report .s-split__body p { margin-bottom: 14px; }.cr-report .s-split__body p:last-child { margin-bottom: 0; }
+@media (max-width: 680px) {.cr-report .s-split { grid-template-columns: 1fr; }.cr-report .s-split__lede { position: static; } }
+
+/* ── 2-col flowing prose ─────────────────────────────────────── */.cr-report .prose-2col { columns: 2; column-gap: 40px; orphans: 3; widows: 3; margin: 20px 0 0; }.cr-report .prose-2col p { break-inside: avoid; margin-bottom: 14px; }.cr-report .prose-2col p:last-child { margin-bottom: 0; }
+@media (max-width: 640px) {.cr-report .prose-2col { columns: 1; } }
+
+/* ── light inline stat pairs (on-page, no dark box) ─────────── */.cr-report .stat-pairs {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1px; background: var(--line);
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  margin: 24px 0 32px;
+}.cr-report .stat-pair {
+  background: var(--card); padding: 24px 22px 22px;
+}.cr-report .stat-pair__n {
+  font-size: clamp(42px, 6vw, 62px); font-weight: 900;
+  letter-spacing: -2px; line-height: 1; color: var(--plum);
+  font-variant-numeric: tabular-nums;
+}.cr-report .stat-pair__n sup { font-size: .45em; letter-spacing: 0; vertical-align: .25em; }.cr-report .stat-pair__name { font-size: 14px; font-weight: 700; color: var(--body-ink); margin-top: 8px; line-height: 1.3; }.cr-report .stat-pair__desc { font-size: 13px; color: var(--muted); line-height: 1.45; margin-top: 4px; }.cr-report .stat-pair__desc strong { color: var(--body-ink); }
+
+/* ── highlighted inline aside ────────────────────────────────── */.cr-report .aside-fact {
+  margin: 20px 0; font-size: 14px; line-height: 1.55; color: var(--muted);
+}.cr-report .aside-fact strong { color: var(--plum); }
+
+/* ── multi-stat row ─────────────────────────────────────────── */.cr-report .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 22px 0 30px; }.cr-report .stat-card {
+  background: var(--card); border-radius: 12px; padding: 32px 28px 28px;
+  text-align: center;
+}.cr-report .stat-card__brand { margin-bottom: 20px; }.cr-report .stat-card__brand img { height: 72px; width: auto; display: block; margin: 0 auto; opacity: .85; }.cr-report .stat-card__data { }.cr-report .stat-card__n { font-size: clamp(52px, 8vw, 72px); font-weight: 900; color: var(--plum); letter-spacing: -2px; line-height: 1; }.cr-report .stat-card__l { font-size: 13px; color: var(--muted); margin-top: 10px; font-weight: 600; letter-spacing: .2px; line-height: 1.4; text-transform: uppercase; }
+@media (max-width: 500px) {.cr-report .stat-row { grid-template-columns: 1fr 1fr; } }
+
+/* ── pillar cards ───────────────────────────────────────────── */.cr-report .pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 20px 0 28px; }.cr-report .pillar {
+  background: var(--card); border-radius: 10px; padding: 18px 16px;
+  text-align: center;
+  border-top: 3px solid var(--plum);
+}.cr-report .pillar__w { font-size: 28px; font-weight: 800; color: var(--plum); letter-spacing: -.5px; line-height: 1; }.cr-report .pillar__n { font-size: 12.5px; font-weight: 700; color: var(--ink); margin: 6px 0 3px; }.cr-report .pillar__d { font-size: 11px; color: var(--muted); line-height: 1.35; }
+@media (max-width: 600px) {.cr-report .pillars { grid-template-columns: 1fr 1fr; } }
+
+/* ── key takeaways cards ─────────────────────────────────────── */.cr-report .takeaways { margin: 32px 0 52px; }.cr-report .section-title {
+  font-size: clamp(22px, 3vw, 28px); font-weight: 800;
+  color: var(--ink); letter-spacing: -.4px; line-height: 1.2;
+}.cr-report .takeaways .section-title { margin-bottom: 20px; }.cr-report .tkw-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}.cr-report .tkw-card {
+  background: var(--lavender);
+  border-radius: 14px;
+  padding: 26px 22px 28px;
+  display: flex; flex-direction: column; gap: 16px;
+}.cr-report .tkw-icon {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: #48071D; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}.cr-report .tkw-icon .material-symbols-rounded {
+  font-size: 24px; color: #fff;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 40;
+}.cr-report .tkw-body { font-size: 14px; line-height: 1.62; color: #3A3A3A; }.cr-report .tkw-body strong { color: var(--plum); font-weight: 700; }.cr-report a.tkw-card { text-decoration: none; transition: transform .15s, box-shadow .15s; }.cr-report a.tkw-card:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,.08); opacity: 1; }
+@media (max-width: 680px) {.cr-report .tkw-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 440px) {.cr-report .tkw-grid { grid-template-columns: 1fr; }
+}
+
+/* ── viz container ──────────────────────────────────────────── */.cr-report .viz {
+  background: var(--card); border-radius: 14px;
+  overflow: hidden;
+  margin: 28px 0; padding: 28px;
+}.cr-report .viz-cap {
+  font-size: 11.5px; color: var(--subtle); font-weight: 500; letter-spacing: .2px;
+  background: #FAFAFA; border-top: 1px solid var(--line);
+  padding: 10px 20px;
+  margin: 24px -28px 0;
+}
+
+/* ── citation ───────────────────────────────────────────────── */.cr-report .citation {
+  font-size: 13.5px; color: var(--muted); margin: 20px 0; line-height: 1.55;
+}.cr-report .citation strong { font-size: 10.5px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; color: var(--plum); display: block; margin-bottom: 5px; }
+
+/* ── tables ─────────────────────────────────────────────────── */.cr-report .data-tbl {
+  width: 100%; border-collapse: collapse; margin: 16px 0 24px;
+  font-size: 14px; background: var(--card);
+  border-radius: 10px; overflow: hidden;
+}.cr-report .data-tbl thead th {
+  background: var(--ink); color: #fff; font-weight: 700;
+  text-align: left; padding: 11px 16px; font-size: 12.5px;
+}.cr-report .data-tbl thead th:not(:first-child) { text-align: right; }.cr-report .data-tbl tbody td { padding: 10px 16px; border-bottom: 1px solid var(--line); vertical-align: middle; }.cr-report .data-tbl .brand-cell { display: flex; align-items: center; gap: 10px; }.cr-report .data-tbl .brand-cell img { height: 22px; width: auto; display: block; flex-shrink: 0; }.cr-report .data-tbl tbody td:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }.cr-report .data-tbl tbody tr:last-child td { border-bottom: none; }.cr-report .data-tbl tbody tr:hover { background: #FAFAFA; }
+
+/* ── brand-bars (heat rows) ──────────────────────────────────── */.cr-report .brand-bars { border-radius: 12px; overflow: hidden; margin: 8px 0 28px; }.cr-report .brand-bars__label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); margin-bottom: 8px; }.cr-report .brand-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 28px; gap: 16px;
+}.cr-report .brand-bar__identity { display: flex; align-items: center; gap: 14px; min-width: 0; }.cr-report .brand-bar__identity img { height: 44px; width: auto; flex-shrink: 0; display: block; }.cr-report .brand-bar__name { font-size: 15px; font-weight: 700; white-space: nowrap; }.cr-report .brand-bar__stat { font-size: clamp(38px, 6vw, 58px); font-weight: 900; letter-spacing: -2px; line-height: 1; white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* ── note block ─────────────────────────────────────────────── */.cr-report .note-block {
+  font-size: 13px; line-height: 1.55; color: var(--ink); margin: 18px 0;
+}.cr-report .note-block strong { color: var(--plum); }
+
+/* ── faq ─────────────────────────────────────────────────────── */.cr-report .faq-wrap { margin: 52px 0; }.cr-report .faq__label { display:block; font-size:12px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--red); margin-bottom:12px; }.cr-report .faq__headline { font-size:clamp(22px,3vw,34px); font-weight:700; color:var(--ink); margin-bottom:32px; }.cr-report .faq__item { border-top:1px solid var(--line); }.cr-report .faq__item:last-child { border-bottom:1px solid var(--line); }.cr-report .faq__q { width:100%; text-align:left; background:none; border:none; cursor:pointer; padding:20px 0; display:flex; justify-content:space-between; align-items:center; gap:16px; font-family:inherit; font-size:16px; font-weight:500; color:var(--ink); line-height:1.4; }.cr-report .faq__q svg { flex-shrink:0; transition:transform 0.4s cubic-bezier(0.16,1,0.3,1); }.cr-report .faq__item.is-open .faq__q svg { transform:rotate(180deg); }.cr-report .faq__a { height:0; overflow:hidden; transition:height 0.4s cubic-bezier(0.16,1,0.3,1); }.cr-report .faq__a-inner { padding:0 0 20px; font-size:15px; line-height:1.65; color:#555; }
+
+/* ── cta ─────────────────────────────────────────────────────── */.cr-report .cta {
+  background: #460B28;
+  border-radius: 16px; padding: 52px 40px; text-align: center; margin-top: 60px;
+}.cr-report .cta h2 { color: #fff; font-size: 28px; font-weight: 800; letter-spacing: -.4px; margin-bottom: 10px; }.cr-report .cta p { color: rgba(255,255,255,.72); font-size: 15.5px; line-height: 1.65; margin-bottom: 32px; }.cr-report .cta .btn {
+  display: inline-block;
+  height: 63px; line-height: 63px;
+  padding: 0 40px;
+  border-radius: 87px;
+  background-image: linear-gradient(to top, #FF1C24 0%, #FF464C 46.875%);
+  box-shadow: 0.6px 0.6px 2px 0px rgba(126,7,11,.32), inset 0px 1px 2px 0px rgba(255,255,255,.45);
+  color: #fff; font-weight: 700; font-size: 15px; letter-spacing: -.2px;
+  text-decoration: none; text-align: center;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}.cr-report .cta .btn:hover { transform: scale(1.04); box-shadow: 0.6px 0.6px 6px 0px rgba(126,7,11,.45), inset 0px 1px 2px 0px rgba(255,255,255,.45); }
+@media (max-width: 600px) {.cr-report .cta { padding: 36px 20px; }.cr-report .cta h2 { font-size: 22px; } }
+
+/* ── scoped viz styles ──────────────────────────────────────── */
+/* V18b failure matrix */.cr-report .fp { font-family: inherit; max-width: 960px; margin: 0 auto; }.cr-report .fp h2 { color: var(--ink); font-size: 22px; font-weight: 700; margin: 0 0 4px; letter-spacing: -.3px; }.cr-report .fp .fp-sub { color: var(--plum); font-size: 13.5px; margin: 0 0 20px; font-weight: 500; line-height: 1.5; }.cr-report .fp table { border-collapse: separate; border-spacing: 0; width: 100%; table-layout: fixed; }.cr-report .fp th { padding: 9px 8px; font-weight: 700; color: var(--ink); font-size: 11.5px; border-bottom: 2px solid var(--line); text-transform: uppercase; letter-spacing: .3px; }.cr-report .fp th.make { text-align: left; width: 175px; padding-left: 14px; }.cr-report .fp th.cat { text-align: center; }.cr-report .fp td { padding: 0; }.cr-report .fp td.lbl { padding: 7px 14px; font-weight: 600; color: var(--ink); font-size: 12.5px; white-space: nowrap; background: #FAFAFA; border-right: 1px solid var(--line); }.cr-report .fp td.cell { text-align: center; font-weight: 700; font-size: 14px; height: 38px; border: 2px solid #fff; font-variant-numeric: tabular-nums; letter-spacing: -.2px; }.cr-report .fp .badge { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 10.5px; font-weight: 700; color: #fff; margin-left: 7px; vertical-align: middle; }.cr-report .fp .legend { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 20px; font-size: 12px; color: var(--ink); flex-wrap: wrap; }.cr-report .fp .legend .item { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 6px; border-radius: 6px; background: #FAFAFA; border: 1px solid var(--line); cursor: pointer; user-select: none; transition: border-color .15s, box-shadow .15s; }.cr-report .fp .legend .item:hover { border-color: var(--plum); }.cr-report .fp .legend .item.active { border-color: var(--plum); box-shadow: 0 0 0 2px var(--plum); }.cr-report .fp td.cell { transition: opacity .15s; }.cr-report .fp td.cell.dimmed { opacity: .15; }.cr-report .fp .legend .grade { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 19px; border-radius: 2px; font-weight: 700; font-size: 11.5px; }.cr-report .fp .note { margin-top: 16px; font-size: 13px; line-height: 1.55; color: var(--muted); }.cr-report .fp .note strong { color: var(--plum); }
+
+/* Rust chart */.cr-report .kc { font-family: inherit; max-width: 820px; margin: 0 auto; }.cr-report .kc .kc-title { color: var(--ink); font-size: 22px; font-weight: 700; margin: 0 0 4px; letter-spacing: -.3px; }.cr-report .kc .kc-sub { color: var(--muted); font-size: 13.5px; margin: 0 0 26px; font-weight: 500; line-height: 1.5; }.cr-report .kc .cat-row { display: grid; grid-template-columns: 220px 1fr 64px; gap: 12px; align-items: center; margin: 9px 0; }.cr-report .kc .cat-label { font-weight: 700; font-size: 14px; color: var(--ink); }.cr-report .kc .cat-desc { display: block; font-size: 11px; color: var(--muted); font-weight: 500; margin-top: 2px; line-height: 1.3; }.cr-report .kc .bar-wrap { background: #F0F0F0; height: 34px; border-radius: 4px; position: relative; overflow: hidden; }.cr-report .kc .bar { height: 100%; border-radius: 4px; display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; color: #fff; font-weight: 700; font-size: 15px; }.cr-report .kc .bar.rust { background: #8B4513; }.cr-report .kc .bar.engine { background: var(--red); }.cr-report .kc .bar.drive { background: var(--plum); }.cr-report .kc .bar.leaks { background: #3B82C4; }.cr-report .kc .bar.mods { background: #A855F7; }.cr-report .kc .bar.cos { background: #F59E0B; }.cr-report .kc .n { text-align: right; font-size: 11.5px; font-weight: 600; color: var(--ink); }.cr-report .kc .note { margin-top: 22px; font-size: 13px; line-height: 1.55; color: var(--muted); }.cr-report .kc .note strong { color: var(--plum); }
+
+/* Mileage chart */.cr-report .mc { font-family: inherit; max-width: 900px; margin: 0 auto; }.cr-report .mc .mc-title { color: var(--ink); font-size: 22px; font-weight: 700; margin: 0 0 4px; letter-spacing: -.3px; }.cr-report .mc .mc-sub { color: var(--muted); font-size: 13.5px; margin: 0 0 20px; font-weight: 500; line-height: 1.5; }.cr-report .mc .chart-wrap { position: relative; height: 520px; }.cr-report .mc .attrib { color: #AAA; font-size: 11px; text-align: center; margin-top: 12px; font-style: italic; }
+
+/* Hybrid chart */.cr-report .hyb { font-family: inherit; max-width: 820px; margin: 0 auto; }.cr-report .hyb .hyb-title { color: var(--ink); font-size: 22px; font-weight: 700; margin: 0 0 4px; letter-spacing: -.3px; }.cr-report .hyb .hyb-sub { color: var(--muted); font-size: 13.5px; margin: 0 0 26px; font-weight: 500; line-height: 1.5; }.cr-report .hyb .panels { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 18px; }.cr-report .hyb .panel-title { font-size: 15px; font-weight: 700; color: var(--ink); margin: 0 0 14px; text-align: center; }.cr-report .hyb .age-tag { color: var(--plum); font-weight: 800; }.cr-report .hyb .row { display: grid; grid-template-columns: 88px 1fr 56px; gap: 8px; align-items: center; margin: 10px 0; }.cr-report .hyb .ft-name { font-weight: 700; font-size: 13.5px; color: var(--ink); }.cr-report .hyb .ft-sub { display: block; font-size: 10px; color: var(--muted); font-weight: 500; margin-top: 1px; }.cr-report .hyb .bar-wrap { background: #F0F0F0; height: 36px; border-radius: 4px; overflow: hidden; }.cr-report .hyb .bar { height: 100%; border-radius: 4px; display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; color: #fff; font-weight: 700; font-size: 14px; }.cr-report .hyb .bar.hybrid { background: var(--green); }.cr-report .hyb .bar.gas { background: #8A8A8A; }.cr-report .hyb .bar.electric { background: var(--plum); }.cr-report .hyb .note { font-size: 13.5px; line-height: 1.55; color: var(--muted); }.cr-report .hyb .note strong { color: var(--plum); }
+@media (max-width: 600px) {.cr-report .hyb .panels { grid-template-columns: 1fr; } }
+
+/* Tesla chart */.cr-report .tsla .hyb-title { color: var(--ink); font-size: 22px; font-weight: 700; margin: 0 0 4px; letter-spacing: -.3px; }.cr-report .tsla .hyb-sub { color: var(--muted); font-size: 13.5px; margin: 0 0 26px; font-weight: 500; line-height: 1.5; }.cr-report .tsla-cats { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }.cr-report .tsla-cat-head { display: flex; justify-content: space-between; align-items: baseline; margin: 0 0 12px; }.cr-report .tsla-cat-name { font-size: 14px; font-weight: 700; color: var(--ink); }.cr-report .tsla-badge { font-size: 10px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase; }.cr-report .tsla .row { display: grid; grid-template-columns: 108px 1fr; gap: 8px; align-items: center; margin: 9px 0; }.cr-report .tsla .ft-name { font-weight: 600; font-size: 12px; color: var(--ink); }.cr-report .tsla .bar-wrap { background: #F0F0F0; height: 32px; border-radius: 4px; overflow: hidden; }.cr-report .tsla .bar { height: 100%; border-radius: 4px; display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; color: #fff; font-weight: 700; font-size: 13px; }.cr-report .tsla .bar.gas { background: #8A8A8A; }.cr-report .tsla .bar.hybrid { background: var(--green); }.cr-report .tsla .bar.tesla { background: var(--red); }.cr-report .tsla .bar.ev { background: var(--plum); }
+@media (max-width: 640px) {.cr-report .tsla-cats { grid-template-columns: 1fr; } }
+
+/* Luxury chart */.cr-report .lux { font-family: inherit; max-width: 1080px; margin: 0 auto; }.cr-report .lux .lux-title { color: var(--ink); font-size: 22px; font-weight: 700; margin: 0 0 4px; letter-spacing: -.3px; }.cr-report .lux .lux-sub { color: var(--ink); font-size: 13.5px; margin: 0 0 28px; font-weight: 500; line-height: 1.5; max-width: 620px; }.cr-report .lux .chart { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 22px; margin-bottom: 24px; }.cr-report .lux .make-col { text-align: center; }.cr-report .lux .make-name { font-size: 19px; font-weight: 700; margin: 0 0 4px; }.cr-report .lux .make-score { display: inline-block; padding: 3px 12px; border-radius: 14px; font-weight: 700; color: #fff; font-size: 13.5px; margin-bottom: 18px; }.cr-report .lux .metric { margin: 16px 0; }.cr-report .lux .metric-label { font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; font-weight: 600; margin-bottom: 7px; }.cr-report .lux .bar-wrap { background: #F0F0F0; height: 32px; border-radius: 4px; overflow: hidden; }.cr-report .lux .bar { height: 100%; display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; color: #fff; font-weight: 700; font-size: 15px; border-radius: 4px; min-width: fit-content; min-width: -webkit-fit-content; padding-left: 10px; }.cr-report .lux .bar.warn { background: #F97316; }.cr-report .lux .bar.good { background: var(--green); }.cr-report .lux .origin-tag { display: block; font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }.cr-report .lux .verdict { text-align: center; font-size: 14px; font-weight: 700; margin-top: 20px; padding: 8px; border-radius: 4px; color: var(--ink); }.cr-report .lux .note { margin-top: 24px; font-size: 13px; line-height: 1.55; color: var(--muted); }.cr-report .lux .note strong { color: var(--plum); }
+@media (max-width: 760px) {.cr-report .lux .chart { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) {.cr-report .lux .chart { grid-template-columns: 1fr; } }
+
+/* EV/Tesla chart */.cr-report .evc { font-family: inherit; max-width: 820px; margin: 0 auto; }.cr-report .evc .evc-title { color: var(--ink); font-size: 22px; font-weight: 700; margin: 0 0 4px; letter-spacing: -.3px; }.cr-report .evc .evc-sub { color: var(--plum); font-size: 13.5px; margin: 0 0 22px; font-weight: 500; line-height: 1.5; max-width: 680px; }.cr-report .evc .section-h { font-size: 13px; font-weight: 700; color: var(--ink); text-transform: uppercase; letter-spacing: .5px; margin: 22px 0 10px; text-align: center; }.cr-report .evc .overall { background: #FAFAFA; border: 1px solid var(--line); border-radius: 10px; padding: 16px 20px; margin-bottom: 22px; }.cr-report .evc .overall-row { display: grid; grid-template-columns: 80px 1fr 1fr; align-items: center; gap: 14px; margin: 9px 0; }.cr-report .evc .age-tag { font-size: 11.5px; font-weight: 700; color: var(--plum); text-transform: uppercase; letter-spacing: .4px; }.cr-report .evc .group { display: grid; grid-template-columns: 88px 1fr 56px; gap: 8px; align-items: center; font-size: 12px; }.cr-report .evc .group .name { font-weight: 700; color: var(--ink); }.cr-report .evc .group .name.other { color: var(--muted); }.cr-report .evc .ovr-bar-wrap { background: #E8E8E8; height: 16px; border-radius: 3px; overflow: hidden; }.cr-report .evc .ovr-bar { height: 100%; border-radius: 3px; }.cr-report .evc .ovr-bar.tesla { background: #212121; }.cr-report .evc .ovr-bar.other { background: #8A8A8A; }.cr-report .evc .panels { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 14px; }.cr-report .evc .panel { border-radius: 10px; padding: 20px; }.cr-report .evc .panel.win { background: #D7F0E4; border: 1px solid #0F6940; }.cr-report .evc .panel.lose { background: #FFF7ED; border: 1px solid #C2410C; }.cr-report .evc .panel-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin: 0 0 4px; }.cr-report .evc .panel.win .panel-title { color: #0F6940; }.cr-report .evc .panel.lose .panel-title { color: #C2410C; }.cr-report .evc .panel-sub { font-size: 13px; color: var(--ink); margin: 0 0 16px; font-weight: 500; line-height: 1.4; }.cr-report .evc .metric { margin: 12px 0; }.cr-report .evc .metric-label { font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; font-weight: 600; margin-bottom: 6px; }.cr-report .evc .bars { display: grid; grid-template-columns: 88px 1fr 50px; gap: 8px; align-items: center; margin-bottom: 5px; font-size: 12px; }.cr-report .evc .bars .label { font-weight: 600; color: var(--ink); }.cr-report .evc .bar-wrap { background: rgba(255,255,255,.55); height: 16px; border-radius: 3px; overflow: hidden; }.cr-report .evc .bar { height: 100%; border-radius: 3px; }.cr-report .evc .bar.tesla { background: var(--plum); }.cr-report .evc .bar.other { background: #8A8A8A; }.cr-report .evc .bar-value { text-align: right; font-weight: 700; font-size: 12px; color: var(--ink); font-variant-numeric: tabular-nums; }.cr-report .evc .verdict { text-align: center; font-size: 13.5px; font-weight: 700; margin-top: 12px; padding: 7px; border-radius: 4px; }.cr-report .evc .panel.win .verdict { background: rgba(26,135,84,.18); color: #0F6940; }.cr-report .evc .panel.lose .verdict { background: rgba(217,119,6,.15); color: #C2410C; }.cr-report .evc .conclusion { font-size: 13.5px; line-height: 1.55; color: var(--muted); }.cr-report .evc .conclusion strong { color: var(--plum); }
+@media (max-width: 600px) {.cr-report .evc .panels { grid-template-columns: 1fr; } }
+
+/* ── blog-mode: hide dark hero + stats banner ────────────────── */body.layout--blog .r-hero, body.layout--blog .hero-banner { display: none; }
+
+/* ── blog header ─────────────────────────────────────────────── */.r-blog-header {
+  display: none;
+  background: var(--page);
+  text-align: center;
+  padding: 56px clamp(24px, 12%, 240px) 40px;
+}body.layout--blog .r-blog-header { display: block; }.r-blog-header__title {
+  font-size: clamp(32px, 4.5vw, 52px); font-weight: 800;
+  color: var(--ink); letter-spacing: -.8px; line-height: 1.08;
+  margin-bottom: 18px;
+}.r-blog-header__sub {
+  font-size: 16px; color: #444; line-height: 1.7;
+  max-width: 760px; margin: 0 auto 24px;
+}.r-blog-pills {
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; flex-wrap: wrap;
+}.r-blog-pill {
+  font-size: 12.5px; font-weight: 500; color: #333;
+  background: #E4E2DE; border-radius: 6px;
+  padding: 5px 14px; line-height: 1;
+}
+
+/* ── blog hero image ─────────────────────────────────────────── */.r-blog-hero {
+  display: none;
+}body.layout--blog .r-blog-hero { display: block; }.r-blog-hero__inner {
+  position: relative;
+}.r-blog-hero__img {
+  width: 100%; display: block;
+  aspect-ratio: 21/9; object-fit: cover;
+  border-radius: 12px;
+}
+
+/* ── blog takeaways + TOC wrapper ───────────────────────────── */.r-blog-top { display: none; margin-bottom: 36px; }body.layout--blog .r-blog-top { display: block; }
+
+/* TOC panel */.r-blog-toc {
+  background: #fff; border: 1px solid #E8E8E8;
+  border-radius: 12px; padding: 20px 22px 22px;
+}.r-blog-toc__label {
+  font-size: 10px; font-weight: 800; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--muted);
+  margin-bottom: 14px;
+}.r-blog-toc__groups {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 16px 24px;
+}.r-blog-toc__group-title {
+  font-size: 11px; font-weight: 800; letter-spacing: .3px;
+  text-transform: uppercase; color: var(--ink);
+  margin-bottom: 8px;
+}.r-blog-toc ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 5px; }.r-blog-toc ul li a {
+  font-size: 13px; color: var(--plum); text-decoration: none;
+  line-height: 1.4; display: block;
+}.r-blog-toc ul li a:hover { text-decoration: underline; opacity: 1; }
+@media (max-width: 640px) {.r-blog-toc__groups { grid-template-columns: 1fr; } }
+
+/* sidebar second input spacing */.r-sidebar__form { display: flex; flex-direction: column; gap: 0; }.r-sidebar__form .r-sidebar__input { margin-bottom: 10px; }.r-sidebar__form .r-sidebar__input:last-of-type { margin-bottom: 10px; }
+
+/* ── layout toggle ───────────────────────────────────────────── */.layout-toggle {
+  display: none !important;
+}.layout-toggle__btn {
+  padding: 6px 16px; border-radius: 100px; border: none; cursor: pointer;
+  font-size: 11.5px; font-weight: 700; letter-spacing: .1px;
+  background: transparent; color: var(--muted); transition: all .18s;
+  font-family: inherit;
+}.layout-toggle__btn.active { background: var(--ink); color: #fff; }
+@media (max-width: 640px) {.layout-toggle { top: auto; bottom: 20px; right: 16px; } }
+
+/* ── blog two-column layout ──────────────────────────────────── */body.layout--blog .r-blog-header, body.layout--blog .r-main { max-width: 1300px; margin-left: auto; margin-right: auto; }body.layout--blog .r-blog-hero { max-width: 1300px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; background: transparent; }body.layout--blog .r-blog-hero .r-blog-hero__inner { background: #EAE3F4; border-radius: 12px; }body.layout--blog .r-main {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 44px;
+  align-items: start;
+  padding-top: 52px;
+  padding-bottom: 96px;
+}.r-sidebar { display: none; }body.layout--blog .r-sidebar {
+  display: block;
+  position: sticky; top: 32px;
+}
+/* widget card */.r-sidebar__widget {
+  background: #fff;
+  border: 1px solid #E5E5E5;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 8px rgba(0,0,0,.07);
+  padding: 22px 20px 24px;
+}
+/* clutch wordmark row */.r-sidebar__brand {
+  font-size: 20px; font-weight: 800;
+  color: var(--red); letter-spacing: -.5px;
+  margin-bottom: 10px; line-height: 1;
+}
+/* heading */.r-sidebar__title {
+  font-size: 15px; font-weight: 700; color: var(--ink);
+  line-height: 1.35; letter-spacing: -.1px;
+  margin-bottom: 16px;
+}
+/* input */.r-sidebar__input {
+  width: 100%; padding: 10px 12px;
+  border: 1.5px solid #D8D8D8; border-radius: 7px;
+  font-family: inherit; font-size: 14px; color: var(--ink);
+  background: #fff; outline: none; margin-bottom: 10px;
+  box-sizing: border-box;
+}.r-sidebar__input:focus { border-color: var(--plum); }
+/* green continue button matching screenshot */.r-sidebar__btn {
+  width: 100%; padding: 11px;
+  background: var(--red); color: #fff; border: none;
+  border-radius: 100px; font-family: inherit;
+  font-size: 14px; font-weight: 700; cursor: pointer;
+  transition: opacity .15s; letter-spacing: -.1px;
+}.r-sidebar__btn:hover { opacity: .88; }
+@media (max-width: 960px) {body.layout--blog .r-main { grid-template-columns: 1fr; }body.layout--blog .r-sidebar { position: static; }
+}
+
+/* ── PRINT STYLES ────────────────────────────────────────────── */
+
+
+/* Cover + TOC elements (hidden on screen) */#pdf-cover {
+  display: none;
+  break-after: page; page-break-after: always;
+  min-height: calc(11in - 1.3in);
+  display: none;
+  flex-direction: column;
+  justify-content: flex-end;
+}#pdf-cover .cover-eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: .7px; text-transform: uppercase;
+  color: var(--red); margin-bottom: 16px;
+}#pdf-cover .cover-title {
+  font-size: 56px; font-weight: 900; color: var(--ink); letter-spacing: -2px;
+  line-height: 1; margin-bottom: 10px;
+}#pdf-cover .cover-sub {
+  font-size: 18px; color: var(--muted); font-weight: 400; line-height: 1.5;
+  max-width: 480px; margin-bottom: 48px;
+}#pdf-cover .cover-meta {
+  font-size: 12px; color: var(--muted); border-top: 1px solid var(--line);
+  padding-top: 16px; display: flex; gap: 32px;
+}#pdf-cover .cover-meta strong { color: var(--ink); display: block; font-size: 13px; margin-bottom: 2px; }#pdf-toc {
+  display: none;
+  break-before: page; page-break-before: always;
+  break-after: page; page-break-after: always;
+  padding: 0;
+}#pdf-toc .toc-eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: .7px; text-transform: uppercase;
+  color: var(--red); margin-bottom: 28px;
+}#pdf-toc .toc-title {
+  font-size: 38px; font-weight: 900; color: var(--ink); letter-spacing: -1px;
+  line-height: 1.1; margin-bottom: 6px;
+}#pdf-toc .toc-sub {
+  font-size: 14px; color: var(--muted); margin-bottom: 48px; font-weight: 400;
+}#pdf-toc .toc-list {
+  list-style: none; padding: 0; margin: 0; border-top: 1.5px solid var(--ink);
+}#pdf-toc .toc-list li {
+  display: flex; align-items: baseline; gap: 12px;
+  padding: 13px 0; border-bottom: 1px solid var(--line);
+}#pdf-toc .toc-list li .toc-num {
+  font-size: 11px; font-weight: 700; color: var(--muted); width: 24px; flex-shrink: 0;
+  letter-spacing: .3px;
+}#pdf-toc .toc-list li .toc-label {
+  font-size: 15px; font-weight: 600; color: var(--ink); flex: 1;
+}#pdf-toc .toc-list li .toc-section {
+  font-size: 11.5px; font-weight: 500; color: var(--muted); text-align: right;
+  white-space: nowrap;
+}
+</style>
+
+<div class="cr-report">
+<div class="r-main-content">
+
+<!-- ── PDF COVER PAGE (print only) ──────────────────────────── -->
+<div id="pdf-cover">
+  <img src="" alt="Clutch Certified Reliability Report 2026" style="width:100%;height:100%;object-fit:cover;display:block;">
+</div>
+
+<!-- ── PDF TABLE OF CONTENTS (print only) ────────────────────── -->
+
+
+<!-- ── BLOG: takeaways + TOC (blog mode only) ────────────────── -->
+<div class="r-blog-top">
+
+  <div class="r-blog-toc">
+    <h3 class="r-blog-toc__label">Jump to a section</h3>
+    <div class="r-blog-toc__groups">
+      <div class="r-blog-toc__group">
+        <div class="r-blog-toc__group-title">Brand Rankings</div>
+        <ul>
+          <li><a href="#rankings">Which brands rank most reliable?</a></li>
+          <li><a href="#lift">How does Clutch Certified elevate reliability?</a></li>
+        </ul>
+      </div>
+      <div class="r-blog-toc__group">
+        <div class="r-blog-toc__group-title">Deep Dives</div>
+        <ul>
+          <li><a href="#rust">What's the #1 cause of inspection failure?</a></li>
+          <li><a href="#mileage">Does mileage predict reliability?</a></li>
+          <li><a href="#hybrids">Hybrids vs EVs vs gas</a></li>
+          <li><a href="#tesla">Where Tesla Differs From the Rest</a></li>
+          <li><a href="#premium">Do premium brands deliver?</a></li>
+        </ul>
+      </div>
+      <div class="r-blog-toc__group">
+        <div class="r-blog-toc__group-title">Models &amp; Outlook</div>
+        <ul>
+          <li><a href="#conclusion">What this means for buyers</a></li>
+          <li><a href="#methodology">How the index is calculated</a></li>
+          <li><a href="#faq">Frequently asked questions</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- intro -->
+<h2 style="font-size:clamp(20px,3vw,28px);font-weight:800;color:var(--ink);letter-spacing:-.4px;line-height:1.2;margin-bottom:16px;">Canada's largest proprietary look at used-car reliability, built on 100,000+ vehicle inspections since 2017.</h2>
+<p style="font-size:15.5px;margin-top:0;line-height:1.65;">
+  <strong>This is Canada's largest proprietary look at used-car reliability, built on the physical inspection of over 100,000 vehicles since 2017.</strong> Every brand score in this report draws from four streams of first-party Clutch data: 210-point inspection outcomes, reconditioning records, 90-day warranty claims, and customer returns.
+</p>
+<p style="font-size:15.5px;line-height:1.65;">Every vehicle Clutch considers for retail sale is measured against our 210-point standard, and roughly 50% don't pass. Those cars are sent to wholesale auctions and sold to other dealers. The 50% that do pass are reconditioned, listed on <a href="https://www.clutch.ca" target="_blank" rel="noopener">clutch.ca</a>, and tracked through delivery, returns, and post-sale warranty claims. Nine years of that work tells us which used cars in Canada hold up best.</p>
+
+<!-- key takeaways -->
+<div class="takeaways">
+  <h2 class="section-title">Key Takeaways</h2>
+  <div class="tkw-grid">
+
+    <a class="tkw-card" href="#rankings">
+      <div class="tkw-icon"><span class="material-symbols-rounded">leaderboard</span></div>
+      <p class="tkw-body"><strong>Japanese brands dominate the top of the index.</strong> Lexus leads at 9.70, followed by Subaru, Toyota, Honda, and Acura.</p>
+    </a>
+
+    <a class="tkw-card" href="#hybrids">
+      <div class="tkw-icon"><span class="material-symbols-rounded">electric_bolt</span></div>
+      <p class="tkw-body"><strong>The "EV reliability problem" is mostly a Tesla problem.</strong> Tesla files post-sale warranty claims at 1.5x the rate of non-Tesla EVs, and the gap is uniformly in physical assembly: body panels, HVAC, brakes, suspension.</p>
+    </a>
+
+    <a class="tkw-card" href="#premium">
+      <div class="tkw-icon"><span class="material-symbols-rounded">diamond</span></div>
+      <p class="tkw-body"><strong>Premium price doesn't predict premium reliability.</strong> German luxury sits below the 25-brand average; Japanese luxury sweeps the top.</p>
+    </a>
+
+    <a class="tkw-card" href="#rust">
+      <div class="tkw-icon"><span class="material-symbols-rounded">water_damage</span></div>
+      <p class="tkw-body"><strong>Rust is the #1 cause</strong> of Canadian inspection failure, beating engine and drivetrain issues.</p>
+    </a>
+
+    <a class="tkw-card" href="#mileage">
+      <div class="tkw-icon"><span class="material-symbols-rounded">speed</span></div>
+      <p class="tkw-body"><strong>Brand matters more than mileage.</strong> A Honda at 120,000 km clears Clutch's standard at the same rate as a Chevrolet at 60,000 km.</p>
+    </a>
+
+    <a class="tkw-card" href="#lift">
+      <div class="tkw-icon"><span class="material-symbols-rounded">verified</span></div>
+      <p class="tkw-body"><strong>Clutch Certified raises every car's reliability score.</strong> With a market average of 7.99, Clutch Certified customers receive a 9.32, a +1.33-point lift from reconditioning.</p>
+    </a>
+
+  </div>
+</div>
+
+<!-- ── SECTION: Authorities ─────────────────────────────────── -->
+<section class="s-block" id="authorities">
+
+  <h2>How does our rating system compare to leading automotive reliability rankings?</h2>
+  <div class="s-rule"></div>
+  <p>J.D. Power surveys new-car owners in their first 90 days of ownership, useful for what's coming off the lot but less helpful in the used market. Consumer Reports combines owner surveys with long-term tests, but its dataset skews heavily American. NHTSA and Transport Canada track recalls and federally documented defects, which captures safety issues but not everyday reliability. None of these sources see what we see: tens of thousands of Canadian used cars moving through a single inspection, reconditioning, and post-sale process.</p>
+</section>
+
+<!-- ── SECTION: Process ──────────────────────────────────────── -->
+<section class="s-block" id="process">
+
+  <h2>What is Clutch Certified, and what does the reliability index measure?</h2>
+  <div class="s-rule"></div>
+  <p><strong>Clutch Certified is the standard every car on <a href="https://www.clutch.ca" target="_blank" rel="noopener">clutch.ca</a> is held to: a 210-point inspection, reconditioning to standard, and a 10-day return window.</strong> The same operational process generates four pillars of first-party reliability data that feed the index in this report.</p>
+
+  <div style="margin:20px 0 28px;break-inside:avoid;page-break-inside:avoid;">
+
+    <div style="display:flex;border-radius:10px;overflow:hidden;height:86px;">
+      <div style="width:30%;background:#460B28;padding:14px 16px;display:flex;flex-direction:column;justify-content:space-between;">
+        <span style="font-size:11px;font-weight:600;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.4px;">Inspection</span>
+        <span style="font-size:28px;font-weight:900;color:#fff;letter-spacing:-1px;line-height:1;">30%</span>
+      </div>
+      <div style="width:20%;background:#6B1A3A;padding:14px 16px;display:flex;flex-direction:column;justify-content:space-between;border-left:1px solid rgba(255,255,255,.1);">
+        <span style="font-size:11px;font-weight:600;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.4px;">Reconditioning</span>
+        <span style="font-size:28px;font-weight:900;color:#fff;letter-spacing:-1px;line-height:1;">20%</span>
+      </div>
+      <div style="width:35%;background:#9B2055;padding:14px 16px;display:flex;flex-direction:column;justify-content:space-between;border-left:1px solid rgba(255,255,255,.1);">
+        <span style="font-size:11px;font-weight:600;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.4px;">Warranty Claims</span>
+        <span style="font-size:28px;font-weight:900;color:#fff;letter-spacing:-1px;line-height:1;">35%</span>
+      </div>
+      <div style="width:15%;background:#C4557A;padding:14px 16px;display:flex;flex-direction:column;justify-content:space-between;border-left:1px solid rgba(255,255,255,.1);">
+        <span style="font-size:11px;font-weight:600;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.4px;">Returns</span>
+        <span style="font-size:28px;font-weight:900;color:#fff;letter-spacing:-1px;line-height:1;">15%</span>
+      </div>
+    </div>
+    <div style="display:flex;margin-top:10px;font-size:12px;color:var(--muted);gap:0;">
+      <div style="width:30%;padding-right:8px;">Pass/fail across 9 vehicle systems</div>
+      <div style="width:20%;padding-right:8px;">Parts, labour &amp; repair cost</div>
+      <div style="width:35%;padding-right:8px;">90-day post-sale claim frequency</div>
+      <div style="width:15%;">Vehicle-issue returns</div>
+    </div>
+  </div>
+
+  <p>Every vehicle Clutch buys is checked against 210 items across 9 systems before it can reach a customer. Since October 2017, that's covered more than 100,000 vehicles. Vehicles that clear inspection enter reconditioning. That's our pre-sale repair process: mechanical work, cosmetic fixes, glass, and standard prep. Clutch invests <strong>over $2,000</strong> per vehicle on average, combining parts, technician labour, and shop overhead. The mix of what each brand needs is one of the strongest indicators in our dataset. The warranty claim data behind the index comes from Clutch's 90-day warranty product. Every claim is categorized by system, so we can see exactly where each brand has issues after delivery.</p>
+  <p><strong>Roughly half of the used vehicles Clutch buys never reach a customer.</strong> Those cars are sold to other dealerships through wholesale auctions instead of being listed on <a href="https://www.clutch.ca" target="_blank" rel="noopener">clutch.ca</a>. Vehicles that don't meet the Clutch Certified standard get sent to wholesale for various reasons: major mechanical issues, damage to multiple body panels, smoke or pet odours, branded titles, or vehicles 11+ years old or over 150,000 km. That filter alone removes the bottom of the used-car market before a single car is listed for sale.</p>
+  <p>Once sold, the customer has 10 days to return the car for any reason. Some returns are about the car itself: a problem the customer caught in the first ten days that our pre-sale process missed. Roughly 1 in 100 retail-sold vehicles is returned for a vehicle issue, a low rate that reflects how much filtering happens before delivery. Those car-related returns feed the return dimension of the index.</p>
+</section>
+
+<!-- ── SECTION: Rankings ─────────────────────────────────────── -->
+<section class="s-block" id="rankings">
+  <span class="s-num">03 — Brand Rankings</span>
+  <h2>Which used-car brands rank most reliable in Canada?</h2>
+  <div class="s-rule"></div>
+  <p><strong>Japanese brands sweep the top of the 2026 Clutch Certified Reliability Index.</strong> Seven brands score above 9.0: Lexus, Subaru, Acura, Toyota, Honda, MINI, and Mazda. Six of those seven are Japanese.</p>
+
+  <div class="stat-row" style="grid-template-columns:1fr 1fr;">
+    <div class="stat-card">
+      <div class="stat-card__brand"><img src="https://raw.githubusercontent.com/Savage-clutch/Clutch-new/main/certified-report/assets/Lexus.svg" alt="Lexus"></div>
+      <div class="stat-card__data">
+        <div class="stat-card__n">9.70</div>
+        <div class="stat-card__l">Lexus<br>#1 overall</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card__brand"><img src="https://raw.githubusercontent.com/Savage-clutch/Clutch-new/main/certified-report/assets/Ram.svg" alt="Ram"></div>
+      <div class="stat-card__data">
+        <div class="stat-card__n">6.21</div>
+        <div class="stat-card__l">Ram<br>lowest rated</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V1 Brand Ranking Chart -->
+  <div id="scorecard-viz" class="viz" style="break-before: page; page-break-before: always; break-after: page; page-break-after: always;">
+    <div id="scorecard-inner" style="max-width:880px;margin:0 auto;">
+      <h2 id="scorecard-heading" style="color:var(--ink);font-size:22px;font-weight:700;margin:0 0 4px;letter-spacing:-.3px;">The Clutch Certified Reliability Index</h2>
+      <p id="scorecard-sub" style="color:var(--plum);font-size:13.5px;margin:0 0 18px;font-weight:500;">25 brands ranked across 4 reliability dimensions</p>
+      <div id="scorecard-wrap" style="position:relative;height:720px;width:100%;">
+        <canvas id="clutchMakeScorecard"></canvas>
+      </div>
+      <div id="scorecard-legend" style="margin-top:16px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;font-size:12px;color:var(--ink);">
+        <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;background:#549b5c;border-radius:2px;display:inline-block;"></span>Top tier (9.0+)</div>
+        <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;background:#460B28;border-radius:2px;display:inline-block;"></span>Above average (8.0–8.9)</div>
+        <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;background:#8A8A8A;border-radius:2px;display:inline-block;"></span>Average (7.0–7.9)</div>
+        <div style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;background:#F97316;border-radius:2px;display:inline-block;"></span>Below average (&lt;7.0)</div>
+        <div style="display:flex;align-items:center;gap:6px;"><svg width="20" height="12" style="flex-shrink:0"><line x1="0" y1="6" x2="20" y2="6" stroke="#460B28" stroke-width="1.5" stroke-dasharray="5,3"/></svg><span style="color:var(--muted);">25-brand average</span></div>
+      </div>
+    </div>
+  </div>
+<script>
+(function(){
+  Chart.defaults.font.family = "'CircularXX','Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif";
+  const makes = [
+    {name:'Lexus',score:9.70},{name:'Subaru',score:9.68},{name:'Acura',score:9.59},{name:'Toyota',score:9.57},
+    {name:'Honda',score:9.55},{name:'MINI',score:9.43},{name:'Mazda',score:9.35},{name:'Nissan',score:8.71},
+    {name:'Kia',score:8.56},{name:'Hyundai',score:8.55},{name:'Mitsubishi',score:8.20},{name:'Chevrolet',score:7.99},
+    {name:'Volkswagen',score:7.77},{name:'GMC',score:7.71},{name:'Audi',score:7.58},{name:'Volvo',score:7.35},
+    {name:'Mercedes-Benz',score:7.27},{name:'Ford',score:7.14},{name:'Buick',score:6.92},{name:'Tesla',score:6.92},
+    {name:'Dodge',score:6.65},{name:'BMW',score:6.63},{name:'Jeep',score:6.38},{name:'Infiniti',score:6.27},{name:'Ram',score:6.21}
+  ];
+  function tierColor(s){ if(s>=9.0) return '#549b5c'; if(s>=8.0) return '#460B28'; if(s>=7.0) return '#8A8A8A'; return '#F97316'; }
+  // Tooltip element for avg line hover
+  const avgTip = document.createElement('div');
+  avgTip.style.cssText = 'position:absolute;background:#191919;color:#fff;font-size:12px;font-weight:600;padding:6px 10px;border-radius:6px;pointer-events:none;opacity:0;transition:opacity .15s;white-space:nowrap;z-index:10;';
+  avgTip.textContent = '25-brand average: 7.99';
+  document.getElementById('clutchMakeScorecard').parentElement.style.position = 'relative';
+  document.getElementById('clutchMakeScorecard').parentElement.appendChild(avgTip);
+
+  const avgPlugin = {
+    id:'avgLine',
+    afterDraw(chart){
+      const {ctx, scales:{x,y}} = chart;
+      const xPx = x.getPixelForValue(7.99);
+      ctx.save();
+      ctx.strokeStyle = '#460B28';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([5,3]);
+      ctx.beginPath(); ctx.moveTo(xPx, y.top); ctx.lineTo(xPx, y.bottom + 8); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.restore();
+      // Store xPx for hover detection
+      chart._avgXPx = xPx;
+    },
+    afterEvent(chart, args){
+      const e = args.event;
+      if(e.type !== 'mousemove') return;
+      const xPx = chart._avgXPx;
+      if(xPx === undefined) return;
+      const rect = chart.canvas.getBoundingClientRect();
+      const mouseX = e.native.clientX - rect.left;
+      const mouseY = e.native.clientY - rect.top;
+      const near = Math.abs(mouseX - xPx) < 12;
+      avgTip.style.opacity = near ? '1' : '0';
+      if(near){
+        avgTip.style.left = (xPx - avgTip.offsetWidth/2) + 'px';
+        avgTip.style.top = (mouseY - 36) + 'px';
+      }
+    }
+  };
+  new Chart(document.getElementById('clutchMakeScorecard').getContext('2d'),{
+    type:'bar',
+    data:{labels:makes.map(m=>m.name), datasets:[{data:makes.map(m=>m.score), backgroundColor:makes.map(m=>tierColor(m.score)), borderWidth:0, borderRadius:3, barPercentage:.82}]},
+    options:{indexAxis:'y', responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false},
+        tooltip:{backgroundColor:'#191919', titleFont:{size:13,weight:'600'}, bodyFont:{size:13}, padding:12, callbacks:{label:ctx=>`Score: ${ctx.parsed.x.toFixed(2)} / 10`}},
+        datalabels:{anchor:'end', align:'end', color:'#191919', font:{size:13,weight:'600'}, formatter:v=>v.toFixed(2)}},
+      scales:{x:{min:6.0, max:10.0, grid:{color:'#EDEDED'}, ticks:{color:'#888', font:{size:11}, stepSize:.5}},
+              y:{grid:{display:false}, ticks:{color:'#191919', font:{size:13,weight:'500'}, padding:8}}}},
+    plugins:[ChartDataLabels, avgPlugin]
+  });
+})();
+</script>
+
+  <div class="s-split">
+    <div class="s-split__lede"><img src="https://raw.githubusercontent.com/Savage-clutch/Clutch-new/main/certified-report/assets/Lexus.svg" alt="Lexus" style="height:56px;width:auto;display:block;margin-bottom:16px;opacity:.85;">Lexus leads because its worst pillar is better than most brands' best.</div>
+    <div class="s-split__body">
+      <p>Lexus tops the index at 9.70 because its weakest pillar is still excellent.</p>
+      <p>Every other top-tier brand has at least one pillar that drops to "good" rather than great: Subaru's inspection-pass rate, Honda's customer-return rate, Acura and MINI on warranty rates near the 25-brand average. Lexus is the only brand in the dataset where all four pillars sit firmly in the top quartile. The shared trait across the top tier is no weak pillar. These brands arrive at Clutch in cleaner condition, need less reconditioning, and generate fewer post-sale issues. Japanese brands collectively file 90-day warranty claims at roughly 30% below the 25-brand average, and at less than half the rate of the German luxury and Stellantis clusters at the bottom.</p>
+    </div>
+  </div>
+  <p>Above the average line: Nissan (8.71), Kia (8.56), Hyundai (8.55), and Mitsubishi (8.20). Chevrolet (7.99) sits right on it. Hyundai and Kia stand out here. Hyundai and Kia's old reputation for unreliable engines traces to the 2011-2019 Theta II 2.0L and 2.4L. Today's lineup runs different architecture.</p>
+  <p>Nissan's middle-of-the-index position carries its own legacy issue: CVT transmission problems affected most of Nissan's lineup from 2010 through 2019, with the worst concentration in 2013-2018 model years. Newer Nissan models on revised CVT designs perform better, but the historical wave is still present in the used market. Just below average: Volkswagen (7.77), GMC (7.71), Audi (7.58), and Ford (7.14). Each has its own weak spot, not a systemic problem.</p>
+  <p>Below the 25-brand average sit eleven brands. Two clusters tell most of the story.</p>
+  <p><strong>Stellantis.</strong> Jeep (6.38), Dodge (6.65), and Ram (6.21) share a parent company and share a reliability profile: higher inspection failure rates at intake, higher repair costs, and a dominant pattern of rust, drivetrain wear, and body-system issues.</p>
+  <p><strong>German luxury.</strong> BMW (6.63), Mercedes-Benz (7.27), and Audi (7.58) all score below the 25-brand average. The three share a profile: elevated engine, electrical, and cooling claims; higher pre-sale repair costs; and warranty rates that run roughly 2× the Japanese top tier.</p>
+  <p>Tesla (6.92), Infiniti (6.27), Buick (6.92), and Volvo (7.35) round out the below-average tier, each with its own profile.</p>
+
+  <!-- Do all brands fail the same way -->
+  <div class="section-inner" style="padding-bottom:24px;">
+    <h3 style="font-size:clamp(20px,2.5vw,26px);font-weight:700;color:var(--ink);letter-spacing:-0.3px;margin-bottom:12px;">Do all brands fail the same way?</h3>
+    <p style="margin-bottom:10px;">No. Every brand has a distinct reliability profile with its own characteristic failure pattern.</p>
+    <p style="margin-bottom:10px;">Some patterns are intuitive. Hyundai and Kia's engine issues concentrate on specific engine families. Dodge and Ram's rust profiles track Canadian salt exposure and a truck-heavy product mix. Audi shows a triple threat of engine, drivetrain, and fluid leaks.</p>
+    <p style="margin-bottom:0;">Some are counter-intuitive. Tesla's top issue isn't electronics or software, it's rust on early Model 3 panels. Subaru's biggest failure category is aftermarket modifications on enthusiast models (WRX, BRZ).</p>
+  </div>
+
+  <!-- V18b Failure Pattern Matrix -->
+  <div class="viz">
+    <div class="fp">
+      <h2>Every Brand Has Its Own Story</h2>
+      <p class="fp-sub">Reliability grades across 5 vehicle systems, with each grade drawing from all 4 pillars of Clutch Certified: inspection, reconditioning, warranty, and returns.</p>
+      <table id="fpTbl">
+        <thead><tr>
+          <th class="make">Brand</th>
+          <th class="cat">Powertrain</th>
+          <th class="cat">Brakes &amp; Steering</th>
+          <th class="cat">Electrical &amp; Tech</th>
+          <th class="cat">Climate &amp; Interior</th>
+          <th class="cat">Body &amp; Glass</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+      <div class="legend" id="fpLegend">
+        <span class="item" data-grade="A+"><span class="grade" style="background:#549b5c;color:#fff;">A+</span>Exceptional</span>
+        <span class="item" data-grade="A"><span class="grade" style="background:#7BB99F;color:#fff;">A</span>Strong</span>
+        <span class="item" data-grade="B"><span class="grade" style="background:#E8E8E8;color:#191919;">B</span>Average</span>
+        <span class="item" data-grade="C"><span class="grade" style="background:#FED7AA;color:#191919;">C</span>Below avg</span>
+        <span class="item" data-grade="D"><span class="grade" style="background:#F97316;color:#fff;">D</span>Weakest</span>
+      </div>
+      <div class="note"><strong>How to read it:</strong> Each row is a brand's characteristic profile across the 5 vehicle systems, graded on all 4 pillars of Clutch Certified combined. A row's average grade matches the brand's overall index ranking.</div>
+    </div>
+  </div>
+<script>
+(function(){
+  const data = {
+    'Lexus':{'Powertrain':-1.74,'Brakes & Steering':-0.37,'Electrical & Tech':-0.67,'Climate & Interior':-0.92,'Body & Glass':-1.33},
+    'Subaru':{'Powertrain':-1.46,'Brakes & Steering':-0.46,'Electrical & Tech':-0.63,'Climate & Interior':-1.10,'Body & Glass':-1.23},
+    'Acura':{'Powertrain':-0.83,'Brakes & Steering':-0.54,'Electrical & Tech':-0.99,'Climate & Interior':-1.06,'Body & Glass':-0.92},
+    'Toyota':{'Powertrain':-1.34,'Brakes & Steering':-0.30,'Electrical & Tech':-0.60,'Climate & Interior':-0.98,'Body & Glass':-1.02},
+    'Honda':{'Powertrain':-1.25,'Brakes & Steering':-0.27,'Electrical & Tech':-0.51,'Climate & Interior':-0.93,'Body & Glass':-1.17},
+    'MINI':{'Powertrain':-0.78,'Brakes & Steering':-0.50,'Electrical & Tech':-0.77,'Climate & Interior':-0.79,'Body & Glass':-0.75},
+    'Mazda':{'Powertrain':-1.10,'Brakes & Steering':-0.01,'Electrical & Tech':-0.32,'Climate & Interior':-0.79,'Body & Glass':-1.06},
+    'Nissan':{'Powertrain':-0.62,'Brakes & Steering':0.27,'Electrical & Tech':-0.06,'Climate & Interior':-0.47,'Body & Glass':-0.61},
+    'Kia':{'Powertrain':0.04,'Brakes & Steering':0.03,'Electrical & Tech':-0.36,'Climate & Interior':-0.53,'Body & Glass':-0.34},
+    'Hyundai':{'Powertrain':-0.02,'Brakes & Steering':-0.02,'Electrical & Tech':-0.18,'Climate & Interior':-0.55,'Body & Glass':-0.36},
+    'Mitsubishi':{'Powertrain':-0.26,'Brakes & Steering':0.19,'Electrical & Tech':0.13,'Climate & Interior':-0.26,'Body & Glass':-0.20},
+    'Chevrolet':{'Powertrain':0.76,'Brakes & Steering':-0.08,'Electrical & Tech':-0.33,'Climate & Interior':-0.45,'Body & Glass':0.11},
+    'Volkswagen':{'Powertrain':0.00,'Brakes & Steering':0.50,'Electrical & Tech':0.19,'Climate & Interior':-0.07,'Body & Glass':-0.16},
+    'GMC':{'Powertrain':0.25,'Brakes & Steering':0.27,'Electrical & Tech':0.08,'Climate & Interior':-0.03,'Body & Glass':0.01},
+    'Audi':{'Powertrain':-0.12,'Brakes & Steering':0.62,'Electrical & Tech':0.26,'Climate & Interior':0.13,'Body & Glass':-0.04},
+    'Volvo':{'Powertrain':0.12,'Brakes & Steering':0.44,'Electrical & Tech':0.43,'Climate & Interior':0.22,'Body & Glass':0.14},
+    'Mercedes-Benz':{'Powertrain':-0.29,'Brakes & Steering':0.68,'Electrical & Tech':0.79,'Climate & Interior':0.44,'Body & Glass':-0.09},
+    'Ford':{'Powertrain':0.79,'Brakes & Steering':0.46,'Electrical & Tech':0.19,'Climate & Interior':0.10,'Body & Glass':0.30},
+    'Buick':{'Powertrain':0.59,'Brakes & Steering':0.53,'Electrical & Tech':0.59,'Climate & Interior':0.38,'Body & Glass':0.32},
+    'Tesla':{'Powertrain':0.24,'Brakes & Steering':0.83,'Electrical & Tech':0.59,'Climate & Interior':0.09,'Body & Glass':0.66},
+    'Dodge':{'Powertrain':1.49,'Brakes & Steering':0.60,'Electrical & Tech':0.15,'Climate & Interior':0.17,'Body & Glass':0.87},
+    'BMW':{'Powertrain':0.45,'Brakes & Steering':1.07,'Electrical & Tech':0.91,'Climate & Interior':0.66,'Body & Glass':0.26},
+    'Jeep':{'Powertrain':1.48,'Brakes & Steering':1.07,'Electrical & Tech':0.47,'Climate & Interior':0.52,'Body & Glass':0.97},
+    'Infiniti':{'Powertrain':1.33,'Brakes & Steering':1.31,'Electrical & Tech':0.99,'Climate & Interior':0.87,'Body & Glass':0.76},
+    'Ram':{'Powertrain':1.96,'Brakes & Steering':0.86,'Electrical & Tech':0.78,'Climate & Interior':0.52,'Body & Glass':1.67}
+  };
+  const makes=[
+    {n:'Lexus',s:9.70},{n:'Subaru',s:9.68},{n:'Acura',s:9.59},{n:'Toyota',s:9.57},
+    {n:'Honda',s:9.55},{n:'MINI',s:9.43},{n:'Mazda',s:9.35},{n:'Nissan',s:8.71},
+    {n:'Kia',s:8.56},{n:'Hyundai',s:8.55},{n:'Mitsubishi',s:8.20},{n:'Chevrolet',s:7.99},
+    {n:'Volkswagen',s:7.77},{n:'GMC',s:7.71},{n:'Audi',s:7.58},{n:'Volvo',s:7.35},
+    {n:'Mercedes-Benz',s:7.27},{n:'Ford',s:7.14},{n:'Buick',s:6.92},{n:'Tesla',s:6.92},
+    {n:'Dodge',s:6.65},{n:'BMW',s:6.63},{n:'Jeep',s:6.38},{n:'Infiniti',s:6.27},{n:'Ram',s:6.21}
+  ];
+  const buckets=['Powertrain','Brakes & Steering','Electrical & Tech','Climate & Interior','Body & Glass'];
+  function gradeFor(z){ if(z<=-0.6) return {letter:'A+',bg:'#549b5c',fg:'#fff'}; if(z<=-0.2) return {letter:'A',bg:'#7BB99F',fg:'#fff'}; if(z<=0.4) return {letter:'B',bg:'#E8E8E8',fg:'#191919'}; if(z<=1.0) return {letter:'C',bg:'#FED7AA',fg:'#191919'}; return {letter:'D',bg:'#F97316',fg:'#fff'}; }
+  function tierBadge(s){ if(s>=9.0) return '#549b5c'; if(s>=8.0) return '#460B28'; if(s>=7.0) return '#8A8A8A'; return '#F97316'; }
+  const tbody=document.querySelector('#fpTbl tbody');
+  makes.forEach(m=>{
+    const md=data[m.n]; const tr=document.createElement('tr');
+    const lbl=document.createElement('td'); lbl.className='lbl';
+    lbl.innerHTML=m.n+`<span class="badge" style="background:${tierBadge(m.s)};">${m.s.toFixed(1)}</span>`;
+    tr.appendChild(lbl);
+    buckets.forEach(b=>{
+      const z=md[b]; const g=gradeFor(z);
+      const td=document.createElement('td');
+      td.className='cell'; td.style.background=g.bg; td.style.color=g.fg;
+      td.textContent=g.letter; td.dataset.grade=g.letter;
+      td.title=`${m.n} · ${b}: ${g.letter}`;
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+
+  // Legend click filter
+  const activeGrades=new Set();
+  document.querySelectorAll('#fpLegend .item').forEach(item=>{
+    item.addEventListener('click',()=>{
+      const g=item.dataset.grade;
+      if(activeGrades.has(g)){ activeGrades.delete(g); item.classList.remove('active'); }
+      else { activeGrades.add(g); item.classList.add('active'); }
+      document.querySelectorAll('#fpTbl td.cell').forEach(td=>{
+        td.classList.toggle('dimmed', activeGrades.size>0 && !activeGrades.has(td.dataset.grade));
+      });
+    });
+  });
+})();
+</script>
+
+</section>
+
+<hr class="s-sep">
+
+<!-- ── SECTION: Certified Lift ───────────────────────────────── -->
+<section class="s-block" id="lift">
+  <span class="s-num">04 — The Clutch Effect</span>
+  <h2>How does Clutch Certified elevate every car's reliability?</h2>
+  <div class="s-rule"></div>
+  <p><strong>Clutch's process raises the average reliability score across the 25 brands we measured from 7.99 to 9.32, a +1.33-point lift driven entirely by what we filter out at intake and what we fix in reconditioning.</strong> Every brand in the index gets a measurable lift; the brands that need the most filtering get the biggest one. The lift is largest on brands that arrive with the most issues, and smallest on brands already strong at intake.</p>
+
+  <!-- V23 — DUMBBELL CHART -->
+  <div class="viz" id="lift-viz">
+    <h2 style="font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-.3px;margin:0 0 8px;">How Clutch Certified Elevates Every Car</h2>
+    <p style="color:var(--ink);font-size:15px;margin:0 0 16px;font-weight:400;line-height:1.5;">Before any car gets listed on clutch.ca, roughly 50% of what Clutch buys fails our 210-point inspection and is sent to wholesale auctions. From the cars that pass, we invest over $2,000 per vehicle in reconditioning before listing. The Clutch Certified score reflects the vehicles we actually sell — not every used car of that brand on the road.</p>
+    <div id="dumbbellWrap" style="width:100%;overflow-x:auto;"></div>
+    <div style="display:flex;gap:20px;justify-content:center;font-size:12px;color:var(--ink);margin-top:16px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:7px;"><svg width="12" height="12"><circle cx="6" cy="6" r="5" fill="#C9C9C9" stroke="#999" stroke-width="1"/></svg>Brand's overall market score</div>
+      <div style="display:flex;align-items:center;gap:7px;"><svg width="12" height="12"><circle cx="6" cy="6" r="6" fill="#549b5c"/></svg>Clutch Certified score delivered to customer</div>
+      <div style="display:flex;align-items:center;gap:7px;"><svg width="30" height="12"><circle cx="6" cy="6" r="5" fill="#C9C9C9" stroke="#999" stroke-width="1"/><line x1="12" y1="6" x2="23" y2="6" stroke="#DDD" stroke-width="2.5"/><circle cx="24" cy="6" r="6" fill="#549b5c"/></svg>Gap = the lift</div>
+      <div style="display:flex;align-items:center;gap:7px;"><svg width="16" height="12"><line x1="8" y1="1" x2="8" y2="11" stroke="#AAA" stroke-width="1.5" stroke-dasharray="4,2"/></svg>25-brand average</div>
+    </div>
+  </div>
+<script>
+(function(){
+  const lifts=[
+    {make:'Lexus',overall:9.70,customer:9.83,lift:.13},
+    {make:'Subaru',overall:9.68,customer:9.85,lift:.17},
+    {make:'Acura',overall:9.59,customer:9.75,lift:.17},
+    {make:'Toyota',overall:9.57,customer:9.80,lift:.23},
+    {make:'Honda',overall:9.55,customer:9.76,lift:.21},
+    {make:'MINI',overall:9.43,customer:9.57,lift:.15},
+    {make:'Mazda',overall:9.35,customer:9.72,lift:.37},
+    {make:'Nissan',overall:8.71,customer:9.67,lift:.95},
+    {make:'Kia',overall:8.56,customer:9.79,lift:1.23},
+    {make:'Hyundai',overall:8.55,customer:9.74,lift:1.19},
+    {make:'Mitsubishi',overall:8.20,customer:9.76,lift:1.56},
+    {make:'Chevrolet',overall:7.99,customer:9.75,lift:1.76},
+    {make:'Volkswagen',overall:7.77,customer:9.36,lift:1.59},
+    {make:'GMC',overall:7.71,customer:9.76,lift:2.05},
+    {make:'Audi',overall:7.58,customer:9.24,lift:1.66},
+    {make:'Volvo',overall:7.35,customer:8.13,lift:.78},
+    {make:'Mercedes-Benz',overall:7.27,customer:8.67,lift:1.40},
+    {make:'Ford',overall:7.14,customer:9.32,lift:2.18},
+    {make:'Buick',overall:6.92,customer:9.00,lift:2.08},
+    {make:'Tesla',overall:6.92,customer:9.13,lift:2.22},
+    {make:'Dodge',overall:6.65,customer:9.61,lift:2.97},
+    {make:'BMW',overall:6.63,customer:7.85,lift:1.22},
+    {make:'Jeep',overall:6.38,customer:8.84,lift:2.46},
+    {make:'Infiniti',overall:6.27,customer:8.36,lift:2.09},
+    {make:'Ram',overall:6.21,customer:8.83,lift:2.63}
+  ];
+
+  function build(){
+    const wrap = document.getElementById('dumbbellWrap');
+    const W = Math.max(wrap.offsetWidth, 520);
+    const ROW = 30, ML = 140, MR = 100, MT = 50, MB = 16;
+    const CW = W - ML - MR;
+    const H = lifts.length * ROW + MT + MB;
+    const MIN = 5.8, MAX = 10.2;
+    const px = v => (v - MIN) / (MAX - MIN) * CW;
+    const ns = 'http://www.w3.org/2000/svg';
+
+    const svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.setAttribute('width', '100%');
+
+    // alt-row backgrounds
+    lifts.forEach((d,i) => {
+      if(i%2===0){
+        const r = document.createElementNS(ns,'rect');
+        r.setAttribute('x',0); r.setAttribute('y', MT+i*ROW);
+        r.setAttribute('width',W); r.setAttribute('height',ROW);
+        r.setAttribute('fill','#F9F9F9');
+        svg.appendChild(r);
+      }
+    });
+
+    // grid verticals
+    [6,6.5,7,7.5,8,8.5,9,9.5,10].forEach(v => {
+      const x = ML + px(v);
+      const isAvg = v===8;
+      const gl = document.createElementNS(ns,'line');
+      gl.setAttribute('x1',x); gl.setAttribute('x2',x);
+      gl.setAttribute('y1', MT-8); gl.setAttribute('y2', MT+lifts.length*ROW);
+      gl.setAttribute('stroke', isAvg ? '#999' : '#E8E8E8');
+      gl.setAttribute('stroke-width', isAvg ? 1.5 : 1);
+      if(isAvg) gl.setAttribute('stroke-dasharray','5,3');
+      svg.appendChild(gl);
+
+      const gt = document.createElementNS(ns,'text');
+      gt.setAttribute('x',x); gt.setAttribute('y', MT-14);
+      gt.setAttribute('text-anchor','middle');
+      gt.setAttribute('fill', isAvg ? '#460B28' : '#BBB');
+      gt.setAttribute('font-size','11');
+      gt.setAttribute('font-weight', isAvg ? '700' : '400');
+      gt.textContent = v.toFixed(1);
+      svg.appendChild(gt);
+    });
+
+    // avg label
+    const al = document.createElementNS(ns,'text');
+    al.setAttribute('x', ML+px(8)); al.setAttribute('y', MT-28);
+    al.setAttribute('text-anchor','middle');
+    al.setAttribute('fill','#460B28');
+    al.setAttribute('font-size','10');
+    al.setAttribute('font-weight','700');
+    al.textContent='25-brand avg';
+    svg.appendChild(al);
+
+    // rows
+    lifts.forEach((d,i) => {
+      const y = MT + i*ROW + ROW/2;
+      const x1 = ML + px(d.overall);
+      const x2 = ML + px(d.customer);
+
+      // brand label
+      const lbl = document.createElementNS(ns,'text');
+      lbl.setAttribute('x', ML-9); lbl.setAttribute('y', y+4.5);
+      lbl.setAttribute('text-anchor','end');
+      lbl.setAttribute('fill','#191919');
+      lbl.setAttribute('font-size','12.5');
+      lbl.setAttribute('font-weight','500');
+      lbl.textContent = d.make;
+      svg.appendChild(lbl);
+
+      // connecting line — color by lift magnitude
+      const liftPct = d.lift / 3.0;
+      const cl = document.createElementNS(ns,'line');
+      cl.setAttribute('x1',x1); cl.setAttribute('x2',x2);
+      cl.setAttribute('y1',y); cl.setAttribute('y2',y);
+      cl.setAttribute('stroke','#DEDEDE'); cl.setAttribute('stroke-width','2.5');
+      svg.appendChild(cl);
+
+      // overall dot
+      const d1 = document.createElementNS(ns,'circle');
+      d1.setAttribute('cx',x1); d1.setAttribute('cy',y);
+      d1.setAttribute('r','5'); d1.setAttribute('fill','#C9C9C9');
+      d1.setAttribute('stroke','#999'); d1.setAttribute('stroke-width','1');
+      svg.appendChild(d1);
+
+      // overall value
+      const v1t = document.createElementNS(ns,'text');
+      v1t.setAttribute('x',x1-9); v1t.setAttribute('y',y+4.5);
+      v1t.setAttribute('text-anchor','end'); v1t.setAttribute('fill','#AAA');
+      v1t.setAttribute('font-size','10'); v1t.setAttribute('font-weight','500');
+      v1t.textContent = d.overall.toFixed(2);
+      svg.appendChild(v1t);
+
+      // certified dot
+      const d2 = document.createElementNS(ns,'circle');
+      d2.setAttribute('cx',x2); d2.setAttribute('cy',y);
+      d2.setAttribute('r','6.5'); d2.setAttribute('fill','#549b5c');
+      svg.appendChild(d2);
+
+      // certified + lift label
+      const v2t = document.createElementNS(ns,'text');
+      v2t.setAttribute('x',x2+11); v2t.setAttribute('y',y+4.5);
+      v2t.setAttribute('text-anchor','start'); v2t.setAttribute('fill','#549b5c');
+      v2t.setAttribute('font-size','11'); v2t.setAttribute('font-weight','700');
+      v2t.textContent = `${d.customer.toFixed(2)}  +${d.lift.toFixed(2)}`;
+      svg.appendChild(v2t);
+    });
+
+    wrap.innerHTML = '';
+    wrap.appendChild(svg);
+  }
+
+  if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded',build); } else { build(); }
+  window.addEventListener('resize', ()=>{ clearTimeout(window._dbResize); window._dbResize=setTimeout(build,120); });
+})();
+</script>
+
+  <p>The lift is largest on brands that start lowest. Dodge goes from 6.65 to 9.61 (+2.97). Ram goes from 6.21 to 8.83 (+2.63). Jeep, GMC, and Tesla all gain more than 2 points. These are the brands where Clutch's reconditioning does the heaviest work to reach the Clutch Certified standard.</p>
+  <p>The lift is smallest on brands already at the top. Lexus, MINI, Subaru, and the Japanese top tier gain 0.1 to 0.2 points. There's less room to go up. The process confirms what's already clean rather than fixing what's broken.</p>
+
+  <div style="margin-top:24px;margin-bottom:16px;">
+    <div style="font-size:clamp(18px,2.5vw,22px);font-weight:800;color:var(--ink);letter-spacing:-.3px;margin-bottom:8px;">Where Clutch does the most work</div>
+    <p style="margin:0;font-size:15px;color:var(--ink-700);line-height:1.6;"><strong>The brands with the biggest lift are also where Clutch Certified does the most work relative to buying off the open market.</strong> A used Dodge or Ram bought through Clutch passes through a filter and a reconditioning process that the same vehicle wouldn't see on a private sale or an as-is dealer lot. Buyers shopping these brands benefit most from the Certified process — the lift relative to the open market is largest there.</p>
+  </div>
+  <div class="viz" style="margin-top:0;padding:0;overflow:hidden;">
+    <div style="padding:24px 28px 16px;background:#F5F5F5;border-radius:14px 14px 0 0;">
+      <div style="font-size:clamp(24px,4vw,36px);font-weight:900;color:var(--ink);letter-spacing:-.5px;line-height:1.1;margin-bottom:6px;">Brands With the Biggest Lift</div>
+      <p style="margin:0;font-size:13.5px;color:var(--muted);font-weight:500;">Reliability score improvement from market average to Clutch Certified, by brand.</p>
+    </div>
+    <div class="brand-bars" style="margin:0;border-radius:0;">
+      <div class="brand-bar" style="background:#3A0918;color:#fff;">
+        <div class="brand-bar__identity"><img src="https://raw.githubusercontent.com/Savage-clutch/Clutch-new/main/certified-report/assets/Dodge.svg" alt="Dodge" style="filter:invert(1);height:20px;"><span class="brand-bar__name">Dodge</span></div>
+        <div class="brand-bar__stat">+2.97</div>
+      </div>
+      <div class="brand-bar" style="background:#4F1025;color:#fff;">
+        <div class="brand-bar__identity"><img src="https://raw.githubusercontent.com/Savage-clutch/Clutch-new/main/certified-report/assets/Ram.svg" alt="Ram" style="filter:invert(1);"><span class="brand-bar__name">Ram</span></div>
+        <div class="brand-bar__stat">+2.63</div>
+      </div>
+      <div class="brand-bar" style="background:#651733;color:#fff;">
+        <div class="brand-bar__identity"><img src="https://raw.githubusercontent.com/Savage-clutch/Clutch-new/main/certified-report/assets/Jeep.svg" alt="Jeep" style="filter:invert(1);height:20px;"><span class="brand-bar__name">Jeep</span></div>
+        <div class="brand-bar__stat">+2.46</div>
+      </div>
+      <div class="brand-bar" style="background:#7A2040;color:#fff;">
+        <div class="brand-bar__identity"><img src="https://raw.githubusercontent.com/Savage-clutch/Clutch-new/main/certified-report/assets/Tesla.svg" alt="Tesla" style="filter:invert(1);height:20px;"><span class="brand-bar__name">Tesla</span></div>
+        <div class="brand-bar__stat">+2.22</div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin:0;padding:12px 28px 20px;">Lift = difference between brand's market reliability score and Clutch Certified score delivered to customer.</p>
+  </div>
+</section>
+
+<hr class="s-sep">
+
+<!-- ── SECTION: Mileage ──────────────────────────────────────── -->
+<section class="s-block" id="mileage">
+  <span class="s-num">05 — Mileage vs Brand</span>
+  <h2>Which brands hold up at high mileage?</h2>
+  <div class="s-rule"></div>
+  <p><strong>When it comes to vehicle longevity, Japanese brands stay roadworthy at much higher mileage than their American, German, and Korean competitors.</strong> By 100,000 km, the average American car fails Clutch's inspection 60% more often than the average Japanese car. German cars fail 39% more often than Japanese; Korean cars fail 24% more often. A Honda at 120,000 km holds up at the same rate as a Chevrolet at 60,000 km, twice the distance for the same outcome.</p>
+
+  <!-- V11c Country Aggregate Chart -->
+  <div class="viz">
+    <div class="mc">
+      <div class="mc-title">Country of Origin: How Brands Age With Mileage</div>
+      <p class="mc-sub">Volume-weighted inspection failure rate, all brands grouped by country of origin.</p>
+      <div class="chart-wrap"><canvas id="mcGroupChart"></canvas></div>
+      <p class="attrib">Source: Clutch Certified Reliability Report 2026 · <a href="https://www.clutch.ca/reliability" target="_blank" rel="noopener">clutch.ca/reliability</a></p>
+    </div>
+  </div>
+<script>
+(function(){
+  const labels=['0-40K km','40-60K','60-80K','80-100K','100-120K','120-150K'];
+  const datasets=[
+    {label:'Japanese', data:[11.2,16.2,21.2,26.9,37.5,57.1], color:'#1A8754', width:4, pointR:5},
+    {label:'Korean',   data:[11.8,16.3,25.1,33.3,50.3,71.9], color:'#FF464C', width:4, pointR:5},
+    {label:'German',   data:[12.5,18.7,26.9,37.4,51.5,70.5], color:'#A855F7', width:4, pointR:5},
+    {label:'US',       data:[17.5,23.0,30.8,43.4,57.2,73.4], color:'#3A0C1E', width:4, pointR:5}
+  ];
+  const mcGroupChart = new Chart(document.getElementById('mcGroupChart').getContext('2d'),{
+    type:'line',
+    data:{labels, datasets:datasets.map(d=>({label:d.label, data:d.data, borderColor:d.color, backgroundColor:d.color, borderWidth:d.width, pointRadius:d.pointR, pointHoverRadius:d.pointR+2, pointBackgroundColor:d.color, tension:.3}))},
+    options:{responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom', display:true,
+        onClick(e, legendItem, legend){
+          const chart = legend.chart;
+          const idx = legendItem.datasetIndex;
+          const active = chart._activeHighlight;
+          if(active === idx){ chart._activeHighlight = null; }
+          else { chart._activeHighlight = idx; }
+          chart.data.datasets.forEach((ds, i) => {
+            const orig = chart._origColors[i];
+            if(chart._activeHighlight === null){
+              ds.borderColor = orig; ds.backgroundColor = orig; ds.borderWidth = datasets[i].width; ds.pointRadius = datasets[i].pointR;
+            } else if(i === chart._activeHighlight){
+              ds.borderColor = orig; ds.backgroundColor = orig; ds.borderWidth = datasets[i].width + 1; ds.pointRadius = datasets[i].pointR + 1;
+            } else {
+              ds.borderColor = 'rgba(180,180,180,.35)'; ds.backgroundColor = 'rgba(180,180,180,.35)'; ds.borderWidth = 1.5; ds.pointRadius = 2;
+            }
+          });
+          chart.update();
+        },
+        labels:{font:{size:13,weight:'600'}, boxWidth:14, boxHeight:14, padding:18, usePointStyle:true, pointStyle:'circle'}},
+        tooltip:{backgroundColor:'#191919', padding:10, callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y.toFixed(1)}% fail rate`}}},
+      scales:{x:{grid:{display:false}, title:{display:true, text:'Odometer at Inspection', font:{size:13,weight:'700'}, color:'#191919', padding:{top:8}}, ticks:{font:{size:12,weight:'500'}, color:'#191919'}},
+              y:{min:0, max:90, grid:{color:'#F0F0F0'}, title:{display:true, text:"% That Fail Clutch's Standard", font:{size:13,weight:'700'}, color:'#191919'}, ticks:{font:{size:11}, color:'#888', callback:v=>v+'%', stepSize:10}}}}
+  });
+  mcGroupChart._origColors = datasets.map(d => d.color);
+  mcGroupChart._activeHighlight = null;
+})();
+</script>
+
+  <!-- V11b Brand Detail Chart -->
+  <div class="viz">
+    <div class="mc">
+      <div class="mc-title">Inspection Failure Rate by Mileage and Brand</div>
+      <p class="mc-sub">% of vehicles Clutch bought that fail our standard for retail, by mileage band.</p>
+      <div class="chart-wrap"><canvas id="mcChart"></canvas></div>
+      <p class="attrib">Source: Clutch Certified Reliability Report 2026 · <a href="https://www.clutch.ca/reliability" target="_blank" rel="noopener">clutch.ca/reliability</a></p>
+    </div>
+  </div>
+<script>
+(function(){
+  const labels=['0-40K km','40-60K','60-80K','80-100K','100-120K','120-150K'];
+  const datasets=[
+    {label:'Honda (Japan)',     data:[10.6,15.3,17.7,20.2,30.1,43.8], color:'#1A8754', width:3, pointR:4},
+    {label:'Toyota (Japan)',    data:[11.6,16.9,22.2,24.6,34.8,54.2], color:'#4FC3F7', width:3, pointR:4},
+    {label:'Hyundai (Korea)',   data:[11.8,15.8,24.9,33.2,50.6,72.8], color:'#FF464C', width:3, pointR:4},
+    {label:'Kia (Korea)',       data:[11.8,17.7,25.5,33.7,49.7,69.8], color:'#8B4513', width:3, pointR:4},
+    {label:'BMW (Germany)',     data:[15.9,24.3,28.5,38.9,57.4,72.2], color:'#A855F7', width:3, pointR:4},
+    {label:'VW (Germany)',      data:[13.5,14.5,22.0,31.3,41.2,61.2], color:'#C084FC', width:3, pointR:4},
+    {label:'Chevrolet (US)',    data:[18.1,30.7,40.8,49.5,67.7,79.1], color:'#3A0C1E', width:3, pointR:4},
+    {label:'Ford (US)',         data:[14.9,22.3,30.6,44.6,57.6,69.5], color:'#64748B', width:3, pointR:4}
+  ];
+  const mcChart = new Chart(document.getElementById('mcChart').getContext('2d'),{
+    type:'line',
+    data:{labels, datasets:datasets.map(d=>({label:d.label, data:d.data, borderColor:d.color, backgroundColor:d.color, borderWidth:d.width, borderDash:d.dashed?[6,4]:[], pointRadius:d.pointR, pointHoverRadius:d.pointR+2, pointBackgroundColor:d.color, tension:.3}))},
+    options:{responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom', display:true,
+        onClick(e, legendItem, legend){
+          const chart = legend.chart;
+          const idx = legendItem.datasetIndex;
+          const active = chart._activeHighlight;
+          if(active === idx){ chart._activeHighlight = null; }
+          else { chart._activeHighlight = idx; }
+          chart.data.datasets.forEach((ds, i) => {
+            const orig = chart._origColors[i];
+            if(chart._activeHighlight === null){
+              ds.borderColor = orig; ds.backgroundColor = orig; ds.borderWidth = datasets[i].width; ds.pointRadius = datasets[i].pointR;
+            } else if(i === chart._activeHighlight){
+              ds.borderColor = orig; ds.backgroundColor = orig; ds.borderWidth = datasets[i].width + 1; ds.pointRadius = datasets[i].pointR + 1;
+            } else {
+              ds.borderColor = 'rgba(180,180,180,.35)'; ds.backgroundColor = 'rgba(180,180,180,.35)'; ds.borderWidth = 1.5; ds.pointRadius = 2;
+            }
+          });
+          chart.update();
+        },
+        labels:{font:{size:13,weight:'600'}, boxWidth:12, boxHeight:12, padding:16, usePointStyle:true, pointStyle:'circle'}},
+        tooltip:{backgroundColor:'#191919', padding:10, callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y.toFixed(1)}% fail rate`}}},
+      scales:{x:{grid:{display:false}, title:{display:true, text:'Odometer at Inspection', font:{size:13,weight:'700'}, color:'#191919', padding:{top:8}}, ticks:{font:{size:12,weight:'500'}, color:'#191919'}},
+              y:{min:0, max:90, grid:{color:'#F0F0F0'}, title:{display:true, text:"% That Fail Clutch's Standard", font:{size:13,weight:'700'}, color:'#191919'}, ticks:{font:{size:11}, color:'#888', callback:v=>v+'%', stepSize:10}}}}
+  });
+  mcChart._origColors = datasets.map(d => d.color);
+  mcChart._activeHighlight = null;
+})();
+</script>
+
+  <p>The pattern holds across every mileage band. Honda runs roughly half the fail rate of Chevrolet at every measurement point: 10.6% vs 18.1% at 0-40K, 30.1% vs 67.7% at 100-120K, 43.8% vs 79.1% at 120-150K. Hyundai sits between the two but its curve climbs faster than Honda's, reaching 72.8% at the highest mileage band. The curves don't stay parallel; reliable brands age more gracefully than unreliable ones.</p>
+  <p><strong>What this means for buyers:</strong> brand is a stronger predictor than mileage. A higher-mileage Japanese car clears Clutch's filter at the same rate as a lower-mileage American or German one. Brand choice should lead the decision; mileage is a secondary filter within a brand.</p>
+</section>
+
+<div class="s-sep"></div>
+
+<!-- ── SECTION: Rust ──────────────────────────────────────────── -->
+<section class="s-block" id="rust">
+  <span class="s-num">06 — What Fails</span>
+  <h2>What's the #1 reason Canadian used cars fail inspection?</h2>
+  <div class="s-rule"></div>
+  <p><strong>Rust is Canada's leading cause of used-car failure.</strong> Nearly half of vehicles that fail our inspection show rust or corrosion (48.5%). That's more than engine failure (40.8%), and nearly triple fluid leaks (16.5%).</p>
+
+  <!-- V17 Rust Chart -->
+  <div class="viz" style="padding:0;overflow:hidden;">
+    <div style="padding:24px 28px 16px;background:#F5F5F5;border-radius:14px 14px 0 0;">
+      <div style="font-size:clamp(24px,4vw,36px);font-weight:900;color:var(--ink);letter-spacing:-.5px;line-height:1.1;margin-bottom:6px;">What Kills Cars in Canada?</div>
+      <p style="margin:0;font-size:13.5px;color:var(--muted);font-weight:500;">The top reasons vehicles fail Clutch's 210-point inspection.</p>
+    </div>
+    <div class="brand-bars" style="border-radius:0;margin:0;">
+      <div class="brand-bar" style="background:#3A0918;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">water_damage</span><div><span class="brand-bar__name">Rust / Corrosion</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Frame rot, subframe corrosion, perforated body panels</div></div></div>
+        <div class="brand-bar__stat">48.5%</div>
+      </div>
+      <div class="brand-bar" style="background:#54102A;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">settings</span><div><span class="brand-bar__name">Engine Failure</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Knock, oil burning, piston rings, rod bearing, head gasket</div></div></div>
+        <div class="brand-bar__stat">40.8%</div>
+      </div>
+      <div class="brand-bar" style="background:#761A3D;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">rotate_right</span><div><span class="brand-bar__name">Drivetrain / Trans</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Differential binding, transmission whine, CVT failure</div></div></div>
+        <div class="brand-bar__stat">29.7%</div>
+      </div>
+      <div class="brand-bar" style="background:#8A2250;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">water_drop</span><div><span class="brand-bar__name">Fluid Leaks</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Oil pan, rear main seal, timing cover, coolant</div></div></div>
+        <div class="brand-bar__stat">16.5%</div>
+      </div>
+      <div class="brand-bar" style="background:#A83060;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">tune</span><div><span class="brand-bar__name">Aftermarket Mods</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Tuned ECU, aftermarket exhaust, lowered suspension. Instant wholesale.</div></div></div>
+        <div class="brand-bar__stat">16.2%</div>
+      </div>
+      <div class="brand-bar" style="background:#C4557A;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">format_paint</span><div><span class="brand-bar__name">Cosmetic Beyond Repair</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Paint peeling, full repaint needed, body damage beyond PDR</div></div></div>
+        <div class="brand-bar__stat">15.5%</div>
+      </div>
+    </div>
+  </div>
+
+  <p>The issues are specific: perforated frames, rotted subframes, bubbled rocker panels, corroded wheel wells, and structural rust that can't be safely welded. These aren't cosmetic problems. A rusted-through frame rail is a safety hazard.</p>
+  <p>Rust doesn't hit every brand equally. Ram (64%), Dodge (62%), Chevrolet (56%), Subaru (56%), and Tesla (57%) show the highest rust rates among vehicles that fail our inspection. But every brand on the list has a meaningful rust problem. Road salt, freeze-thaw cycles, and a five-month winter season do more damage per kilometre than the mechanical systems themselves.</p>
+  <p>Lack of routine maintenance is the multiplier on most rust failures. A vehicle that gets washed regularly and has its underbody treated holds up much better than one that doesn't, even in the same climate. Maintenance habits matter as much as where a car was driven.</p>
+  <p><strong>What this means for buyers:</strong> mileage and age are useful proxies for rust risk, but neither is a hard rule. Climate exposure and maintenance history matter as much. Cars driven in salt-belt provinces, stored outdoors, or never undercoated can be structurally compromised in ways the odometer doesn't show. Routine maintenance is the most actionable factor an owner can control: regular underbody washing through winter, prompt repair of stone-chip damage to paint and undercoating, and indoor storage when possible all slow the corrosion process. Underbody inspections, which Clutch performs on every vehicle as part of the 210-point standard, are often the deciding factor.</p>
+</section>
+
+<hr class="s-sep">
+
+<!-- ── SECTION: Hybrids ──────────────────────────────────────── -->
+<section class="s-block" id="hybrids">
+  <span class="s-num">07 — Powertrain</span>
+  <h2>How does fuel type affect reliability?</h2>
+  <div class="s-rule"></div>
+  <p>Hybrids and gas vehicles fail Clutch's 210-point inspection at almost identical rates in the first six years (10.6% vs 10.7% at 0-3 years; 21.5% vs 22.3% at 4-6 years). EVs trail by 4 to 5 percentage points. But 78% of the EV pool is Tesla, and once Tesla is split out, the gap is almost entirely Tesla. The reason isn't EV technology. It's manufacturing.</p>
+
+  <!-- V12 Hybrid Chart -->
+  <div class="viz">
+    <div class="hyb">
+      <div class="hyb-title">EVs Fail Inspections More Often</div>
+      <p class="hyb-sub">% of vehicles that fail Clutch's 210-point standard, by powertrain. Hybrids and gas run within a percentage point of each other. EVs trail by 4–5 points.</p>
+      <div class="panels">
+        <div class="panel">
+          <h3 class="panel-title"><span class="age-tag">0–3 years old</span></h3>
+          <div class="row"><div class="ft-name">Hybrid<span class="ft-sub">gas + battery</span></div><div class="bar-wrap"><div class="bar hybrid" style="width:69%;">10.6%</div></div></div>
+          <div class="row"><div class="ft-name">Gasoline<span class="ft-sub">ICE</span></div><div class="bar-wrap"><div class="bar gas" style="width:70%;">10.7%</div></div></div>
+          <div class="row"><div class="ft-name">Electric<span class="ft-sub">battery only</span></div><div class="bar-wrap"><div class="bar electric" style="width:100%;">15.3%</div></div></div>
+        </div>
+        <div class="panel">
+          <h3 class="panel-title"><span class="age-tag">4–6 years old</span></h3>
+          <div class="row"><div class="ft-name">Hybrid<span class="ft-sub">gas + battery</span></div><div class="bar-wrap"><div class="bar hybrid" style="width:85%;">21.5%</div></div></div>
+          <div class="row"><div class="ft-name">Gasoline<span class="ft-sub">ICE</span></div><div class="bar-wrap"><div class="bar gas" style="width:88%;">22.3%</div></div></div>
+          <div class="row"><div class="ft-name">Electric<span class="ft-sub">battery only</span></div><div class="bar-wrap"><div class="bar electric" style="width:100%;">25.3%</div></div></div>
+        </div>
+      </div>
+      <div class="note"><strong>How to read it:</strong> The interesting question is what's driving the EV gap in the early years.</div>
+    </div>
+  </div>
+
+  <p>Hybrids and gas track each other closely on inspection failure for the first six years. EVs run 4 to 5 percentage points higher in the same window. That aggregate EV figure hides something specific: most of the gap is one brand.</p>
+
+  <h3 id="ev-gap-tesla">The EV gap is a Tesla gap</h3>
+  <p>Tesla makes up 78% of the EVs Clutch acquires. Once Tesla is separated from non-Tesla EVs, the post-sale picture changes sharply. Tesla files paid warranty claims at 11.5 per 100 vehicles sold. Non-Tesla EVs file at 7.5 per 100, the lowest claim rate of any fuel type in our dataset.</p>
+  <div class="viz" style="margin-top:0;padding:0;overflow:hidden;">
+    <div style="padding:24px 28px 16px;background:#F5F5F5;border-radius:14px 14px 0 0;">
+      <div style="font-size:clamp(24px,4vw,36px);font-weight:900;color:var(--ink);letter-spacing:-.5px;line-height:1.1;margin-bottom:6px;">The EV Gap Is a Tesla Gap</div>
+      <p style="margin:0;font-size:13.5px;color:var(--muted);font-weight:500;">Paid warranty claims per 100 vehicles sold (90-day window), by fuel type. Lower is better.</p>
+    </div>
+    <div class="brand-bars" style="margin:0;border-radius:0;">
+      <div class="brand-bar" style="background:#F0E6EC;color:#191919;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">electric_car</span><div><span class="brand-bar__name">Non-Tesla EV</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Warranty claims per 100 sold (90-day)</div></div></div>
+        <div class="brand-bar__stat" style="color:var(--plum);">7.5</div>
+      </div>
+      <div class="brand-bar" style="background:#A83060;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">local_gas_station</span><div><span class="brand-bar__name">Hybrid</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Warranty claims per 100 sold (90-day)</div></div></div>
+        <div class="brand-bar__stat">8.0</div>
+      </div>
+      <div class="brand-bar" style="background:#761A3D;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">local_gas_station</span><div><span class="brand-bar__name">Gas</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Warranty claims per 100 sold (90-day)</div></div></div>
+        <div class="brand-bar__stat">10.3</div>
+      </div>
+      <div class="brand-bar" style="background:#3A0918;color:#fff;">
+        <div class="brand-bar__identity"><img src="https://raw.githubusercontent.com/Savage-clutch/Clutch-new/main/certified-report/assets/Tesla.svg" alt="Tesla" style="filter:invert(1);height:20px;"><div><span class="brand-bar__name">Tesla</span><div style="font-size:12px;opacity:.65;margin-top:2px;">Warranty claims per 100 sold (90-day)</div></div></div>
+        <div class="brand-bar__stat">11.5</div>
+      </div>
+    </div>
+  </div>
+  <p>The "EV reliability problem" is, in the data, mostly a Tesla problem. The more telling question is which categories drive that gap, and how Tesla compares to gas and hybrid in each one.</p>
+
+</section>
+
+<!-- ── SECTION: Tesla ─────────────────────────────────────────── -->
+<section class="s-block" id="tesla">
+  <span class="s-num">08 — Tesla &amp; EVs</span>
+  <h2>Where Tesla Differs From the Rest</h2>
+  <div class="s-rule"></div>
+  <p style="break-inside:avoid;page-break-inside:avoid;">EVs carry a reliability reputation problem. Most of that reputation belongs to one brand. Tesla makes up 78% of the EVs Clutch acquires, and its post-sale claim rate of 11.5 per 100 vehicles pulls the aggregate EV number up. Separate Tesla out, and non-Tesla EVs file at 7.5 per 100 — the lowest of any powertrain in our dataset. Lower than gas (10.3). Lower than hybrid (8.0). The EV reliability problem, in the data, is a Tesla problem.</p>
+
+  <!-- WEAKNESSES -->
+  <div class="viz" id="tsla-cats-viz">
+    <div class="tsla">
+      <div class="tsla-cats">
+
+        <div>
+          <div class="tsla-cat-head">
+            <span class="tsla-cat-name">Brakes &amp; Suspension</span>
+          </div>
+          <div class="row"><span class="ft-name">Gas</span><div class="bar-wrap"><div class="bar gas" style="width:85%;">2.95</div></div></div>
+          <div class="row"><span class="ft-name">Hybrid</span><div class="bar-wrap"><div class="bar hybrid" style="width:54%;">1.88</div></div></div>
+          <div class="row"><span class="ft-name">Tesla</span><div class="bar-wrap"><div class="bar tesla" style="width:100%;">3.45</div></div></div>
+          <div class="row"><span class="ft-name">Non-Tesla EV</span><div class="bar-wrap"><div class="bar ev" style="width:62%;">2.15</div></div></div>
+        </div>
+
+        <div>
+          <div class="tsla-cat-head">
+            <span class="tsla-cat-name">Electrical</span>
+          </div>
+          <div class="row"><span class="ft-name">Gas</span><div class="bar-wrap"><div class="bar gas" style="width:55%;">1.90</div></div></div>
+          <div class="row"><span class="ft-name">Hybrid</span><div class="bar-wrap"><div class="bar hybrid" style="width:54%;">1.88</div></div></div>
+          <div class="row"><span class="ft-name">Tesla</span><div class="bar-wrap"><div class="bar tesla" style="width:100%;">3.45</div></div></div>
+          <div class="row"><span class="ft-name">Non-Tesla EV</span><div class="bar-wrap"><div class="bar ev" style="width:62%;">2.15</div></div></div>
+        </div>
+
+        <div>
+          <div class="tsla-cat-head">
+            <span class="tsla-cat-name">Body &amp; Interior</span>
+          </div>
+          <div class="row"><span class="ft-name">Gas</span><div class="bar-wrap"><div class="bar gas" style="width:54%;">1.23</div></div></div>
+          <div class="row"><span class="ft-name">Hybrid</span><div class="bar-wrap"><div class="bar hybrid" style="width:67%;">1.52</div></div></div>
+          <div class="row"><span class="ft-name">Tesla</span><div class="bar-wrap"><div class="bar tesla" style="width:100%;">2.26</div></div></div>
+          <div class="row"><span class="ft-name">Non-Tesla EV</span><div class="bar-wrap"><div class="bar ev" style="width:24%;">0.54</div></div></div>
+        </div>
+
+        <div>
+          <div class="tsla-cat-head">
+            <span class="tsla-cat-name">HVAC</span>
+          </div>
+          <div class="row"><span class="ft-name">Gas</span><div class="bar-wrap"><div class="bar gas" style="width:37%;">0.49</div></div></div>
+          <div class="row"><span class="ft-name">Hybrid</span><div class="bar-wrap"><div class="bar hybrid" style="width:14%;">0.18</div></div></div>
+          <div class="row"><span class="ft-name">Tesla</span><div class="bar-wrap"><div class="bar tesla" style="width:100%;">1.31</div></div></div>
+          <div class="row"><span class="ft-name">Non-Tesla EV</span><div class="bar-wrap"><div class="bar ev" style="width:41%;">0.54</div></div></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="s-split">
+    <div class="s-split__lede">
+      <img src="https://raw.githubusercontent.com/Savage-clutch/Clutch-new/main/certified-report/assets/Tesla.svg" alt="Tesla" style="width:32px;height:auto;display:block;margin-bottom:14px;opacity:0.85;">
+      Tesla's EV architecture works. Tesla's factory doesn't.
+    </div>
+    <div class="s-split__body">
+      <p>The pattern goes beyond "Tesla worse than other EVs." On the four categories that map to physical assembly (body panels and interior, HVAC, brakes and suspension, electrical wiring), Tesla files claims at the highest rate of any fuel type. Higher than gas. Higher than hybrid. Higher than non-Tesla EVs. These aren't EV-specific failures. They're manufacturing-consistency issues that show up on early Model 3 and Model Y production years, and that NHTSA has documented in multiple suspension-related recalls.</p>
+      <p>The biggest Tesla-specific pattern is suspension — control arms and components that frequently need premature replacement, typically $1,000–$2,000 per affected vehicle.</p>
+    </div>
+  </div>
+
+  <!-- STRENGTHS -->
+  <div class="viz">
+    <div class="tsla">
+      <div class="hyb-title">Tesla Strengths</div>
+      <p class="hyb-sub">Issues per 100 vehicles sold — lower is better</p>
+      <div class="tsla-cats">
+
+        <div>
+          <div class="tsla-cat-head">
+            <span class="tsla-cat-name">Powertrain</span>
+          </div>
+          <div class="row"><span class="ft-name">Gas</span><div class="bar-wrap"><div class="bar gas" style="width:100%;">3.24</div></div></div>
+          <div class="row"><span class="ft-name">Hybrid</span><div class="bar-wrap"><div class="bar hybrid" style="width:44%;">1.43</div></div></div>
+          <div class="row"><span class="ft-name">Tesla</span><div class="bar-wrap"><div class="bar tesla" style="width:15%;">0.48</div></div></div>
+          <div class="row"><span class="ft-name">Non-Tesla EV</span><div class="bar-wrap"><div class="bar ev" style="width:33%;">1.08</div></div></div>
+        </div>
+
+        <div>
+          <div class="tsla-cat-head">
+            <span class="tsla-cat-name">Safety / Driver-Assist</span>
+          </div>
+          <div class="row"><span class="ft-name">Gas</span><div class="bar-wrap"><div class="bar gas" style="width:41%;">0.44</div></div></div>
+          <div class="row"><span class="ft-name">Hybrid</span><div class="bar-wrap"><div class="bar hybrid" style="width:99%;">1.07</div></div></div>
+          <div class="row"><span class="ft-name">Tesla</span><div class="bar-wrap"><div class="bar tesla" style="width:56%;">0.60</div></div></div>
+          <div class="row"><span class="ft-name">Non-Tesla EV</span><div class="bar-wrap"><div class="bar ev" style="width:100%;">1.08</div></div></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <p><strong>The pattern:</strong> Tesla files claims at higher rates than gas, hybrid, and non-Tesla EVs on every category that maps to physical assembly: body panels, interior fit, HVAC, brakes, suspension, electrical wiring. Tesla beats every other fuel type on powertrain. Non-Tesla EVs file claims at lower rates than gas across the board. The reliability gap isn't EV technology. It's Tesla manufacturing consistency.</p>
+
+  <p>So where does Tesla win? On powertrain reliability. An EV drivetrain has far fewer moving parts than a gas engine and transmission, and the data reflects that across all EVs. Tesla's powertrain claim rate is 6.7x lower than gas, 3x lower than hybrid, and roughly half the non-Tesla EV rate. The EV architecture works. The car wrapped around it has a quality problem.</p>
+  <p>The non-Tesla EV column is the quiet finding. Across every category, non-Tesla EVs file claims at lower rates than gas. Their total post-sale claim rate of 7.5 per 100 is the lowest of any fuel type in our dataset, beating both gas (10.3) and hybrid (8.0).</p>
+  <p><strong>What this means for buyers:</strong> a used EV doesn't have to be a worse bet than a used gas or hybrid. Non-Tesla EVs file warranty claims less often than gas vehicles in the same window. The "EV reliability problem" most buyers have heard about is, in our data, a Tesla manufacturing-consistency problem, not a problem with electric vehicles in general.</p>
+</section>
+
+<hr class="s-sep">
+
+<!-- ── SECTION: Premium ──────────────────────────────────────── -->
+<section class="s-block" id="premium">
+  <span class="s-num">09 — Luxury</span>
+  <h2>Do premium brands deliver premium reliability?</h2>
+  <div class="s-rule"></div>
+  <p><strong>No. Premium brands are, on average, less reliable than mainstream brands.</strong> Six of the nine premium brands in the Clutch Certified Reliability Index sit below the 25-brand average. Warranty repairs on premium vehicles cost 89% more than on mainstream vehicles in the first 90 days of ownership, and Clutch invests 13% more reconditioning premium vehicles to retail standard. Two luxury brands buck this pattern: Lexus and Acura, both built on the engineering culture of Toyota and Honda, the most reliability-focused parent companies in the industry.</p>
+
+  <div class="viz" style="padding:0;overflow:hidden;">
+    <div style="padding:24px 28px 16px;background:#F5F5F5;border-radius:14px 14px 0 0;">
+      <div style="font-size:clamp(20px,3vw,28px);font-weight:900;color:var(--ink);letter-spacing:-.4px;line-height:1.1;margin-bottom:6px;">Where Premium Vehicles Cost the Most to Repair Under Warranty</div>
+      <p style="margin:0;font-size:13.5px;color:var(--muted);font-weight:500;">Average warranty repair cost premium over mainstream, in the first 90 days. Combines claim frequency and cost per claim.</p>
+    </div>
+    <div class="brand-bars" style="margin:0;border-radius:0;">
+      <div class="brand-bar" style="background:#3A0918;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">directions_car</span><div><span class="brand-bar__name">Body &amp; Interior</span></div></div>
+        <div class="brand-bar__stat">+114%</div>
+      </div>
+      <div class="brand-bar" style="background:#54102A;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">electric_bolt</span><div><span class="brand-bar__name">Electrical</span></div></div>
+        <div class="brand-bar__stat">+107%</div>
+      </div>
+      <div class="brand-bar" style="background:#761A3D;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">album</span><div><span class="brand-bar__name">Brakes &amp; Suspension</span></div></div>
+        <div class="brand-bar__stat">+103%</div>
+      </div>
+      <div class="brand-bar" style="background:#8A2250;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">ac_unit</span><div><span class="brand-bar__name">HVAC</span></div></div>
+        <div class="brand-bar__stat">+88%</div>
+      </div>
+      <div class="brand-bar" style="background:#A83060;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">shield</span><div><span class="brand-bar__name">Safety / Driver-Assist</span></div></div>
+        <div class="brand-bar__stat">+80%</div>
+      </div>
+      <div class="brand-bar" style="background:#C4557A;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">settings</span><div><span class="brand-bar__name">Powertrain</span></div></div>
+        <div class="brand-bar__stat">+69%</div>
+      </div>
+      <div class="brand-bar" style="background:#191919;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">calculate</span><div><span class="brand-bar__name">All categories</span></div></div>
+        <div class="brand-bar__stat">+89%</div>
+      </div>
+    </div>
+  </div>
+  <p>Premium vehicles generate higher warranty repair costs in every issue category, and the gap roughly doubles once cost is layered on top of frequency. Body and interior repairs run 114% more expensive on premium; electrical 107% more; brakes and suspension 103% more. Premium parts cost more, premium labour costs more, and premium vehicles need warranty work more often. The compounding pushes total warranty repair cost on premium to nearly twice the mainstream figure.</p>
+
+  <div class="viz" style="padding:0;overflow:hidden;">
+    <div style="padding:24px 28px 16px;background:#F5F5F5;border-radius:14px 14px 0 0;">
+      <div style="font-size:clamp(20px,3vw,28px);font-weight:900;color:var(--ink);letter-spacing:-.4px;line-height:1.1;margin-bottom:6px;">Where Premium Vehicles Cost the Most to Recondition</div>
+      <p style="margin:0;font-size:13.5px;color:var(--muted);font-weight:500;">Average pre-sale reconditioning spend per retail vehicle, expressed as the relative premium over mainstream.</p>
+    </div>
+    <div class="brand-bars" style="margin:0;border-radius:0;">
+      <div class="brand-bar" style="background:#3A0918;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">window</span><div><span class="brand-bar__name">Glass</span></div></div>
+        <div class="brand-bar__stat">+39%</div>
+      </div>
+      <div class="brand-bar" style="background:#54102A;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">album</span><div><span class="brand-bar__name">Tires &amp; Wheels</span></div></div>
+        <div class="brand-bar__stat">+36%</div>
+      </div>
+      <div class="brand-bar" style="background:#761A3D;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">build</span><div><span class="brand-bar__name">Mechanical</span></div></div>
+        <div class="brand-bar__stat">+20%</div>
+      </div>
+      <div class="brand-bar" style="background:#F0E6EC;color:#191919;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">format_paint</span><div><span class="brand-bar__name">Body / Cosmetic</span></div></div>
+        <div class="brand-bar__stat" style="color:var(--plum);">&minus;23%</div>
+      </div>
+      <div class="brand-bar" style="background:#191919;color:#fff;">
+        <div class="brand-bar__identity"><span class="material-symbols-rounded" style="font-size:26px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 40;flex-shrink:0;">calculate</span><div><span class="brand-bar__name">Total recon spend</span></div></div>
+        <div class="brand-bar__stat">+13%</div>
+      </div>
+    </div>
+  </div>
+  <p>Premium vehicles cost more to bring up to the Clutch Certified standard in three of four meaningful categories. Glass runs 39% more (larger windshields, panoramic roofs). Tires and wheels run 36% more (larger and more performance-spec). Mechanical work runs 20% more (more complex engines and transmissions). Body and cosmetic is the one place premium runs lower, because the mainstream pool includes the rust-heavy Stellantis truck contingent that needs heavy body work and pulls the mainstream average up.</p>
+
+  <h3>The German luxury cluster: a case in point</h3>
+  <p>BMW, Mercedes-Benz, and Audi all sit below the 25-brand index average despite premium new-car pricing. Lexus and Acura sit in the top five. The pattern visible in the brand-pair comparison below repeats across every measure: pre-sale repair cost, warranty claim rate, and vehicle-issue returns.</p>
+
+  <!-- V6 Luxury Chart -->
+  <div class="viz">
+    <div class="lux">
+      <div class="lux-title">German vs Japanese Luxury</div>
+      <p class="lux-sub">German luxury performs worse against the 25-brand average on every pillar Clutch measures. Japanese luxury performs better on every pillar.</p>
+      <div class="chart">
+        <div class="make-col">
+          <span class="origin-tag">German</span>
+          <img src="https://raw.githubusercontent.com/Savage-clutch/Clutch-new/main/certified-report/assets/BMW.svg" alt="BMW" style="height:48px;width:auto;display:block;margin:0 auto 10px;opacity:.85;">
+          <div class="make-name" style="color:#F97316;">BMW</div>
+          <div class="make-score" style="background:#F97316;">6.63 / 10</div>
+          <div class="metric"><div class="metric-label">Pre-sale repair vs 25-brand avg</div><div class="bar-wrap"><div class="bar warn" style="width:97%;">+31%</div></div></div>
+          <div class="metric"><div class="metric-label">Warranty repairs, 90 days vs avg</div><div class="bar-wrap"><div class="bar warn" style="width:100%;">+68%</div></div></div>
+          <div class="metric"><div class="metric-label">Vehicle-issue returns / 100 sold</div><div class="bar-wrap"><div class="bar warn" style="width:100%;">1.99</div></div></div>
+        </div>
+        <div class="make-col">
+          <span class="origin-tag">German</span>
+          <img src="https://raw.githubusercontent.com/Savage-clutch/Clutch-new/main/certified-report/assets/Mercedes.svg" alt="Mercedes-Benz" style="height:48px;width:auto;display:block;margin:0 auto 10px;opacity:.85;">
+          <div class="make-name" style="color:#F97316;">Mercedes-Benz</div>
+          <div class="make-score" style="background:#F97316;">7.27 / 10</div>
+          <div class="metric"><div class="metric-label">Pre-sale repair vs 25-brand avg</div><div class="bar-wrap"><div class="bar warn" style="width:100%;">+32%</div></div></div>
+          <div class="metric"><div class="metric-label">Warranty repairs, 90 days vs avg</div><div class="bar-wrap"><div class="bar warn" style="width:96%;">+65%</div></div></div>
+          <div class="metric"><div class="metric-label">Vehicle-issue returns / 100 sold</div><div class="bar-wrap"><div class="bar warn" style="width:78%;">1.55</div></div></div>
+        </div>
+        <div class="make-col">
+          <span class="origin-tag">Japanese</span>
+          <img src="https://raw.githubusercontent.com/Savage-clutch/Clutch-new/main/certified-report/assets/Lexus.svg" alt="Lexus" style="height:48px;width:auto;display:block;margin:0 auto 10px;opacity:.85;">
+          <div class="make-name" style="color:#549b5c;">Lexus</div>
+          <div class="make-score" style="background:#549b5c;">9.70 / 10</div>
+          <div class="metric"><div class="metric-label">Pre-sale repair vs 25-brand avg</div><div class="bar-wrap"><div class="bar good" style="width:31%;">+10%</div></div></div>
+          <div class="metric"><div class="metric-label">Warranty repairs, 90 days vs avg</div><div class="bar-wrap"><div class="bar good" style="width:9%;">−6%</div></div></div>
+          <div class="metric"><div class="metric-label">Vehicle-issue returns / 100 sold</div><div class="bar-wrap"><div class="bar good" style="width:32%;">0.64</div></div></div>
+        </div>
+        <div class="make-col">
+          <span class="origin-tag">Japanese</span>
+          <img src="https://raw.githubusercontent.com/Savage-clutch/Clutch-new/main/certified-report/assets/AcurA.svg" alt="Acura" style="height:48px;width:auto;display:block;margin:0 auto 10px;opacity:.85;">
+          <div class="make-name" style="color:#549b5c;">Acura</div>
+          <div class="make-score" style="background:#549b5c;">9.59 / 10</div>
+          <div class="metric"><div class="metric-label">Pre-sale repair vs 25-brand avg</div><div class="bar-wrap"><div class="bar good" style="width:9%;">−3%</div></div></div>
+          <div class="metric"><div class="metric-label">Warranty repairs, 90 days vs avg</div><div class="bar-wrap"><div class="bar good" style="width:6%;">−2%</div></div></div>
+          <div class="metric"><div class="metric-label">Vehicle-issue returns / 100 sold</div><div class="bar-wrap"><div class="bar good" style="width:20%;">0.40</div></div></div>
+        </div>
+      </div>
+      <div class="note"><strong>The pattern repeats across all three measures:</strong> pre-sale repair cost, warranty claim rate, and vehicle-issue returns. BMW and Mercedes land well above average on every dimension. Lexus and Acura sit at or below average on every dimension. Country of origin tracks reliability more cleanly than price tag does.</div>
+    </div>
+  </div>
+
+  <p>Lexus and Acura are the rare exceptions, and the reason is upstream. Toyota and Honda apply exceptional engineering standards focused on reliability across their entire lineups, which their luxury siblings inherit. Every other premium brand in our dataset carries a measurable reliability gap that doesn't disappear with the badge.</p>
+  <p><strong>What this means for buyers:</strong> the premium price tag rarely buys premium reliability. If you're shopping luxury used and want the lowest expected ownership costs, Lexus and Acura are in a category of their own. Every other premium brand averages higher repair costs and more reconditioning needs than its mainstream counterparts. The premium you pay at purchase is often paid again in the shop.</p>
+</section>
+
+<hr class="s-sep">
+
+<!-- ── SECTION: Conclusion ───────────────────────────────────── -->
+<section class="s-block" id="conclusion" style="break-before:page;page-break-before:always;">
+
+  <h2>Conclusion</h2>
+  <div class="s-rule"></div>
+  <p>Nine years and 100,000+ inspected used cars give the Canadian market its first proprietary reliability picture, built on physical inspection and post-sale outcomes rather than owner surveys.</p>
+  <p>The patterns are clear: Japanese brands sweep the top of the index, premium brands underperform mainstream brands on average with Lexus and Acura the only exceptions, the EV reliability gap most buyers have heard about is mostly a Tesla manufacturing-consistency problem rather than an EV-technology problem, and brand matters more than mileage at every age band.</p>
+  <p>But every car Clutch sells has already cleared the 210-point standard, been reconditioned to spec, and is backed by our 10-day return policy. The process raises the average reliability score across all 25 brands from 7.99 to 9.32. That's a +1.33-point lift. <strong>Only the cars that pass our 210-point inspection make it to <a href="https://www.clutch.ca" target="_blank" rel="noopener">clutch.ca</a>, and each one gets $2,000+ of reconditioning before sale. That's why a Clutch Certified car is measurably more reliable than the brand it belongs to.</strong></p>
+  <div class="stat-callout" style="text-align:left;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;padding:36px 40px;">
+    <img src="https://raw.githubusercontent.com/Savage-clutch/Clutch-new/main/certified-report/assets/cc-badge.png" alt="Clutch Certified" style="height:160px;width:auto;display:block;margin:0;">
+    <div>
+      <div style="font-size:clamp(20px,3vw,26px);font-weight:800;color:#fff;letter-spacing:-.4px;line-height:1.2;margin-bottom:10px;">Clutch delivers a +1.33-point reliability lift across every brand it carries.</div>
+      <div style="font-size:15px;color:rgba(255,255,255,.65);line-height:1.55;">The Clutch reconditioning process delivers a +1.33-point lift on average, moving the market average of 7.99 to Clutch Certified 9.32.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION: Methodology ──────────────────────────────────── -->
+<section class="s-block" id="methodology">
+
+  <h2>How is the Clutch Certified Reliability Index calculated?</h2>
+  <div class="s-rule"></div>
+  <p class="answer"><strong>The index blends four pillars into a single composite reliability score for each brand.</strong> Warranty claim activity carries the largest weight (35%) because it measures what actually breaks after the car reaches a customer. Pre-sale pillars (210-point inspection and reconditioning) and post-sale pillars (90-day warranty claims and 10-day returns) are balanced 50/50.</p>
+  <p>All measurements are normalized within age buckets (0-3, 4-6, and 7-10 years) so older vehicles aren't penalized for their age, then volume-weighted across a brand's retail population. A brand must have meaningful volume in at least two age buckets to be rated. Twenty-five brands meet that threshold.</p>
+  <p>Full methodology, data sources, and calculations are published in a companion document available to media and research partners on request.</p>
+</section>
+
+<!-- ── FAQ ────────────────────────────────────────────────────── -->
+<section class="faq-wrap" id="faq">
+  <h2 class="faq__headline">Frequently asked questions</h2>
+
+  <div class="faq__item">
+    <button class="faq__q" aria-expanded="false">What is the Clutch Certified Reliability Index?<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="faq__a"><p class="faq__a-inner">The Clutch Certified Reliability Index is a composite score for 25 used-car brands, built from Clutch's first-party data on inspections, reconditioning, warranty claims, and customer returns. Scores are reported on a 10-point reliability scale, with the 25-brand average near 8.0. Lexus leads at 9.70.</p></div>
+  </div>
+  <div class="faq__item">
+    <button class="faq__q" aria-expanded="false">Which brand has the most reliable used cars in Canada?<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="faq__a"><p class="faq__a-inner">Lexus ranks #1 in the 2026 Clutch Certified Reliability Index with a score of 9.70. Subaru (9.68), Acura (9.59), Toyota (9.57), and Honda (9.55) round out the top 5. All five post above-average results on every pillar measured.</p></div>
+  </div>
+  <div class="faq__item">
+    <button class="faq__q" aria-expanded="false">Are premium brands less reliable than mainstream brands?<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="faq__a"><p class="faq__a-inner">Yes, on average. Six of the nine premium brands in the Clutch Certified Reliability Index sit below the 25-brand average. Warranty repairs on premium vehicles cost 89% more than on mainstream vehicles in the first 90 days. Lexus and Acura are the only premium brands in the top tier, both inheriting Toyota and Honda's engineering culture.</p></div>
+  </div>
+  <div class="faq__item">
+    <button class="faq__q" aria-expanded="false">Are German luxury cars less reliable than Japanese luxury cars?<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="faq__a"><p class="faq__a-inner">Yes, based on our data. BMW, Mercedes-Benz, and Audi all score below the 25-brand average (6.63, 7.27, and 7.58). Lexus (9.70) and Acura (9.59) sit in the top tier. BMW and Mercedes-Benz vehicles need warranty-covered repairs in the first 90 days at roughly 1.7× the rate of Lexus.</p></div>
+  </div>
+  <div class="faq__item">
+    <button class="faq__q" aria-expanded="false">Is mileage a good predictor of used-car reliability?<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="faq__a"><p class="faq__a-inner">No, not on its own. In our data, a Honda at 120,000 km passes our 210-point inspection more often than a Chevrolet at 60,000 km. Brand matters more than mileage, though both matter inside a single brand.</p></div>
+  </div>
+  <div class="faq__item">
+    <button class="faq__q" aria-expanded="false">How does fuel type affect reliability?<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="faq__a"><p class="faq__a-inner">Hybrids and gas track each other closely on inspection failure through the first six years (10.6% vs 10.7% at 0-3 years; 21.5% vs 22.3% at 4-6 years). EVs run higher in the same window (15.3% at 0-3 years, 25.3% at 4-6). But the EV pool is 78% Tesla, and once Tesla is separated out, non-Tesla EVs file post-sale warranty claims at roughly hybrid rates. The "EV reliability problem" most buyers have heard about is, in our data, mostly a Tesla manufacturing-consistency story concentrated in body panels, HVAC, brakes, and suspension. It isn't a problem with EV technology in general.</p></div>
+  </div>
+  <div class="faq__item">
+    <button class="faq__q" aria-expanded="false">What does Clutch Certified cover?<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="faq__a"><p class="faq__a-inner">Every Clutch Certified vehicle clears our 210-point inspection, is reconditioned to our standard, and comes with a 10-day return policy. If something isn't right in the first ten days, the customer can return the car. Optional warranty coverage is available on select packages for buyers who want extended post-sale protection.</p></div>
+  </div>
+</section>
+
+<!-- ── CTA ─────────────────────────────────────────────────────── -->
+<div class="cta">
+  <h2>Shop Clutch Certified cars</h2>
+  <p>Every Clutch vehicle passes our 210-point inspection, is reconditioned to Clutch Certified standards, and is backed by our 10-day return policy. Optional warranty coverage is available on select packages.</p>
+  <a href="https://www.clutch.ca" class="btn">Browse Clutch Certified</a>
+</div>
+
+</div><!-- /r-main-content -->
+</div>
