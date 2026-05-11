@@ -51,6 +51,24 @@
 /* viz cards: subtle shadow so they pop on white Webflow bg */
 .cr-report .viz { box-shadow: 0 1px 6px rgba(0,0,0,.07), 0 2px 12px rgba(0,0,0,.05); }
 
+/* mobile responsiveness */
+
+@container cr (max-width: 500px) {
+  .cr-report .cr-pillar-bar { flex-direction: column !important; height: auto !important; border-radius: 10px; overflow: hidden; }
+  .cr-report .cr-pillar-bar > div { width: 100% !important; flex-direction: row !important; align-items: center; justify-content: space-between; padding: 12px 16px !important; }
+}
+
+.cr-report .fp { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.cr-report .fp table { min-width: 560px; }
+
+@container cr (max-width: 520px) {
+  .cr-report .cr-badge-callout { grid-template-columns: 1fr !important; text-align: center !important; justify-items: center; padding: 28px 24px !important; }
+}
+@container cr (max-width: 500px) {
+  .cr-report #scorecard-wrap { height: 480px !important; }
+  .cr-report .mc .chart-wrap { height: 320px !important; }
+}
+
 
 /* ── tokens ─────────────────────────────────────────────────── */:root {
   --plum:      #460B28;
@@ -574,7 +592,7 @@
 
   <div style="margin:20px 0 28px;break-inside:avoid;page-break-inside:avoid;">
 
-    <div style="display:flex;border-radius:10px;overflow:hidden;height:86px;">
+    <div class="cr-pillar-bar-wrap" style="overflow-x:auto;"><div class="cr-pillar-bar" style="display:flex;border-radius:10px;overflow:hidden;height:86px;">
       <div style="width:30%;background:#460B28;padding:14px 16px;display:flex;flex-direction:column;justify-content:space-between;">
         <span style="font-size:11px;font-weight:600;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.4px;">Inspection</span>
         <span style="font-size:28px;font-weight:900;color:#fff;letter-spacing:-1px;line-height:1;">30%</span>
@@ -591,7 +609,7 @@
         <span style="font-size:11px;font-weight:600;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.4px;">Returns</span>
         <span style="font-size:28px;font-weight:900;color:#fff;letter-spacing:-1px;line-height:1;">15%</span>
       </div>
-    </div>
+    </div></div>
     <div style="display:flex;margin-top:10px;font-size:12px;color:var(--muted);gap:0;">
       <div style="width:30%;padding-right:8px;">Pass/fail across 9 vehicle systems</div>
       <div style="width:20%;padding-right:8px;">Parts, labour &amp; repair cost</div>
@@ -1515,7 +1533,7 @@
   <p>Nine years and 100,000+ inspected used cars give the Canadian market its first proprietary reliability picture, built on physical inspection and post-sale outcomes rather than owner surveys.</p>
   <p>The patterns are clear: Japanese brands sweep the top of the index, premium brands underperform mainstream brands on average with Lexus and Acura the only exceptions, the EV reliability gap most buyers have heard about is mostly a Tesla manufacturing-consistency problem rather than an EV-technology problem, and brand matters more than mileage at every age band.</p>
   <p>But every car Clutch sells has already cleared the 210-point standard, been reconditioned to spec, and is backed by our 10-day return policy. The process raises the average reliability score across all 25 brands from 7.99 to 9.32. That's a +1.33-point lift. <strong>Only the cars that pass our 210-point inspection make it to <a href="https://www.clutch.ca" target="_blank" rel="noopener">clutch.ca</a>, and each one gets $2,000+ of reconditioning before sale. That's why a Clutch Certified car is measurably more reliable than the brand it belongs to.</strong></p>
-  <div class="stat-callout" style="text-align:left;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;padding:36px 40px;">
+  <div class="stat-callout cr-badge-callout" style="text-align:left;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;padding:36px 40px;">
     <img src="https://raw.githubusercontent.com/Savage-clutch/Clutch-new/main/certified-report/assets/cc-badge.png" alt="Clutch Certified" style="height:160px;width:auto;display:block;margin:0;">
     <div>
       <div style="font-size:clamp(20px,3vw,26px);font-weight:800;color:#fff;letter-spacing:-.4px;line-height:1.2;margin-bottom:10px;">Clutch delivers a +1.33-point reliability lift across every brand it carries.</div>
