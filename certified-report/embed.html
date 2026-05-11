@@ -50,6 +50,8 @@
 
 /* viz cards: subtle shadow so they pop on white Webflow bg */
 .cr-report .viz { box-shadow: 0 1px 6px rgba(0,0,0,.07), 0 2px 12px rgba(0,0,0,.05); }
+/* allow child scroll containers to work inside viz cards */
+.cr-report .viz { overflow: visible; }
 
 /* mobile responsiveness */
 
@@ -58,8 +60,13 @@
   .cr-report .cr-pillar-bar > div { width: 100% !important; flex-direction: row !important; align-items: center; justify-content: space-between; padding: 12px 16px !important; }
 }
 
+/* failure matrix: scroll horizontally */
 .cr-report .fp { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .cr-report .fp table { min-width: 560px; }
+
+/* dumbbell chart: scroll horizontally on mobile so labels stay readable */
+.cr-report #dumbbellWrap { overflow-x: auto !important; -webkit-overflow-scrolling: touch; }
+.cr-report #dumbbellWrap svg { min-width: 520px; }
 
 @container cr (max-width: 520px) {
   .cr-report .cr-badge-callout { grid-template-columns: 1fr !important; text-align: center !important; justify-items: center; padding: 28px 24px !important; }
