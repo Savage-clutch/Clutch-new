@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Value Chart — isolated</title>
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: 'Circular', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; -webkit-font-smoothing: antialiased; background: #FAFAFA; color: #272727; }
+  /* the chart lives in the report's right (2/3) column — this frame mimics that width */
+  #root { max-width: 720px; margin: 48px auto; padding: 0 28px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useRef, useLayoutEffect } = React;
+
+// ─── Brand tokens (from data.jsx) ───────────────────────────────────────────
+const C = {
+  coral: '#FF464C', coral400: '#FF6258', coral600: '#EE3253', red100: '#FAE7E7', red300: '#CE2929',
+  ink: '#272727', ink700: '#606060', grey500: '#ABABAB', grey300: '#DDDDDD', grey200: '#EEEEEE', grey150: '#FAFAFA', white: '#FFFFFF',
+  green: '#1F8A3B', green50: '#E7F4EA', blue: '#4866D0', blue100: '#D7F4F4',
+  plum: '#B11A3A', plum900: '#921330', lavender100: '#FBEAEE', lavender500: '#EFC9D2', yellow: '#FFC107',
+  cherry: '#B11A3A', cherry50: '#FBEAEE',
+};
+const money = (n) => '$' + Math.round(n).toLocaleString('en-CA');
+
+// ─── Sample series (from data.jsx buildSeries, "softening" market) ───────────
+const SERIES_HEAD = (() => {
+  const weeks = 48;
+  const start = 39450, end = 35620;
+  const out = [];
+  for (let i = 0; i < weeks; i++) {
+    const f = i / (weeks - 1);
+    const base = start + (end - start) * f;
+    const noise = Math.sin(i * 1.27) * 45 + Math.sin(i * 0.43 + 1) * 30 + Math.sin(i * 2.9) * 12;
+    out.push(Math.round((base + noise) / 10) * 10);
+  }
+  return out;
+})();
+
+const MARKET = {
+  tail: [35330, 35180, 35020, 34850],
+  projected: [34720, 34600, 34480, 34370, 34260],
+};
+
+function buildSeries() {
+  const histVals = [...SERIES_HEAD, ...MARKET.tail];
+  const end = new Date(2026, 5, 8);                 // history ends Jun 8 2026
+  const n = histVals.length;
+  const history = histVals.map((value, i) => {
+    const d = new Date(end); d.setDate(end.getDate() - (n - 1 - i) * 7);
+    return { value, date: d, projected: false };
+  });
+  const projected = MARKET.projected.map((value, i) => {
+    const d = new Date(end); d.setDate(end.getDate() + (i + 1) * 7);
+    return { value, date: d, projected: true };
+  });
+  return { history, projected };
+}
+
+// Forward milestones that drop markers onto the dashed projection line
+const FORWARD_EVENTS = [
+  { id: 'powertrain', weeks: 9,  date: 'Aug 2026', title: 'Powertrain warranty ends', effect: 'down' },
+  { id: 'rollover',   weeks: 13, date: 'Sep 2026', title: '2027 models arrive',       effect: 'down' },
+  { id: 'cpo',        weeks: 52, date: 'Jun 2027', title: 'CPO eligibility ends',      effect: 'down' },
+];
+
+// ─── Chart helpers (from app3.jsx) ───────────────────────────────────────────
+function useMeasureW() {
+  const ref = useRef(null);
+  const [w, setW] = useState(720);
+  useLayoutEffect(() => {
+    if (!ref.current) return;
+    const measure = () => { const cw = ref.current && ref.current.getBoundingClientRect().width; if (cw) setW(cw); };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(ref.current);
+    return () => ro.disconnect();
+  }, []);
+  return [ref, w];
+}
+
+function A3smooth(P) {
+  if (P.length < 2) return P[0] ? `M ${P[0].x},${P[0].y}` : '';
+  let d = `M ${P[0].x},${P[0].y}`;
+  const t = 0.12;
+  for (let i = 0; i < P.length - 1; i++) {
+    const p0 = P[i - 1] || P[i], p1 = P[i], p2 = P[i + 1], p3 = P[i + 2] || p2;
+    d += ` C ${p1.x + (p2.x - p0.x) * t},${p1.y + (p2.y - p0.y) * t} ${p2.x - (p3.x - p1.x) * t},${p2.y - (p3.y - p1.y) * t} ${p2.x},${p2.y}`;
+  }
+  return d;
+}
+
+const A3_RANGE_LABEL = { '1M': '1M', '3M': '3M', '6M': '6M', YTD: 'YTD', '1Y': '1Y', ALL: 'ALL', forward: 'Forward' };
+
+// ─── The chart (verbatim from app3.jsx ValueChart) ───────────────────────────
+function ValueChart({ history, current, accent, slopePerWeek, range, setRange, events, onOpen }) {
+  const [wrapRef, width] = useMeasureW();
+  const [hover, setHover] = useState(null);
+  const [hoverM, setHoverM] = useState(null);
+  const H = 320, padT = 18, padB = 34, padL = 10, padR = 58;
+
+  const now = history[history.length - 1].date;
+  const RW = { '3M': 13, '6M': 26, '1Y': 52 };
+  const trackedWeeks = history.length - 1;
+  const rangeOptions = [['1Y', 52], ['6M', 26], ['3M', 13]].filter(([, w]) => trackedWeeks >= w - 2).map(([k]) => k).concat('ALL');
+  const effRange = rangeOptions.includes(range) ? range : rangeOptions[0];
+  const histWeeks = effRange === 'ALL' ? trackedWeeks : (RW[effRange] || 52);
+  const nHist = Math.min(history.length, histWeeks + 1);
+  const hist = history.slice(history.length - nHist);
+
+  const shownHistWeeks = nHist - 1;
+  const FWD_WEEKS = Math.max(8, Math.min(26, Math.round(shownHistWeeks * 0.6)));
+  const per = slopePerWeek || -40;
+  const fwd = [];
+  for (let i = 1; i <= FWD_WEEKS; i++) { const d = new Date(now); d.setDate(d.getDate() + i * 7); fwd.push({ value: current + per * i, date: d }); }
+
+  const dataLo = Math.min(...hist.map((p) => p.value), ...fwd.map((p) => p.value));
+  const dataHi = Math.max(...hist.map((p) => p.value), ...fwd.map((p) => p.value));
+  const span = Math.max(dataHi - dataLo, 1);
+  const yLo = dataLo - span * 0.22, yHi = dataHi + span * 0.2;
+  const plotW = Math.max(width - padL - padR, 10), plotH = H - padT - padB;
+  const totalWeeks = (hist.length - 1) + FWD_WEEKS;
+  const xAt = (wk) => padL + plotW * (totalWeeks > 0 ? wk / totalWeeks : 0);
+  const xh = (i) => xAt(i);
+  const xf = (j) => xAt((hist.length - 1) + j);
+  const y = (v) => padT + plotH * (1 - (v - yLo) / (yHi - yLo));
+  const baseY = padT + plotH;
+
+  const histXY = hist.map((p, i) => ({ x: xh(i), y: y(p.value) }));
+  const fwdXY = [{ x: xh(hist.length - 1), y: y(current) }, ...fwd.map((p, j) => ({ x: xf(j + 1), y: y(p.value) }))];
+  const histPath = A3smooth(histXY);
+  const fwdPath = A3smooth(fwdXY);
+  const areaPath = `${histPath} L ${histXY[histXY.length - 1].x},${baseY} L ${histXY[0].x},${baseY} Z`;
+
+  const msMarkers = (events || []).filter((e) => e.weeks > 0 && e.weeks <= FWD_WEEKS).sort((a, b) => a.weeks - b.weeks).map((e) => ({ ev: e, x: xf(e.weeks), y: y(current + per * e.weeks) }));
+
+  const pts = [
+    ...hist.map((p, i) => ({ x: xh(i), y: y(p.value), value: p.value, date: p.date, projected: false })),
+    ...fwd.map((p, j) => ({ x: xf(j + 1), y: y(p.value), value: p.value, date: p.date, projected: true })),
+  ];
+  const yTicks = (() => {
+    const r = (v) => Math.round(v / 500) * 500;
+    const mid = (dataLo + dataHi) / 2;
+    return [r(dataLo), r(mid), r(dataHi)];
+  })();
+
+  const fmtMonth = (d) => d.toLocaleDateString('en-CA', { month: 'short' });
+  const t0 = hist[0].date;
+  const tEnd = fwd.length ? fwd[fwd.length - 1].date : now;
+  const monthTicks = (() => {
+    const out = [];
+    const m = new Date(t0.getFullYear(), t0.getMonth(), 1);
+    if (m < t0) m.setMonth(m.getMonth() + 1);
+    while (m <= tEnd) {
+      const wk = (m - t0) / (7 * 86400000);
+      out.push({ x: xAt(wk), date: new Date(m) });
+      m.setMonth(m.getMonth() + 1);
+    }
+    const minGap = 52, kept = [];
+    out.forEach((tk) => { if (!kept.length || tk.x - kept[kept.length - 1].x >= minGap) kept.push(tk); });
+    return kept;
+  })();
+
+  const startX = xh(0), startY = y(hist[0].value);
+  const todayX = xh(hist.length - 1), todayY = y(current);
+
+  const onMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    let best = 0, bd = Infinity;
+    pts.forEach((p, i) => { const d = Math.abs(p.x - mx); if (d < bd) { bd = d; best = i; } });
+    setHover(best);
+  };
+  const hp = hover != null ? pts[hover] : null;
+
+  return (
+    <div ref={wrapRef} style={{ width: '100%', position: 'relative' }}>
+      {/* timeframe pills */}
+      <div style={{ display: 'flex', justifyContent: 'flex-start', gap: 2, marginBottom: 8, flexWrap: 'wrap' }}>
+        {rangeOptions.map((r) => {
+          const sel = r === effRange;
+          return <button key={r} onClick={() => setRange(r)} style={{ border: 'none', cursor: 'pointer', borderRadius: 999, padding: '6px 12px', fontSize: 13.5, fontWeight: sel ? 700 : 500, fontFamily: 'Circular, sans-serif', background: sel ? C.grey150 : 'transparent', color: sel ? C.ink : C.ink700, transition: 'color .12s' }}>{A3_RANGE_LABEL[r]}</button>;
+        })}
+      </div>
+      <svg width={width} height={H} style={{ display: 'block', overflow: 'visible', cursor: 'crosshair' }} onMouseMove={onMove} onMouseLeave={() => setHover(null)}>
+        <defs>
+          <linearGradient id="a3-area" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={accent} stopOpacity="0.18" />
+            <stop offset="100%" stopColor={accent} stopOpacity="0" />
+          </linearGradient>
+        </defs>
+
+        {yTicks.map((v) => (
+          <g key={v}>
+            <line x1={padL} x2={padL + plotW} y1={y(v)} y2={y(v)} stroke={C.grey200} strokeWidth="1" />
+            <text x={padL + plotW + 10} y={y(v) + 4} textAnchor="start" fontSize="11" fontWeight="500" fill={C.grey500} fontFamily="Circular, sans-serif">{money(v)}</text>
+          </g>
+        ))}
+
+        <path d={areaPath} fill="url(#a3-area)" />
+
+        <line x1={todayX} x2={todayX} y1={padT} y2={baseY} stroke={C.grey300} strokeWidth="1" strokeDasharray="3 4" />
+
+        <path d={histPath} fill="none" stroke={accent} strokeWidth="1.75" strokeLinejoin="round" strokeLinecap="round" />
+        <path d={fwdPath} fill="none" stroke={accent} strokeWidth="1.75" strokeDasharray="2 5" strokeLinejoin="round" strokeLinecap="round" opacity="0.85" />
+
+        {hp && (
+          <g style={{ pointerEvents: 'none' }}>
+            <line x1={hp.x} x2={hp.x} y1={padT} y2={baseY} stroke={C.ink} strokeWidth="1" opacity="0.35" />
+            <circle cx={hp.x} cy={hp.y} r="5.5" fill={hp.projected ? '#fff' : accent} stroke={accent} strokeWidth="2.5" />
+          </g>
+        )}
+
+        <circle cx={startX} cy={startY} r="4.5" fill="#fff" stroke={accent} strokeWidth="2" />
+        <circle cx={todayX} cy={todayY} r="9" fill={accent} opacity="0.16" />
+        <circle cx={todayX} cy={todayY} r="5" fill={accent} stroke="#fff" strokeWidth="2.5" />
+        {(() => {
+          const label = money(current);
+          const pw = label.length * 8.4 + 22;
+          const ph = 26;
+          const px = Math.max(padL, Math.min(todayX - pw / 2, padL + plotW - pw));
+          const py = todayY - ph - 14;
+          return (
+            <g style={{ pointerEvents: 'none' }}>
+              <rect x={px} y={py} width={pw} height={ph} rx={ph / 2} fill={accent} />
+              <text x={px + pw / 2} y={py + ph / 2 + 4.5} textAnchor="middle" fontSize="13.5" fontWeight="700" fill="#fff" fontFamily="Circular, sans-serif">{label}</text>
+            </g>
+          );
+        })()}
+
+        {msMarkers.map((m, i) => (
+          <g key={m.ev.id} style={{ cursor: 'pointer' }} onMouseEnter={() => setHoverM(i)} onMouseLeave={() => setHoverM(null)} onClick={() => onOpen && onOpen(m.ev)}>
+            <line x1={m.x} x2={m.x} y1={m.y} y2={baseY} stroke={C.grey300} strokeWidth="1" strokeDasharray="2 4" />
+            <circle cx={m.x} cy={m.y} r="15" fill="transparent" />
+            {hoverM === i && <circle cx={m.x} cy={m.y} r="10" fill={C.ink} opacity="0.12" />}
+            <circle cx={m.x} cy={m.y} r={hoverM === i ? 6 : 5} fill={C.ink} stroke="#fff" strokeWidth="2.5" />
+          </g>
+        ))}
+
+        {monthTicks.map((tk, k) => {
+          const anchor = tk.x <= padL + 6 ? 'start' : tk.x >= padL + plotW - 6 ? 'end' : 'middle';
+          return <text key={k} x={tk.x} y={baseY + 20} textAnchor={anchor} fontSize="11" fontWeight="500" fill={C.grey500} fontFamily="Circular, sans-serif">{fmtMonth(tk.date)}</text>;
+        })}
+      </svg>
+
+      {hp && (
+        <div style={{ position: 'absolute', left: Math.min(Math.max(hp.x, 60), width - 60), top: hp.y + 52, transform: 'translate(-50%, -130%)', pointerEvents: 'none', background: C.ink, color: '#fff', borderRadius: 9, padding: '7px 11px', whiteSpace: 'nowrap', textAlign: 'center', boxShadow: '0 4px 14px rgba(0,0,0,0.18)', zIndex: 4 }}>
+          <div style={{ fontWeight: 700, fontSize: 13.5 }}>{money(hp.value)}</div>
+          <div style={{ fontSize: 11, color: C.grey300 }}>{hp.date.toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric' })}{hp.projected ? ' · projected' : ''}</div>
+        </div>
+      )}
+
+      {hoverM != null && msMarkers[hoverM] && (
+        <div style={{ position: 'absolute', left: Math.min(Math.max(msMarkers[hoverM].x, 70), width - 70), top: msMarkers[hoverM].y + 52, transform: 'translate(-50%, -130%)', pointerEvents: 'none', background: C.ink, color: '#fff', borderRadius: 9, padding: '7px 11px', whiteSpace: 'nowrap', textAlign: 'center', boxShadow: '0 4px 14px rgba(0,0,0,0.18)', zIndex: 5 }}>
+          <div style={{ fontWeight: 700, fontSize: 13.5 }}>{msMarkers[hoverM].ev.title}</div>
+          <div style={{ fontSize: 11, color: C.grey300 }}>{msMarkers[hoverM].ev.date}</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Mount ───────────────────────────────────────────────────────────────────
+function App() {
+  const base = buildSeries();
+  const history = base.history;
+  const current = history[history.length - 1].value;
+  const slopePerWeek = (() => {
+    const p = base.projected;
+    if (p && p.length >= 2) return (p[p.length - 1].value - p[0].value) / (p.length - 1);
+    return -40;
+  })();
+  const [range, setRange] = useState('1Y');
+
+  return (
+    <ValueChart
+      history={history}
+      current={current}
+      accent={'#550E30'}
+      slopePerWeek={slopePerWeek}
+      range={range}
+      setRange={setRange}
+      events={FORWARD_EVENTS}
+      onOpen={() => {}}
+    />
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

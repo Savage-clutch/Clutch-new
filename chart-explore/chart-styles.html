@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Value Chart — style explorations</title>
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: 'Circular', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; -webkit-font-smoothing: antialiased; background: #FAFAFA; color: #272727; }
+  #root { max-width: 820px; margin: 40px auto 80px; padding: 0 28px; }
+
+  @keyframes revealX { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  .reveal { transform-box: fill-box; transform-origin: left center; animation: revealX 1.2s linear forwards; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+  .fade { opacity: 0; animation: fadeUp .55s ease forwards; }
+
+  @keyframes dotPop { 0% { opacity: 0; transform: scale(0); } 65% { opacity: 1; } 100% { opacity: 1; transform: scale(1); } }
+  .pop { opacity: 0; transform-box: fill-box; transform-origin: center; animation: dotPop .5s cubic-bezier(.2,.9,.25,1.2) forwards; }
+
+  /* opacity is 0 at both 0% and 100% so the scale reset at the loop point is invisible → seamless */
+  @keyframes ping { 0% { transform: scale(1); opacity: 0; } 22% { opacity: .5; } 100% { transform: scale(2.6); opacity: 0; } }
+  .ping { transform-box: fill-box; transform-origin: center; animation: ping 3s cubic-bezier(0,0,.2,1) infinite; }
+
+  @keyframes growUp { to { transform: scaleY(1); } }
+  .grow { transform-box: fill-box; transform-origin: bottom; transform: scaleY(0); animation: growUp .7s cubic-bezier(.2,.85,.25,1) forwards; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useRef, useLayoutEffect, useEffect } = React;
+
+// light-mode chrome tokens (shared)
+const C = { ink: '#272727', ink700: '#606060', grey500: '#ABABAB', grey300: '#DDDDDD', grey200: '#EEEEEE', grey150: '#FAFAFA', white: '#FFFFFF' };
+const money = (n) => '$' + Math.round(n).toLocaleString('en-CA');
+
+// ─── Colour schemes — light only. Brand: Plum lines/marks + Lavender fills. ───
+// #F1EDF8 is a fill tint (near-white), so it can only read on white as a filled
+// area/bar body — never a line. Lines/marks stay Plum so they're legible.
+const PLUM = '#550E30';
+const CORAL = '#FF464C';
+const SCHEMES = {
+  lavender: { label: 'Lavender', line: PLUM, accent: PLUM, fill: '#F1EDF8', tintFill: true },
+  lavender80: { label: 'Lavender 80', line: PLUM, accent: PLUM, fill: '#EBE1F8', tintFill: true },
+  plumlav: { label: 'Plum × Lavender', line: PLUM, accent: PLUM, fill: '#E6D6F9', duo: true },
+  plum: { label: 'Plum', line: PLUM, accent: '#FF464C', fill: PLUM },
+};
+
+// ─── Value series (softening market, from the Value Report) ──────────────────
+const SERIES_HEAD = (() => {
+  const weeks = 48, start = 39450, end = 35620, out = [];
+  for (let i = 0; i < weeks; i++) {
+    const f = i / (weeks - 1);
+    const noise = Math.sin(i * 1.27) * 45 + Math.sin(i * 0.43 + 1) * 30 + Math.sin(i * 2.9) * 12;
+    out.push(Math.round((start + (end - start) * f + noise) / 10) * 10);
+  }
+  return out;
+})();
+const TAIL = [35330, 35180, 35020, 34850];
+const PROJ = [34720, 34600, 34480, 34370, 34260];
+
+function buildSeries() {
+  const histVals = [...SERIES_HEAD, ...TAIL];
+  const end = new Date(2026, 5, 8);
+  const n = histVals.length;
+  const history = histVals.map((value, i) => {
+    const d = new Date(end); d.setDate(end.getDate() - (n - 1 - i) * 7);
+    return { value, date: d };
+  });
+  const projected = PROJ.map((value, i) => {
+    const d = new Date(end); d.setDate(end.getDate() + (i + 1) * 7);
+    return { value, date: d };
+  });
+  return { history, projected };
+}
+
+const DATA = buildSeries();
+const START = DATA.history[0].value;
+const CURRENT = DATA.history[DATA.history.length - 1].value;
+const SLOPE = (DATA.projected[DATA.projected.length - 1].value - DATA.projected[0].value) / (DATA.projected.length - 1);
+
+// ─── helpers ─────────────────────────────────────────────────────────────────
+function useMeasureW() {
+  const ref = useRef(null);
+  const [w, setW] = useState(720);
+  useLayoutEffect(() => {
+    if (!ref.current) return;
+    const measure = () => { const cw = ref.current && ref.current.getBoundingClientRect().width; if (cw) setW(cw); };
+    measure();
+    const ro = new ResizeObserver(measure); ro.observe(ref.current);
+    return () => ro.disconnect();
+  }, []);
+  return [ref, w];
+}
+function useCountUp(target, duration = 950, delay = 0) {
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    let raf, start = null;
+    const step = (ts) => {
+      if (start == null) start = ts;
+      const el = ts - start - delay;
+      if (el < 0) { raf = requestAnimationFrame(step); return; }
+      const p = Math.min(el / duration, 1);
+      setVal(target * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) raf = requestAnimationFrame(step); else setVal(target);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [target]); // only (re)count on mount / value change — not on timeframe switches
+  return val;
+}
+// Tween a flat number array whenever `animKey` changes (e.g. timeframe switch),
+// so the chart morphs A→B instead of snapping. Non-key changes (resize) snap.
+function useTweenArray(target, animKey, dur = 480) {
+  const [cur, setCur] = useState(target);
+  const curRef = useRef(target);
+  const keyRef = useRef(animKey);
+  const raf = useRef(0);
+  useEffect(() => {
+    if (keyRef.current === animKey) { curRef.current = target; setCur(target); return; }
+    keyRef.current = animKey;
+    const from = curRef.current;
+    if (!from || from.length !== target.length) { curRef.current = target; setCur(target); return; }
+    let start = null; cancelAnimationFrame(raf.current);
+    const step = (ts) => {
+      if (start == null) start = ts;
+      const p = Math.min((ts - start) / dur, 1), e = 1 - Math.pow(1 - p, 3);
+      const out = target.map((v, i) => from[i] + (v - from[i]) * e);
+      curRef.current = out; setCur(out);
+      if (p < 1) raf.current = requestAnimationFrame(step);
+    };
+    raf.current = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf.current);
+  }, [animKey, target.join(',')]);
+  return cur;
+}
+// Resample a polyline to a fixed point count so two timeframes interpolate cleanly.
+function resampleXY(P, M) {
+  const n = P.length;
+  if (n === 0) return Array.from({ length: M }, () => ({ x: 0, y: 0 }));
+  if (n === 1) return Array.from({ length: M }, () => ({ ...P[0] }));
+  const out = [];
+  for (let k = 0; k < M; k++) {
+    const t = (k / (M - 1)) * (n - 1), i = Math.min(Math.floor(t), n - 2), f = t - i;
+    out.push({ x: P[i].x + (P[i + 1].x - P[i].x) * f, y: P[i].y + (P[i + 1].y - P[i].y) * f });
+  }
+  return out;
+}
+function smooth(P, t = 0.16) {
+  if (P.length < 2) return P[0] ? `M ${P[0].x},${P[0].y}` : '';
+  let d = `M ${P[0].x},${P[0].y}`;
+  for (let i = 0; i < P.length - 1; i++) {
+    const p0 = P[i - 1] || P[i], p1 = P[i], p2 = P[i + 1], p3 = P[i + 2] || p2;
+    d += ` C ${p1.x + (p2.x - p0.x) * t},${p1.y + (p2.y - p0.y) * t} ${p2.x - (p3.x - p1.x) * t},${p2.y - (p3.y - p1.y) * t} ${p2.x},${p2.y}`;
+  }
+  return d;
+}
+const straight = (P) => P.map((p, i) => (i ? 'L' : 'M') + ` ${p.x},${p.y}`).join(' ');
+const sample = (a, n) => {
+  if (a.length <= n) return a.map((v, i) => ({ v, i }));
+  const out = []; for (let k = 0; k < n; k++) { const i = Math.round(k * (a.length - 1) / (n - 1)); out.push({ v: a[i], i }); }
+  return out;
+};
+const monthYr = (d) => d.toLocaleDateString('en-CA', { month: 'short', year: 'numeric' });
+
+const RET = Math.round((CURRENT / START) * 100);
+const START_LABEL = monthYr(DATA.history[0].date);
+
+// forward milestones (checkpoints on the projected line) — weeks from today
+const FORWARD_EVENTS = [
+  { id: 'powertrain', weeks: 9, date: 'Aug 2026', title: 'Powertrain warranty ends' },
+  { id: 'rollover', weeks: 13, date: 'Sep 2026', title: '2027 models arrive' },
+  { id: 'cpo', weeks: 52, date: 'Jun 2027', title: 'CPO eligibility ends' },
+];
+
+// ─── shared model ─────────────────────────────────────────────────────────────
+function buildModel(width, H, pad, range) {
+  const history = DATA.history;
+  const now = history[history.length - 1].date;
+  const RW = { '3M': 13, '6M': 26, '1Y': 52 };
+  const trackedWeeks = history.length - 1;
+  const rangeOptions = [['6M', 26], ['3M', 13]].filter(([, w]) => trackedWeeks >= w - 2).map(([k]) => k).concat('ALL');
+  const effRange = rangeOptions.includes(range) ? range : rangeOptions[0];
+  const histWeeks = effRange === 'ALL' ? trackedWeeks : (RW[effRange] || 52);
+  const nHist = Math.min(history.length, histWeeks + 1);
+  const hist = history.slice(history.length - nHist);
+  const current = hist[hist.length - 1].value;
+  const shownHistWeeks = nHist - 1;
+  const FWD_WEEKS = Math.max(8, Math.min(26, Math.round(shownHistWeeks * 0.6)));
+  const per = SLOPE;
+  const fwd = [];
+  for (let i = 1; i <= FWD_WEEKS; i++) { const d = new Date(now); d.setDate(d.getDate() + i * 7); fwd.push({ value: current + per * i, date: d }); }
+
+  const { padL, padR, padT, padB } = pad;
+  const dataLo = Math.min(...hist.map((p) => p.value), ...fwd.map((p) => p.value));
+  const dataHi = Math.max(...hist.map((p) => p.value), ...fwd.map((p) => p.value));
+  const span = Math.max(dataHi - dataLo, 1);
+  const yLo = dataLo - span * 0.22, yHi = dataHi + span * 0.2;
+  const plotW = Math.max(width - padL - padR, 10), plotH = H - padT - padB;
+  const totalWeeks = (hist.length - 1) + FWD_WEEKS;
+  const xAt = (wk) => padL + plotW * (totalWeeks > 0 ? wk / totalWeeks : 0);
+  const xh = (i) => xAt(i);
+  const xf = (j) => xAt((hist.length - 1) + j);
+  const y = (v) => padT + plotH * (1 - (v - yLo) / (yHi - yLo));
+  const baseY = padT + plotH;
+
+  const histXY = hist.map((p, i) => ({ x: xh(i), y: y(p.value) }));
+  const fwdXY = [{ x: xh(hist.length - 1), y: y(current) }, ...fwd.map((p, j) => ({ x: xf(j + 1), y: y(p.value) }))];
+  const pts = [
+    ...hist.map((p, i) => ({ x: xh(i), y: y(p.value), value: p.value, date: p.date, projected: false })),
+    ...fwd.map((p, j) => ({ x: xf(j + 1), y: y(p.value), value: p.value, date: p.date, projected: true })),
+  ];
+  const yTicks = (() => { const r = (v) => Math.round(v / 500) * 500; return [r(dataLo), r((dataLo + dataHi) / 2), r(dataHi)]; })();
+  const t0 = hist[0].date, tEnd = fwd.length ? fwd[fwd.length - 1].date : now;
+  const monthTicks = (() => {
+    const out = []; const m = new Date(t0.getFullYear(), t0.getMonth(), 1);
+    if (m < t0) m.setMonth(m.getMonth() + 1);
+    while (m <= tEnd) { const wk = (m - t0) / (7 * 86400000); out.push({ x: xAt(wk), date: new Date(m) }); m.setMonth(m.getMonth() + 1); }
+    const minGap = 52, kept = []; out.forEach((tk) => { if (!kept.length || tk.x - kept[kept.length - 1].x >= minGap) kept.push(tk); });
+    return kept;
+  })();
+
+  return {
+    rangeOptions, effRange, hist, fwd, histXY, fwdXY, pts, yTicks, monthTicks, FWD_WEEKS,
+    current, per, padL, padR, padT, padB, plotW, plotH, baseY, y,
+    startX: xh(0), startY: y(hist[0].value), todayX: xh(hist.length - 1), todayY: y(current),
+  };
+}
+
+// Timeframe pills with a sliding indicator ────────────────────────────────────
+function SlidingPills({ options, value, onChange }) {
+  const refs = useRef({});
+  const [ind, setInd] = useState(null);
+  useLayoutEffect(() => {
+    const el = refs.current[value];
+    if (el) setInd({ left: el.offsetLeft, width: el.offsetWidth });
+  }, [value, options.join()]);
+  return (
+    <div style={{ position: 'relative', display: 'inline-flex', gap: 2, marginBottom: 10, background: C.grey150, borderRadius: 999, padding: 3 }}>
+      {ind && <div style={{ position: 'absolute', top: 3, bottom: 3, left: ind.left, width: ind.width, background: '#fff', borderRadius: 999, boxShadow: '0 1px 2px rgba(0,0,0,.12)', transition: 'left .28s cubic-bezier(.4,0,.2,1), width .28s cubic-bezier(.4,0,.2,1)' }} />}
+      {options.map((r) => {
+        const sel = r === value;
+        return <button key={r} ref={(el) => { refs.current[r] = el; }} onClick={() => onChange(r)} style={{ position: 'relative', zIndex: 1, border: 'none', background: 'transparent', cursor: 'pointer', borderRadius: 999, padding: '6px 14px', fontSize: 13.5, fontWeight: sel ? 700 : 500, fontFamily: 'inherit', color: sel ? C.ink : C.ink700, transition: 'color .2s' }}>{r}</button>;
+      })}
+    </div>
+  );
+}
+
+// floating current value that sits on the chart at the "today" point (counts up)
+function FloatValue({ x, y, target, anchor = 'middle', dur = 950, delay = 0 }) {
+  const n = useCountUp(target, dur, delay);
+  return <text x={x} y={y} textAnchor={anchor} fontSize="15.5" fontWeight="700" fill="#000" style={{ pointerEvents: 'none' }}>{money(n)}</text>;
+}
+// same value + date, but in a dark pill (its bottom edge sits at y)
+function FloatPill({ x, y, target, dateStr, dur = 950, delay = 0 }) {
+  const n = useCountUp(target, dur, delay);
+  const label = money(n);
+  const pw = Math.max(label.length * 8.6, (dateStr || '').length * 5.9) + 26, ph = dateStr ? 42 : 28;
+  const px = x - pw / 2, py = y - ph;
+  return (
+    <g style={{ pointerEvents: 'none' }}>
+      <rect x={px} y={py} width={pw} height={ph} rx={13} fill={C.ink} />
+      <text x={x} y={dateStr ? py + 18 : py + ph / 2 + 4.5} textAnchor="middle" fontSize="14.5" fontWeight="700" fill="#fff">{label}</text>
+      {dateStr && <text x={x} y={py + 32} textAnchor="middle" fontSize="10.5" fontWeight="500" fill={C.grey300}>{dateStr}</text>}
+    </g>
+  );
+}
+
+// area fill paint (handles light lavender tints vs plum gradient)
+function areaStops(sid, scheme, style) {
+  const topO = { strong: 0.30, gradient: 0.22, faint: 0.14 }[style.fill] || 0.22;
+  // all fills fade smoothly out to transparent at the baseline
+  if (scheme.duo) return (<><stop offset="0%" stopColor={scheme.fill} stopOpacity="0.9" /><stop offset="55%" stopColor={PLUM} stopOpacity="0.28" /><stop offset="100%" stopColor={PLUM} stopOpacity="0" /></>);
+  if (scheme.tintFill) return (<><stop offset="0%" stopColor={scheme.fill} stopOpacity="0.92" /><stop offset="100%" stopColor={scheme.fill} stopOpacity="0" /></>);
+  return (<><stop offset="0%" stopColor={scheme.fill} stopOpacity={topO} /><stop offset="100%" stopColor={scheme.fill} stopOpacity="0" /></>);
+}
+
+// ─── line / area chart ────────────────────────────────────────────────────────
+function ChartCanvas({ sid, style, scheme }) {
+  const [wrapRef, width] = useMeasureW();
+  const [range, setRange] = useState('ALL');
+  const [hover, setHover] = useState(null);
+  const [hoverM, setHoverM] = useState(null);
+  const H = 320;
+  const pad = { padL: 10, padR: 60, padT: 18, padB: 34 };
+  const m = buildModel(width, H, pad, range);
+
+  // fixed-count resample so timeframes interpolate cleanly, then tween on switch
+  const NH = 48, NF = 16;
+  const histR = resampleXY(m.histXY, NH);
+  const fwdR = resampleXY(m.fwdXY, NF);
+  const yty = m.yTicks.map((v) => m.y(v));
+  const flat = [
+    ...histR.map((p) => p.x), ...histR.map((p) => p.y),
+    ...fwdR.map((p) => p.x), ...fwdR.map((p) => p.y),
+    yty[0], yty[1], yty[2], m.startX, m.startY, m.todayX,
+  ];
+  const tw = useTweenArray(flat, m.effRange);
+  const HX = tw.slice(0, NH), HY = tw.slice(NH, 2 * NH), FX = tw.slice(2 * NH, 2 * NH + NF), FY = tw.slice(2 * NH + NF, 2 * NH + 2 * NF);
+  const histT = HX.map((x, i) => ({ x, y: HY[i] }));
+  const fwdT = FX.map((x, i) => ({ x, y: FY[i] }));
+  const b0 = 2 * NH + 2 * NF;
+  const tyty = [tw[b0], tw[b0 + 1], tw[b0 + 2]];
+  const startX = tw[b0 + 3], startY = tw[b0 + 4], todayX = tw[b0 + 5];
+  const todayY = histT[histT.length - 1].y;
+
+  const curveFn = style.curve === 'smooth' ? (P) => smooth(P, style.smoothT || 0.16) : straight;
+  const histPath = curveFn(histT);
+  const fwdPath = curveFn(fwdT);
+  const areaPath = `${histPath} L ${histT[histT.length - 1].x},${m.baseY} L ${histT[0].x},${m.baseY} Z`;
+  const nodes = style.nodeDots ? sample(histT, 6) : [];
+
+  const onMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    let best = 0, bd = Infinity;
+    m.pts.forEach((p, i) => { const d = Math.abs(p.x - mx); if (d < bd) { bd = d; best = i; } });
+    setHover(best);
+  };
+  const hp = hover != null ? m.pts[hover] : null;
+
+  const hasArea = style.fill && style.fill !== 'none' && style.fill !== 'dots';
+  const band = style.sellWindow ? { x1: histT[Math.round(NH * 0.93)].x, x2: fwdT[Math.min(NF - 1, Math.round(NF * 0.35))].x } : null;
+  // the draw-in wipe is linear over 1.2s → a marker "appears" the instant the line reaches its x
+  const wipeAt = (x) => (x / width) * 1.2;
+
+  // projected checkpoints — interpolate onto the tweened forecast line
+  const mkPos = (weeks) => {
+    const t = (m.FWD_WEEKS > 0 ? weeks / m.FWD_WEEKS : 0) * (NF - 1);
+    const i = Math.min(Math.floor(t), NF - 2), f = t - i;
+    return { x: fwdT[i].x + (fwdT[i + 1].x - fwdT[i].x) * f, y: fwdT[i].y + (fwdT[i + 1].y - fwdT[i].y) * f };
+  };
+  const msMarkers = FORWARD_EVENTS.filter((e) => e.weeks > 0 && e.weeks <= m.FWD_WEEKS).map((e) => ({ ev: e, ...mkPos(e.weeks) }));
+
+  return (
+    <div ref={wrapRef} style={{ width: '100%', position: 'relative' }}>
+      <SlidingPills options={m.rangeOptions} value={m.effRange} onChange={setRange} />
+
+      <svg width={width} height={H} style={{ display: 'block', overflow: 'visible', cursor: 'crosshair' }} onMouseMove={onMove} onMouseLeave={() => setHover(null)}>
+        <defs>
+          <linearGradient id={`areaGrad-${sid}`} x1="0" y1="0" x2="0" y2="1">{areaStops(sid, scheme, style)}</linearGradient>
+          <pattern id="dotPattern" width="11" height="11" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.35" fill={scheme.line} opacity="0.32" /></pattern>
+          <pattern id="bgGrid" width="26" height="26" patternUnits="userSpaceOnUse"><circle cx="1.6" cy="1.6" r="1.6" fill={C.grey300} opacity="0.5" /></pattern>
+          <filter id="softGlow" x="-20%" y="-40%" width="140%" height="180%"><feGaussianBlur stdDeviation="5" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+          <clipPath id={`rev-${sid}`}><rect className="reveal" x="0" y="0" width={width} height={H} /></clipPath>
+        </defs>
+
+        {style.bg === 'grid' && <rect className="fade" x={m.padL} y={m.padT} width={m.plotW} height={m.plotH} fill="url(#bgGrid)" style={{ animationDelay: '.1s' }} />}
+
+        {band && (
+          <g>
+            <rect x={band.x1} y={m.padT} width={Math.max(0, band.x2 - band.x1)} height={m.baseY - m.padT} fill={scheme.accent} opacity="0.10" rx="6" />
+            <line x1={band.x1} x2={band.x1} y1={m.padT} y2={m.baseY} stroke={scheme.accent} strokeWidth="1" opacity="0.4" strokeDasharray="2 3" />
+            <line x1={band.x2} x2={band.x2} y1={m.padT} y2={m.baseY} stroke={scheme.accent} strokeWidth="1" opacity="0.4" strokeDasharray="2 3" />
+          </g>
+        )}
+
+        {tyty.map((yy, i) => (
+          <g key={i}>
+            <line x1={m.padL} x2={m.padL + m.plotW} y1={yy} y2={yy} stroke={C.grey200} strokeWidth="1" />
+            <text x={m.padL + m.plotW + 10} y={yy + 4} fontSize="11" fontWeight="500" fill={C.grey500}>{money(m.yTicks[i])}</text>
+          </g>
+        ))}
+
+        <g clipPath={`url(#rev-${sid})`}>
+          {hasArea && <path d={areaPath} fill={`url(#areaGrad-${sid})`} />}
+          {style.fill === 'dots' && <path d={areaPath} fill="url(#dotPattern)" />}
+          {style.glow && <path d={histPath} fill="none" stroke={scheme.accent} strokeWidth={style.lineWidth} opacity="0.3" filter="url(#softGlow)" />}
+          <path d={histPath} fill="none" stroke={scheme.line} strokeWidth={style.lineWidth} strokeLinejoin="round" strokeLinecap="round" />
+          <path d={fwdPath} fill="none" stroke={scheme.line} strokeWidth={2} strokeDasharray="2 5" strokeLinejoin="round" strokeLinecap="round" opacity="0.85" />
+        </g>
+
+        <line x1={todayX} x2={todayX} y1={m.padT} y2={m.baseY} stroke={C.grey300} strokeWidth="1" strokeDasharray="3 4" />
+
+        {hp && hoverM == null && (
+          <g style={{ pointerEvents: 'none' }}>
+            <line x1={hp.x} x2={hp.x} y1={m.padT} y2={m.baseY} stroke={C.ink} strokeWidth="1" opacity="0.35" />
+            <circle cx={hp.x} cy={hp.y} r="5.5" fill={hp.projected ? '#fff' : scheme.accent} stroke={scheme.accent} strokeWidth="2.5" />
+          </g>
+        )}
+
+        {nodes.map((n, k) => (
+          <circle key={k} cx={n.v.x} cy={n.v.y} r="5" fill="#fff" stroke={scheme.line} strokeWidth="2.5" />
+        ))}
+
+        <circle className="pop" cx={startX} cy={startY} r="4.5" fill="#fff" stroke={scheme.line} strokeWidth="2" style={{ animationDelay: `${wipeAt(startX)}s` }} />
+
+        {/* projected checkpoints — hover for detail */}
+        {msMarkers.map((mk, i) => (
+          <g key={mk.ev.id} style={{ cursor: 'pointer' }} onMouseEnter={() => setHoverM(i)} onMouseLeave={() => setHoverM(null)}>
+            <line x1={mk.x} x2={mk.x} y1={mk.y} y2={m.baseY} stroke={C.grey300} strokeWidth="1" strokeDasharray="2 4" />
+            <circle cx={mk.x} cy={mk.y} r="16" fill="transparent" />
+            {hoverM === i && <circle cx={mk.x} cy={mk.y} r="10" fill={C.ink} opacity="0.12" />}
+            <circle className="pop" cx={mk.x} cy={mk.y} r={hoverM === i ? 6 : 5} fill={C.ink} stroke="#fff" strokeWidth="2.5" style={{ animationDelay: `${wipeAt(mk.x)}s` }} />
+          </g>
+        ))}
+
+        <circle className="ping" cx={todayX} cy={todayY} r="6.5" fill={scheme.accent} style={{ animationDelay: `${wipeAt(todayX) + 0.2}s` }} />
+        <circle className="pop" cx={todayX} cy={todayY} r="5" fill={scheme.accent} stroke="#fff" strokeWidth="2.5" style={{ animationDelay: `${wipeAt(todayX)}s` }} />
+
+        <FloatValue x={Math.max(m.padL + 34, Math.min(todayX, m.padL + m.plotW - 34))} y={todayY - 38} target={CURRENT} dur={Math.max(600, wipeAt(todayX) * 1000)} delay={0} />
+
+        {m.monthTicks.map((tk, k) => {
+          const anchor = tk.x <= m.padL + 6 ? 'start' : tk.x >= m.padL + m.plotW - 6 ? 'end' : 'middle';
+          return <text key={k} x={tk.x} y={m.baseY + 20} textAnchor={anchor} fontSize="11" fontWeight="500" fill={C.grey500}>{tk.date.toLocaleDateString('en-CA', { month: 'short' })}</text>;
+        })}
+      </svg>
+
+      {hp && hoverM == null && (
+        <div style={{ position: 'absolute', left: Math.min(Math.max(hp.x, 60), width - 60), top: hp.y + 46, transform: 'translate(-50%, -130%)', pointerEvents: 'none', background: C.ink, color: '#fff', borderRadius: 9, padding: '7px 11px', whiteSpace: 'nowrap', textAlign: 'center', boxShadow: '0 4px 14px rgba(0,0,0,0.18)', zIndex: 4 }}>
+          <div style={{ fontWeight: 700, fontSize: 13.5 }}>{money(hp.value)}</div>
+          <div style={{ fontSize: 11, color: C.grey300 }}>{hp.date.toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric' })}{hp.projected ? ' · projected' : ''}</div>
+        </div>
+      )}
+      {hoverM != null && msMarkers[hoverM] && (
+        <div style={{ position: 'absolute', left: Math.min(Math.max(msMarkers[hoverM].x, 70), width - 70), top: msMarkers[hoverM].y + 46, transform: 'translate(-50%, -130%)', pointerEvents: 'none', background: C.ink, color: '#fff', borderRadius: 9, padding: '7px 11px', whiteSpace: 'nowrap', textAlign: 'center', boxShadow: '0 4px 14px rgba(0,0,0,0.18)', zIndex: 5 }}>
+          <div style={{ fontWeight: 700, fontSize: 13.5 }}>{msMarkers[hoverM].ev.title}</div>
+          <div style={{ fontSize: 11, color: C.grey300 }}>{msMarkers[hoverM].ev.date}</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── RETAINED — calm from-zero bars + faint "typical" reference ───────────────
+function RetainedChart({ scheme }) {
+  const [wrapRef, width] = useMeasureW();
+  const [range, setRange] = useState('ALL');
+  const [hover, setHover] = useState(null);
+  const [hoverM, setHoverM] = useState(null);
+  const H = 300;
+  const pad = { padL: 12, padR: 12, padT: 16, padB: 34 };
+  const m = buildModel(width, H, pad, range);
+
+  const maxV = Math.max(...m.hist.map((p) => p.value), ...m.fwd.map((p) => p.value));
+  const topV = maxV * 1.06;
+  const yZ = (v) => m.padT + m.plotH * (1 - v / topV);
+
+  const seq = [...m.hist.map((p) => ({ ...p, projected: false })), ...m.fwd.map((p) => ({ ...p, projected: true }))];
+  const N = 18;
+  const slot = m.plotW / N;
+  const bw = Math.min(slot * 0.86, 30);
+  const bars = sample(seq, N).map(({ v }, k) => ({ ...v, cx: m.padL + slot * (k + 0.5) }));
+  const lastTracked = bars.filter((b) => !b.projected).length - 1;
+  const trackBars = bars.filter((b) => !b.projected);
+
+  // tween heights + "todayness" + "projectedness" so colour/opacity crossfade
+  // (instead of snapping) when the tracked/projected boundary shifts between ranges
+  const flatR = [
+    ...bars.map((b) => yZ(b.value)),
+    ...bars.map((b, k) => (k === lastTracked ? 1 : 0)),
+    ...bars.map((b) => (b.projected ? 1 : 0)),
+    m.todayX,
+  ];
+  const twR = useTweenArray(flatR, m.effRange);
+  const yvs = twR.slice(0, N), todayN = twR.slice(N, 2 * N), projN = twR.slice(2 * N, 3 * N), todayX = twR[3 * N];
+  // today value marker, interpolated across columns so it glides with the divider
+  const tcol = (todayX - (m.padL + slot * 0.5)) / slot;
+  const ci = Math.max(0, Math.min(N - 2, Math.floor(tcol))), cf = tcol - ci;
+  const todayBarY = yvs[ci] + (yvs[ci + 1] - yvs[ci]) * cf;
+
+  // projected checkpoints — pinned to the nearest projected bar
+  const now = m.hist[m.hist.length - 1].date;
+  const evMarkers = FORWARD_EVENTS.filter((e) => e.weeks > 0 && e.weeks <= m.FWD_WEEKS).map((e) => {
+    const d = new Date(now); d.setDate(d.getDate() + e.weeks * 7);
+    let idx = 0, bd = Infinity;
+    bars.forEach((b, i) => { const diff = Math.abs(b.date.getTime() - d.getTime()); if (diff < bd) { bd = diff; idx = i; } });
+    return { ev: e, idx };
+  });
+
+  const onMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    let best = 0, bd = Infinity;
+    bars.forEach((b, i) => { const d = Math.abs(b.cx - mx); if (d < bd) { bd = d; best = i; } });
+    setHover(best);
+  };
+  const hp = hover != null ? bars[hover] : null;
+  const tcx = bars[lastTracked].cx;
+
+  return (
+    <div ref={wrapRef} style={{ width: '100%', position: 'relative' }}>
+      <SlidingPills options={m.rangeOptions} value={m.effRange} onChange={setRange} />
+      <svg width={width} height={H} style={{ display: 'block', overflow: 'visible', cursor: 'crosshair' }} onMouseMove={onMove} onMouseLeave={() => setHover(null)}>
+        <defs>
+          <linearGradient id="duoBar" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={scheme.fill} /><stop offset="100%" stopColor={PLUM} /></linearGradient>
+        </defs>
+        {bars.map((b, k) => {
+          const yv = yvs[k], h = Math.max(0, m.baseY - yv), rx = Math.min(bw / 2, 5);
+          const op = 1 - 0.5 * projN[k];   // tracked → 1, projected → 0.5 (tweened)
+          // base bar (lavender / duo) + a plum overlay whose opacity IS "todayness" → crossfades
+          return (
+            <g key={k} className="grow" style={{ animationDelay: `${0.15 + k * 0.07}s`, animationDuration: '1.15s' }}>
+              <rect x={b.cx - bw / 2} y={yv} width={bw} height={h} rx={rx} fill={scheme.duo ? 'url(#duoBar)' : scheme.fill} opacity={op} />
+              {todayN[k] > 0.01 && <rect x={b.cx - bw / 2} y={yv} width={bw} height={h} rx={rx} fill={scheme.line} opacity={todayN[k]} />}
+            </g>
+          );
+        })}
+        <line x1={todayX} x2={todayX} y1={m.padT} y2={m.baseY} stroke={C.grey300} strokeWidth="1" strokeDasharray="3 4" />
+        {evMarkers.map((mk, i) => (
+          <g key={mk.ev.id} className="fade" style={{ cursor: 'pointer', animationDelay: `${1.4 + mk.idx * 0.05}s` }} onMouseEnter={() => setHoverM(i)} onMouseLeave={() => setHoverM(null)}>
+            <rect x={bars[mk.idx].cx - bw / 2 - 2} y={yvs[mk.idx] - 2} width={bw + 4} height={m.baseY - yvs[mk.idx] + 2} fill="transparent" />
+            <rect x={bars[mk.idx].cx - bw / 2 - 2} y={yvs[mk.idx] - 2} width={bw + 4} height={m.baseY - yvs[mk.idx] + 2} rx={6} fill="none" stroke={C.ink} strokeOpacity={hoverM === i ? 0.85 : 0.45} strokeWidth="1.5" strokeDasharray="2 3" />
+          </g>
+        ))}
+        <FloatPill x={Math.max(m.padL + 48, Math.min(todayX, m.padL + m.plotW - 48))} y={todayBarY - 12} target={CURRENT} dateStr={m.hist[m.hist.length - 1].date.toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric' })} dur={2000} delay={0} />
+        {hp && hoverM == null && <rect style={{ pointerEvents: 'none' }} x={hp.cx - bw / 2 - 2} y={yvs[hover] - 2} width={bw + 4} height={m.baseY - yvs[hover] + 2} rx={6} fill="none" stroke={C.ink} strokeWidth="1.5" opacity="0.45" />}
+        {m.monthTicks.map((tk, k) => {
+          const anchor = tk.x <= m.padL + 6 ? 'start' : tk.x >= m.padL + m.plotW - 6 ? 'end' : 'middle';
+          return <text key={k} x={tk.x} y={m.baseY + 20} textAnchor={anchor} fontSize="11" fontWeight="500" fill={C.grey500}>{tk.date.toLocaleDateString('en-CA', { month: 'short' })}</text>;
+        })}
+      </svg>
+      {hoverM != null && evMarkers[hoverM] && (
+        <div style={{ position: 'absolute', left: Math.min(Math.max(bars[evMarkers[hoverM].idx].cx, 70), width - 70), top: yvs[evMarkers[hoverM].idx] + 46, transform: 'translate(-50%, -130%)', pointerEvents: 'none', background: C.ink, color: '#fff', borderRadius: 9, padding: '7px 11px', whiteSpace: 'nowrap', textAlign: 'center', boxShadow: '0 4px 14px rgba(0,0,0,0.18)', zIndex: 5 }}>
+          <div style={{ fontWeight: 700, fontSize: 13.5 }}>{evMarkers[hoverM].ev.title}</div>
+          <div style={{ fontSize: 11, color: C.grey300 }}>{evMarkers[hoverM].ev.date}</div>
+        </div>
+      )}
+      {hp && hoverM == null && (
+        <div style={{ position: 'absolute', left: Math.min(Math.max(hp.cx, 60), width - 60), top: yvs[hover] + 46, transform: 'translate(-50%, -130%)', pointerEvents: 'none', background: C.ink, color: '#fff', borderRadius: 9, padding: '7px 11px', whiteSpace: 'nowrap', textAlign: 'center', boxShadow: '0 4px 14px rgba(0,0,0,0.18)', zIndex: 4 }}>
+          <div style={{ fontWeight: 700, fontSize: 13.5 }}>{money(hp.value)}</div>
+          <div style={{ fontSize: 11, color: C.grey300 }}>{hp.date.toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric' })}{hp.projected ? ' · projected' : ''}</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── STEMS — lollipop form ────────────────────────────────────────────────────
+function StemsChart({ scheme }) {
+  const [wrapRef, width] = useMeasureW();
+  const [range, setRange] = useState('ALL');
+  const [hover, setHover] = useState(null);
+  const [hoverM, setHoverM] = useState(null);
+  const H = 320;
+  const pad = { padL: 16, padR: 60, padT: 18, padB: 34 };
+  const m = buildModel(width, H, pad, range);
+
+  const seq = [...m.hist.map((p) => ({ ...p, projected: false })), ...m.fwd.map((p) => ({ ...p, projected: true }))];
+  const N = 16;
+  const bars = sample(seq, N).map(({ v }, k) => ({ ...v, x: m.padL + m.plotW * (k / (N - 1)) }));
+  const trackBars = bars.filter((b) => !b.projected);
+
+  const yty = m.yTicks.map((v) => m.y(v));
+  const flatS = [...bars.map((b) => m.y(b.value)), yty[0], yty[1], yty[2], m.todayX];
+  const twS = useTweenArray(flatS, m.effRange);
+  const yvs = twS.slice(0, N), tyty = [twS[N], twS[N + 1], twS[N + 2]], todayX = twS[N + 3];
+
+  const now = m.hist[m.hist.length - 1].date;
+  const evMarkers = FORWARD_EVENTS.filter((e) => e.weeks > 0 && e.weeks <= m.FWD_WEEKS).map((e) => {
+    const d = new Date(now); d.setDate(d.getDate() + e.weeks * 7);
+    let idx = 0, bd = Infinity;
+    bars.forEach((b, i) => { const diff = Math.abs(b.date.getTime() - d.getTime()); if (diff < bd) { bd = diff; idx = i; } });
+    return { ev: e, idx };
+  });
+
+  const onMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    let best = 0, bd = Infinity;
+    bars.forEach((b, i) => { const d = Math.abs(b.x - mx); if (d < bd) { bd = d; best = i; } });
+    setHover(best);
+  };
+  const hp = hover != null ? bars[hover] : null;
+  const todayIdx = trackBars.length - 1;
+
+  return (
+    <div ref={wrapRef} style={{ width: '100%', position: 'relative' }}>
+      <SlidingPills options={m.rangeOptions} value={m.effRange} onChange={setRange} />
+      <svg width={width} height={H} style={{ display: 'block', overflow: 'visible', cursor: 'crosshair' }} onMouseMove={onMove} onMouseLeave={() => setHover(null)}>
+        {tyty.map((yy, i) => (
+          <g key={i}>
+            <line x1={m.padL} x2={m.padL + m.plotW} y1={yy} y2={yy} stroke={C.grey200} strokeWidth="1" />
+            <text x={m.padL + m.plotW + 10} y={yy + 4} fontSize="11" fontWeight="500" fill={C.grey500}>{money(m.yTicks[i])}</text>
+          </g>
+        ))}
+        {bars.map((b, k) => {
+          const yv = yvs[k];
+          return (
+            <g key={k}>
+              <rect className="grow" x={b.x - 2.5} y={yv} width="5" height={Math.max(0, m.baseY - yv)} rx="2.5" fill={scheme.line} opacity={b.projected ? 0.35 : 1} style={{ animationDelay: `${0.14 + k * 0.06}s`, animationDuration: '1s' }} />
+              {/* dot only on tracked stems (checkpoints render their own); projections have none */}
+              {!b.projected && <circle className="pop" cx={b.x} cy={yv} r="4" fill={scheme.accent} style={{ animationDelay: `${1.15 + k * 0.06}s` }} />}
+            </g>
+          );
+        })}
+        {evMarkers.map((mk, i) => (
+          <g key={mk.ev.id} style={{ cursor: 'pointer' }} onMouseEnter={() => setHoverM(i)} onMouseLeave={() => setHoverM(null)}>
+            <circle cx={bars[mk.idx].x} cy={yvs[mk.idx]} r="14" fill="transparent" />
+            {hoverM === i && <circle cx={bars[mk.idx].x} cy={yvs[mk.idx]} r="9" fill={C.ink} opacity="0.12" />}
+            <circle className="pop" cx={bars[mk.idx].x} cy={yvs[mk.idx]} r="5" fill={C.ink} stroke="#fff" strokeWidth="2.5" style={{ animationDelay: `${1.3 + mk.idx * 0.06}s` }} />
+          </g>
+        ))}
+        <FloatPill x={Math.max(m.padL + 48, Math.min(bars[todayIdx].x, m.padL + m.plotW - 48))} y={yvs[todayIdx] - 30} target={CURRENT} dateStr={m.hist[m.hist.length - 1].date.toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric' })} dur={1900} delay={0} />
+        {hp && hoverM == null && <circle style={{ pointerEvents: 'none' }} cx={hp.x} cy={yvs[hover]} r="7" fill="none" stroke={C.ink} strokeWidth="1.5" opacity="0.4" />}
+        {m.monthTicks.map((tk, k) => {
+          const anchor = tk.x <= m.padL + 6 ? 'start' : tk.x >= m.padL + m.plotW - 6 ? 'end' : 'middle';
+          return <text key={k} x={tk.x} y={m.baseY + 20} textAnchor={anchor} fontSize="11" fontWeight="500" fill={C.grey500}>{tk.date.toLocaleDateString('en-CA', { month: 'short' })}</text>;
+        })}
+      </svg>
+      {hoverM != null && evMarkers[hoverM] && (
+        <div style={{ position: 'absolute', left: Math.min(Math.max(bars[evMarkers[hoverM].idx].x, 70), width - 70), top: yvs[evMarkers[hoverM].idx] + 46, transform: 'translate(-50%, -130%)', pointerEvents: 'none', background: C.ink, color: '#fff', borderRadius: 9, padding: '7px 11px', whiteSpace: 'nowrap', textAlign: 'center', boxShadow: '0 4px 14px rgba(0,0,0,0.18)', zIndex: 5 }}>
+          <div style={{ fontWeight: 700, fontSize: 13.5 }}>{evMarkers[hoverM].ev.title}</div>
+          <div style={{ fontSize: 11, color: C.grey300 }}>{evMarkers[hoverM].ev.date}</div>
+        </div>
+      )}
+      {hp && hoverM == null && (
+        <div style={{ position: 'absolute', left: Math.min(Math.max(hp.x, 60), width - 60), top: yvs[hover] + 46, transform: 'translate(-50%, -130%)', pointerEvents: 'none', background: C.ink, color: '#fff', borderRadius: 9, padding: '7px 11px', whiteSpace: 'nowrap', textAlign: 'center', boxShadow: '0 4px 14px rgba(0,0,0,0.18)', zIndex: 4 }}>
+          <div style={{ fontWeight: 700, fontSize: 13.5 }}>{money(hp.value)}</div>
+          <div style={{ fontSize: 11, color: C.grey300 }}>{hp.date.toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric' })}{hp.projected ? ' · projected' : ''}</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── TICKS — dense tick chart on a lavender card with a scrubber (Followers-style) ─
+function resampleTicks(arr, M) {
+  const L = arr.length;
+  const out = [];
+  for (let k = 0; k < M; k++) {
+    const t = L <= 1 ? 0 : (k / (M - 1)) * (L - 1), i = Math.min(Math.floor(t), L - 2), f = t - i;
+    out.push({
+      value: arr[i].value + (arr[i + 1].value - arr[i].value) * f,
+      date: new Date(arr[i].date.getTime() + (arr[i + 1].date.getTime() - arr[i].date.getTime()) * f),
+    });
+  }
+  return out;
+}
+
+function TicksChart({ scheme }) {
+  const [wrapRef, width] = useMeasureW();
+  const [range, setRange] = useState('ALL');
+  const [scrub, setScrub] = useState(null);
+  const [hoverM, setHoverM] = useState(null);
+  const H = 300;
+  const pad = { padL: 6, padR: 6, padT: 56, padB: 30 };
+  const m = buildModel(width, H, pad, range);
+
+  const NT = 48;
+  const seq = [...m.hist, ...m.fwd];
+  const ticks = resampleTicks(seq, NT);
+  const slot = m.plotW / NT;
+  const tickW = Math.max(2.5, Math.min(slot * 0.32, 4));
+  const xs = ticks.map((t, k) => m.padL + slot * (k + 0.5));
+
+  const vs = ticks.map((t) => t.value);
+  const lo = Math.min(...vs), hi = Math.max(...vs), rng = Math.max(hi - lo, 1);
+  const floor = lo - rng * 0.35;
+  const tickTop = (v) => m.padT + m.plotH * (1 - (v - floor) / (hi - floor));
+
+  const todayIx = Math.round(((m.hist.length - 1) / (seq.length - 1)) * (NT - 1));
+  // tween tick heights + the default "today" scrubber x, so the timeframe switch glides
+  const tw = useTweenArray([...ticks.map((t) => tickTop(t.value)), xs[todayIx]], m.effRange);
+  const tops = tw.slice(0, NT), todayXt = tw[NT];
+  const scrubX = scrub == null ? todayXt : xs[scrub];
+  const scrubVal = scrub == null ? CURRENT : ticks[scrub].value;
+  const scrubDate = scrub == null ? m.hist[m.hist.length - 1].date : ticks[scrub].date;
+  const W = 40, BUMP = 52; // tighter darkening spread near the cursor
+  const active = scrub != null;
+  const scrubIdx = scrub == null ? todayIx : scrub;
+  const scrubTop = tops[scrubIdx];
+
+  const onMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    let best = 0, bd = Infinity;
+    xs.forEach((x, i) => { const d = Math.abs(x - mx); if (d < bd) { bd = d; best = i; } });
+    setScrub(best);
+  };
+
+  // projected checkpoints on the forecast ticks
+  const now = m.hist[m.hist.length - 1].date;
+  const evMarkers = FORWARD_EVENTS.filter((e) => e.weeks > 0 && e.weeks <= m.FWD_WEEKS).map((e) => {
+    const d = new Date(now); d.setDate(d.getDate() + e.weeks * 7);
+    let idx = 0, bd = Infinity;
+    ticks.forEach((t, i) => { const diff = Math.abs(t.date.getTime() - d.getTime()); if (diff < bd) { bd = diff; idx = i; } });
+    return { ev: e, idx };
+  });
+
+  const monthLabels = (() => {
+    const out = []; let lastM = null;
+    ticks.forEach((t, k) => { const mo = t.date.getMonth(); if (mo !== lastM) { out.push({ x: xs[k], d: t.date }); lastM = mo; } });
+    const minGap = 46, kept = []; out.forEach((o) => { if (!kept.length || o.x - kept[kept.length - 1].x >= minGap) kept.push(o); });
+    return kept;
+  })();
+
+  return (
+    <div ref={wrapRef} style={{ width: '100%', position: 'relative' }}>
+      <SlidingPills options={m.rangeOptions} value={m.effRange} onChange={setRange} />
+      <svg width={width} height={H} style={{ display: 'block', overflow: 'visible', cursor: 'crosshair' }} onMouseMove={onMove} onMouseLeave={() => setScrub(null)}>
+        {ticks.map((t, k) => {
+          const d = Math.abs(xs[k] - scrubX);
+          const prox = active && d < W ? 0.5 * (1 + Math.cos(Math.PI * d / W)) : 0; // darken near the cursor
+          const top = tops[k];
+          const op = (0.24 + 0.62 * prox) * (k > todayIx ? 0.3 : 1);      // predictive ticks much fainter
+          return <rect key={k} className="grow" x={xs[k] - tickW / 2} y={top} width={tickW} height={Math.max(0, m.baseY - top)} rx={tickW / 2} fill={scheme.line} opacity={op} style={{ animationDelay: `${0.1 + k * 0.006}s`, animationDuration: '0.85s' }} />;
+        })}
+        {/* projected checkpoints */}
+        {evMarkers.map((mk, i) => (
+          <g key={mk.ev.id} style={{ cursor: 'pointer' }} onMouseEnter={() => setHoverM(i)} onMouseLeave={() => setHoverM(null)}>
+            <rect x={xs[mk.idx] - 7} y={m.padT} width="14" height={m.baseY - m.padT} fill="transparent" />
+            <circle className="pop" cx={xs[mk.idx]} cy={tops[mk.idx]} r={hoverM === i ? 5.5 : 4.5} fill={C.ink} stroke="#fff" strokeWidth="2" style={{ animationDelay: `${1.4 + mk.idx * 0.012}s` }} />
+          </g>
+        ))}
+        <g className="fade" style={{ animationDelay: '1.25s' }}>
+          {hoverM == null && <line x1={scrubX} x2={scrubX} y1={scrubTop} y2={m.baseY} stroke={scheme.line} strokeWidth={tickW} strokeLinecap="round" />}
+          {hoverM == null && (() => {
+            const label = money(scrubVal), dateStr = scrubDate.toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric' }) + (scrubIdx > todayIx ? ' · projected' : '');
+            const pw = Math.max(label.length * 8.6, dateStr.length * 5.9) + 26, ph = 42;
+            const px = Math.max(m.padL, Math.min(scrubX - pw / 2, m.padL + m.plotW - pw)), py = Math.max(0, scrubTop - 24 - ph);
+            return (
+              <g>
+                <rect x={px} y={py} width={pw} height={ph} rx={13} fill={C.ink} />
+                <text x={px + pw / 2} y={py + 18} textAnchor="middle" fontSize="14.5" fontWeight="700" fill="#fff">{label}</text>
+                <text x={px + pw / 2} y={py + 32} textAnchor="middle" fontSize="10.5" fontWeight="500" fill={C.grey300}>{dateStr}</text>
+              </g>
+            );
+          })()}
+        </g>
+        {monthLabels.map((mo, k) => <text key={k} x={mo.x} y={m.baseY + 20} textAnchor="middle" fontSize="11" fontWeight="500" fill={C.grey500}>{mo.d.toLocaleDateString('en-CA', { month: 'short' })}</text>)}
+      </svg>
+      {hoverM != null && evMarkers[hoverM] && (
+        <div style={{ position: 'absolute', left: Math.min(Math.max(xs[evMarkers[hoverM].idx], 70), width - 70), top: tops[evMarkers[hoverM].idx] + 46, transform: 'translate(-50%, -130%)', pointerEvents: 'none', background: C.ink, color: '#fff', borderRadius: 9, padding: '7px 11px', whiteSpace: 'nowrap', textAlign: 'center', boxShadow: '0 4px 14px rgba(0,0,0,0.18)', zIndex: 5 }}>
+          <div style={{ fontWeight: 700, fontSize: 13.5 }}>{evMarkers[hoverM].ev.title}</div>
+          <div style={{ fontSize: 11, color: C.grey300 }}>{evMarkers[hoverM].ev.date}</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── WAVE — hairline tick field with a single coral "today" marker + dot ──────
+function WaveChart({ scheme }) {
+  const [wrapRef, width] = useMeasureW();
+  const [range, setRange] = useState('ALL');
+  const [hover, setHover] = useState(null);
+  const [hoverM, setHoverM] = useState(null);
+  const H = 300;
+  const pad = { padL: 4, padR: 4, padT: 46, padB: 30 };
+  const m = buildModel(width, H, pad, range);
+
+  const NT = 80;
+  const seq = [...m.hist, ...m.fwd];
+  const ticks = resampleTicks(seq, NT);
+  const slot = m.plotW / NT;
+  const tickW = Math.max(1.5, Math.min(slot * 0.34, 2.5));
+  const xs = ticks.map((t, k) => m.padL + slot * (k + 0.5));
+  const vs = ticks.map((t) => t.value);
+  const lo = Math.min(...vs), hi = Math.max(...vs), rng = Math.max(hi - lo, 1);
+  const floor = lo - rng * 0.4;
+  const tickTop = (v) => m.padT + m.plotH * (1 - (v - floor) / (hi - floor));
+  const tops = useTweenArray(ticks.map((t) => tickTop(t.value)), m.effRange);
+
+  const todayIx = Math.round(((m.hist.length - 1) / (seq.length - 1)) * (NT - 1));
+  const todayX = xs[todayIx], todayTop = tops[todayIx];
+
+  const now = m.hist[m.hist.length - 1].date;
+  const evMarkers = FORWARD_EVENTS.filter((e) => e.weeks > 0 && e.weeks <= m.FWD_WEEKS).map((e) => {
+    const d = new Date(now); d.setDate(d.getDate() + e.weeks * 7);
+    let idx = 0, bd = Infinity;
+    ticks.forEach((t, i) => { const diff = Math.abs(t.date.getTime() - d.getTime()); if (diff < bd) { bd = diff; idx = i; } });
+    return { ev: e, idx };
+  });
+
+  const onMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    if (mx > todayX + slot) { setHover(null); return; } // scrub only the tracked region
+    let best = 0, bd = Infinity;
+    for (let i = 0; i <= todayIx; i++) { const d = Math.abs(xs[i] - mx); if (d < bd) { bd = d; best = i; } }
+    setHover(best);
+  };
+  const hp = hover != null ? { x: xs[hover], value: ticks[hover].value, date: ticks[hover].date } : null;
+
+  const monthLabels = (() => {
+    const out = []; let lastM = null;
+    ticks.forEach((t, k) => { const mo = t.date.getMonth(); if (mo !== lastM) { out.push({ x: xs[k], d: t.date }); lastM = mo; } });
+    const minGap = 46, kept = []; out.forEach((o) => { if (!kept.length || o.x - kept[kept.length - 1].x >= minGap) kept.push(o); });
+    return kept;
+  })();
+
+  return (
+    <div ref={wrapRef} style={{ width: '100%', position: 'relative' }}>
+      <SlidingPills options={m.rangeOptions} value={m.effRange} onChange={setRange} />
+      <svg width={width} height={H} style={{ display: 'block', overflow: 'visible', cursor: 'crosshair' }} onMouseMove={onMove} onMouseLeave={() => setHover(null)}>
+        {ticks.map((t, k) => (
+          <rect key={k} className="grow" x={xs[k] - tickW / 2} y={tops[k]} width={tickW} height={Math.max(0, m.baseY - tops[k])} rx={tickW / 2} fill={scheme.line} opacity="0.34" style={{ animationDelay: `${0.1 + k * 0.01}s`, animationDuration: '0.7s' }} />
+        ))}
+
+        {hp && <line x1={hp.x} x2={hp.x} y1={m.padT} y2={m.baseY} stroke={C.ink} strokeWidth="1" opacity="0.3" style={{ pointerEvents: 'none' }} />}
+
+        {/* projected checkpoints */}
+        {evMarkers.map((mk, i) => (
+          <g key={mk.ev.id} style={{ cursor: 'pointer' }} onMouseEnter={() => setHoverM(i)} onMouseLeave={() => setHoverM(null)}>
+            <rect x={xs[mk.idx] - 7} y={m.padT} width="14" height={m.baseY - m.padT} fill="transparent" />
+            <circle className="pop" cx={xs[mk.idx]} cy={tops[mk.idx]} r={hoverM === i ? 5.5 : 4.5} fill={C.ink} stroke="#fff" strokeWidth="2" style={{ animationDelay: `${1.4 + mk.idx * 0.01}s` }} />
+          </g>
+        ))}
+
+        {/* coral "today" marker + dot */}
+        <g className="fade" style={{ animationDelay: '1.2s' }}>
+          <line x1={todayX} x2={todayX} y1={todayTop} y2={m.baseY} stroke={CORAL} strokeWidth="2.5" strokeLinecap="round" />
+          <circle cx={todayX} cy={todayTop} r="7" fill={CORAL} />
+        </g>
+        <FloatValue x={Math.max(m.padL + 34, Math.min(todayX, m.padL + m.plotW - 34))} y={todayTop - 18} target={CURRENT} dur={2000} delay={0} />
+
+        {monthLabels.map((mo, k) => <text key={k} x={mo.x} y={m.baseY + 20} textAnchor="middle" fontSize="11" fontWeight="500" fill={C.grey500}>{mo.d.toLocaleDateString('en-CA', { month: 'short' })}</text>)}
+      </svg>
+
+      {hoverM != null && evMarkers[hoverM] && (
+        <div style={{ position: 'absolute', left: Math.min(Math.max(xs[evMarkers[hoverM].idx], 70), width - 70), top: tops[evMarkers[hoverM].idx] + 46, transform: 'translate(-50%, -130%)', pointerEvents: 'none', background: C.ink, color: '#fff', borderRadius: 9, padding: '7px 11px', whiteSpace: 'nowrap', textAlign: 'center', boxShadow: '0 4px 14px rgba(0,0,0,0.18)', zIndex: 5 }}>
+          <div style={{ fontWeight: 700, fontSize: 13.5 }}>{evMarkers[hoverM].ev.title}</div>
+          <div style={{ fontSize: 11, color: C.grey300 }}>{evMarkers[hoverM].ev.date}</div>
+        </div>
+      )}
+      {hp && (
+        <div style={{ position: 'absolute', left: Math.min(Math.max(hp.x, 60), width - 60), top: m.padT + 40, transform: 'translate(-50%, -130%)', pointerEvents: 'none', background: C.ink, color: '#fff', borderRadius: 9, padding: '7px 11px', whiteSpace: 'nowrap', textAlign: 'center', boxShadow: '0 4px 14px rgba(0,0,0,0.18)', zIndex: 4 }}>
+          <div style={{ fontWeight: 700, fontSize: 13.5 }}>{money(hp.value)}</div>
+          <div style={{ fontSize: 11, color: C.grey300 }}>{hp.date.toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+const STYLES = {
+  retained: {},
+  minimal: { curve: 'smooth', lineWidth: 4.25, fill: 'gradient' },
+  stems: {},
+  ticks: {},
+};
+
+const VARIANTS = [
+  { id: 'retained', label: 'Retained' },
+  { id: 'minimal', label: 'Minimal' },
+  { id: 'stems', label: 'Stems' },
+  { id: 'ticks', label: 'Ticks' },
+];
+
+function App() {
+  const initial = VARIANTS.some((x) => x.id === location.hash.slice(1)) ? location.hash.slice(1) : 'retained';
+  const [active, setActive] = useState(initial);
+  const [schemeId, setSchemeId] = useState('lavender');
+  const [playKey, setPlayKey] = useState(0);
+  const v = VARIANTS.find((x) => x.id === active);
+  const scheme = SCHEMES[schemeId];
+
+  return (
+    <div>
+      <div style={{ marginBottom: 18 }}>
+        <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', color: C.grey500, textTransform: 'uppercase' }}>Value chart</div>
+        <h1 style={{ fontSize: 26, fontWeight: 700, color: C.ink, margin: '6px 0 0', letterSpacing: '-0.02em' }}>Style explorations</h1>
+      </div>
+
+      <div style={{ display: 'inline-flex', background: C.grey200, borderRadius: 999, padding: 4, gap: 2, marginBottom: 12, flexWrap: 'wrap' }}>
+        {VARIANTS.map((o) => {
+          const sel = o.id === active;
+          return (
+            <button key={o.id} onClick={() => { setActive(o.id); setPlayKey((k) => k + 1); if (history.replaceState) history.replaceState(null, '', '#' + o.id); }}
+              style={{ border: 'none', cursor: 'pointer', borderRadius: 999, padding: '9px 15px', fontSize: 13.5, fontWeight: sel ? 700 : 500, fontFamily: 'inherit', background: sel ? '#fff' : 'transparent', color: sel ? C.ink : C.ink700, boxShadow: sel ? '0 1px 3px rgba(0,0,0,.14)' : 'none', transition: 'color .12s' }}>
+              {o.label}
+            </button>
+          );
+        })}
+      </div>
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
+        <span style={{ fontSize: 12.5, fontWeight: 700, letterSpacing: '.04em', color: C.grey500, textTransform: 'uppercase' }}>Colour</span>
+        <div style={{ display: 'inline-flex', gap: 6, flexWrap: 'wrap' }}>
+          {Object.entries(SCHEMES).map(([id, sc]) => {
+            const sel = id === schemeId;
+            return (
+              <button key={id} onClick={() => { setSchemeId(id); setPlayKey((k) => k + 1); }}
+                style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 7, border: `1px solid ${sel ? C.ink : C.grey300}`, background: '#fff', borderRadius: 999, padding: '6px 12px 6px 8px', fontSize: 13, fontWeight: sel ? 700 : 500, fontFamily: 'inherit', color: sel ? C.ink : C.ink700 }}>
+                <span style={{ width: 16, height: 16, borderRadius: 999, background: sc.fill, boxShadow: `inset 0 0 0 1px rgba(0,0,0,.12)` }} />
+                {sc.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div style={{ background: '#fff', border: `1px solid ${C.grey200}`, borderRadius: 22, padding: '26px 28px 30px', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 18 }}>
+          <button onClick={() => setPlayKey((k) => k + 1)} title="Replay animation"
+            style={{ border: `1px solid ${C.grey300}`, background: '#fff', cursor: 'pointer', borderRadius: 999, padding: '7px 14px', fontSize: 13, fontWeight: 600, fontFamily: 'inherit', color: C.ink700 }}>
+            ↻ Replay
+          </button>
+        </div>
+        <div key={`${active}-${schemeId}-${playKey}`}>
+          {active === 'retained' ? <RetainedChart scheme={scheme} />
+            : active === 'stems' ? <StemsChart scheme={scheme} />
+              : active === 'ticks' ? <TicksChart scheme={scheme} />
+                : <ChartCanvas sid={active} style={STYLES[active]} scheme={scheme} />}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
