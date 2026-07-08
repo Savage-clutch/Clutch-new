@@ -52,7 +52,7 @@ const SCHEMES = {
   plum: { label: 'Plum', line: PLUM, accent: '#FF464C', fill: PLUM },
   red: { label: 'Red', line: CORAL, accent: CORAL, fill: CORAL },
   redlav: { label: 'Red × Lavender', line: CORAL, accent: CORAL, fill: '#F1EDF8', tintFill: true },
-  redplum: { label: 'Red × Plum', line: CORAL, accent: CORAL, fill: PLUM },
+  redplum: { label: 'Red × Plum', line: CORAL, accent: PLUM, fill: PLUM },
 };
 
 // ─── Value series (softening market, from the Value Report) ──────────────────
@@ -713,7 +713,7 @@ function TicksChart({ scheme }) {
           </g>
         ))}
         <g className="fade" style={{ animationDelay: '1.25s' }}>
-          {hoverM == null && <line x1={scrubX} x2={scrubX} y1={scrubTop} y2={m.baseY} stroke={scheme.line} strokeWidth={tickW} strokeLinecap="round" />}
+          {hoverM == null && <line x1={scrubX} x2={scrubX} y1={scrubTop} y2={m.baseY} stroke={scheme.accent} strokeWidth={tickW} strokeLinecap="round" />}
           {hoverM == null && (() => {
             const label = money(scrubVal), dateStr = scrubDate.toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric' }) + (scrubIdx > todayIx ? ' · projected' : '');
             const pw = Math.max(label.length * 8.6, dateStr.length * 5.9) + 26, ph = 42;
